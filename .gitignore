@@ -1,0 +1,23 @@
+# ignore specific files
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.Rd2pdf*
+*.dat
+DB_credentials_*
+*/Thumbs.db
+
+# ignore directories and files
+/data/data
+/data
+/docs
+/inst/doc
+/man
+/NAMESPACE
+/vignettes/hyd1d.html
+/vignettes/vignette_lang_DE.toc
+/vignettes/vignette_lang_DE.html
+/vignettes/vignette_lang_DE.pdf
+/vignettes/vignette_lang_DE.tex
+/README_files/figure-markdown_github/Thumbs.db
