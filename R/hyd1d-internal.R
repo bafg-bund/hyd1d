@@ -27,3 +27,15 @@ credentials <- function(file) {
     names(credentials) <- credentials_temp$V1
     return(credentials)
 }
+
+# cap-function
+# http://stat.ethz.ch/R-manual/R-devel/library/base/html/chartr.html
+#
+simpleCap <- function(x) {
+    s <- unlist(strsplit(tolower(x), " "))
+    t <- paste(toupper(substring(s, 1, 1)), substring(s, 2),
+          sep = "", collapse = " ")
+    u <- unlist(strsplit(t, "-"))
+    paste(toupper(substring(u, 1, 1)), substring(u, 2),
+          sep = "", collapse = "-")
+}
