@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
     echo = TRUE,
     fig.align="center",
@@ -22,19 +22,19 @@ information along German federal waterways Elbe and Rhine.
 **hyd1d** is not currently available from CRAN, but you can install the 
 development version from BfG's gitbucket server with:
 
-```{r, eval = FALSE}
+```{r install_git, eval = FALSE}
 # install.packages("devtools")
 devtools::install_git("git://apps.bafg.de/gitbucket/webera/hyd1d.git")
 ```
 
 ## Usage
 
-The package hyd1d is build around the S4-class `WaterLevelDataFrame`. To compute
-and visualize 1-dimensional water level information an object of class 
-`WaterLevelDataFrame` has to be initialized. Various functions included in hyd1d 
-use these objects and compute water levels stored in the column `w`.
+The package **hyd1d** is build around the S4-class `WaterLevelDataFrame`. To 
+compute and visualize 1-dimensional water level information an object of class 
+`WaterLevelDataFrame` has to be initialized. Various functions included in 
+**hyd1d** use these objects and compute water levels stored in the column `w`.
 
-```{r, eval = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+```{r usage, eval = TRUE, error = FALSE, warning = FALSE, message = FALSE}
 # load the package
 require(hyd1d)
 
