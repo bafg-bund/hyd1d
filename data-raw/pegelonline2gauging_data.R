@@ -37,7 +37,7 @@ df.gs <- dbGetQuery(con, paste0("SELECT gauging_station, water_longname, pnp, ",
 ###
 # produce a vector of dates to be downloaded
 # set constant variables
-days_back <- 7
+days_back <- 3
 req_dates <- as.character(seq(Sys.Date() - days_back, Sys.Date() - 1, 
                               length.out = days_back))
 
@@ -47,8 +47,8 @@ i <- 1
 for(a_gs in df.gs$gauging_station) {
     
     # obtain the present range of available data for a_gs
-    date_range_present <- as.Date(unlist(strsplit(df.gs$data_present_timespan[i],
-                                                  " - ")))
+    date_range_present <- as.Date(unlist(strsplit(
+        df.gs$data_present_timespan[i], " - ")))
     
     for(a_date in req_dates) {
         
@@ -118,13 +118,20 @@ for(a_gs in df.gs$gauging_station) {
             if(!url.exists(url)) {
         
         #####
-        # assemble a special url for MAGDEBURG-ROTHENSEE
+        # assemble special url's for MAGDEBURG-ROTHENSEE, DUISBURG-RUHRORT
                 if (a_gs == "MAGDEBURG-ROTHENSEE"){
                           url <- paste0("http://www.pegelonline.wsv.de/web",
                                         "services/files/Wasserstand+Rohdaten/",
                                         df.gs$water_longname[i], "/ROTHENSEE/", 
                                         strftime(a_date, format="%d.%m.%Y"),
                                         "/down.csv")
+                }
+                if (a_gs == "RUHRORT"){
+                    url <- paste0("http://www.pegelonline.wsv.de/web",
+                                  "services/files/Wasserstand+Rohdaten/",
+                                  df.gs$water_longname[i], "/DUISBURG-RUHRORT/",
+                                  strftime(a_date, format="%d.%m.%Y"),
+                                  "/down.csv")
                 }
                 
         # third check of the url
@@ -173,6 +180,9 @@ for(a_gs in df.gs$gauging_station) {
         # data
         df.data <- read.table(destfile, header = FALSE, sep = ";", skip = 1, 
                               na.strings = "XXX,XXX")
+        
+        # delete destfile
+        unlink(destfile)
         
         # calculate daily mean
         w <- round(mean(as.numeric(df.data$V2), na.rm = TRUE), 0)
@@ -236,7 +246,8 @@ for(a_gs in df.gs$gauging_station) {
             date_range_str <- paste(date_range_present, collapse = " - ")
             dbSendQuery(con, paste0("UPDATE public.gauging_station_data SET da",
                                     "ta_present_timespan = \'", date_range_str, 
-                                    "\' WHERE gauging_station = \'", a_gs, "\'"))
+                                    "\' WHERE gauging_station = \'", a_gs,
+                                    "\'"))
             
         }
     }
