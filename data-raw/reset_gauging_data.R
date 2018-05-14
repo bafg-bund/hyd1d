@@ -24,9 +24,9 @@ require("RPostgreSQL")
 require("RCurl")
 
 # source hyd1d-internal to obtain the credentials function
-path <- "/home/arnd/BfG/"
+path <- "/home/arnd/BfG/hyd1d/"
 setwd(path)
-source("hyd1d/R/hyd1d-internal.R")
+source("R/hyd1d-internal.R")
 
 ### open the connection using user, password, etc., as
 credentials <- credentials("DB_credentials_gauging_data")
@@ -54,7 +54,7 @@ dbSendQuery(con, "ALTER TABLE \"gauging_data\" OWNER TO gauging_data;")
 dbSendQuery(con, "ALTER TABLE \"gauging_data\" SET WITH OIDS;")
 dbSendQuery(con, "COMMENT ON TABLE \"gauging_data\" IS 'gauging_data collection
             ';")
-dbSendQuery(con, paste0("COPY public.\"gauging_data\" FROM '", path, "hyd1d/R/",
+dbSendQuery(con, paste0("COPY public.\"gauging_data\" FROM '", path,
                         "data-raw/gauging_data.csv' WITH (FORMAT CSV, HEADER, ",
                         "DELIMITER ';', NULL 'NULL', ENCODING 'UTF8');"))
 dbSendQuery(con, "SELECT setval('public.gauging_data_id_seq', (SELECT max(id) 
@@ -94,7 +94,7 @@ dbSendQuery(con, "ALTER TABLE \"gauging_station_data\" SET WITH OIDS;")
 dbSendQuery(con, "COMMENT ON TABLE \"gauging_station_data\" IS 
             'gauging_station_data collection';")
 dbSendQuery(con, paste0("COPY public.\"gauging_station_data\" FROM '", path, 
-                        "/hyd1d/data-raw/gauging_station_data.csv' WITH (",
+                        "data-raw/gauging_station_data.csv' WITH (",
                         "FORMAT CSV, HEADER, DELIMITER ';', NULL 'NULL', ",
                         "ENCODING 'UTF8');"))
 dbSendQuery(con, "SELECT setval('public.gauging_station_data_id_seq', 
@@ -113,7 +113,7 @@ dbSendQuery(con, "ALTER TABLE \"gauging_data_missing\" SET WITH OIDS;")
 dbSendQuery(con, "COMMENT ON TABLE \"gauging_data_missing\" IS 
             'dates missing in the gauging_data collection';")
 dbSendQuery(con, paste0("COPY public.\"gauging_data_missing\" FROM '", path, 
-                        "/hyd1d/data-raw/gauging_data_missing.csv' WITH (",
+                        "data-raw/gauging_data_missing.csv' WITH (",
                         "FORMAT CSV, HEADER, DELIMITER ';', NULL 'NULL', ",
                         "ENCODING 'UTF8');"))
 dbSendQuery(con, "SELECT setval('public.gauging_data_missing_id_seq', 
