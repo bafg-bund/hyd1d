@@ -2,7 +2,7 @@
 # pegelonline2gauging_data.R
 #
 # author: arnd.weber@bafg.de
-# date:   09.05.2018
+# date:   14.05.2018
 #
 # purpose: 
 #   - download gauging data from pegelonline.wsv.de
@@ -27,6 +27,7 @@ con <- dbConnect("PostgreSQL",
                  user = credentials["user"], 
                  password = credentials["password"], 
                  port = credentials["port"])
+postgresqlpqExec(con, "SET client_encoding = 'UTF-8'")
 
 ###
 # get the rivers and gauging_stations to download data from
@@ -61,8 +62,6 @@ for(a_gs in df.gs$gauging_station) {
             if (verbose) {
                 write(paste(sep=" ", a_gs, a_date, "existiert bereits"), 
                       stderr())
-                write(paste(sep=" ", a_gs, a_date, "existiert bereits"), 
-                      stdout())
             }
             
             # delete accidentally present entries in gauging_data_missing
@@ -81,7 +80,6 @@ for(a_gs in df.gs$gauging_station) {
         }
         
         if (verbose) {
-            write(paste(sep=" ", a_gs, a_date, "wird eingefügt"), stderr())
             write(paste(sep=" ", a_gs, a_date, "wird eingefügt"), stdout())
         }
         
@@ -142,8 +140,6 @@ for(a_gs in df.gs$gauging_station) {
                     if (verbose) {
                         write(paste(sep=" ", a_gs, a_date, "URL-Probleme"),
                               stderr())
-                        write(paste(sep=" ", a_gs, a_date, "URL-Probleme"),
-                              stdout())
                     }
                     
                     # update gauging_station_data
@@ -223,8 +219,6 @@ for(a_gs in df.gs$gauging_station) {
                     
                     # print
                     if (verbose) {
-                        write(paste(sep=" ", a_gs, a_missing_date, "missing"), 
-                              stderr())
                         write(paste(sep=" ", a_gs, a_missing_date, "missing"), 
                               stdout())
                     }
