@@ -6,9 +6,15 @@
 .Rd2pdf*
 *.dat
 DB_credentials_*
-*/Thumbs.db
 
 # ignore directories and files
+/data-raw/gauging_data.csv
+/data-raw/gauging_data.sql.gz
+/data-raw/gauging_data_missing.csv
+/data-raw/gauging_station_data.csv
+/data-raw/pegelonline2gauging_data.err
+/data-raw/pegelonline2gauging_data.out
+/data-raw/postgres.sql.gz
 /data/data
 /data
 /docs
