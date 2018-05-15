@@ -24,12 +24,10 @@ require("RPostgreSQL")
 require("RCurl")
 
 # source hyd1d-internal to obtain the credentials function
-path <- "/home/arnd/BfG/hyd1d/"
-setwd(path)
 source("R/hyd1d-internal.R")
 
 ### open the connection using user, password, etc., as
-credentials <- credentials("DB_credentials_gauging_data")
+credentials <- credentials("/home/arnd/BfG/hyd1d/DB_credentials_gauging_data")
 con <- dbConnect("PostgreSQL", 
                  host = credentials["host"], 
                  dbname = credentials["dbname"], 
@@ -50,13 +48,14 @@ dbSendQuery(con, "DROP TABLE IF EXISTS \"gauging_data\";")
 #         \"day\" integer,
 #         \"w\" double precision
 #     );")
+# path <- getwd()
 # dbSendQuery(con, paste0("COPY public.\"gauging_data\" FROM '", path,
 #                         "data-raw/gauging_data.csv' WITH (FORMAT CSV, HEADER",
 #                         ", DELIMITER ';', NULL 'NULL', ENCODING 'UTF8');"))
-df.gd <- read.table(paste0(path, "data-raw/gauging_data.csv"), header = TRUE, 
-                    dec = ".", sep = ";", na.strings = "NULL", 
-                    colClasses = c("integer", "character", "Date", "integer", 
-                                   "integer", "integer", "numeric"))
+df.gd <- read.table("data-raw/gauging_data.csv", header = TRUE, dec = ".",
+                    sep = ";", na.strings = "NULL", colClasses = c("integer", 
+                    "character", "Date", "integer", "integer", "integer", 
+                    "numeric"))
 dbWriteTable(con, "gauging_data", df.gd)
 # dbSendQuery(con, "SELECT setval('public.gauging_data_id_seq', (SELECT max(id) 
 #             FROM public.\"gauging_data\"), true);")
@@ -98,13 +97,12 @@ dbSendQuery(con, "DROP TABLE IF EXISTS \"gauging_station_data\";")
 #                         "data-raw/gauging_station_data.csv' WITH (",
 #                         "FORMAT CSV, HEADER, DELIMITER ';', NULL 'NULL', ",
 #                         "ENCODING 'UTF8');"))
-df.gsd <- read.table(paste0(path, "data-raw/gauging_station_data.csv"),
-                     header = TRUE, dec = ".", sep = ";", 
-                     na.strings = "NULL", colClasses = c("integer", 
-                     "character", "character", "character", 
-                     "character", "numeric", "character", "character",
-                     "character", "character", "numeric", "numeric",
-                     "numeric", "character", "numeric", "character",
+df.gsd <- read.table("data-raw/gauging_station_data.csv", header = TRUE, 
+                     dec = ".", sep = ";", na.strings = "NULL", 
+                     colClasses = c("integer", "character", "character", 
+                     "character", "character", "numeric", "character", 
+                     "character", "character", "character", "numeric", 
+                     "numeric", "numeric", "character", "numeric", "character",
                      "character", "character", "POSIXct", "character",
                      "numeric", "numeric", "POSIXct", "POSIXct"))
 df.gsd$data_present[df.gsd$data_present == "f"] <- FALSE
@@ -136,10 +134,9 @@ dbSendQuery(con, "DROP TABLE IF EXISTS \"gauging_data_missing\";")
 #                         "data-raw/gauging_data_missing.csv' WITH (",
 #                         "FORMAT CSV, HEADER, DELIMITER ';', NULL 'NULL', ",
 #                         "ENCODING 'UTF8');"))
-df.gdm <- read.table(paste0(path, "data-raw/gauging_data_missing.csv"), 
-                     header = TRUE, dec = ".", sep = ";", 
-                     na.strings = "NULL", colClasses = c("integer", "character",
-                                                         "Date"))
+df.gdm <- read.table("data-raw/gauging_data_missing.csv", header = TRUE, 
+                     dec = ".", sep = ";", na.strings = "NULL", 
+                     colClasses = c("integer", "character", "Date"))
 dbWriteTable(con, "gauging_data_missing", df.gdm)
 # dbSendQuery(con, "SELECT setval('public.gauging_data_missing_id_seq', 
 #             (SELECT max(id) FROM public.\"gauging_data_missing\"), true);")
