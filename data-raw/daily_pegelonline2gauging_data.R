@@ -25,12 +25,10 @@ require("RPostgreSQL")
 require("RCurl")
 
 # source hyd1d-internal to obtain the credentials function
-path <- "/home/arnd/BfG/hyd1d/"
-setwd(path)
 source("R/hyd1d-internal.R")
 
 ### open the connection using user, password, etc., as
-credentials <- credentials("DB_credentials_gauging_data")
+credentials <- credentials("/home/arnd/BfG/hyd1d/DB_credentials_gauging_data")
 con <- dbConnect("PostgreSQL", 
                  host = credentials["host"], 
                  dbname = credentials["dbname"], 
