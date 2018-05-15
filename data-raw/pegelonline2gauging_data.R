@@ -9,6 +9,14 @@
 #   - write them into the postgresql database
 #
 ##################################################
+
+# make this script executable only on aqualogy-cloud.de
+if (Sys.info()["nodename"] != "lvps46-163-72-150.dedicated.hosteurope.de") {
+    print("This script has to be executed on aqualogy-cloud.de!")
+    q("no")
+}
+
+# configure output
 verbose <- TRUE
 
 # load required packages
@@ -17,6 +25,8 @@ require("RPostgreSQL")
 require("RCurl")
 
 # source hyd1d-internal to obtain the credentials function
+path <- "/home/arnd/BfG/hyd1d/"
+setwd(path)
 source("R/hyd1d-internal.R")
 
 ### open the connection using user, password, etc., as
