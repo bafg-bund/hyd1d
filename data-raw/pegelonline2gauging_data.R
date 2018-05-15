@@ -2,7 +2,7 @@
 # pegelonline2gauging_data.R
 #
 # author: arnd.weber@bafg.de
-# date:   14.05.2018
+# date:   15.05.2018
 #
 # purpose: 
 #   - download gauging data from pegelonline.wsv.de
