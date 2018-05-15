@@ -1,5 +1,5 @@
 ##################################################
-# pegelonline2gauging_data.R
+# daily_pegelonline2gauging_data.R
 #
 # author: arnd.weber@bafg.de
 # date:   15.05.2018
@@ -260,4 +260,5 @@ for(a_gs in df.gs$gauging_station) {
     
 }
 
+# exit R
 q("no")
