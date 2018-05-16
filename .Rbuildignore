@@ -1,0 +1,13 @@
+^\.git/$
+^.*\.Rproj$
+^\.Rproj\.user$
+^data-raw$
+^docs$
+^README_files$
+^README\.Rmd$
+^_pkgdown\.yaml$
+^pkgdown$
+^screenshot_flys_export_1\\.png$
+^screenshot_flys_export_2\\.png$
+^vignettes/vignette_lang_DE\\.
+^inst/doc/vignette_lang_DE\\.
