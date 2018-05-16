@@ -1,0 +1,73 @@
+title: hyd1d
+url: http://hpc-service.bafg.de/r-packages/hyd1d
+template:
+  params:
+    bootswatch: cosmo
+reference:
+  - title: S4 class WaterLevelDataFrame and methods
+    desc: Class definition and functions to initialize or modify a WaterLevelDataFrame
+    contents:
+      - '`WaterLevelDataFrame-class`'
+      - '`WaterLevelDataFrame`'
+      - '`getGaugingStations`'
+      - '`getGaugingStationsMissing`'
+      - '`getRiver`'
+      - '`getTime`'
+      - '`setGaugingStations<-`'
+      - '`setGaugingStationsMissing<-`'
+      - '`setRiver<-`'
+      - '`setTime<-`'
+  - title: Utility functions
+    desc: Functions to handle, modify, im- and export WaterLevelDataFrame's
+    contents:
+      - '`as.data.frame.WaterLevelDataFrame`'
+      - '`names<-,WaterLevelDataFrame,character-method`'
+      - '`plotShiny`'
+      - '`rbind.WaterLevelDataFrame`'
+      - '`readWaterLevelFileDB`'
+      - '`readWaterLevelJson`'
+      - '`readWaterLevelStationInt`'
+      - '`subset.WaterLevelDataFrame`'
+      - '`summary`'
+      - '`writeWaterLevelJson`'
+      - '`writeWaterLevelStationInt`'
+      - '`[.WaterLevelDataFrame`'
+  - title: Datasets
+    desc: Datasets included in hyd1d and a function to update df.gauging_data
+    contents:
+      - '`date_gauging_data`'
+      - '`df.flys_data`'
+      - '`df.flys_sections`'
+      - '`df.gauging_data`'
+      - '`df.gauging_station_data`'
+      - '`df.sections_data`'
+      - '`updateGaugingData`'
+  - title: W functions
+    desc: Functions to obtain gauging data
+    contents:
+      - '`getGaugingDataW`'
+      - '`getPegelonlineW`'
+  - title: waterLevel functions
+    desc: Functions to compute 1-dimensional water levels
+    contents:
+      - '`waterLevel`'
+      - '`waterLevelPegelonline`'
+      - '`waterLevelFlut1`'
+      - '`waterLevelFlys3`'
+      - '`waterLevelFlys3Seq`'
+      - '`waterLevelFlys3InterpolateX`'
+      - '`waterLevelFlys3InterpolateY`'
+navbar:
+  left:
+    - text: "How To"
+      menu:
+      - text: "Get Started (EN)"
+        href: articles/hyd1d.html
+      - text: "Los gehts (DE)"
+        href: articles/vignette_lang_DE.html
+    - text: Reference
+      href: reference/index.html
+  right:
+    - text: BfG
+      href: http://www.bafg.de
+
