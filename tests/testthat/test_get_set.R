@@ -5,7 +5,7 @@ context("get & set")
 
 test_that("river", {
     # Elbe
-    wldf <- WaterLevelDataFrame(river = "Elbe", time = as.POSIXct("2016-12-31"),
+    wldf <- WaterLevelDataFrame(river = "Elbe", time = as.POSIXct("2016-12-21"),
                                 station = seq(256, 263, by = 0.1))
     expect_equal(getRiver(wldf), "Elbe")
     expect_error(setRiver(wldf) <- "Rhein", regexp = "must be above km 336.2")
@@ -13,7 +13,7 @@ test_that("river", {
                  fixed = TRUE)
     
     # Rhein
-    wldf <- WaterLevelDataFrame(river = "Rhein", time = as.POSIXct("2016-12-31"),
+    wldf <- WaterLevelDataFrame(river = "Rhein", time = as.POSIXct("2016-12-21"),
                                 station = seq(666, 777, by = 0.1))
     expect_equal(getRiver(wldf), "Rhein")
     expect_error(setRiver(wldf) <- "Elbe", regexp = "must be below km 585.7")
@@ -21,7 +21,7 @@ test_that("river", {
                  fixed = TRUE)
     
     # both directions
-    wldf <- WaterLevelDataFrame(river = "Rhein", time = as.POSIXct("2016-12-31"),
+    wldf <- WaterLevelDataFrame(river = "Rhein", time = as.POSIXct("2016-12-21"),
                                 station = seq(554, 555, by = 0.1))
     expect_equal(getRiver(wldf), "Rhein")
     setRiver(wldf) <- "Elbe"
@@ -38,7 +38,7 @@ test_that("river", {
 
 
 test_that("time", {
-    wldf <- WaterLevelDataFrame(river = "Elbe", time = as.POSIXct("2016-12-31"),
+    wldf <- WaterLevelDataFrame(river = "Elbe", time = as.POSIXct("2016-12-21"),
                                 station = seq(256, 263, by = 0.1))
     expect_equal(getTime(wldf), as.POSIXct("2016-12-31"))
     setTime(wldf) <- as.POSIXct("2016-12-30")
@@ -66,7 +66,7 @@ test_that("time", {
 
 
 test_that("gauging_stations", {
-    wldf <- WaterLevelDataFrame(river = "Elbe", time = as.POSIXct("2016-12-31"),
+    wldf <- WaterLevelDataFrame(river = "Elbe", time = as.POSIXct("2016-12-21"),
                                 station = seq(256, 263, by = 0.1))
     gs <- data.frame(id = integer(),
                      gauging_station    = character(),

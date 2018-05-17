@@ -51,7 +51,7 @@ test_that("readWaterLevelJson", {
                  " 'file' (2016-12-21) and the 'time' argument (2016-12-20)",
                  fixed = TRUE)
     expect_error(wldf <- readWaterLevelJson(file, "Elbe", 
-                                            as.Date("2016-12-20")),
+                                            as.Date("2016-12-21")),
                  " 'time' must be type c('POSIXct', 'POSIXt')",
                  fixed = TRUE)
 })
@@ -69,7 +69,7 @@ test_that("readWaterLevelStationInt", {
                  "from 'file' (Elbe) and the 'river' argument (Rhein)",
                  fixed = TRUE)
     expect_error(wldf <- readWaterLevelStationInt(file, "Elbe", 
-                                                  as.Date("2016-12-20")),
+                                                  as.Date("2016-12-21")),
                  " 'time' must be type c('POSIXct', 'POSIXt')",
                  fixed = TRUE)
     expect_error(wldf <- readWaterLevelStationInt(file, "Elbe", 

@@ -35,7 +35,7 @@ test_that("getGaugingDataW", {
                                  time = Sys.time() + 3600), 
                  "You requested data in the future.")
     expect_equal(getGaugingDataW(gauging_station = "DESSAU",
-                                 time = as.Date("2016-12-31")), 254)
+                                 time = as.Date("2016-12-21")), 165)
     if (Sys.Date() - 1 >= date_gauging_data){
         expect_warning(w <- getGaugingDataW(gauging_station = "DESSAU",
                                             time = Sys.Date() - 1), 
