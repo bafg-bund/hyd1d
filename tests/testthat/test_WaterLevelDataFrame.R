@@ -4,7 +4,7 @@ library(hyd1d)
 context("Class WaterLevelDataFrame")
 
 test_that("Initialisation of a WaterLevelDataFrame", {
-    wldf <- WaterLevelDataFrame(river = "Elbe", time = as.POSIXct("2016-12-31"),
+    wldf <- WaterLevelDataFrame(river = "Elbe", time = as.POSIXct("2016-12-21"),
                                 station = seq(256, 263, by = 0.1))
     
     expect_equal(class(wldf)[1], "WaterLevelDataFrame")
