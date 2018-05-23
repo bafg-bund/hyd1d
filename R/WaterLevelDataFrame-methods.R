@@ -979,7 +979,7 @@ setMethod(f = "summary", signature(object = "WaterLevelDataFrame"),
         s_gauging_stations_missing <- paste(s_gauging_stations_missing, 
                                             collapse = ", ")
     }
-    s_comment <- comment(wldf)
+    s_comment <- comment(object)
     s_slots <- c(s_river, s_time, s_gauging_stations, 
                  s_gauging_stations_missing, s_comment)
     names(s_slots) <- c("river", "time", "gauging_stations", 
