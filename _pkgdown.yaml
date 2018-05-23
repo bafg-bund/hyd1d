@@ -1,5 +1,6 @@
 title: hyd1d
-url: http://hpc-service.bafg.de/r-packages/hyd1d
+url: https://arnd.aqualogy.de/hyd1d
+destination: public
 template:
   params:
     bootswatch: cosmo
