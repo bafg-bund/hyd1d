@@ -24,7 +24,8 @@ lib <- .libPaths()[1]
 
 # install dependencies
 packages <- c("DBI", "RPostgreSQL", "RCurl", "RJSONIO", "plotrix", "Rdpack",
-              "testthat", "knitr", "rmarkdown", "stringr", "devtools")
+              "testthat", "knitr", "rmarkdown", "stringr", "devtools",
+              "pkgdown")
 # ROracle (>= 1.1-1) needs an Oracle (Instant)Client
 
 for (a_package in packages) {
