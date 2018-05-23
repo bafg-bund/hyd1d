@@ -1,11 +1,12 @@
 ##################################################
-# .install.R
+# _install.R
 #
 # author: arnd.weber@bafg.de
-# date:   15.05.2018
+# date:   23.05.2018
 #
 # purpose: 
 #   - install R packages required for the CI jobs
+#   - install the repository version of hyd1d
 #
 ##################################################
 
@@ -18,12 +19,12 @@ if (Sys.info()["nodename"] != "lvps46-163-72-150.dedicated.hosteurope.de") {
 # configure output
 verbose <- TRUE
 
-# standard library path for the pacakge install
+# standard library path for the package install
 lib <- .libPaths()[1]
 
-# install
+# install dependencies
 packages <- c("DBI", "RPostgreSQL", "RCurl", "RJSONIO", "plotrix", "Rdpack",
-              "testthat", "knitr", "rmarkdown", "stringr")
+              "testthat", "knitr", "rmarkdown", "stringr", "devtools")
 # ROracle (>= 1.1-1) needs an Oracle (Instant)Client
 
 for (a_package in packages) {
@@ -40,6 +41,10 @@ for (a_package in packages) {
         }
     }
 }
+
+# install hyd1d
+require("devtools")
+devtools::install(".")
 
 # exit
 q("no")
