@@ -6,7 +6,7 @@ output:
   html_vignette:
     toc: yes
     toc_depth: 3
-bibliography: /home/WeberA/hyd1d/hyd1d/inst/REFERENCES.bib
+bibliography: /home/WeberA/hyd1d/inst/REFERENCES.bib
 vignette: |
   %\VignetteIndexEntry{hyd1d} 
   %\VignetteEngine{knitr::rmarkdown} 
