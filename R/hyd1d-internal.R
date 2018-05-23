@@ -21,8 +21,8 @@ asc2utf8 <- function(x){
 # extract DB credentials from unversioned credential files
 # 
 credentials <- function(file) {
-    credentials_temp <- read.table(file, header = FALSE, sep = ";", 
-                                   stringsAsFactors = FALSE)
+    credentials_temp <- utils::read.table(file, header = FALSE, sep = ";", 
+                                          stringsAsFactors = FALSE)
     credentials <- credentials_temp$V2
     names(credentials) <- credentials_temp$V1
     return(credentials)
