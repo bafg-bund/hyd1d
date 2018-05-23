@@ -12,4 +12,4 @@
 ^vignettes/vignette_lang_DE\\.
 ^inst/doc/vignette_lang_DE\\.
 ^_documentation\\.sh
-
+^_install\\.R
