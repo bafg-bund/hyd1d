@@ -43,9 +43,5 @@ for (a_package in packages) {
     }
 }
 
-# install hyd1d
-require("devtools")
-devtools::install(".")
-
 # exit
 q("no")
