@@ -38,10 +38,12 @@
 #'   \code{\link{subset.WaterLevelDataFrame}}
 #'
 #' @examples
+#' \dontrun{
 #' wldf <- readWaterLevelFileDB(river = "Elbe",
 #'                              time = as.POSIXct("2016-12-21"),
 #'                              from = 257, to = 262)
-#'
+#' }
+#' 
 #' @export
 #' 
 readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
