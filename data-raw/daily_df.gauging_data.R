@@ -2,18 +2,12 @@
 # daily_df.gauging_data.R
 #
 # author: arnd.weber@bafg.de
-# date:   15.05.2018
+# date:   24.05.2018
 #
 # purpose: 
 #   - export gauging data stored in the gauging_data DB into an R data file
 #
 ##################################################
-
-# make this script executable only on aqualogy-cloud.de
-if (Sys.info()["nodename"] != "lvps46-163-72-150.dedicated.hosteurope.de") {
-    print("This script has to be executed on aqualogy-cloud.de!")
-    q("no")
-}
 
 # configure output
 verbose <- TRUE
@@ -28,7 +22,7 @@ source("R/hyd1d-internal.R")
 
 # read the data
 # get DB credentials
-credentials <- credentials("/home/arnd/BfG/hyd1d/DB_credentials_gauging_data")
+credentials <- credentials("/home/WeberA/hyd1d/DB_credentials_gauging_data")
 
 # access the gauging_data DB
 con <- DBI::dbConnect(drv      = DBI::dbDriver("PostgreSQL"),

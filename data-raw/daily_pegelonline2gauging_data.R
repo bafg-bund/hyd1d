@@ -2,19 +2,13 @@
 # daily_pegelonline2gauging_data.R
 #
 # author: arnd.weber@bafg.de
-# date:   15.05.2018
+# date:   23.05.2018
 #
 # purpose: 
 #   - download gauging data from pegelonline.wsv.de
 #   - write them into the postgresql database
 #
 ##################################################
-
-# make this script executable only on aqualogy-cloud.de
-if (Sys.info()["nodename"] != "lvps46-163-72-150.dedicated.hosteurope.de") {
-    print("This script has to be executed on aqualogy-cloud.de!")
-    q("no")
-}
 
 # configure output
 verbose <- TRUE
@@ -28,7 +22,7 @@ require("RCurl")
 source("R/hyd1d-internal.R")
 
 ### open the connection using user, password, etc., as
-credentials <- credentials("/home/arnd/BfG/hyd1d/DB_credentials_gauging_data")
+credentials <- credentials("/home/WeberA/hyd1d/DB_credentials_gauging_data")
 con <- dbConnect("PostgreSQL", 
                  host = credentials["host"], 
                  dbname = credentials["dbname"], 
