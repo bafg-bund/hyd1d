@@ -68,7 +68,7 @@ devtools::check(".")
 
 #####
 # install the package from source
-devtools::install(".")
+#devtools::install(".")
 
 #####
 # build the source package
