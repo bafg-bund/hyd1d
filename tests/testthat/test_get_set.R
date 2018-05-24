@@ -41,14 +41,14 @@ test_that("time", {
     wldf <- WaterLevelDataFrame(river = "Elbe", time = as.POSIXct("2016-12-21"),
                                 station = seq(256, 263, by = 0.1))
 #####expect_equal(getTime(wldf), as.POSIXct("2016-12-21"))
-    setTime(wldf) <- as.POSIXct("2016-12-30")
+    setTime(wldf) <- as.POSIXct("1991-12-16")
 #####expect_equal(getTime(wldf), as.POSIXct("2016-12-30"))
     wldf <- waterLevel(wldf)
 #####expect_equal(getTime(wldf), as.POSIXct("2016-12-30"))
     expect_error(setTime(wldf) <- as.POSIXct("1916-12-30"))
     setTime(wldf) <- as.POSIXct("2015-12-30")
     expect_equal(all(is.na(wldf$w)), TRUE)
-    setTime(wldf) <- as.POSIXct("2016-12-31")
+    setTime(wldf) <- as.POSIXct("2016-12-21")
     wldf <- waterLevel(wldf)
     
     wldf1 <- readWaterLevelFileDB(river = getRiver(wldf),
