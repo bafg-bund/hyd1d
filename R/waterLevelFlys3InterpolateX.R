@@ -4,9 +4,9 @@
 #' @title Interpolate FLYS3 water levels for given stations
 #' 
 #' @description Function to interpolate FLYS3 water levels for selected 
-#'   stations and return it with the structure of \code{\link{df.flys_data}}.
+#'   stations and return it with the structure of \code{\link{df.flys}}.
 #' 
-#' @details \code{\link{df.flys_data}} contains 1D water level data computed
+#' @details \code{\link{df.flys}} contains 1D water level data computed
 #'   with SOBEK for every second hectometer (every 200 m). This function
 #'   provides a way to interpolate the 30 stationary water levels for selected
 #'   stations inbetween these hectometers and returns them with the 
@@ -35,7 +35,7 @@
 #'   585700), Rhein (m 336200 - 865700).
 #'
 #' @return An object of class \code{data.frame} with the structure of
-#'   \code{\link{df.flys_data}}.
+#'   \code{\link{df.flys}}.
 #'
 #' @references 
 #'   \insertRef{busch_einheitliche_2009}{hyd1d}
@@ -262,44 +262,38 @@ waterLevelFlys3InterpolateX <- function(river = c("Elbe", "Rhein"),
     p_env <- parent.env(e)
     
     # access the FLYS3 data
-    if (exists("df.flys_data", where = p_env)){
-        get("df.flys_data", envir = p_env)
+    if (exists("df.flys", where = p_env)){
+        get("df.flys", envir = p_env)
     } else {
-        utils::data("df.flys_data")
+        utils::data("df.flys")
     }
     
     # prepare flys variables
-    df.flys_data <- df.flys_data[df.flys_data$river == river, ]
-    flys_stations <- unique(df.flys_data$station)
-    flys_wls_ordered <- df.flys_data[df.flys_data$station == flys_stations[1], 
-                                     "name"]
+    df.flys <- df.flys[df.flys$river == river, ]
+    flys_stations <- unique(df.flys$station)
+    flys_wls_ordered <- df.flys[df.flys$station == flys_stations[1], "name"]
     
     #####
     # processing
-    df.flys_data_app <- data.frame(river = character(),
-                                   name = character(),
-                                   station = numeric(),
-                                   w = numeric(),
-                                   stringsAsFactors = FALSE)
+    df.flys_app <- data.frame(river = character(), name = character(),
+                              station = numeric(), w = numeric(),
+                              stringsAsFactors = FALSE)
     for (a_wl in flys_wls_ordered) {
-        id <- which(df.flys_data$name == a_wl)
-        res <- stats::approx(x = df.flys_data$station[id],
-                             y = df.flys_data$w[id],
+        id <- which(df.flys$name == a_wl)
+        res <- stats::approx(x = df.flys$station[id], y = df.flys$w[id],
                              xout = stations, rule = c(2, 2))
         df.temp <- data.frame(river = rep(river, len),
                               name = rep(a_wl, len),
                               station = stations,
                               w = round(res$y, 2),
                               stringsAsFactors = FALSE)
-        df.flys_data_app <- rbind(df.flys_data_app, df.temp, 
-                                  stringsAsFactors = FALSE)
+        df.flys_app <- rbind(df.flys_app, df.temp, stringsAsFactors = FALSE)
     }
     
     #####
     # reorder by station and w and return
-    df.flys_data_app <- df.flys_data_app[order(df.flys_data_app$station, 
-                                               df.flys_data_app$w), ]
+    df.flys_app <- df.flys_app[order(df.flys_app$station, df.flys_app$w), ]
     
-    return(df.flys_data_app)
+    return(df.flys_app)
     
 }
