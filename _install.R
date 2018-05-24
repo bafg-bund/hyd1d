@@ -38,5 +38,10 @@ for (a_package in packages) {
     }
 }
 
+# install the local package
+require(devtools, lib.loc = lib)
+devtools::install(".", args = paste0("--library=", lib), 
+                  quick = TRUE, dependencies = FALSE)
+
 # exit
 q("no")
