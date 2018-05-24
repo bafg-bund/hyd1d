@@ -25,7 +25,7 @@
 #'   \code{numeric}, respectively 336200 - 865700 m for type \code{integer}.
 #'
 #'   Internally \code{readWaterLevelFileDB} uses the dataset
-#'   \code{\link{df.sections_data}} to locate the individual sections,
+#'   \code{\link{df.sections}} to locate the individual sections,
 #'   \code{\link{readWaterLevelJson}} to import the individual section's
 #'   waterlevel data, \code{\link{rbind.WaterLevelDataFrame}} to combine them to
 #'   one \linkS4class{WaterLevelDataFrame} and
@@ -33,7 +33,7 @@
 #'   \linkS4class{WaterLevelDataFrame} and limit it with \code{from} and
 #'   \code{to}.
 #'
-#' @seealso \code{\link{df.sections_data}}, \code{\link{readWaterLevelJson}},
+#' @seealso \code{\link{df.sections}}, \code{\link{readWaterLevelJson}},
 #'   \code{\link{rbind.WaterLevelDataFrame}},
 #'   \code{\link{subset.WaterLevelDataFrame}}
 #'
@@ -423,32 +423,32 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
         p_env <- parent.env(e)
         
         #  get the names of all available gauging_stations
-        if (exists("df.sections_data", where = p_env)){
-            get("df.sections_data", envir = p_env)
+        if (exists("df.sections", where = p_env)){
+            get("df.sections", envir = p_env)
         } else {
-            utils::data("df.sections_data", 
+            utils::data("df.sections", 
                         envir = environment())
         }
         
         # replace byte encoded letters
         columns <- c("name", "gs_upper", "gs_lower")
         for (a in columns){
-            df.sections_data[, a] <- asc2utf8(df.sections_data[, a])
+            df.sections[, a] <- asc2utf8(df.sections[, a])
         }
         
         #####
         # import the data
         ##
         # identify the relevant sections
-        id_sections <- which(df.sections_data$river == toupper(wldf_river) &
-                                 df.sections_data$to_km >= wldf_from &
-                                 df.sections_data$from_km <= wldf_to)
+        id_sections <- which(df.sections$river == toupper(wldf_river) &
+                             df.sections$to_km >= wldf_from &
+                             df.sections$from_km <= wldf_to)
         
         i <- 1
         for (s in id_sections){
             file <- paste0("/home/WeberA/ShinyApps/05-waterlevel/www/",
                            toupper(wldf_river), "/",
-                           df.sections_data$name[s], "/",
+                           df.sections$name[s], "/",
                            strftime(wldf_time, "%Y"), "/",
                            strftime(wldf_time, "%Y%m%d"), ".txt")
             wldf_temp <- readWaterLevelJson(file)
