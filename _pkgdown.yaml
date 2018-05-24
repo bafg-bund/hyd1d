@@ -37,11 +37,11 @@ reference:
     desc: Datasets included in hyd1d and a function to update df.gauging_data
     contents:
       - '`date_gauging_data`'
-      - '`df.flys_data`'
+      - '`df.flys`'
       - '`df.flys_sections`'
       - '`df.gauging_data`'
       - '`df.gauging_station_data`'
-      - '`df.sections_data`'
+      - '`df.sections`'
       - '`updateGaugingData`'
   - title: W functions
     desc: Functions to obtain gauging data
