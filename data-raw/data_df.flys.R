@@ -107,7 +107,17 @@ if (Sys.info()["nodename"] != "lvps46-163-72-150.dedicated.hosteurope.de") {
     if (!(file.exists("data/df.flys.rda"))){
         print(paste0("The flys database is not accessible and data/df.flys",
                      ".rda can't be created!"))
+        # variables for RDO
+        RDO_NROW_DF.FLYS <- "169980"
+        
     } else {
         print("data/df.flys.rda exists already")
+        
+        # variables for RDO
+        load("data/df.flys.rda")
+        RDO_NROW_DF.FLYS <- as.character(nrow(df.flys))
+        rm(df.flys)
+        
     }
+    
 }
