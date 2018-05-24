@@ -38,13 +38,12 @@ test_that("waterLevelFlys3: Dessau", {
 
 
 test_that("waterLevelFlys3InterpolateX", {
-    expect_equal(df.flys_data[df.flys_data$river == "Elbe" & 
-                              df.flys_data$station == 261, "w"], 
+    expect_equal(df.flys[df.flys$river == "Elbe" & df.flys$station == 261, "w"],
                  waterLevelFlys3InterpolateX("Elbe", 261)$w)
-    expect_equal(df.flys_data[df.flys_data$river == "Elbe" & 
-                                  df.flys_data$station == 261, "name"], 
+    expect_equal(df.flys[df.flys$river == "Elbe" & 
+                         df.flys$station == 261, "name"], 
                  waterLevelFlys3InterpolateX("Elbe", 261)$name)
-    expect_equal(names(df.flys_data), 
+    expect_equal(names(df.flys), 
                  names(waterLevelFlys3InterpolateX("Elbe", 261.1)))
     expect_error(waterLevelFlys3InterpolateX("ELBE", 261.1),
                  "'river' must be an element of c('Elbe', 'Rhein')", 
