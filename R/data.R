@@ -1,9 +1,3 @@
-#' @name date_gauging_data
-#' @rdname date_gauging_data
-#' @title Date df.gauging_data was saved
-#' @description Date df.gauging_data was saved. Presently it is the 
-#'   $RDO_DATE_GAUGING_DATA$.
-"date_gauging_data"
 
 #' @name df.gauging_data
 #' @rdname df.gauging_data
@@ -67,8 +61,8 @@
 "df.gauging_station_data"
 
 
-#' @name df.flys_data
-#' @rdname df.flys_data
+#' @name df.flys
+#' @rdname df.flys
 #' 
 #' @title Stationary water levels from the FLYS 3-database
 #' 
@@ -86,7 +80,7 @@
 #'   \if{html}{\figure{flys3waterlevels.png}{options: width="60\%" alt="Figure: flys3waterlevels.png"}}
 #'   \if{latex}{\figure{flys3waterlevels.pdf}{options: width=7cm}}
 #' 
-#' @format A \code{data.frame} with $RDO_NROW_DF.FLYS_DATA$ rows and 4 variables: 
+#' @format A \code{data.frame} with $RDO_NROW_DF.FLYS$ rows and 4 variables: 
 #' \describe{
 #'   \item{river}{name of the relevant water body (type \code{character}).}
 #'   \item{name}{of the FLYS 3 water level (type \code{character}). See details for more information.}
@@ -122,7 +116,7 @@
 #'   
 #'   \insertRef{deltares_sobek_2018}{hyd1d}
 #' 
-"df.flys_data"
+"df.flys"
 
 
 #' @name df.flys_sections
@@ -145,8 +139,8 @@
 "df.flys_sections"
 
 
-#' @name df.section_data
-#' @rdname df.section_data
+#' @name df.sections
+#' @rdname df.sections
 #' 
 #' @title Sections with precomputed water level data along Elbe and Rhein
 #'
@@ -167,5 +161,5 @@
 #' }
 #' 
 #' @source \url{http://hpc-service.bafg.de/~WeberA/INFORM 4}
-"df.sections_data"
+"df.sections"
 
