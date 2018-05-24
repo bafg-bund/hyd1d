@@ -5,9 +5,9 @@ context("get...W")
 
 
 test_that("getGaugingDataW", {
-    times <- c(Sys.Date() - 20, Sys.Date() - 10, Sys.Date() - 5)
+    times <- c(as.Date('1991-12-16'), as.Date('2016-12-21'))
     expect_equal(length(getGaugingDataW(gauging_station = "DESSAU",
-                                        time = times)), 3)
+                                        time = times)), 2)
     expect_equal(getGaugingDataW(gauging_station = "DESSAU", time = times),
                  getGaugingDataW(uuid = "1edc5fa4-88af-47f5-95a4-0e77a06fe8b1", 
                                  time = times))
@@ -33,22 +33,9 @@ test_that("getGaugingDataW", {
                  "You requested earlier data. Please ")
     expect_error(getGaugingDataW(gauging_station = "DESSAU",
                                  time = Sys.time() + 3600), 
-                 "You requested data in the future.")
+                 "You requested data of today.")
     expect_equal(getGaugingDataW(gauging_station = "DESSAU",
                                  time = as.Date("2016-12-21")), 165)
-    if (Sys.Date() - 1 >= date_gauging_data){
-        expect_warning(w <- getGaugingDataW(gauging_station = "DESSAU",
-                                            time = Sys.Date() - 1), 
-                       "http://pegelonline.wsv.de through getPegelonlineW()",
-                       fixed = TRUE)
-        expect_equal(length(w), 1)
-        expect_equal(class(w), "numeric")
-    } else {
-        w <- getGaugingDataW(gauging_station = "DESSAU",
-                             time = Sys.Date() - 1)
-        expect_equal(length(w), 1)
-        expect_equal(class(w), "numeric")
-    }
     
     # test for Umlaut in gauging_station
     expect_equal(getGaugingDataW("SCHÖNA", as.Date("2016-12-21")), 125)
