@@ -91,17 +91,16 @@ waterLevel <- function(wldf, shiny = FALSE){
     #####
     # connect the relevant datasets
     # access the FLYS3 data
-    if (exists("df.flys_data", where = p_env)){
-        get("df.flys_data", envir = p_env)
+    if (exists("df.flys", where = p_env)){
+        get("df.flys", envir = p_env)
     } else {
-        utils::data("df.flys_data")
+        utils::data("df.flys")
     }
     
     # prepare flys variables
-    flys_stations <- unique(df.flys_data[df.flys_data$river == river, 
-                                         "station"])
-    flys_wls <- df.flys_data[df.flys_data$station == flys_stations[1] &
-                                 df.flys_data$river == river, "name"]
+    flys_stations <- unique(df.flys[df.flys$river == river, "station"])
+    flys_wls <- df.flys[df.flys$station == flys_stations[1] &
+                        df.flys$river == river, "name"]
     
     # access and subset the gauging_data
     if (exists("df.gauging_data", where = p_env)){
