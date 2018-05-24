@@ -16,6 +16,7 @@
 ^DB_credentials_flys3$
 ^DB_credentials_gauging_data$
 ^.*\.dat$
-^_documentation\.sh$
+^_documentation\.R$
 ^vignettes/Thumbs\.db$
 ^_build\.R$
+
