@@ -119,7 +119,7 @@ setMethod("getGaugingStations", signature("WaterLevelDataFrame"),
 #'
 #' @examples
 #' wldf <- WaterLevelDataFrame(river   = "Elbe",
-#'                             time    = as.POSIXct("1990-12-21"),
+#'                             time    = as.POSIXct("1991-12-16"),
 #'                             station = seq(500, 501, 0.1))
 #' wldf <- waterLevel(wldf)
 #' getGaugingStationsMissing(wldf)
