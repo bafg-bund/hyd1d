@@ -403,24 +403,23 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
     p_env <- parent.env(e)
     
     # access the FLYS3 data
-    if (exists("df.flys_data", where = p_env)){
-        get("df.flys_data", envir = p_env)
+    if (exists("df.flys", where = p_env)){
+        get("df.flys", envir = p_env)
     } else {
-        utils::data("df.flys_data")
+        utils::data("df.flys")
     }
     
     # select the water level for a specified river and name
-    id <- which(df.flys_data$river == wldf_river &
-                df.flys_data$name == name)
-    df.flys_data_sel <- df.flys_data[id,]
+    id <- which(df.flys$river == wldf_river & df.flys$name == name)
+    df.flys_sel <- df.flys[id,]
     
     # identify the relevant river stretch
-    id <- which(df.flys_data_sel$station >= wldf_from &
-                df.flys_data_sel$station <= wldf_to)
-    df.wl_left <- df.flys_data_sel[min(id), ]
-    df.wl_right <- df.flys_data_sel[max(id), ]
+    id <- which(df.flys_sel$station >= wldf_from &
+                df.flys_sel$station <= wldf_to)
+    df.wl_left <- df.flys_sel[min(id), ]
+    df.wl_right <- df.flys_sel[max(id), ]
     id <- c(min(id) - 1, id, max(id) + 1)
-    df.wl <- stats::na.omit(df.flys_data_sel[id, ])
+    df.wl <- stats::na.omit(df.flys_sel[id, ])
     
     #####
     # interpolate
