@@ -1,19 +1,22 @@
-require(devtools)
 
-# read the data
-df.sections_data <- utils::read.table("data-raw/sections_data.csv", header = TRUE, 
-                                      sep = ";", dec = ",", 
-                                      stringsAsFactors = FALSE)
+# read the dataset
+df.sections <- utils::read.table("data-raw/df.sections.csv", header = TRUE, 
+                                 sep = ";", dec = ",", stringsAsFactors = FALSE)
 
 # replace non-ASCII characters
 for (a in c("name", "gs_upper", "gs_lower")){
-    df.sections_data[, a] <- iconv(df.sections_data[, a], from="UTF-8", 
-                                   to="ASCII", sub="byte")
+    df.sections[, a] <- iconv(df.sections[, a], from = "UTF-8", to = "ASCII", 
+                              sub = "byte")
 }
 
 # store df.sections as external dataset
-devtools::use_data(df.sections_data, pkg = ".", overwrite = TRUE, 
-                   compress = "bzip2")
+if (!(file.exists("data/df.sections.rda"))){
+    devtools::use_data(df.sections, pkg = ".", overwrite = TRUE, 
+                       compress = "bzip2")
+} else {
+    print("data/df.sections.rda exists already")
+}
 
 # clean up
-rm(df.sections_data, a)
+rm(df.sections, a)
+
