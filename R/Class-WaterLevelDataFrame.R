@@ -46,7 +46,8 @@
 #' 
 #' @exportClass WaterLevelDataFrame
 #' 
-setClass(Class     = "WaterLevelDataFrame",
+methods::setClass(
+         Class     = "WaterLevelDataFrame",
          slots     = c(river                    = "character",
                        time                     = "POSIXct",
                        gauging_stations         = "data.frame",
