@@ -1,30 +1,31 @@
 
 .onLoad <- function(libname, pkgname) {
     # load package data
-    utils::data("df.flys_data", "df.flys_sections", "df.gauging_station_data", 
-                "df.sections_data", package = pkgname, 
+    utils::data("df.flys", "df.flys_sections", "df.gauging_station_data", 
+                "df.sections", package = pkgname, 
                 envir = parent.env(environment()))
     
     # set relevant variables
     p_source <- find.package(pkgname)
     file_date <- paste0(p_source, "/data/date_gauging_data.rda")
     file_data <- paste0(p_source, "/data/df.gauging_data.rda")
-    file_upd <- paste0(p_source, "/data/upd.txt")
-        
+    
     # update date_gauging_data
     if (file.exists(file_date)){
-        load(file_date, envir = parent.env(environment()))
+        # check, when it was updated the last time
+        load(file_date)
+        if (date_gauging_data < Sys.Date()) {
+            # update
+            if (updateGaugingData(x = date_gauging_data)) {
+                date_gauging_data <- Sys.Date()
+                save(date_gauging_data, file = file_date)
+            }
+        }
     } else {
-        utils::data("date_gauging_data", package = pkgname, 
-                    envir = parent.env(environment()))
-    }
-    
-    # update df.gauging_data.rda, if required
-    if (updateGaugingData(x = date_gauging_data)){
-        write("1", file = file_upd)
-    } else {
-        if (file.exists(file_upd)){
-            file.remove(file_upd)
+        # update
+        date_gauging_data <- Sys.Date()
+        if (updateGaugingData(x = date_gauging_data)) {
+            save(date_gauging_data, file = file_date)
         }
     }
     
@@ -42,21 +43,29 @@
     
     # set relevant variables
     p_source <- find.package(pkgname)
-    file_upd <- paste0(p_source, "/data/upd.txt")
+    file_date <- paste0(p_source, "/data/date_gauging_data.rda")
     
     # send message
-    if (file.exists(file_upd)){
-        packageStartupMessage(paste0("#####\n Package ',", pkgname,"':\n The ",
-                                     "internal dataset 'df.gauging_data' has ", 
-                                     "been updated."))
-        file.remove(file_upd)
+    if (file.exists(file_date)){
+        # check, when it was updated the last time
+        load(file_date)
+        if (date_gauging_data < Sys.Date()) {
+            # update
+            if (updateGaugingData(x = date_gauging_data)) {
+                date_gauging_data <- Sys.Date()
+                save(date_gauging_data, file = file_date)
+                packageStartupMessage(paste0("#####\n Package '", pkgname,
+                                             "':\n The internal dataset 'df.ga",
+                                             "uging_data' has been updated."))
+            }
+        }
     }
 }
 
 
 .onUnload  <- function(libpath) {
-    for (a_dataset in c("df.flys_data", "df.flys_sections", "df.gauging_data", 
-                        "df.gauging_station_data", "df.sections_data",
+    for (a_dataset in c("df.flys", "df.flys_sections", "df.gauging_data", 
+                        "df.gauging_station_data", "df.sections",
                         "date_gauging_data")){
         if (exists(a_dataset, envir = globalenv())){
             rm(list = a_dataset, envir = globalenv())
