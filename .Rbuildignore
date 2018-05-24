@@ -18,3 +18,4 @@
 ^.*\.dat$
 ^_documentation\.sh$
 ^vignettes/Thumbs\.db$
+^_build\.R$
