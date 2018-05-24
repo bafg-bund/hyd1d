@@ -1,10 +1,6 @@
 
 # get credentials
-if (Sys.info()["nodename"] == "lvps46-163-72-150.dedicated.hosteurope.de") {
-    gd_credentials <- credentials("/home/arnd/BfG/hyd1d/DB_credentials_gauging_data")
-} else {
-    gd_credentials <- credentials("/home/WeberA/hyd1d/DB_credentials_gauging_data")
-}
+gd_credentials <- credentials("/home/WeberA/hyd1d/DB_credentials_gauging_data")
 
 # read the data
 # access the gauging_data DB
