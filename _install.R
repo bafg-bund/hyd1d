@@ -10,17 +10,12 @@
 #
 ##################################################
 
-# make this script executable only on aqualogy-cloud.de
-if (Sys.info()["nodename"] != "lvps46-163-72-150.dedicated.hosteurope.de") {
-    print("This script has to be executed on aqualogy-cloud.de!")
-    q("no")
-}
-
 # configure output
 verbose <- TRUE
 
 # standard library path for the package install
-lib <- .libPaths()[1]
+R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
+lib <- paste0("/home/WeberA/R/", R_version, "/")
 
 # install dependencies
 packages <- c("DBI", "RPostgreSQL", "RCurl", "RJSONIO", "plotrix", "Rdpack",
