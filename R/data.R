@@ -1,3 +1,10 @@
+#' @name date_gauging_data
+#' @rdname date_gauging_data
+#' @title Date df.gauging_data was saved
+#' @description Date df.gauging_data was saved. Presently it is the 
+#'   $RDO_DATE_GAUGING_DATA$.
+"date_gauging_data"
+
 
 #' @name df.gauging_data
 #' @rdname df.gauging_data
@@ -7,7 +14,7 @@
 #' @description This dataset contains all \strong{daily-averaged} gauging data
 #'   for the gauging stations along \strong{Elbe} and \strong{Rhein} operated by
 #'   the waterway and navigation authorities (Wasserstraßen- und
-#'   Schifffahrtsverwaltung (WSV)) from 1990-01-01 until $RDO_TODAY$. Data from
+#'   Schifffahrtsverwaltung (WSV)) since 1990-01-01. Data from
 #'   the 1990-01-01 until 2017-12-31 are validated and were queried from the
 #'   BfG-Wiski
 #'   (\href{http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html}{HyDaBa})
@@ -16,8 +23,7 @@
 #'   officially validated. Not validated recent data will be replaced anually
 #'   and distributed through package updates.
 #' 
-#' @format A \code{data.frame} with $RDO_NROW_DF.GAUGING_DATA$ rows and 3 
-#' variables: 
+#' @format A \code{data.frame} with 3 variables: 
 #' \describe{
 #'   \item{gauging_station}{name of the gauging station (type \code{character}). It is presently used as JOIN field.} 
 #'   \item{date}{of the measurement (type \code{Date}).} 
