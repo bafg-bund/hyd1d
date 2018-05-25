@@ -9,9 +9,14 @@
 #
 ##################################################
 
-require(devtools)
-require(DBI)
-require(RPostgreSQL)
+# standard library path for the package install
+R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
+lib <- paste0("~/R/", R_version, "/")
+
+# load the packages
+require(devtools, lib.loc = lib)
+require(DBI, lib.loc = lib)
+require(RPostgreSQL, lib.loc = lib)
 
 # source hyd1d-internal to obtain the credentials function
 source("R/hyd1d-internal.R")
@@ -72,7 +77,7 @@ devtools::check(".")
 
 #####
 # build the source package
-devtools::build(".")
+devtools::build(".", manual = TRUE)
 
 q("no")
 
