@@ -11,7 +11,8 @@ Installation
 **hyd1d** is not currently available from CRAN, but you can install the development version from BfG's gitbucket server with:
 
 ``` r
-# install.packages("devtools")
+install.packages("devtools")
+library(devtools)
 devtools::install_git("git://apps.bafg.de/gitbucket/webera/hyd1d.git")
 ```
 
@@ -22,7 +23,7 @@ The package **hyd1d** is build around the S4-class `WaterLevelDataFrame`. To com
 
 ``` r
 # load the package
-require(hyd1d)
+library(hyd1d)
 
 # initialize a WaterLevelDataFrame
 wldf <- WaterLevelDataFrame(river   = "Elbe",
