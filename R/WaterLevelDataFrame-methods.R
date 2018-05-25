@@ -30,7 +30,7 @@ NULL
 #####
 # S3 method
 as.data.frame.WaterLevelDataFrame <- function(x, ...) {
-    if (class(x) != "WaterLevelDataFrame"){
+    if (class(x) != "WaterLevelDataFrame") {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
     df <- as.data.frame(x@.Data, ...)
@@ -41,15 +41,16 @@ as.data.frame.WaterLevelDataFrame <- function(x, ...) {
 
 #####
 # S4 method
-#setGeneric("as.data.frame", function(x, ...) {
+#methods::setGeneric("as.data.frame", function(x, ...) {
 #    standardGeneric("as.data.frame")
 #})
 #
 #
 # @rdname as.data.frame-WaterLevelDataFrame-method
-#setMethod("as.data.frame", signature(x = "WaterLevelDataFrame"),
-#          function(x, ...) {
-#    if (class(x) != "WaterLevelDataFrame"){
+#methods::setMethod("as.data.frame", 
+#                   methods::signature(x = "WaterLevelDataFrame"),
+#                   function(x, ...) {
+#    if (class(x) != "WaterLevelDataFrame") {
 #        stop("'x' must be type 'WaterLevelDataFrame'.")
 #    }
 #    df <- as.data.frame(x@.Data, ...)
@@ -84,7 +85,7 @@ as.data.frame.WaterLevelDataFrame <- function(x, ...) {
 #' 
 #' @exportMethod getGaugingStations
 #' 
-setGeneric("getGaugingStations", function(x) {
+methods::setGeneric("getGaugingStations", function(x) {
     standardGeneric("getGaugingStations")
 })
 
@@ -92,9 +93,10 @@ setGeneric("getGaugingStations", function(x) {
 #' @name getGaugingStations-method
 #' @rdname getGaugingStations
 #' @aliases getGaugingStations,WaterLevelDataFrame-method
-setMethod("getGaugingStations", signature("WaterLevelDataFrame"),
-          function(x) {
-    if (class(x) != "WaterLevelDataFrame"){
+methods::setMethod("getGaugingStations", 
+                   methods::signature("WaterLevelDataFrame"),
+                   function(x) {
+    if (class(x) != "WaterLevelDataFrame") {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
     return(x@gauging_stations)
@@ -126,7 +128,7 @@ setMethod("getGaugingStations", signature("WaterLevelDataFrame"),
 #'
 #' @exportMethod getGaugingStationsMissing
 #' 
-setGeneric("getGaugingStationsMissing", function(x){
+methods::setGeneric("getGaugingStationsMissing", function(x) {
     standardGeneric("getGaugingStationsMissing")
 })
 
@@ -134,9 +136,10 @@ setGeneric("getGaugingStationsMissing", function(x){
 #' @name getGaugingStationsMissing-method
 #' @rdname getGaugingStationsMissing
 #' @aliases getGaugingStationsMissing,WaterLevelDataFrame-method
-setMethod("getGaugingStationsMissing", signature("WaterLevelDataFrame"),
-          function(x){
-    if (class(x) != "WaterLevelDataFrame"){
+methods::setMethod("getGaugingStationsMissing", 
+                   methods::signature("WaterLevelDataFrame"),
+                   function(x) {
+    if (class(x) != "WaterLevelDataFrame") {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
     return(x@gauging_stations_missing)
@@ -166,7 +169,7 @@ setMethod("getGaugingStationsMissing", signature("WaterLevelDataFrame"),
 #'
 #' @exportMethod getRiver
 #' 
-setGeneric("getRiver", function(x){
+methods::setGeneric("getRiver", function(x) {
     standardGeneric("getRiver")
 })
 
@@ -174,8 +177,10 @@ setGeneric("getRiver", function(x){
 #' @name getRiver-method
 #' @rdname getRiver
 #' @aliases getRiver,WaterLevelDataFrame-method
-setMethod("getRiver", signature("WaterLevelDataFrame"), function(x){
-    if (class(x) != "WaterLevelDataFrame"){
+methods::setMethod("getRiver", 
+                   methods::signature("WaterLevelDataFrame"), 
+                   function(x) {
+    if (class(x) != "WaterLevelDataFrame") {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
     return(x@river)
@@ -204,7 +209,7 @@ setMethod("getRiver", signature("WaterLevelDataFrame"), function(x){
 #' 
 #' @exportMethod getTime
 #' 
-setGeneric("getTime", function(x){
+methods::setGeneric("getTime", function(x) {
     standardGeneric("getTime")
 })
 
@@ -212,8 +217,10 @@ setGeneric("getTime", function(x){
 #' @name getTime-method
 #' @rdname getTime
 #' @aliases getTime,WaterLevelDataFrame-method
-setMethod("getTime", signature("WaterLevelDataFrame"), function(x){
-    if (class(x) != "WaterLevelDataFrame"){
+methods::setMethod("getTime", 
+                   methods::signature("WaterLevelDataFrame"), 
+                   function(x) {
+    if (class(x) != "WaterLevelDataFrame") {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
     return(x@time)
@@ -258,12 +265,12 @@ setMethod("getTime", signature("WaterLevelDataFrame"), function(x){
 #' @export
 #' 
 setReplaceMethod("names",
-                 signature(x="WaterLevelDataFrame", value="character"),
-                 function(x, value){
-    if (class(x) != "WaterLevelDataFrame"){
+                 methods::signature(x="WaterLevelDataFrame", value="character"),
+                 function(x, value) {
+    if (class(x) != "WaterLevelDataFrame") {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
-    if (class(value) != "character"){
+    if (class(value) != "character") {
         stop("'value' must be type 'character'.")
     }
     x@names <- value
@@ -310,25 +317,25 @@ rbind.WaterLevelDataFrame <- function(...) {
     # .Data
     wldf_data <- do.call(rbind.data.frame,
                          lapply(dots,
-                                function(x){
+                                function(x) {
                                     as.data.frame(x)}))
     names(wldf_data) <- names(dots[[1]])
     
     # river
-    wldf_river <- do.call(c, lapply(dots, function(x){getRiver(x)}))
+    wldf_river <- do.call(c, lapply(dots, function(x) {getRiver(x)}))
     if (!(all(wldf_river[1] == wldf_river))){
         stop("getRiver(x) has to be equal for all elements.")
     }
     
     # time
-    wldf_time <- do.call(c, lapply(dots, function(x){getTime(x)}))
+    wldf_time <- do.call(c, lapply(dots, function(x) {getTime(x)}))
     if (!(all(wldf_time[1] == wldf_time))){
         stop("getTime(x) has to be equal for all elements.")
     }
     
     # gauging_stations
     wldf_gs <- do.call(rbind.data.frame, lapply(dots, 
-                           function(x){getGaugingStations(x)}))
+                           function(x) {getGaugingStations(x)}))
     id_duplicated <- duplicated(wldf_gs$gauging_station)
     duplicats <- wldf_gs$gauging_station[id_duplicated]
     columns <- names(wldf_gs)[13:ncol(wldf_gs)]
@@ -336,9 +343,9 @@ rbind.WaterLevelDataFrame <- function(...) {
         for (a_col in columns) {
             rows <- which(wldf_gs$gauging_station == a_duplicat)
             na <- is.na(wldf_gs[rows, a_col])
-            if (any(na)){
+            if (any(na)) {
                 value <- wldf_gs[rows, a_col][!na]
-                if (length(value) == 0){
+                if (length(value) == 0) {
                     wldf_gs[rows, a_col] <- NA
                 } else {
                     wldf_gs[rows, a_col][na] <- value
@@ -348,7 +355,7 @@ rbind.WaterLevelDataFrame <- function(...) {
     }
     
     wldf_gs <- unique(wldf_gs)
-    if (nrow(wldf_gs) >= 1){
+    if (nrow(wldf_gs) >= 1) {
         row.names(wldf_gs) <- as.character(1:nrow(wldf_gs))
     }
     
@@ -356,7 +363,7 @@ rbind.WaterLevelDataFrame <- function(...) {
     columns <- c("gauging_station", "uuid", "river", "mw_timespan",
                  "name_wl_below_w_do", "name_wl_above_w_do", 
                  "name_wl_below_w_up", "name_wl_above_w_up")
-    for (a_column in columns){
+    for (a_column in columns) {
         wldf_gs[, a_column] <- as.character(wldf_gs[, a_column])
     }
     
@@ -373,7 +380,7 @@ rbind.WaterLevelDataFrame <- function(...) {
     wldf_data <- unique(wldf_data)
     
     # gauging_stations_missing
-    wldf_gsm <- do.call(c, lapply(dots, function(x){
+    wldf_gsm <- do.call(c, lapply(dots, function(x) {
         getGaugingStationsMissing(x)}))
     wldf_gsm <- wldf_gsm[!is.na(wldf_gsm)]
     if (length(wldf_gsm) == 0) {
@@ -381,7 +388,7 @@ rbind.WaterLevelDataFrame <- function(...) {
     }
     
     # comment
-    wldf_comment <- do.call(c, lapply(dots, function(x){comment(x)}))
+    wldf_comment <- do.call(c, lapply(dots, function(x) {comment(x)}))
     wldf_comment <- c("rbind(wldf's)", wldf_comment)
     
     # construct the new wldf
@@ -400,28 +407,30 @@ rbind.WaterLevelDataFrame <- function(...) {
 
 #####
 # S4 method
-#setGeneric("rbind", function(...) {
+#methods::setGeneric("rbind", function(...) {
 #    standardGeneric("rbind")
 #})
 #
 #
 # @rdname rbind-WaterLevelDataFrame-method
-#setMethod("rbind", signature("data.frame"),
-#          function(...) {
+#methods::setMethod("rbind", 
+#                   methods::signature("data.frame"),
+#                   function(...) {
 #    
 #    dots <- list(...)
 #    names(dots) <- NULL
 #    
 #    df <- do.call(rbind.data.frame,
-#                  lapply(dots, function(x){x}))
+#                  lapply(dots, function(x) {x}))
 #    names(df) <- names(dots[[1]])
 #    return(df)
 #})
 #
 #
 # @rdname rbind-WaterLevelDataFrame-method
-#setMethod("rbind", signature("WaterLevelDataFrame"),
-#          function(...) {
+#methods::setMethod("rbind", 
+#                   methods::signature("WaterLevelDataFrame"),
+#                   function(...) {
 #    
 #    dots <- list(...)
 #    names(dots) <- NULL
@@ -429,13 +438,13 @@ rbind.WaterLevelDataFrame <- function(...) {
 #    # .Data
 #    wldf_data <- do.call(rbind.data.frame,
 #                         lapply(dots,
-#                                function(x){
+#                                function(x) {
 #                                    as.data.frame(x)}))
 #    names(wldf_data) <- names(dots[[1]])
 #    
 #    # river
-#    wldf_river <- do.call(c, lapply(dots, function(x){getRiver(x)}))
-#    if (!(all(wldf_river[1] == wldf_river))){
+#    wldf_river <- do.call(c, lapply(dots, function(x) {getRiver(x)}))
+#    if (!(all(wldf_river[1] == wldf_river))) {
 #        stop("getRiver(x) has to be equal for all elements.")
 #    }
 #    
@@ -455,9 +464,9 @@ rbind.WaterLevelDataFrame <- function(...) {
 #        for (a_col in columns) {
 #            rows <- which(wldf_gs$gauging_station == a_duplicat)
 #            na <- is.na(wldf_gs[rows, a_col])
-#            if (any(na)){
+#            if (any(na)) {
 #                value <- wldf_gs[rows, a_col][!na]
-#                if (length(value) == 0){
+#                if (length(value) == 0) {
 #                    wldf_gs[rows, a_col] <- NA
 #                } else {
 #                    wldf_gs[rows, a_col][na] <- value
@@ -467,7 +476,7 @@ rbind.WaterLevelDataFrame <- function(...) {
 #    }
 #    
 #    wldf_gs <- unique(wldf_gs)
-#    if (nrow(wldf_gs) >= 1){
+#    if (nrow(wldf_gs) >= 1) {
 #        row.names(wldf_gs) <- as.character(1:nrow(wldf_gs))
 #    }
 #    
@@ -475,7 +484,7 @@ rbind.WaterLevelDataFrame <- function(...) {
 #    columns <- c("gauging_station", "uuid", "water_shortname",
 #                 "name_wl_below_w_do", "name_wl_above_w_do", 
 #                 "name_wl_below_w_up", "name_wl_above_w_up")
-#    for (a_column in columns){
+#    for (a_column in columns) {
 #        wldf_gs[, a_column] <- as.character(wldf_gs[, a_column])
 #    }
 #    
@@ -492,7 +501,7 @@ rbind.WaterLevelDataFrame <- function(...) {
 #    wldf_data <- unique(wldf_data)
 #    
 #    # gauging_stations_missing
-#    wldf_gsm <- do.call(c, lapply(dots, function(x){
+#    wldf_gsm <- do.call(c, lapply(dots, function(x) {
 #                                                getGaugingStationsMissing(x)}))
 #    wldf_gsm <- wldf_gsm[!is.na(wldf_gsm)]
 #    if (length(wldf_gsm) == 0) {
@@ -589,7 +598,7 @@ rbind.WaterLevelDataFrame <- function(...) {
 #' 
 #' @exportMethod setGaugingStations<-
 #' 
-setGeneric("setGaugingStations<-", function(x, value){
+methods::setGeneric("setGaugingStations<-", function(x, value) {
     standardGeneric("setGaugingStations<-")
 })
 
@@ -597,15 +606,16 @@ setGeneric("setGaugingStations<-", function(x, value){
 #' @name setGaugingStations<--method
 #' @rdname setGaugingStations
 #' @aliases setGaugingStations<-,WaterLevelDataFrame,data.frame-method
-setMethod("setGaugingStations<-",
-          signature(x = "WaterLevelDataFrame", value = "data.frame"),
-          function(x, value){
+methods::setMethod("setGaugingStations<-",
+                   methods::signature(x = "WaterLevelDataFrame", 
+                                      value = "data.frame"),
+                   function(x, value) {
     
     # check basic requirements
-    if (class(x) != "WaterLevelDataFrame"){
+    if (class(x) != "WaterLevelDataFrame") {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
-    if (class(value) != "data.frame"){
+    if (class(value) != "data.frame") {
         stop("'value' must be type 'data.frame'")
     }
     gs_colnames <- c("id", "gauging_station", "uuid", "km",
@@ -682,7 +692,7 @@ setMethod("setGaugingStations<-",
 #' 
 #' @exportMethod setGaugingStationsMissing<-
 #' 
-setGeneric("setGaugingStationsMissing<-", function(x, value){
+methods::setGeneric("setGaugingStationsMissing<-", function(x, value) {
     standardGeneric("setGaugingStationsMissing<-")
 })
 
@@ -690,15 +700,16 @@ setGeneric("setGaugingStationsMissing<-", function(x, value){
 #' @name setGaugingStationsMissing<--method
 #' @rdname setGaugingStationsMissing
 #' @aliases setGaugingStationsMissing<-,WaterLevelDataFrame,character-method
-setMethod("setGaugingStationsMissing<-",
-          signature(x = "WaterLevelDataFrame", value = "character"),
-          function(x, value){
+methods::setMethod("setGaugingStationsMissing<-",
+                   methods::signature(x = "WaterLevelDataFrame", 
+                                      value = "character"),
+                   function(x, value) {
     
     # check basic requirements
-    if (class(x) != "WaterLevelDataFrame"){
+    if (class(x) != "WaterLevelDataFrame") {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
-    if (class(value) != "character"){
+    if (class(value) != "character") {
         stop("'value' must be type 'character'.")
     }
     
@@ -706,7 +717,7 @@ setMethod("setGaugingStationsMissing<-",
     x@gauging_stations_missing <- value
     
     # return the validated WaterLevelDataFrame
-    if(methods::validObject(x)){
+    if(methods::validObject(x)) {
         return(x)
     }
     
@@ -743,7 +754,7 @@ setMethod("setGaugingStationsMissing<-",
 #' 
 #' @exportMethod setRiver<-
 #' 
-setGeneric("setRiver<-", function(x, value){
+methods::setGeneric("setRiver<-", function(x, value) {
     standardGeneric("setRiver<-")
 })
 
@@ -751,15 +762,16 @@ setGeneric("setRiver<-", function(x, value){
 #' @name setRiver<--method
 #' @rdname setRiver
 #' @aliases setRiver<-,WaterLevelDataFrame,character-method
-setMethod("setRiver<-",
-          signature(x = "WaterLevelDataFrame", value = "character"),
-          function(x, value){
+methods::setMethod("setRiver<-",
+                   methods::signature(x = "WaterLevelDataFrame", 
+                                      value = "character"),
+                   function(x, value) {
   
     # check basic requirements
-    if (class(x) != "WaterLevelDataFrame"){
+    if (class(x) != "WaterLevelDataFrame") {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
-    if (!(value %in% c("Elbe", "Rhein"))){
+    if (!(value %in% c("Elbe", "Rhein"))) {
         stop("'value' has to be either 'Elbe' or 'Rhein'.")
     }
     
@@ -770,7 +782,7 @@ setMethod("setRiver<-",
     x$w <- as.numeric(rep(NA, nrow(x)))
     
     # return the validated WaterLevelDataFrame
-    if(methods::validObject(x)){
+    if(methods::validObject(x)) {
         return(x)
     }
     
@@ -808,7 +820,7 @@ setMethod("setRiver<-",
 #' 
 #' @exportMethod setTime<-
 #' 
-setGeneric("setTime<-", function(x, value){
+methods::setGeneric("setTime<-", function(x, value) {
     standardGeneric("setTime<-")
 })
 
@@ -816,23 +828,24 @@ setGeneric("setTime<-", function(x, value){
 #' @name setTime<--method
 #' @rdname setTime
 #' @aliases setTime<-,WaterLevelDataFrame,POSIXct-method
-setMethod("setTime<-",
-          signature(x = "WaterLevelDataFrame", value = "POSIXct"),
-          function(x, value){
+methods::setMethod("setTime<-",
+                   methods::signature(x = "WaterLevelDataFrame", 
+                                      value = "POSIXct"),
+                   function(x, value) {
     
     # check basic requirements
-    if (class(x) != "WaterLevelDataFrame"){
+    if (class(x) != "WaterLevelDataFrame") {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
-    if (!(all(class(value) == c("POSIXct", "POSIXt")))){
+    if (!(all(class(value) == c("POSIXct", "POSIXt")))) {
         stop("'value' must be type c('POSIXct', 'POSIXt').")
     }
-    if (length(value) != 1L){
+    if (length(value) != 1L) {
         stop("'value' must have a length equal 1.")
     }
-    if (!(is.na(value))){
+    if (!(is.na(value))) {
         if (value < as.POSIXct("1990-01-01 00:00:00 CET") |
-            value > Sys.time()){
+            value > Sys.time()) {
             stop(paste0("'time' must be between 1990-01-01 00:00:00 and now ",
                         "or NA."))
         }
@@ -845,7 +858,7 @@ setMethod("setTime<-",
     x$w <- as.numeric(rep(NA, nrow(x)))
     
     # return the validated WaterLevelDataFrame
-    if(methods::validObject(x)){
+    if(methods::validObject(x)) {
         return(x)
     }
     
@@ -950,7 +963,7 @@ subset.WaterLevelDataFrame <- function(x, subset, select, drop = FALSE, ...) {
 #' 
 #' @exportMethod summary
 #' 
-setGeneric("summary", function(object, ...){
+methods::setGeneric("summary", function(object, ...) {
     standardGeneric("summary")
 })
 
@@ -958,19 +971,20 @@ setGeneric("summary", function(object, ...){
 #' @name summary-method
 #' @rdname summary
 #' @aliases summary,WaterLevelDataFrame-method
-setMethod(f = "summary", signature(object = "WaterLevelDataFrame"),
-          function(object){
+methods::setMethod(f = "summary", 
+                   methods::signature(object = "WaterLevelDataFrame"),
+                   function(object) {
     s_data <- summary(as.data.frame(object))
     s_river <- getRiver(object)
     s_time <- as.character(getTime(object))
     s_gauging_stations <- getGaugingStations(object)$gauging_station
-    if (length(s_gauging_stations) == 0){
+    if (length(s_gauging_stations) == 0) {
         s_gauging_stations <- "None"
     } else {
         s_gauging_stations <- paste(s_gauging_stations, collapse = ", ")
     }
     s_gauging_stations_missing <- getGaugingStationsMissing(object)
-    if (length(s_gauging_stations_missing) == 0){
+    if (length(s_gauging_stations_missing) == 0) {
         s_gauging_stations_missing <- "None"
     } else if (length(s_gauging_stations_missing) == 1 & 
                is.na(s_gauging_stations_missing)) {
@@ -1029,8 +1043,9 @@ setMethod(f = "summary", signature(object = "WaterLevelDataFrame"),
 #' 
 #' @exportMethod [
 #' 
-setMethod("[", signature(x = "WaterLevelDataFrame"),
-               function(x, i, j, ..., drop = TRUE){
+methods::setMethod("[", 
+                   methods::signature(x = "WaterLevelDataFrame"),
+                   function(x, i, j, ..., drop = TRUE) {
                    methods::initialize(x, 
                                        .Data = as.data.frame(x)[i, j, drop],
                                        river = getRiver(x),
@@ -1046,8 +1061,9 @@ setMethod("[", signature(x = "WaterLevelDataFrame"),
 #' @rdname extract.WaterLevelDataFrame
 #' @aliases [<-,WaterLevelDataFrame,ANY,ANY,data.frame-method
 setReplaceMethod("[",
-                 signature(x="WaterLevelDataFrame", value="data.frame"),
-                 function(x, i, j, value){
+                 methods::signature(x = "WaterLevelDataFrame", 
+                                    value = "data.frame"),
+                 function(x, i, j, value) {
                      wldf_data <- as.data.frame(x)
                      wldf_data[i, j] <- value
                      methods::initialize(x, 
