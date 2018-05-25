@@ -8,6 +8,8 @@
 DB_credentials_*
 
 # ignore directories and files
+/data/date_gauging_data.rda
+/data/df.gauging_data_latest.rda
 /data-raw/gauging_data.csv
 /data-raw/gauging_data.sql.gz
 /data-raw/gauging_data_missing.csv
