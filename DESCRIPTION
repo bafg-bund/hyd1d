@@ -22,7 +22,7 @@ Depends: R (>= 3.2.0)
 Imports: methods, RJSONIO (>= 1.0-0), RCurl (>= 1.95-4.10), plotrix (>= 3.0-0), 
     Rdpack
 Suggests: DBI (>= 0.4-9), ROracle (>= 1.1-1), RPostgreSQL (>= 0.6-1), testthat,
-    knitr, rmarkdown, stringr
+    knitr, rmarkdown, stringr, devtools, pkgdown, roxygen2
 RdMacros: Rdpack
 License: GPL-2
 Encoding: UTF-8
