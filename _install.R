@@ -20,9 +20,9 @@ dir.create(lib, FALSE, TRUE)
 
 # install dependencies
 # ROracle (>= 1.1-1) needs an Oracle (Instant)Client
-packages <- c("DBI", "ROracle", "RPostgreSQL", "RCurl", "RJSONIO", "plotrix", 
-              "Rdpack", "testthat", "knitr", "rmarkdown", "stringr", "devtools",
-              "pkgdown", "roxygen2")
+packages <- c("RJSONIO", "RCurl", "plotrix", "Rdpack", "DBI", "ROracle", 
+              "RPostgreSQL", "testthat", "knitr", "rmarkdown", "stringr", 
+              "devtools", "pkgdown", "roxygen2")
 
 for (a_package in packages) {
     if (! (a_package %in% installed.packages(lib.loc = lib)[, "Package"])) {
