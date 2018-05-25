@@ -19,4 +19,4 @@
 ^_documentation\.R$
 ^vignettes/Thumbs\.db$
 ^_build\.R$
-
+^data/df\.gauging_data_latest\.rda$
