@@ -54,7 +54,7 @@ methods::setClass(
                        gauging_stations_missing = "character",
                        comment                  = "character"),
          contains  = "data.frame",
-         prototype = prototype(
+         prototype = methods::prototype(
              
          data.frame(station     = numeric(),
                     station_int = integer(),
