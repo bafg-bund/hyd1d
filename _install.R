@@ -2,7 +2,7 @@
 # _install.R
 #
 # author: arnd.weber@bafg.de
-# date:   23.05.2018
+# date:   25.05.2018
 #
 # purpose: 
 #   - install R packages required for the CI jobs
@@ -15,13 +15,14 @@ verbose <- TRUE
 
 # standard library path for the package install
 R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
-lib <- paste0("/home/WeberA/R/", R_version, "/")
+lib <- paste0("~/R/", R_version, "/")
+dir.create(lib, FALSE, TRUE)
 
 # install dependencies
-packages <- c("DBI", "RPostgreSQL", "RCurl", "RJSONIO", "plotrix", "Rdpack",
-              "testthat", "knitr", "rmarkdown", "stringr", "devtools",
-              "pkgdown")
 # ROracle (>= 1.1-1) needs an Oracle (Instant)Client
+packages <- c("DBI", "ROracle", "RPostgreSQL", "RCurl", "RJSONIO", "plotrix", 
+              "Rdpack", "testthat", "knitr", "rmarkdown", "stringr", "devtools",
+              "pkgdown")
 
 for (a_package in packages) {
     if (! (a_package %in% installed.packages(lib.loc = lib)[, "Package"])) {
@@ -40,6 +41,7 @@ for (a_package in packages) {
 
 # install the local package
 require(devtools, lib.loc = lib)
+devtools::document(".")
 devtools::install(".", args = paste0("--library=", lib), 
                   quick = TRUE, dependencies = FALSE)
 
