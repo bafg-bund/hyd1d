@@ -19,7 +19,8 @@ knitr::opts_chunk$set(
     comment = "#>",
     fig.align="center",
     fig.width = 7,
-    fig.height = 4
+    fig.height = 4, 
+    root.dir = "/home/WeberA/hyd1d/vignettes"
 )
 ```
 
@@ -41,9 +42,12 @@ $(document).ready(function() {
 
 <!-- numbering for figures and tables-->
 
-```{r echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
-require(knitr)
-require(plotrix)
+```{r captions, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+# standard library path for the installed local packages
+R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
+lib <- paste0("~/R/", R_version, "/")
+require(hyd1d, lib.loc = lib)
+require(plotrix, lib.loc = lib)
 
 # Determine the output format of the document
 outputFormat <- knitr::opts_knit$get("rmarkdown.pandoc.to")
@@ -88,15 +92,23 @@ The package hyd1d is not available from CRAN at the moment. To install the
 recent developmental version from the GitBucket server of the Federal Institute 
 of Hydrology (BfG) execute the following commands: 
 
-```{r, eval = FALSE}
+```{r install_git, eval = FALSE}
 install.packages("devtools")
+library(devtools)
 devtools::install_git("git://apps.bafg.de/gitbucket/webera/hyd1d.git")
 ```
 
 Afterwards hyd1d can be loaded like every other R package with the following 
 command: 
 
-```{r, eval = TRUE}
+```{r library, eval = TRUE, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+# standard library path for the installed local packages
+R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
+lib <- paste0("~/R/", R_version, "/")
+library(hyd1d, lib.loc = lib)
+```
+
+```{r library_print, eval = FALSE, echo = TRUE}
 library(hyd1d)
 ```
 
@@ -108,7 +120,7 @@ water levels with one of the `waterLevel...`-functions, a `WaterLevelDataFrame`
 has to be initialized with the homonymous 
 [`WaterLevelDataFrame()`](reference/WaterLevelDataFrame.html)-function: 
 
-```{r, eval = TRUE}
+```{r wldf, eval = TRUE}
 wldf <- WaterLevelDataFrame(river   = "Elbe",
                             time    = as.POSIXct("2016-12-21"),
                             station = seq(257, 262, 0.1))
@@ -120,7 +132,7 @@ atation arguments (`station` or `station_int`). With this information an object
 of class `WaterLevelDataFrame` can be created, which has the following 
 structure:
 
-```{r, eval = TRUE}
+```{r structure, eval = TRUE}
 str(wldf)
 
 summary(wldf)
@@ -162,7 +174,7 @@ between 1990-01-01 and yesterday.
 After the [initialization](articles/hyd1d.html#s4-klasse-waterleveldataframe) of 
 a `WaterLevelDataFrame` the application is very simple:
 
-```{r, eval = TRUE}
+```{r water_level, eval = TRUE}
 wldf <- waterLevel(wldf)
 summary(wldf)
 

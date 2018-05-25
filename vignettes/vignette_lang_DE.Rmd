@@ -6,7 +6,6 @@ output:
   html_vignette:
     toc: yes
     toc_depth: 3
-    number_sections: true
 bibliography: /home/WeberA/hyd1d/inst/REFERENCES.bib
 vignette: |
   %\VignetteIndexEntry{hyd1d} 
@@ -36,7 +35,7 @@ knitr::opts_chunk$set(
     fig.align="center", 
     fig.width = 7, 
     fig.height = 4, 
-    root.dir = "/home/WeberA/hyd1d-old/hyd1d/vignettes"
+    root.dir = "/home/WeberA/hyd1d/vignettes"
 )
 ```
 
@@ -57,8 +56,13 @@ $(document).ready(function() {
 </script>
 
 <!-- numbering for figures and tables-->
-```{r captions, echo = FALSE}
-library(stringr)
+```{r captions, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+# standard library path for the installed local packages
+R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
+lib <- paste0("~/R/", R_version, "/")
+require(hyd1d, lib.loc = lib)
+require(plotrix, lib.loc = lib)
+library(stringr, lib.loc = lib)
 
 # Determine the output format of the document
 outputFormat <- knitr::opts_knit$get("rmarkdown.pandoc.to")
@@ -866,8 +870,9 @@ finales Produkt:
 Momentan ist das Paket hyd1d noch nicht auf CRAN verfügbar. Daher kann nur die 
 aktuelle Entwicklungsversion vom GitBucket-Server der BfG installiert werden:
 
-```{r, eval = FALSE}
-# install.packages("devtools")
+```{r install_git, eval = FALSE}
+install.packages("devtools")
+library(devtools)
 devtools::install_git("git://apps.bafg.de/gitbucket/webera/hyd1d.git")
 ```
 
