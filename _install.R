@@ -44,6 +44,7 @@ update.packages(lib.loc = lib)
 
 # install the local package
 require(devtools, lib.loc = lib)
+devtools::document(".")
 devtools::install(".", reload = FALSE, quick = TRUE, 
                   args = paste0("--library=", lib), quiet = verbose, 
                   dependencies = FALSE)
