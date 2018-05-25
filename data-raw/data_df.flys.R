@@ -1,7 +1,7 @@
 
 if (Sys.info()["nodename"] != "lvps46-163-72-150.dedicated.hosteurope.de") {
     
-    require(ROracle)
+    require(ROracle, lib.loc = lib)
     
     # get credentials
     f3_credentials <- credentials("/home/WeberA/hyd1d/DB_credentials_flys3")
