@@ -2,7 +2,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^data-raw$
-^docs$
+^public$
 ^README_files$
 ^README\.Rmd$
 ^_pkgdown\.yaml$
