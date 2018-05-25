@@ -39,12 +39,12 @@ updateGaugingData <- function(x){
     
     p_source <- find.package("hyd1d")
     file_date <- paste0(p_source, "/data/date_gauging_data.rda")
-    file_data <- paste0(p_source, "/data/df.gauging_data.rda")
+    file_data <- paste0(p_source, "/data/df.gauging_data_latest.rda")
     
     if(x < Sys.Date()){
         
         # download the df.gauging_data.rda
-        url <- paste0("http://hpc-service.bafg.de/r-packages/hyd1d/data/",
+        url <- paste0("https://www.aqualogy-cloud.de/downloads/",
                       "df.gauging_data_latest.rda")
         utils::download.file(url, file_data, quiet = TRUE)
         

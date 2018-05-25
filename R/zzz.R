@@ -8,7 +8,7 @@
     # set relevant variables
     p_source <- find.package(pkgname)
     file_date <- paste0(p_source, "/data/date_gauging_data.rda")
-    file_data <- paste0(p_source, "/data/df.gauging_data.rda")
+    file_data <- paste0(p_source, "/data/df.gauging_data_latest.rda")
     
     # update date_gauging_data
     if (file.exists(file_date)){
