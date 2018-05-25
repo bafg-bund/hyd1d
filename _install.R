@@ -22,7 +22,7 @@ dir.create(lib, FALSE, TRUE)
 # ROracle (>= 1.1-1) needs an Oracle (Instant)Client
 packages <- c("DBI", "ROracle", "RPostgreSQL", "RCurl", "RJSONIO", "plotrix", 
               "Rdpack", "testthat", "knitr", "rmarkdown", "stringr", "devtools",
-              "pkgdown")
+              "pkgdown", "roxygen2")
 
 for (a_package in packages) {
     if (! (a_package %in% installed.packages(lib.loc = lib)[, "Package"])) {
@@ -39,11 +39,14 @@ for (a_package in packages) {
     }
 }
 
+# update.packages
+update.packages(lib.loc = lib)
+
 # install the local package
 require(devtools, lib.loc = lib)
-devtools::document(".")
-devtools::install(".", args = paste0("--library=", lib), 
-                  quick = TRUE, dependencies = FALSE)
+devtools::install(".", reload = FALSE, quick = TRUE, 
+                  args = paste0("--library=", lib), quiet = verbose, 
+                  dependencies = FALSE)
 
 # exit
 q("no")
