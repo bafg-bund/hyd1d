@@ -119,14 +119,14 @@ for(a_gs in df.gs$gauging_station) {
         
         #####
         # assemble special url's for MAGDEBURG-ROTHENSEE, DUISBURG-RUHRORT
-                if (a_gs == "MAGDEBURG-ROTHENSEE"){
+                if (a_gs == "MAGDEBURG-ROTHENSEE") {
                           url <- paste0("http://www.pegelonline.wsv.de/web",
                                         "services/files/Wasserstand+Rohdaten/",
                                         df.gs$water_longname[i], "/ROTHENSEE/", 
                                         strftime(a_date, format="%d.%m.%Y"),
                                         "/down.csv")
                 }
-                if (a_gs == "RUHRORT"){
+                if (a_gs == "RUHRORT") {
                     url <- paste0("http://www.pegelonline.wsv.de/web",
                                   "services/files/Wasserstand+Rohdaten/",
                                   df.gs$water_longname[i], "/DUISBURG-RUHRORT/",
@@ -135,13 +135,26 @@ for(a_gs in df.gs$gauging_station) {
                 }
                 
         # third check of the url
-                if(!url.exists(url)){
+                if(!url.exists(url)) {
                     
         #####
         # record missing values and jump to next step in the for loop
                     if (verbose) {
-                        write(paste(sep=" ", a_gs, a_date, "URL-Probleme"),
+                        write(paste(sep=" ", a_gs, a_date, "URL problems"),
                               stderr())
+                        write(a_gs, stderr())
+                        write(str(a_gs), stderr())
+                        write(paste0("UPDATE public.gauging_station_dat",
+                                     "a SET (data_missing) = (TRUE) WHE",
+                                     "RE gauging_station = \'", a_gs,
+                                     "\'"), stderr())
+                        write(paste0("INSERT INTO public.gauging_data_m",
+                                     "issing (id, gauging_station, date",
+                                     ") VALUES (DEFAULT, \'", a_gs, 
+                                     "\', \'", 
+                                     as.Date(a_date, 
+                                             origin="1970-01-01"), 
+                                     "\')"), stderr())
                     }
                     
                     # update gauging_station_data
@@ -198,7 +211,7 @@ for(a_gs in df.gs$gauging_station) {
         query_str4 <- paste0("SELECT * FROM public.gauging_data_missing WHERE ",
                              "gauging_station = \'", a_gs, "\' AND date = \'", 
                              strftime(a_date, "%Y-%m-%d"), "\'")
-        if (nrow(dbGetQuery(con, query_str4))  > 0){
+        if (nrow(dbGetQuery(con, query_str4))  > 0) {
             dbSendQuery(con, paste0("DELETE FROM public.gauging_data_missing W",
                                     "HERE gauging_station = \'", a_gs, "\' AND",
                                     " date = \'", strftime(a_date, "%Y-%m-%d"), 
@@ -206,10 +219,10 @@ for(a_gs in df.gs$gauging_station) {
         }
         
         # update the tables gauging_station_data and gauging_data_missing
-        if(as.Date(a_date) > date_range_present[2]){
+        if(as.Date(a_date) > date_range_present[2]) {
             missing_dates <- as.character(seq(date_range_present[2], 
                                               as.Date(a_date), by = "days"))
-            for (a_missing_date in missing_dates){
+            for (a_missing_date in missing_dates) {
                 query_str5 <- paste0("SELECT * FROM public.gauging_data_missin",
                                      "g WHERE gauging_station = \'", a_gs, 
                                      "\' AND date = \'", a_missing_date, "\'")
@@ -217,7 +230,7 @@ for(a_gs in df.gs$gauging_station) {
                                      "gauging_station = \'", a_gs, "\' AND dat",
                                      "e = \'", a_missing_date, "\'")
                 if (nrow(dbGetQuery(con, query_str5)) == 0 &
-                    nrow(dbGetQuery(con, query_str6)) == 0){
+                    nrow(dbGetQuery(con, query_str6)) == 0) {
                     
                     # print
                     if (verbose) {
