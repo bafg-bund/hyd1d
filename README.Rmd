@@ -1,7 +1,6 @@
 ---
 output: 
-  github_document:
-    self_contained: no
+  github_document
 ---
 
 ```{r setup, include = FALSE}
