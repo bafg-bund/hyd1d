@@ -31,7 +31,7 @@ if (!(file.exists("data/df.gauging_station_data.rda"))) {
     devtools::use_data(df.gauging_station_data, pkg = ".", overwrite = TRUE,
                        compress = "bzip2")
 } else {
-    print("data/df.gauging_station_data.rda exists already")
+    write("data/df.gauging_station_data.rda exists already", stderr())
 }
 
 # variables for RDO

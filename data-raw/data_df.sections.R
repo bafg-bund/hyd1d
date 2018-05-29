@@ -14,7 +14,7 @@ if (!(file.exists("data/df.sections.rda"))){
     devtools::use_data(df.sections, pkg = ".", overwrite = TRUE, 
                        compress = "bzip2")
 } else {
-    print("data/df.sections.rda exists already")
+    write("data/df.sections.rda exists already", stderr())
 }
 
 # clean up

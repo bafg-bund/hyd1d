@@ -27,7 +27,7 @@ if (!(file.exists("data/df.gauging_data.rda"))) {
     devtools::use_data(df.gauging_data, pkg = ".", overwrite = TRUE,
                        compress = "bzip2")
 } else {
-    print("data/df.gauging_data.rda exists already")
+    write("data/df.gauging_data.rda exists already", stderr())
 }
 
 # clean up
