@@ -38,10 +38,14 @@ detach("package:DBI", unload = TRUE)
 
 #####
 # minimal devtools workflow
+write("#####", stderr())
+write(" load_all", stderr())
 devtools::load_all(".")
 
 #####
 # build documentation
+write("#####", stderr())
+write(" document", stderr())
 devtools::document(".")
 
 # postprocess package documentation
@@ -65,19 +69,27 @@ y <- gsub('$RDO_NROW_DF.FLYS$', RDO_NROW_DF.FLYS, x,
 cat(y, file = "man/df.flys.Rd", sep="\n")
 
 # clean up
-rm(x, y, today, RDO_NROW_DF.GAUGING_STATION_DATA, RDO_NROW_DF.FLYS)
+rm(x, y, today) #, RDO_NROW_DF.GAUGING_STATION_DATA, RDO_NROW_DF.FLYS)
+
+
+#####
+# build vignettes
+write("#####", stderr())
+write(" build vignettes", stderr())
+devtools::build_vignettes(".")
 
 #####
 # check the package source
-devtools::check(".")
-
-#####
-# install the package from source
-#devtools::install(".")
+write("#####", stderr())
+write(" check", stderr())
+devtools::check(".", document = FALSE, manual = FALSE, 
+                build_args = "--no-build-vignettes")
 
 #####
 # build the source package
-devtools::build(".", manual = TRUE)
+write("#####", stderr())
+write(" build", stderr())
+devtools::build(".", vignettes = FALSE, manual = FALSE)
 
 q("no")
 
