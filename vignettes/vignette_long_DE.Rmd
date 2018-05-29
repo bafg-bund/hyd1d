@@ -12,21 +12,6 @@ vignette: |
   %\VignetteEncoding{UTF-8} 
   %\VignetteEngine{knitr::rmarkdown} 
 ---
-
-  <!-- pdf_document: -->
-  <!--   fig_caption: yes -->
-  <!--   fig_height: 4 -->
-  <!--   includes: -->
-  <!--     in_header: vignette_lang_DE.sty -->
-  <!--   keep_tex: yes -->
-  <!--   number_sections: yes -->
-  <!--   toc: yes -->
-  <!--   toc_depth: 4 -->
-  <!-- html_document: -->
-  <!--   toc: yes -->
-  <!--   toc_depth: 3 -->
-  <!--   toc_float: yes -->
-  <!--   number_sections: true -->
     
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
@@ -42,7 +27,6 @@ knitr::opts_chunk$set(
 <!-- Indent in html version TOC
      obtained from: 
      https://stackoverflow.com/questions/46201753/rmarkdown-indentation-of-toc-items-in-html-output
-     -->
 
 <script>
 $(document).ready(function() {
@@ -53,7 +37,7 @@ $(document).ready(function() {
   });
 
 });
-</script>
+</script>     -->
 
 <!-- numbering for figures and tables-->
 ```{r captions, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
