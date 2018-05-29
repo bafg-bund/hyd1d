@@ -37,14 +37,15 @@ test_that("waterLevelPegelonline: Geesthacht", {
 
 
 test_that("waterLevelPegelonline: Iffezheim", {
-    wldf <- readWaterLevelStationInt(file = "/home/WeberA/freigaben/U/U2/RH_336_867_UFD/data/wl/r001_IFFEZHEIM/km_values.txt",
-                                     time = as.POSIXct("2016-12-21"))
-    wldf1 <- subset(wldf, station > 336.2 & station <= 340)
-    wldf2 <- waterLevel(wldf1, shiny = TRUE)
-    
-    expect_equal(wldf1$station, wldf2$station)
-    expect_equal(wldf1$station_int, wldf2$station_int)
-    expect_equal(order(wldf2$station), order(- wldf2$w), 
-                 label = "inversed order between station and w")
-    
+    if (Sys.info()["nodename"] == "hpc-service") {
+        wldf <- readWaterLevelStationInt(file = "/home/WeberA/freigaben/U/U2/RH_336_867_UFD/data/wl/r001_IFFEZHEIM/km_values.txt",
+                                         time = as.POSIXct("2016-12-21"))
+        wldf1 <- subset(wldf, station > 336.2 & station <= 340)
+        wldf2 <- waterLevel(wldf1, shiny = TRUE)
+        
+        expect_equal(wldf1$station, wldf2$station)
+        expect_equal(wldf1$station_int, wldf2$station_int)
+        expect_equal(order(wldf2$station), order(- wldf2$w), 
+                     label = "inversed order between station and w")
+    }
 })
