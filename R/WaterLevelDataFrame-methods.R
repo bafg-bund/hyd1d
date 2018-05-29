@@ -1020,9 +1020,6 @@ methods::setMethod(f = "summary",
 #'   \code{numeric} or \code{character} or empty. Numeric values are coerced to 
 #'   integer as if by \code{\link[base:integer]{as.integer}}. For replacement 
 #'   by \code{[}, a logical matrix is allowed.
-#' @param drop \code{logical}. If \code{TRUE} the result is coerced to the 
-#'   lowest possible dimension. The default is to drop if only one column is 
-#'   left, but not to drop if only one row is left.
 #' @param value A suitable replacement value: it will be repeated a whole number
 #'   of times if necessary and it may be coerced: see the Coercion section. If 
 #'   \code{NULL}, deletes the column if a single column is selected.
@@ -1045,9 +1042,9 @@ methods::setMethod(f = "summary",
 #' 
 methods::setMethod("[", 
                    methods::signature(x = "WaterLevelDataFrame"),
-                   function(x, i, j, ..., drop = TRUE) {
+                   function(x, i, j, ...) {
                    methods::initialize(x, 
-                                       .Data = as.data.frame(x)[i, j, drop],
+                                       .Data = as.data.frame(x)[i, j, drop = TRUE],
                                        river = getRiver(x),
                                        time = getTime(x),
                                        gauging_stations = getGaugingStations(x),
@@ -1060,7 +1057,7 @@ methods::setMethod("[",
 #' @name [<-.WaterLevelDataFrame-method
 #' @rdname extract.WaterLevelDataFrame
 #' @aliases [<-,WaterLevelDataFrame,ANY,ANY,data.frame-method
-setReplaceMethod("[",
+methods::setReplaceMethod("[",
                  methods::signature(x = "WaterLevelDataFrame", 
                                     value = "data.frame"),
                  function(x, i, j, value) {
