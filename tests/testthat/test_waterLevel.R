@@ -16,17 +16,18 @@ test_that("waterLevel: Dessau", {
     expect_equal(order(wldf1$station), order(- wldf1$w), 
                  label = "inversed order between station and w")
     
-    wldf2 <- readWaterLevelFileDB(river = getRiver(wldf),
-                                  time = getTime(wldf),
-                                  from = 257, to = 262)
-    expect_equal(wldf1$station, wldf2$station)
-    expect_equal(wldf1$station_int, wldf2$station_int)
-    diff <- wldf1$w - wldf2$w
-    expect_equal(min(diff), -0.01, 
-                 label = "minimum difference: computed wl <> stored  wl")
-    expect_equal(max(diff), 0.01, 
-                 label = "maximum difference: computed wl <> stored  wl")
-    
+    if (Sys.info()["nodename"] == "hpc-service") {
+        wldf2 <- readWaterLevelFileDB(river = getRiver(wldf),
+                                      time = getTime(wldf),
+                                      from = 257, to = 262)
+        expect_equal(wldf1$station, wldf2$station)
+        expect_equal(wldf1$station_int, wldf2$station_int)
+        diff <- wldf1$w - wldf2$w
+        expect_equal(min(diff), -0.01, 
+                     label = "minimum difference: computed wl <> stored  wl")
+        expect_equal(max(diff), 0.01, 
+                     label = "maximum difference: computed wl <> stored  wl")
+    }
 })
 
 
@@ -41,17 +42,18 @@ test_that("waterLevel: Geesthacht", {
     #expect_equal(order(wldf1$station), order(- wldf1$w), 
     #             label = "inversed order between station and w")
     
-    wldf2 <- readWaterLevelFileDB(river = getRiver(wldf),
-                                  time = getTime(wldf),
-                                  from = 580, to = 585.7)
-    expect_equal(wldf1$station, wldf2$station)
-    expect_equal(wldf1$station_int, wldf2$station_int)
-    diff <- wldf1$w - wldf2$w
-    expect_equal(min(diff), -0.01, 
-                 label = "minimum difference: computed wl <> stored  wl")
-    expect_equal(max(diff), 0.01, 
-                 label = "maximum difference: computed wl <> stored  wl")
-    
+    if (Sys.info()["nodename"] == "hpc-service") {
+        wldf2 <- readWaterLevelFileDB(river = getRiver(wldf),
+                                      time = getTime(wldf),
+                                      from = 580, to = 585.7)
+        expect_equal(wldf1$station, wldf2$station)
+        expect_equal(wldf1$station_int, wldf2$station_int)
+        diff <- wldf1$w - wldf2$w
+        expect_equal(min(diff), -0.01, 
+                     label = "minimum difference: computed wl <> stored  wl")
+        expect_equal(max(diff), 0.01, 
+                     label = "maximum difference: computed wl <> stored  wl")
+    }
 })
 
 
@@ -68,42 +70,45 @@ test_that("waterLevel: Schöna", {
     expect_equal(order(wldf1$station), order(- wldf1$w), 
                  label = "inversed order between station and w")
     
-    wldf2 <- readWaterLevelFileDB(river = getRiver(wldf),
-                                  time = getTime(wldf),
-                                  from = 0, to = 20)
-    expect_equal(wldf1$station, wldf2$station)
-    expect_equal(wldf1$station_int, wldf2$station_int)
-    diff <- wldf1$w - wldf2$w
-    expect_equal(min(diff), -0.01, 
-                 label = "minimum difference: computed wl <> stored  wl")
-    expect_equal(max(diff), 0.01, 
-                 label = "maximum difference: computed wl <> stored  wl")
-    
+    if (Sys.info()["nodename"] == "hpc-service") {
+        wldf2 <- readWaterLevelFileDB(river = getRiver(wldf),
+                                      time = getTime(wldf),
+                                      from = 0, to = 20)
+        expect_equal(wldf1$station, wldf2$station)
+        expect_equal(wldf1$station_int, wldf2$station_int)
+        diff <- wldf1$w - wldf2$w
+        expect_equal(min(diff), -0.01, 
+                     label = "minimum difference: computed wl <> stored  wl")
+        expect_equal(max(diff), 0.01, 
+                     label = "maximum difference: computed wl <> stored  wl")
+    }
 })
 
 
 test_that("waterLevel: Iffezheim", {
-    wldf <- readWaterLevelStationInt(file = "/home/WeberA/freigaben/U/U2/RH_336_867_UFD/data/wl/r001_IFFEZHEIM/km_values.txt",
-                                     time = as.POSIXct("2016-12-21"))
-    #id <- which(wldf$station > 336.2 & wldf$station <= 340)
-    wldf1 <- subset(wldf, station > 336.2 & station <= 340)
-    wldf2 <- waterLevel(wldf1, shiny = TRUE)
-    
-    expect_equal(wldf1$station, wldf2$station)
-    expect_equal(wldf1$station_int, wldf2$station_int)
-    expect_equal(order(wldf2$station), order(- wldf2$w), 
-                 label = "inversed order between station and w")
-    
-    wldf3 <- readWaterLevelFileDB(river = getRiver(wldf),
-                                  time = getTime(wldf),
-                                  from = 336.2, to = 340)
-    
-    expect_equal(wldf2$station, wldf3$station)
-    expect_equal(wldf2$station_int, wldf3$station_int)
-    diff <- wldf2$w - wldf3$w
-    expect_equal(min(diff), -0.01, 
-                 label = "minimum difference: computed wl <> stored  wl")
-    expect_equal(max(diff), 0.01, 
-                 label = "maximum difference: computed wl <> stored  wl")
-    
+    if (Sys.info()["nodename"] == "hpc-service") {
+        wldf <- readWaterLevelStationInt(file = "/home/WeberA/freigaben/U/U2/RH_336_867_UFD/data/wl/r001_IFFEZHEIM/km_values.txt",
+                                         time = as.POSIXct("2016-12-21"))
+        #id <- which(wldf$station > 336.2 & wldf$station <= 340)
+        wldf1 <- subset(wldf, station > 336.2 & station <= 340)
+        wldf2 <- waterLevel(wldf1, shiny = TRUE)
+        
+        expect_equal(wldf1$station, wldf2$station)
+        expect_equal(wldf1$station_int, wldf2$station_int)
+        expect_equal(order(wldf2$station), order(- wldf2$w), 
+                     label = "inversed order between station and w")
+        
+        wldf3 <- readWaterLevelFileDB(river = getRiver(wldf),
+                                      time = getTime(wldf),
+                                      from = 336.2, to = 340)
+        
+        expect_equal(wldf2$station, wldf3$station)
+        expect_equal(wldf2$station_int, wldf3$station_int)
+        diff <- wldf2$w - wldf3$w
+        expect_equal(min(diff), -0.01, 
+                     label = "minimum difference: computed wl <> stored  wl")
+        expect_equal(max(diff), 0.01, 
+                     label = "maximum difference: computed wl <> stored  wl")
+    }
 })
+ 
