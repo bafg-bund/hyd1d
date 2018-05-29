@@ -12,11 +12,12 @@
 
 # configure output
 verbose <- TRUE
+quiet <- !verbose
 
 # standard library path for the package install
 R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
 lib <- paste0("~/R/", R_version, "/")
-dir.create(lib, FALSE, TRUE)
+dir.create(lib, verbose, TRUE)
 
 # install dependencies
 # ROracle (>= 1.1-1) needs an Oracle (Instant)Client
@@ -26,16 +27,9 @@ packages <- c("RJSONIO", "RCurl", "plotrix", "Rdpack", "DBI", "ROracle",
 
 for (a_package in packages) {
     if (! (a_package %in% installed.packages(lib.loc = lib)[, "Package"])) {
-        if (verbose) {
-            print(paste0("Install ", a_package))
-            install.packages(a_package, lib = lib, 
-                             repos = "https://ftp.gwdg.de/pub/misc/cran/", 
-                             dependencies = TRUE, quiet = FALSE)
-        } else {
-            install.packages(a_package, lib = lib, 
-                             repos = "https://ftp.gwdg.de/pub/misc/cran/", 
-                             dependencies = TRUE, quiet = TRUE)
-        }
+        install.packages(a_package, lib = lib, 
+                         repos = "https://ftp.gwdg.de/pub/misc/cran/", 
+                         dependencies = TRUE, quiet = quiet)
     }
 }
 
@@ -45,7 +39,7 @@ update.packages(lib.loc = lib, ask = FALSE)
 # install the local package
 require(devtools, lib.loc = lib)
 devtools::install(".", reload = FALSE, quick = TRUE, 
-                  args = paste0("--library=", lib), quiet = verbose, 
+                  args = paste0("--library=", lib), quiet = quiet, 
                   dependencies = FALSE)
 
 # exit
