@@ -90,7 +90,7 @@ if (Sys.info()["nodename"] != "lvps46-163-72-150.dedicated.hosteurope.de") {
         devtools::use_data(df.flys, pkg = ".", overwrite = TRUE, 
                            compress = "bzip2")
     } else {
-        print("data/df.flys.rda exists already")
+        write("data/df.flys.rda exists already", stderr())
     }
     
     # variables for RDO
@@ -105,13 +105,13 @@ if (Sys.info()["nodename"] != "lvps46-163-72-150.dedicated.hosteurope.de") {
     
 } else {
     if (!(file.exists("data/df.flys.rda"))){
-        print(paste0("The flys database is not accessible and data/df.flys",
-                     ".rda can't be created!"))
+        write(paste0("The flys database is not accessible and data/df.flys",
+                     ".rda can't be created!"), stderr())
         # variables for RDO
         RDO_NROW_DF.FLYS <- "169980"
         
     } else {
-        print("data/df.flys.rda exists already")
+        write("data/df.flys.rda exists already", stderr())
         
         # variables for RDO
         load("data/df.flys.rda")

@@ -7,7 +7,7 @@ if (!(file.exists("data/date_gauging_data.rda"))){
     devtools::use_data(date_gauging_data, pkg = ".", overwrite = TRUE, 
                        compress = "bzip2")
 } else {
-    print("data/date_gauging_data.rda exists already")
+    write("data/date_gauging_data.rda exists already", stderr())
 }
 
 # clean up

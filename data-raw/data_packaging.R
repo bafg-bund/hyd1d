@@ -25,7 +25,7 @@ if (file.exists("data/date_gauging_data.rda")) {
                            compress = "bzip2")
         
     } else {
-        print("data are up to date")
+        write("data are up to date", stderr())
     }
     
 } else {
