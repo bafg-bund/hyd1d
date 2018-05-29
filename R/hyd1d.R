@@ -37,7 +37,10 @@
 #' water level data at the gauging stations.
 #' 
 #' @importFrom Rdpack reprompt
-#' @importFrom methods setClass prototype signature setClass setGeneric setMethod setReplaceMethod initialize validObject new
+#' @import methods
 #'
 NULL
+
+
+##@importFrom methods setClass prototype signature setClass setGeneric setMethod setReplaceMethod initialize validObject new loadMethod
 
