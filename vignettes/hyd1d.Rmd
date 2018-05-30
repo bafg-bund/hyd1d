@@ -6,7 +6,8 @@ output:
   html_vignette:
     toc: yes
     toc_depth: 3
-bibliography: /home/WeberA/hyd1d/inst/REFERENCES.bib
+bibliography: ../inst/REFERENCES.bib
+csl: ../vignettes/apa_modified.csl
 vignette: |
   %\VignetteIndexEntry{hyd1d} 
   %\VignetteEngine{knitr::rmarkdown} 
@@ -20,7 +21,7 @@ knitr::opts_chunk$set(
     fig.align="center",
     fig.width = 7,
     fig.height = 4, 
-    root.dir = "/home/WeberA/hyd1d/vignettes"
+    root.dir = "vignettes"
 )
 ```
 
