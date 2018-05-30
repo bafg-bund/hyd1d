@@ -2,12 +2,16 @@
 # _build.R
 #
 # author: arnd.weber@bafg.de
-# date:   23.05.2018
+# date:   30.05.2018
 #
 # purpose: 
 #   - build the repository version of hyd1d
 #
 ##################################################
+
+# configure output
+verbose <- TRUE
+quiet <- !verbose
 
 # standard library path for the package install
 R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
@@ -17,6 +21,9 @@ lib <- paste0("~/R/", R_version, "/")
 require(devtools, lib.loc = lib)
 require(DBI, lib.loc = lib)
 require(RPostgreSQL, lib.loc = lib)
+require(knitr, lib.loc = lib)
+require(rmarkdown, lib.loc = lib)
+require(pkgdown, lib.loc = lib)
 
 # source hyd1d-internal to obtain the credentials function
 source("R/hyd1d-internal.R")
@@ -71,7 +78,6 @@ cat(y, file = "man/df.flys.Rd", sep="\n")
 # clean up
 rm(x, y, today) #, RDO_NROW_DF.GAUGING_STATION_DATA, RDO_NROW_DF.FLYS)
 
-
 #####
 # build vignettes
 write("#####", stderr())
@@ -97,7 +103,7 @@ from <- list.files(path = dirname(getwd()),
                    pattern = "hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]\\.tar\\.gz",
                    full.names = TRUE)
 to <- "public/downloads"
-dir.create(to, FALSE, TRUE)
+dir.create(to, verbose, TRUE)
 file.copy(from = from, to = to, overwrite = TRUE, copy.date = TRUE)
 
 #####
@@ -122,14 +128,16 @@ files <- list.files(path = "public", pattern = "*[.]html",
 for (a_file in files){
     x <- readLines(paste0("public/", a_file))
     if (grepl("/", a_file, fixed = TRUE)){
-        print(a_file)
+        if (verbose) {
+            print(a_file)
+        }
         y <- gsub('<a href="http://www.bafg.de">BfG</a>', 
-                  '<a href="http://www.bafg.de"><img border="0" src="../bfg_logo.jpg" height="50px" width="114px"></a>', 
-                  x)
+                  paste0('<a href="http://www.bafg.de"><img border="0" src="..',
+                         '/bfg_logo.jpg" height="50px" width="114px"></a>'), x)
     } else {
         y <- gsub('<a href="http://www.bafg.de">BfG</a>', 
-                  '<a href="http://www.bafg.de"><img border="0" src="bfg_logo.jpg" height="50px" width="114px"></a>', 
-                  x)
+                  paste0('<a href="http://www.bafg.de"><img border="0" src="bf',
+                         'g_logo.jpg" height="50px" width="114px"></a>'), x)
     }
     # remove the prefix "technical report" in references
     z <- gsub('Technical Report ', '', y)
@@ -144,11 +152,45 @@ if (!(file.exists("public/bfg_logo.jpg"))){
     file.copy("pkgdown/bfg_logo.jpg", "public")
 }
 
-# user and nodename dependent syncs
+# user and nodename dependent syncs to web roots and install directories
 if (Sys.info()["nodename"] == "hpc-service" & 
     Sys.info()["user"] == "WeberA") {
     system("cp -rp public/* /home/WeberA/public_html/hyd1d/")
+    system(paste0("[ -d /home/WeberA/freigaben/AG/R/server/server_admin/packag",
+                  "e_sources ] || cp -rp public/downloads/hyd1d_*.tar.gz /home",
+                  "/WeberA/freigaben/AG/R/server/server_admin/package_sources"))
 }
+
+#####
+# install hyd1d from source
+write("#####", stderr())
+write(" install from source", stderr())
+
+pkg_files <- list.files(path = dirname(getwd()), 
+                        pattern = "hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]\\.tar\\.gz")
+
+for (a_file in pkg_files) {
+    print(a_file)
+    
+    # seperate package name from version string
+    package_name <- unlist(strsplit(a_file, "_"))[1]
+    package_version <- gsub(".tar.gz", "", unlist(strsplit(a_file, "_"))[2])
+    
+    # check presently installed local packages
+    pkgs <- as.data.frame(installed.packages(lib.loc = lib))
+    if (package_name %in% pkgs$Package) {
+        if (compareVersion(as.character(packageVersion(package_name, 
+                                                      lib.loc = lib)), 
+                           package_version) < 1) {
+            install.packages(paste(dirname(getwd()), a_file, sep = "/"), 
+                             lib = lib, dependencies = TRUE, quiet = quiet)
+        }
+    } else {
+        install.packages(paste(dirname(getwd()), a_file, sep = "/"), 
+                         lib = lib, dependencies = TRUE, quiet = quiet)
+    }
+}
+
 
 q("no")
 
