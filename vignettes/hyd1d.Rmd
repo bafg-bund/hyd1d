@@ -43,7 +43,7 @@ $(document).ready(function() {
 
 <!-- numbering for figures and tables-->
 
-```{r captions, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+```{r captions, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE, include = FALSE}
 # standard library path for the installed local packages
 R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
 lib <- paste0("~/R/", R_version, "/")
@@ -83,7 +83,7 @@ capFig <- function(x){
 
 # Purpose
 
-hyd1d is a R package that provides a S4-class and several functions to compute
+hyd1d is an R package that provides a S4-class and several functions to compute
 1-dimensional water levels along the German federal waterways Elbe and Rhine.
 
 <BR>
