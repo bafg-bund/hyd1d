@@ -1,4 +1,6 @@
 
+print(.libPaths())
+
 # standard library path for the package install
 R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
 lib <- paste0("~/R/", R_version, "/")
