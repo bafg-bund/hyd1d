@@ -91,5 +91,14 @@ write("#####", stderr())
 write(" build", stderr())
 devtools::build(".", vignettes = FALSE, manual = FALSE)
 
+#####
+# create public/downloads directory and copy hyd1d_*.tar.gz-files into it
+from <- list.files(path = dirname(getwd()), 
+                   pattern = "hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]\\.tar\\.gz",
+                   full.names = TRUE)
+to <- "public/downloads"
+dir.create(to, FALSE, TRUE)
+file.copy(from = from, to = to, overwrite = TRUE, copy.date = TRUE)
+
 q("no")
 
