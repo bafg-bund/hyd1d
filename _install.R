@@ -2,7 +2,7 @@
 # _install.R
 #
 # author: arnd.weber@bafg.de
-# date:   25.05.2018
+# date:   30.05.2018
 #
 # purpose: 
 #   - install R packages required for the CI jobs
