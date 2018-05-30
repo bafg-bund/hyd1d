@@ -2,7 +2,7 @@
 # daily_pegelonline2gauging_data.R
 #
 # author: arnd.weber@bafg.de
-# date:   23.05.2018
+# date:   30.05.2018
 #
 # purpose: 
 #   - download gauging data from pegelonline.wsv.de
@@ -12,257 +12,285 @@
 
 # configure output
 verbose <- TRUE
+quiet <- !verbose
 
-# load required packages
-require("DBI")
-require("RPostgreSQL")
-require("RCurl")
+# standard library path for the package install
+R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
+lib <- paste0("~/R/", R_version, "/")
 
-# source hyd1d-internal to obtain the credentials function
-source("R/hyd1d-internal.R")
+# check the time
+hour <- as.numeric(strftime(Sys.time(), "%H"))
 
-### open the connection using user, password, etc., as
-credentials <- credentials("/home/WeberA/hyd1d/DB_credentials_gauging_data")
-con <- dbConnect("PostgreSQL", 
-                 host = credentials["host"], 
-                 dbname = credentials["dbname"], 
-                 user = credentials["user"], 
-                 password = credentials["password"], 
-                 port = credentials["port"])
-postgresqlpqExec(con, "SET client_encoding = 'UTF-8'")
-
-###
-# get the rivers and gauging_stations to download data from
-df.gs <- dbGetQuery(con, paste0("SELECT gauging_station, water_longname, pnp, ",
-                                "data_present_timespan FROM public.gauging_sta",
-                                "tion_data WHERE data_present IS TRUE"))
-
-###
-# produce a vector of dates to be downloaded
-# set constant variables
-days_back <- 10
-req_dates <- as.character(seq(Sys.Date() - days_back, Sys.Date() - 1, 
-                              length.out = days_back))
-
-###
-# process the data
-i <- 1
-for(a_gs in df.gs$gauging_station) {
+if (hour >= 6 & hour < 7) {
     
-    # obtain the present range of available data for a_gs
-    date_range_present <- as.Date(unlist(strsplit(
-        df.gs$data_present_timespan[i], " - ")))
+    write("gauging_data are queried from pegelonline.wsv.de", stderr())
     
-    for(a_date in req_dates) {
+    # load required packages
+    require("DBI", lib.loc = lib)
+    require("RPostgreSQL", lib.loc = lib)
+    require("RCurl", lib.loc = lib)
+    
+    # source hyd1d-internal to obtain the credentials function
+    source("R/hyd1d-internal.R")
+    
+    ### open the connection using user, password, etc., as
+    credentials <- credentials("/home/WeberA/hyd1d/DB_credentials_gauging_data")
+    con <- dbConnect("PostgreSQL", 
+                     host = credentials["host"], 
+                     dbname = credentials["dbname"], 
+                     user = credentials["user"], 
+                     password = credentials["password"], 
+                     port = credentials["port"])
+    postgresqlpqExec(con, "SET client_encoding = 'UTF-8'")
+    
+    ###
+    # get the rivers and gauging_stations to download data from
+    df.gs <- dbGetQuery(con, paste0("SELECT gauging_station, water_longname, p",
+                                    "np, data_present_timespan FROM public.gau",
+                                    "ging_station_data WHERE data_present IS T",
+                                    "RUE"))
+    
+    ###
+    # produce a vector of dates to be downloaded
+    # set constant variables
+    days_back <- 3
+    req_dates <- as.character(seq(Sys.Date() - days_back, Sys.Date() - 1, 
+                                  length.out = days_back))
+    
+    ###
+    # process the data
+    i <- 1
+    for(a_gs in df.gs$gauging_station) {
         
-        #####
-        # check for existing entries
-        query_str1 <- paste0("SELECT w FROM public.gauging_data WHERE gauging_",
-                             "station = \'", a_gs, "\' AND date = \'", 
-                             strftime(a_date, "%Y-%m-%d"), "\'")
-        if(nrow(dbGetQuery(con, query_str1)) == 1) {
-            if (verbose) {
-                write(paste(sep=" ", a_gs, a_date, "existiert bereits"), 
-                      stderr())
-            }
-            
-            # delete accidentally present entries in gauging_data_missing
-            query_str2 <- paste0("SELECT * FROM public.gauging_data_missing WH",
-                                 "ERE gauging_station = \'", a_gs, "\' AND dat",
-                                 "e = \'", strftime(a_date, "%Y-%m-%d"), "\'")
-            query_str3 <- paste0("DELETE FROM public.gauging_data_missing WHER",
-                                 "E gauging_station = \'", a_gs, "\' AND date ",
-                                 "= \'", strftime(a_date, "%Y-%m-%d"), "\'")
-            if (nrow(dbGetQuery(con, query_str2)) > 0) {
-                dbSendQuery(con, query_str3)
-            }
-            
-            next
-            
-        }
+        # obtain the present range of available data for a_gs
+        date_range_present <- as.Date(unlist(strsplit(
+            df.gs$data_present_timespan[i], " - ")))
         
-        if (verbose) {
-            write(paste(sep=" ", a_gs, a_date, "wird eingefügt"), stdout())
-        }
-        
-        #####
-        # assemble the regular url
-        b_gs <- gsub(" ", "+", 
-                     gsub("Ä", "%C4", 
-                          gsub("Ö", "%D6", 
-                               gsub("Ü", "%DC", a_gs))))
-        url <- paste0("http://www.pegelonline.wsv.de/webservices/files/Wassers",
-                      "tand+Rohdaten/", df.gs$water_longname[i], "/", b_gs, "/",
-                      strftime(a_date, format="%d.%m.%Y"), "/down.csv")
-        
-        # first check of the regular url
-        if (!url.exists(url)) {
+        for(a_date in req_dates) {
             
-        #####
-        # assemble the url with umlaut replacements
-            c_gs <- simpleCap(a_gs)
-            d_gs <- gsub(" ", "+", 
-                         gsub("Ä", "%C4", 
-                              gsub("Ö", "%D6", 
-                                   gsub("Ü", "%DC", 
-                                        gsub("ä", "%E4", 
-                                             gsub("ö", "%F6", 
-                                                  gsub("ü", "%FC", c_gs)))))))
-            
-            url <- paste0("http://www.pegelonline.wsv.de/webservices/files",
-                          "/Wasserstand+Rohdaten/", 
-                          df.gs$water_longname[i], "/", d_gs, "/", 
-                          strftime(a_date, format="%d.%m.%Y"), "/down.csv")
-            
-        # second check of the url
-            if(!url.exists(url)) {
-        
-        #####
-        # assemble special url's for MAGDEBURG-ROTHENSEE, DUISBURG-RUHRORT
-                if (a_gs == "MAGDEBURG-ROTHENSEE") {
-                          url <- paste0("http://www.pegelonline.wsv.de/web",
-                                        "services/files/Wasserstand+Rohdaten/",
-                                        df.gs$water_longname[i], "/ROTHENSEE/", 
-                                        strftime(a_date, format="%d.%m.%Y"),
-                                        "/down.csv")
-                }
-                if (a_gs == "RUHRORT") {
-                    url <- paste0("http://www.pegelonline.wsv.de/web",
-                                  "services/files/Wasserstand+Rohdaten/",
-                                  df.gs$water_longname[i], "/DUISBURG-RUHRORT/",
-                                  strftime(a_date, format="%d.%m.%Y"),
-                                  "/down.csv")
+            #####
+            # check for existing entries
+            query_str1 <- paste0("SELECT w FROM public.gauging_data WHERE gaug",
+                                 "ing_station = \'", a_gs, "\' AND date = \'", 
+                                 strftime(a_date, "%Y-%m-%d"), "\'")
+            if(nrow(dbGetQuery(con, query_str1)) == 1) {
+                if (verbose) {
+                    write(paste(sep=" ", a_gs, a_date, "existiert bereits"), 
+                          stderr())
                 }
                 
-        # third check of the url
+                # delete accidentally present entries in gauging_data_missing
+                query_str2 <- paste0("SELECT * FROM public.gauging_data_missin",
+                                     "g WHERE gauging_station = \'", a_gs, "\'",
+                                     " AND date = \'", strftime(a_date, 
+                                                                "%Y-%m-%d"), 
+                                     "\'")
+                query_str3 <- paste0("DELETE FROM public.gauging_data_missing ",
+                                     "WHERE gauging_station = \'", a_gs, "\' A",
+                                     "ND date = \'", strftime(a_date, 
+                                                              "%Y-%m-%d"),
+                                     "\'")
+                if (nrow(dbGetQuery(con, query_str2)) > 0) {
+                    dbSendQuery(con, query_str3)
+                }
+                
+                next
+                
+            }
+            
+            if (verbose) {
+                write(paste(sep=" ", a_gs, a_date, "wird eingefügt"), stdout())
+            }
+            
+            #####
+            # assemble the regular url
+            b_gs <- gsub(" ", "+", 
+                         gsub("Ä", "%C4", 
+                              gsub("Ö", "%D6", 
+                                   gsub("Ü", "%DC", a_gs))))
+            url <- paste0("http://www.pegelonline.wsv.de/webservices/files/Was",
+                          "serstand+Rohdaten/", df.gs$water_longname[i], "/", 
+                          b_gs, "/", strftime(a_date, format="%d.%m.%Y"), 
+                          "/down.csv")
+            
+            # first check of the regular url
+            if (!url.exists(url)) {
+                
+            #####
+            # assemble the url with umlaut replacements
+                c_gs <- simpleCap(a_gs)
+                d_gs <- gsub(" ", "+", 
+                             gsub("Ä", "%C4", 
+                                  gsub("Ö", "%D6", 
+                                       gsub("Ü", "%DC", 
+                                            gsub("ä", "%E4", 
+                                                 gsub("ö", "%F6", 
+                                                      gsub("ü", "%FC", 
+                                                           c_gs)))))))
+                
+                url <- paste0("http://www.pegelonline.wsv.de/webservices/files",
+                              "/Wasserstand+Rohdaten/", 
+                              df.gs$water_longname[i], "/", d_gs, "/", 
+                              strftime(a_date, format="%d.%m.%Y"), "/down.csv")
+                
+            # second check of the url
                 if(!url.exists(url)) {
-                    
-        #####
-        # record missing values and jump to next step in the for loop
-                    if (verbose) {
-                        write(paste(sep=" ", a_gs, a_date, "URL problems"),
-                              stderr())
-                        write(a_gs, stderr())
-                        write(str(a_gs), stderr())
-                        write(paste0("UPDATE public.gauging_station_dat",
-                                     "a SET (data_missing) = (TRUE) WHE",
-                                     "RE gauging_station = \'", a_gs,
-                                     "\'"), stderr())
-                        write(paste0("INSERT INTO public.gauging_data_m",
-                                     "issing (id, gauging_station, date",
-                                     ") VALUES (DEFAULT, \'", a_gs, 
-                                     "\', \'", 
-                                     as.Date(a_date, 
-                                             origin="1970-01-01"), 
-                                     "\')"), stderr())
+            
+            #####
+            # assemble special url's for MAGDEBURG-ROTHENSEE, DUISBURG-RUHRORT
+                    if (a_gs == "MAGDEBURG-ROTHENSEE") {
+                              url <- paste0("http://www.pegelonline.wsv.de/web",
+                                            "services/files/Wasserstand+Rohdat",
+                                            "en/", df.gs$water_longname[i], "/",
+                                            "ROTHENSEE/", 
+                                            strftime(a_date, format="%d.%m.%Y"),
+                                            "/down.csv")
+                    }
+                    if (a_gs == "RUHRORT") {
+                        url <- paste0("http://www.pegelonline.wsv.de/web",
+                                      "services/files/Wasserstand+Rohdaten/",
+                                      df.gs$water_longname[i], "/DUISBURG-RUHR",
+                                      "ORT/", strftime(a_date, 
+                                                       format="%d.%m.%Y"),
+                                      "/down.csv")
                     }
                     
-                    # update gauging_station_data
-                    dbSendQuery(con, paste0("UPDATE public.gauging_station_dat",
-                                            "a SET (data_missing) = (TRUE) WHE",
-                                            "RE gauging_station = \'", a_gs,
-                                            "\'"))
-                    
-                    # insert missing values
-                    dbSendQuery(con, paste0("INSERT INTO public.gauging_data_m",
-                                            "issing (id, gauging_station, date",
-                                            ") VALUES (DEFAULT, \'", a_gs, 
-                                            "\', \'", 
-                                            as.Date(a_date, 
-                                                    origin="1970-01-01"), 
-                                            "\')"))
-                    
-                    next
-                    
-                }
-            }
-        }
-        
-        # create a temporary file name for the download of data
-        destfile <- tempfile()
-        
-        # download the file
-        download.file(url, destfile, "wget", quiet = TRUE)
-        
-        # read the downloaded file
-        # header (CHECK PNP!!!)
-        header <- scan(destfile, "list", sep = ";", nlines = 1, quiet = TRUE)
-        
-        # data
-        df.data <- read.table(destfile, header = FALSE, sep = ";", skip = 1, 
-                              na.strings = "XXX,XXX")
-        
-        # delete destfile
-        unlink(destfile)
-        
-        # calculate daily mean
-        w <- round(mean(as.numeric(df.data$V2), na.rm = TRUE), 0)
-        
-        # insert data into the gauging_data table
-        dbSendQuery(con, paste0("INSERT INTO public.gauging_data (id, gauging_",
-                                "station, date, year, month, day, w) VALUES (D",
-                                "EFAULT, \'", a_gs, "\', \'", 
-                                strftime(a_date, "%Y-%m-%d"), "\', ", 
-                                strftime(a_date, "%Y"), ", ", 
-                                strftime(a_date, "%m"), ", ", 
-                                strftime(a_date, "%d"), ", ", w, ")"))
-        
-        # delete row(s) from gauging_data_missing table
-        query_str4 <- paste0("SELECT * FROM public.gauging_data_missing WHERE ",
-                             "gauging_station = \'", a_gs, "\' AND date = \'", 
-                             strftime(a_date, "%Y-%m-%d"), "\'")
-        if (nrow(dbGetQuery(con, query_str4))  > 0) {
-            dbSendQuery(con, paste0("DELETE FROM public.gauging_data_missing W",
-                                    "HERE gauging_station = \'", a_gs, "\' AND",
-                                    " date = \'", strftime(a_date, "%Y-%m-%d"), 
-                                    "\'"))
-        }
-        
-        # update the tables gauging_station_data and gauging_data_missing
-        if(as.Date(a_date) > date_range_present[2]) {
-            missing_dates <- as.character(seq(date_range_present[2], 
-                                              as.Date(a_date), by = "days"))
-            for (a_missing_date in missing_dates) {
-                query_str5 <- paste0("SELECT * FROM public.gauging_data_missin",
-                                     "g WHERE gauging_station = \'", a_gs, 
-                                     "\' AND date = \'", a_missing_date, "\'")
-                query_str6 <- paste0("SELECT * FROM public.gauging_data WHERE ",
-                                     "gauging_station = \'", a_gs, "\' AND dat",
-                                     "e = \'", a_missing_date, "\'")
-                if (nrow(dbGetQuery(con, query_str5)) == 0 &
-                    nrow(dbGetQuery(con, query_str6)) == 0) {
-                    
-                    # print
-                    if (verbose) {
-                        write(paste(sep=" ", a_gs, a_missing_date, "missing"), 
-                              stdout())
+            # third check of the url
+                    if(!url.exists(url)) {
+                        
+            #####
+            # record missing values and jump to next step in the for loop
+                        if (verbose) {
+                            write(paste(sep=" ", a_gs, a_date, "URL problems"),
+                                  stderr())
+                            write(a_gs, stderr())
+                            write(str(a_gs), stderr())
+                            write(paste0("UPDATE public.gauging_station_dat",
+                                         "a SET (data_missing) = (TRUE) WHE",
+                                         "RE gauging_station = \'", a_gs,
+                                         "\'"), stderr())
+                            write(paste0("INSERT INTO public.gauging_data_m",
+                                         "issing (id, gauging_station, date",
+                                         ") VALUES (DEFAULT, \'", a_gs, 
+                                         "\', \'", 
+                                         as.Date(a_date, 
+                                                 origin="1970-01-01"), 
+                                         "\')"), stderr())
+                        }
+                        
+                        # update gauging_station_data
+                        dbSendQuery(con, paste0("UPDATE public.gauging_station",
+                                                "_data SET (data_missing) = (T",
+                                                "RUE) WHERE gauging_station = ",
+                                                "\'", a_gs, "\'"))
+                        
+                        # insert missing values
+                        dbSendQuery(con, paste0("INSERT INTO public.gauging_da",
+                                                "ta_missing (id, gauging_stati",
+                                                "on, date) VALUES (DEFAULT, \'",
+                                                a_gs, "\', \'", 
+                                                as.Date(a_date, 
+                                                        origin="1970-01-01"), 
+                                                "\')"))
+                        
+                        next
+                        
                     }
-                    
-                    dbSendQuery(con, paste0("INSERT INTO public.gauging_data_m",
-                                            "issing (id, gauging_station, date",
-                                            ") VALUES (DEFAULT, \'", a_gs, "\'",
-                                            ", \'", strftime(a_missing_date, 
-                                                             "%Y-%m-%d"), 
-                                            "\')"))
-                    dbSendQuery(con, paste0("UPDATE public.gauging_station_dat",
-                                            "a SET data_missing = TRUE WHERE g",
-                                            "auging_station = \'", a_gs, "\'"))
                 }
             }
             
-            # extend the data_present_timespan
-            date_range_present <- c(date_range_present[1], as.Date(a_date))
-            date_range_str <- paste(date_range_present, collapse = " - ")
-            dbSendQuery(con, paste0("UPDATE public.gauging_station_data SET da",
-                                    "ta_present_timespan = \'", date_range_str, 
-                                    "\' WHERE gauging_station = \'", a_gs,
-                                    "\'"))
+            # create a temporary file name for the download of data
+            destfile <- tempfile()
             
+            # download the file
+            download.file(url, destfile, "wget", quiet = quiet)
+            
+            # read the downloaded file
+            # header (CHECK PNP!!!)
+            header <- scan(destfile, "list", sep = ";", nlines = 1, 
+                           quiet = quiet)
+            
+            # data
+            df.data <- read.table(destfile, header = FALSE, sep = ";", skip = 1, 
+                                  na.strings = "XXX,XXX")
+            
+            # delete destfile
+            unlink(destfile)
+            
+            # calculate daily mean
+            w <- round(mean(as.numeric(df.data$V2), na.rm = TRUE), 0)
+            
+            # insert data into the gauging_data table
+            dbSendQuery(con, paste0("INSERT INTO public.gauging_data (id, gaug",
+                                    "ing_station, date, year, month, day, w) V",
+                                    "ALUES (DEFAULT, \'", a_gs, "\', \'", 
+                                    strftime(a_date, "%Y-%m-%d"), "\', ", 
+                                    strftime(a_date, "%Y"), ", ", 
+                                    strftime(a_date, "%m"), ", ", 
+                                    strftime(a_date, "%d"), ", ", w, ")"))
+            
+            # delete row(s) from gauging_data_missing table
+            query_str4 <- paste0("SELECT * FROM public.gauging_data_missing WH",
+                                 "ERE gauging_station = \'", a_gs, "\' AND dat", 
+                                 "e = \'", strftime(a_date, "%Y-%m-%d"), "\'")
+            if (nrow(dbGetQuery(con, query_str4))  > 0) {
+                dbSendQuery(con, paste0("DELETE FROM public.gauging_data_missi",
+                                        "ng WHERE gauging_station = \'", a_gs, 
+                                        "\' AND date = \'", 
+                                        strftime(a_date, "%Y-%m-%d"), "\'"))
+            }
+            
+            # update the tables gauging_station_data and gauging_data_missing
+            if(as.Date(a_date) > date_range_present[2]) {
+                missing_dates <- as.character(seq(date_range_present[2], 
+                                                  as.Date(a_date), by = "days"))
+                for (a_missing_date in missing_dates) {
+                    query_str5 <- paste0("SELECT * FROM public.gauging_data_mi",
+                                         "ssing WHERE gauging_station = \'", 
+                                         a_gs, "\' AND date = \'", 
+                                         a_missing_date, "\'")
+                    query_str6 <- paste0("SELECT * FROM public.gauging_data WH",
+                                         "ERE gauging_station = \'", a_gs, "\'",
+                                         " AND date = \'", a_missing_date, "\'")
+                    if (nrow(dbGetQuery(con, query_str5)) == 0 &
+                        nrow(dbGetQuery(con, query_str6)) == 0) {
+                        
+                        # print
+                        if (verbose) {
+                            write(paste(sep=" ", a_gs, a_missing_date, 
+                                        "missing"), stdout())
+                        }
+                        
+                        dbSendQuery(con, paste0("INSERT INTO public.gauging_da",
+                                                "ta_missing (id, gauging_stati",
+                                                "on, date) VALUES (DEFAULT, \'",
+                                                a_gs, "\', \'", 
+                                                strftime(a_missing_date, 
+                                                         "%Y-%m-%d"), "\')"))
+                        dbSendQuery(con, paste0("UPDATE public.gauging_station",
+                                                "_data SET data_missing = TRUE",
+                                                " WHERE gauging_station = \'", 
+                                                a_gs, "\'"))
+                    }
+                }
+                
+                # extend the data_present_timespan
+                date_range_present <- c(date_range_present[1], as.Date(a_date))
+                date_range_str <- paste(date_range_present, collapse = " - ")
+                dbSendQuery(con, paste0("UPDATE public.gauging_station_data SE",
+                                        "T data_present_timespan = \'", 
+                                        date_range_str, "\' WHERE gauging_stat",
+                                        "ion = \'", a_gs, "\'"))
+                
+            }
         }
+        
+        i <- i + 1
+        
     }
-    
-    i <- i + 1
-    
+} else {
+    write("It is not the time to query gauging_data from pegelonline.wsv.de", 
+          stderr())
 }
 
 # exit R
