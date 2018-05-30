@@ -21,8 +21,19 @@ asc2utf8 <- function(x){
 # extract DB credentials from unversioned credential files
 # 
 credentials <- function(file) {
-    credentials_temp <- utils::read.table(file, header = FALSE, sep = ";", 
-                                          stringsAsFactors = FALSE)
+    if (file.exists(file)) {
+        credentials_temp <- utils::read.table(file, header = FALSE, sep = ";", 
+                                              stringsAsFactors = FALSE)
+    } else {
+        if (file.exists(basename(file))) {
+            credentials_temp <- utils::read.table(file = basename(file), 
+                                                  header = FALSE, sep = ";", 
+                                                  stringsAsFactors = FALSE)
+        } else {
+            stop("'file' could not be found")
+        }
+    }
+    
     credentials <- credentials_temp$V2
     names(credentials) <- credentials_temp$V1
     return(credentials)
