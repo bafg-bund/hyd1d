@@ -100,5 +100,55 @@ to <- "public/downloads"
 dir.create(to, FALSE, TRUE)
 file.copy(from = from, to = to, overwrite = TRUE, copy.date = TRUE)
 
+#####
+# document
+write("#####", stderr())
+write(" document", stderr())
+
+# render the README.md 
+if (!(file.exists("README.md"))) {
+    rmarkdown::render("README.Rmd", output_format = "github_document", 
+                      output_file = "README.md", clean = TRUE)
+    unlink("README.html", force = TRUE)
+}
+
+# render the package website
+pkgdown::build_site(".", examples = TRUE, preview = FALSE)
+
+# insert the BfG logo into the header
+files <- list.files(path = "public", pattern = "*[.]html", 
+                    all.files = TRUE, full.names = FALSE, recursive = TRUE,
+                    ignore.case = FALSE, include.dirs = TRUE, no.. = FALSE)
+for (a_file in files){
+    x <- readLines(paste0("public/", a_file))
+    if (grepl("/", a_file, fixed = TRUE)){
+        print(a_file)
+        y <- gsub('<a href="http://www.bafg.de">BfG</a>', 
+                  '<a href="http://www.bafg.de"><img border="0" src="../bfg_logo.jpg" height="50px" width="114px"></a>', 
+                  x)
+    } else {
+        y <- gsub('<a href="http://www.bafg.de">BfG</a>', 
+                  '<a href="http://www.bafg.de"><img border="0" src="bfg_logo.jpg" height="50px" width="114px"></a>', 
+                  x)
+    }
+    # remove the prefix "technical report" in references
+    z <- gsub('Technical Report ', '', y)
+    cat(z, file = paste0("public/", a_file), sep="\n")
+}
+
+# clean up
+rm(a_file, files, x, y)
+
+# copy logo
+if (!(file.exists("public/bfg_logo.jpg"))){
+    file.copy("pkgdown/bfg_logo.jpg", "public")
+}
+
+# user and nodename dependent syncs
+if (Sys.info()["nodename"] == "hpc-service" & 
+    Sys.info()["user"] == "WeberA") {
+    system("cp -rp public/* /home/WeberA/public_html/hyd1d/")
+}
+
 q("no")
 
