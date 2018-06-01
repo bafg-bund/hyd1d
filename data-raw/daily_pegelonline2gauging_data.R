@@ -21,7 +21,7 @@ lib <- paste0("~/R/", R_version, "/")
 # check the time
 hour <- as.numeric(strftime(Sys.time(), "%H"))
 
-if (hour >= 6 & hour < 10) {
+if (hour >= 6 & hour < 7) {
     
     write("gauging_data are queried from pegelonline.wsv.de", stderr())
     
