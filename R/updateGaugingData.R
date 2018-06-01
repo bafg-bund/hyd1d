@@ -41,7 +41,7 @@ updateGaugingData <- function(x){
     file_date <- paste0(p_source, "/data/date_gauging_data.rda")
     file_data <- paste0(p_source, "/data/df.gauging_data_latest.rda")
     
-    if(x < Sys.Date()){
+    if(x <= Sys.Date()){
         
         # download the df.gauging_data.rda
         url <- paste0("https://www.aqualogy-cloud.de/downloads/",
