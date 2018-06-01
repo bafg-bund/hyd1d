@@ -17,11 +17,13 @@ quiet <- !verbose
 R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
 lib <- paste0("~/R/", R_version, "/")
 
+# output paths
+downloads <- paste0("public/", R_version, "/downloads")
+dir.create(downloads, verbose, TRUE)
+
 # check the existence of resulting datasets and time
-dir.create("public/downloads", showWarnings = verbose, recursive = TRUE, 
-           mode = "0755")
-from <- "public/downloads/df.gauging_data_latest.rda"
-to <- paste0("public/downloads/df.gauging_data_", as.character(Sys.Date() - 2), 
+from <- paste0(downloads, "/df.gauging_data_latest.rda")
+to <- paste0(downloads, "/df.gauging_data_", as.character(Sys.Date() - 2), 
              ".rda")
 
 hour <- as.numeric(strftime(Sys.time(), "%H"))

@@ -17,6 +17,14 @@ quiet <- !verbose
 R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
 lib <- paste0("~/R/", R_version, "/")
 
+# output paths
+build <- paste0("build/", R_version)
+dir.create(build, verbose, TRUE)
+public <- paste0("public/", R_version)
+dir.create(public, verbose, TRUE)
+downloads <- paste0("public/", R_version, "/downloads")
+dir.create(downloads, verbose, TRUE)
+
 # load the packages
 require(devtools, lib.loc = lib)
 require(DBI, lib.loc = lib)
@@ -95,16 +103,14 @@ devtools::check(".", document = FALSE, manual = FALSE,
 # build the source package
 write("#####", stderr())
 write(" build", stderr())
-devtools::build(".", vignettes = FALSE, manual = FALSE)
+devtools::build(".", path = build, vignettes = FALSE, manual = FALSE)
 
 #####
 # create public/downloads directory and copy hyd1d_*.tar.gz-files into it
-from <- list.files(path = dirname(getwd()), 
+from <- list.files(path = build, 
                    pattern = "hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]\\.tar\\.gz",
                    full.names = TRUE)
-to <- "public/downloads"
-dir.create(to, verbose, TRUE)
-file.copy(from = from, to = to, overwrite = TRUE, copy.date = TRUE)
+file.copy(from = from, to = downloads, overwrite = TRUE, copy.date = TRUE)
 
 #####
 # document
@@ -119,14 +125,15 @@ if (!(file.exists("README.md"))) {
 }
 
 # render the package website
-pkgdown::build_site(".", examples = TRUE, preview = FALSE)
+pkgdown::build_site(".", examples = TRUE, preview = FALSE,
+                    override = list(destination = public))
 
 # insert the BfG logo into the header
-files <- list.files(path = "public", pattern = "*[.]html", 
+files <- list.files(path = public, pattern = "*[.]html", 
                     all.files = TRUE, full.names = FALSE, recursive = TRUE,
                     ignore.case = FALSE, include.dirs = TRUE, no.. = FALSE)
 for (a_file in files){
-    x <- readLines(paste0("public/", a_file))
+    x <- readLines(paste0(public, "/", a_file))
     if (grepl("/", a_file, fixed = TRUE)){
         if (verbose) {
             print(a_file)
@@ -141,24 +148,25 @@ for (a_file in files){
     }
     # remove the prefix "technical report" in references
     z <- gsub('Technical Report ', '', y)
-    cat(z, file = paste0("public/", a_file), sep="\n")
+    cat(z, file = paste0(public, "/", a_file), sep="\n")
 }
 
 # clean up
 rm(a_file, files, x, y)
 
 # copy logo
-if (!(file.exists("public/bfg_logo.jpg"))){
-    file.copy("pkgdown/bfg_logo.jpg", "public")
+if (!(file.exists(paste0(public, "/bfg_logo.jpg")))){
+    file.copy("pkgdown/bfg_logo.jpg", public)
 }
 
-# user and nodename dependent syncs to web roots and install directories
+# user, nodename and version dependent sync to web roots and install directories
 if (Sys.info()["nodename"] == "hpc-service" & 
-    Sys.info()["user"] == "WeberA") {
-    system("cp -rp public/* /home/WeberA/public_html/hyd1d/")
+    Sys.info()["user"] == "WeberA" & R_version == "3.4.4") {
+    system("cp -rp public/3.4.4/* /home/WeberA/public_html/hyd1d/")
     system(paste0("[ -d /home/WeberA/freigaben/AG/R/server/server_admin/packag",
-                  "e_sources ] || cp -rp public/downloads/hyd1d_*.tar.gz /home",
-                  "/WeberA/freigaben/AG/R/server/server_admin/package_sources"))
+                  "e_sources ] || cp -rp public/3.4.4/downloads/hyd1d_*.tar.gz",
+                  " /home/WeberA/freigaben/AG/R/server/server_admin/package_so",
+                  "urces"))
 }
 
 #####
@@ -166,8 +174,9 @@ if (Sys.info()["nodename"] == "hpc-service" &
 write("#####", stderr())
 write(" install from source", stderr())
 
-pkg_files <- list.files(path = dirname(getwd()), 
-                        pattern = "hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]\\.tar\\.gz")
+pkg_files <- list.files(path = build, 
+                        pattern = paste0("hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]",
+                                         "\\.tar\\.gz"))
 
 for (a_file in pkg_files) {
     
@@ -183,15 +192,14 @@ for (a_file in pkg_files) {
         if (compareVersion(as.character(packageVersion(package_name, 
                                                       lib.loc = lib)), 
                            package_version) < 1) {
-            install.packages(paste(dirname(getwd()), a_file, sep = "/"), 
+            install.packages(paste(build, a_file, sep = "/"), 
                              lib = lib, dependencies = TRUE, quiet = quiet)
         }
     } else {
-        install.packages(paste(dirname(getwd()), a_file, sep = "/"), 
+        install.packages(paste(build, a_file, sep = "/"), 
                          lib = lib, dependencies = TRUE, quiet = quiet)
     }
 }
-
 
 q("no")
 
