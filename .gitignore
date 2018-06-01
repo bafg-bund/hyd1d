@@ -9,6 +9,8 @@ DB_credentials_*
 
 # ignore directories and files
 /data/df.gauging_data_latest.rda
+/data-raw/daily_cron_hpc-service.bafg.de.log
+/data-raw/daily_cron_aqualogy-cloud.de.log
 /data-raw/gauging_data.csv
 /data-raw/gauging_data.sql.gz
 /data-raw/gauging_data_missing.csv
