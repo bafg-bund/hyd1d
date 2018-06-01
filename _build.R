@@ -170,7 +170,8 @@ pkg_files <- list.files(path = dirname(getwd()),
                         pattern = "hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]\\.tar\\.gz")
 
 for (a_file in pkg_files) {
-    print(a_file)
+    
+    write(a_file, stderr())
     
     # seperate package name from version string
     package_name <- unlist(strsplit(a_file, "_"))[1]
