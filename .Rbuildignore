@@ -1,6 +1,7 @@
 ^\.git/$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^build$
 ^data-raw$
 ^public$
 ^README_files$
