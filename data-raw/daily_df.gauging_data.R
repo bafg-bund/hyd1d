@@ -26,7 +26,7 @@ to <- paste0("public/downloads/df.gauging_data_", as.character(Sys.Date() - 2),
 
 hour <- as.numeric(strftime(Sys.time(), "%H"))
 
-if (file.exists(from) & !(file.exists(to)) & hour >= 6 & hour < 7){
+if (file.exists(from) & !(file.exists(to)) & hour >= 6 & hour < 9){
     
     write("data-raw/df.gauging_data_latest.rda will been produced", stderr())
     
