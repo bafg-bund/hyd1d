@@ -113,6 +113,42 @@ from <- list.files(path = build,
 file.copy(from = from, to = downloads, overwrite = TRUE, copy.date = TRUE)
 
 #####
+# install hyd1d from source
+write("#####", stderr())
+write(" install from source", stderr())
+
+pkg_files <- list.files(path = build, 
+                        pattern = paste0("hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]",
+                                         "\\.tar\\.gz"))
+
+for (a_file in pkg_files) {
+    
+    write(a_file, stderr())
+    
+    # seperate package name from version string
+    package_name <- unlist(strsplit(a_file, "_"))[1]
+    package_version <- gsub(".tar.gz", "", unlist(strsplit(a_file, "_"))[2])
+    
+    # check presently installed local packages
+    pkgs <- as.data.frame(installed.packages(lib.loc = lib))
+    if (package_name %in% pkgs$Package) {
+        if (compareVersion(as.character(packageVersion(package_name, 
+                                                       lib.loc = lib)), 
+                           package_version) < 1) {
+            install.packages(paste(build, a_file, sep = "/"), 
+                             lib = lib, dependencies = TRUE, quiet = quiet)
+        }
+    } else {
+        install.packages(paste(build, a_file, sep = "/"), 
+                         lib = lib, dependencies = TRUE, quiet = quiet)
+    }
+}
+
+if (R_version != "3.4.4") {
+    q("no")
+}
+
+#####
 # document
 write("#####", stderr())
 write(" document", stderr())
@@ -161,44 +197,12 @@ if (!(file.exists(paste0(public, "/bfg_logo.jpg")))){
 
 # user, nodename and version dependent sync to web roots and install directories
 if (Sys.info()["nodename"] == "hpc-service" & 
-    Sys.info()["user"] == "WeberA" & R_version == "3.4.4") {
+    Sys.info()["user"] == "WeberA") {
     system("cp -rp public/3.4.4/* /home/WeberA/public_html/hyd1d/")
     system(paste0("[ -d /home/WeberA/freigaben/AG/R/server/server_admin/packag",
                   "e_sources ] || cp -rp public/3.4.4/downloads/hyd1d_*.tar.gz",
                   " /home/WeberA/freigaben/AG/R/server/server_admin/package_so",
                   "urces"))
-}
-
-#####
-# install hyd1d from source
-write("#####", stderr())
-write(" install from source", stderr())
-
-pkg_files <- list.files(path = build, 
-                        pattern = paste0("hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]",
-                                         "\\.tar\\.gz"))
-
-for (a_file in pkg_files) {
-    
-    write(a_file, stderr())
-    
-    # seperate package name from version string
-    package_name <- unlist(strsplit(a_file, "_"))[1]
-    package_version <- gsub(".tar.gz", "", unlist(strsplit(a_file, "_"))[2])
-    
-    # check presently installed local packages
-    pkgs <- as.data.frame(installed.packages(lib.loc = lib))
-    if (package_name %in% pkgs$Package) {
-        if (compareVersion(as.character(packageVersion(package_name, 
-                                                      lib.loc = lib)), 
-                           package_version) < 1) {
-            install.packages(paste(build, a_file, sep = "/"), 
-                             lib = lib, dependencies = TRUE, quiet = quiet)
-        }
-    } else {
-        install.packages(paste(build, a_file, sep = "/"), 
-                         lib = lib, dependencies = TRUE, quiet = quiet)
-    }
 }
 
 q("no")
