@@ -55,8 +55,8 @@ dbWriteTable(con, "gauging_data", df.gd)
 #             FROM public.\"gauging_data\"), true);")
 dbSendQuery(con, "ALTER TABLE \"gauging_data\" OWNER TO gauging_data;")
 dbSendQuery(con, "ALTER TABLE \"gauging_data\" SET WITH OIDS;")
-dbSendQuery(con, "COMMENT ON TABLE \"gauging_data\" IS 'gauging_data collection
-            ';")
+dbSendQuery(con, paste0("COMMENT ON TABLE \"gauging_data\" IS 'gauging_data co",
+                        "llection';"))
 
 ### gauging_station_data table
 dbSendQuery(con, "DROP TABLE IF EXISTS \"gauging_station_data\";")
