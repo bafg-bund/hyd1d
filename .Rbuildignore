@@ -19,3 +19,4 @@
 ^vignettes/Thumbs\.db$
 ^_build\.R$
 ^data/df\.gauging_data_latest\.rda$
+^_pkgdown\.yml$
