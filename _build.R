@@ -169,40 +169,41 @@ if (!(file.exists("README.md"))) {
     unlink("README.html", force = TRUE)
 }
 
-# # render the package website
-# pkgdown::build_site(".", examples = TRUE, preview = FALSE, document = FALSE, 
-#                     override = list(destination = public))
-# 
-# # insert the BfG logo into the header
-# files <- list.files(path = public, pattern = "*[.]html", 
-#                     all.files = TRUE, full.names = FALSE, recursive = TRUE,
-#                     ignore.case = FALSE, include.dirs = TRUE, no.. = FALSE)
-# for (a_file in files){
-#     x <- readLines(paste0(public, "/", a_file))
-#     if (grepl("/", a_file, fixed = TRUE)){
-#         if (verbose) {
-#             print(a_file)
-#         }
-#         y <- gsub('<a href="http://www.bafg.de">BfG</a>', 
-#                   paste0('<a href="http://www.bafg.de"><img border="0" src="..',
-#                          '/bfg_logo.jpg" height="50px" width="114px"></a>'), x)
-#     } else {
-#         y <- gsub('<a href="http://www.bafg.de">BfG</a>', 
-#                   paste0('<a href="http://www.bafg.de"><img border="0" src="bf',
-#                          'g_logo.jpg" height="50px" width="114px"></a>'), x)
-#     }
-#     # remove the prefix "technical report" in references
-#     z <- gsub('Technical Report ', '', y)
-#     cat(z, file = paste0(public, "/", a_file), sep="\n")
-# }
-# 
-# # clean up
-# rm(a_file, files, x, y)
-# 
-# # copy logo
-# if (!(file.exists(paste0(public, "/bfg_logo.jpg")))){
-#     file.copy("pkgdown/bfg_logo.jpg", public)
-# }
+# render the package website 
+# document = FALSE, 
+pkgdown::build_site(".", examples = TRUE, preview = FALSE,
+                    override = list(destination = public))
+
+# insert the BfG logo into the header
+files <- list.files(path = public, pattern = "*[.]html",
+                    all.files = TRUE, full.names = FALSE, recursive = TRUE,
+                    ignore.case = FALSE, include.dirs = TRUE, no.. = FALSE)
+for (a_file in files){
+    x <- readLines(paste0(public, "/", a_file))
+    if (grepl("/", a_file, fixed = TRUE)){
+        if (verbose) {
+            print(a_file)
+        }
+        y <- gsub('<a href="http://www.bafg.de">BfG</a>',
+                  paste0('<a href="http://www.bafg.de"><img border="0" src="..',
+                         '/bfg_logo.jpg" height="50px" width="114px"></a>'), x)
+    } else {
+        y <- gsub('<a href="http://www.bafg.de">BfG</a>',
+                  paste0('<a href="http://www.bafg.de"><img border="0" src="bf',
+                         'g_logo.jpg" height="50px" width="114px"></a>'), x)
+    }
+    # remove the prefix "technical report" in references
+    z <- gsub('Technical Report ', '', y)
+    cat(z, file = paste0(public, "/", a_file), sep="\n")
+}
+
+# clean up
+rm(a_file, files, x, y)
+
+# copy logo
+if (!(file.exists(paste0(public, "/bfg_logo.jpg")))){
+    file.copy("pkgdown/bfg_logo.jpg", public)
+}
 
 # user, nodename and version dependent sync to web roots and install directories
 if (Sys.info()["nodename"] == "hpc-service" & 
