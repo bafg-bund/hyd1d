@@ -21,6 +21,19 @@ test_that("waterLevelPegelonline: Dessau", {
                  fixed = TRUE)
 })
 
+test_that("waterLevelPegelonline: Schöna", {
+    wldf <- WaterLevelDataFrame(river = "Elbe", time = Sys.time() - 3600,
+                                station_int = 
+                                    as.integer(seq(0, 20000, by = 100)))
+    wldf1 <- waterLevelPegelonline(wldf, shiny = TRUE)
+    
+    expect_equal(wldf$station, wldf1$station)
+    expect_equal(wldf$station_int, wldf1$station_int)
+    # due to the small/no slope this test will fail most of the time
+    #expect_equal(order(wldf1$station), order(- wldf1$w), 
+    #             label = "inversed order between station and w")
+    
+})
 
 test_that("waterLevelPegelonline: Geesthacht", {
     wldf <- WaterLevelDataFrame(river = "Elbe", time = Sys.time() - 3600,
@@ -38,7 +51,10 @@ test_that("waterLevelPegelonline: Geesthacht", {
 
 test_that("waterLevelPegelonline: Iffezheim", {
     if (Sys.info()["nodename"] == "hpc-service") {
-        wldf <- readWaterLevelStationInt(file = "/home/WeberA/freigaben/U/U2/RH_336_867_UFD/data/wl/r001_IFFEZHEIM/km_values.txt",
+        wldf <- readWaterLevelStationInt(file = paste0("/home/WeberA/freigaben",
+                                                       "/U/U2/RH_336_867_UFD/d",
+                                                       "ata/wl/r001_IFFEZHEIM/",
+                                                       "km_values.txt"),
                                          time = as.POSIXct("2016-12-21"))
         wldf1 <- subset(wldf, station > 336.2 & station <= 340)
         wldf2 <- waterLevel(wldf1, shiny = TRUE)
