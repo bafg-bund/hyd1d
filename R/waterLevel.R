@@ -281,46 +281,41 @@ waterLevel <- function(wldf, shiny = FALSE){
     # special case SCH\u00d6NA
     if (df.gs$gauging_station[1] == "GRENZE_CZ" &
         df.gs$gauging_station[2] == "GRENZE_CZ"){
-        df.gs <- df.gs[2:nrow(df.gs), ]
-    }
-    if (df.gs$gauging_station[1] == "GRENZE_CZ" &
-        df.gs$gauging_station[2] == "SCH\u00d6NA"){
-        df.gs <- rbind(df.gs[2, ], df.gs[2:nrow(df.gs), ],
-                       stringsAsFactors = FALSE)
+        df.gs <- df.gs[c(min(which(df.gs$w != -9999)), 
+                         (min(which(df.gs$w != -9999)):nrow(df.gs))), ]
+        km_start <- 0
+        km_end <- df.gs$km_qps[min(which(df.gs$w != -9999))]
     }
     
     # special case IFFEZHEIM
     if (df.gs$gauging_station[1] == "KEHL-KRONENHOF" &
         df.gs$gauging_station[2] == "IFFEZHEIM"){
-        df.gs <- rbind(df.gs[2, ], df.gs[2:nrow(df.gs), ],
-                       stringsAsFactors = FALSE)
-    }
-    if (df.gs$gauging_station[1] == "KEHL-KRONENHOF" &
-        df.gs$gauging_station[2] == "PLITTERSDORF"){
-        df.gs <- rbind(df.gs[2, ], df.gs[2:nrow(df.gs), ],
-                       stringsAsFactors = FALSE)
+        df.gs <- df.gs[c(min(which(df.gs$w != -9999)), 
+                         (min(which(df.gs$w != -9999)):nrow(df.gs))), ]
+        km_start <- 336.2
+        km_end <- df.gs$km_qps[min(which(df.gs$w != -9999))]
     }
     
     # special case GEESTHACHT
     if (df.gs$gauging_station[nrow(df.gs) - 1] == "GEESTHACHT_WEHR" &
         df.gs$gauging_station[nrow(df.gs)]     == "GEESTHACHT_WEHR"){
-        df.gs <- df.gs[1:(nrow(df.gs) - 1), ]
-    }
-    if (df.gs$gauging_station[nrow(df.gs) - 1] == "GEESTHACHT" &
-        df.gs$gauging_station[nrow(df.gs)]     == "GEESTHACHT_WEHR"){
-        df.gs <- rbind(df.gs[1:(nrow(df.gs) - 1), ], df.gs[nrow(df.gs) - 1, ],
-                       stringsAsFactors = FALSE)
+        df.gs <- df.gs[c((1:(max(which(df.gs$w != -9999)))), 
+                         max(which(df.gs$w != -9999))), ]
+        if (!exists('km_start', envir = e)) {
+            km_start <- df.gs$km_qps[max(which(df.gs$w != -9999))]
+        }
+        km_end <- 585.7
     }
     
     # special case GRENZE_NL
     if (df.gs$gauging_station[nrow(df.gs) - 1] == "GRENZE_NL" &
         df.gs$gauging_station[nrow(df.gs)]     == "GRENZE_NL"){
-        df.gs <- df.gs[1:(nrow(df.gs) - 1), ]
-    }
-    if (df.gs$gauging_station[nrow(df.gs) - 1] == "EMMERICH" &
-        df.gs$gauging_station[nrow(df.gs)]     == "GRENZE_NL"){
-        df.gs <- rbind(df.gs[1:(nrow(df.gs) - 1), ], df.gs[nrow(df.gs) - 1, ],
-                       stringsAsFactors = FALSE)
+        df.gs <- df.gs[c((1:(max(which(df.gs$w != -9999)))), 
+                         max(which(df.gs$w != -9999))), ]
+        if (!exists('km_start', envir = e)) {
+            km_start <- df.gs$km_qps[max(which(df.gs$w != -9999))]
+        }
+        km_end <- 865.7
     }
     
     # add additional result columns to df.gs
@@ -428,29 +423,9 @@ waterLevel <- function(wldf, shiny = FALSE){
             
             ###
             # get the stationary water levels between the gauging_stations
-            if (df.gs$gauging_station[s] == "SCH\u00d6NA"){
-                km_start <- 0.0
-                km_end <- df.gs$km_qps[s + 1] + 0.5
-            } else if (df.gs$gauging_station[s] == "IFFEZHEIM"){
-                km_start <- 336.2
-                km_end <- df.gs$km_qps[s + 1] + 0.5
-            } else if (df.gs$gauging_station[s]     == "PLITTERSDORF" &
-                       df.gs$gauging_station[s + 1] == "PLITTERSDORF"){
-                km_start <- 336.2
-                km_end <- df.gs$km_qps[s + 1] + 0.5
-            } else if (df.gs$gauging_station[s] == "GEESTHACHT"){
-                km_start <- df.gs$km_qps[s]
-                km_end <- 585.7
-            } else if (df.gs$gauging_station[s] == "EMMERICH"){
-                km_start <- df.gs$km_qps[s]
-                km_end <- 865.7
-            }
-            
-            ###
-            # identify the stations wihtin this section
+            # - identify the stations within this section
             id <- which(wldf$station >= km_start & wldf$station <= km_end)
             
-            ###
             # get the lower stationary water level for a section
             wldf.wl_le <- waterLevelFlys3(wldf[id, ], flys_wls[wls_below])
             

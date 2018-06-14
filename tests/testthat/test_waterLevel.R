@@ -33,7 +33,7 @@ test_that("waterLevel: Dessau", {
 
 test_that("waterLevel: Geesthacht", {
     wldf <- WaterLevelDataFrame(river = "Elbe", time = as.POSIXct("2016-12-21"),
-                                station = seq(580, 585.7, by = 0.1))
+                                station = seq(570, 585.7, by = 0.1))
     wldf1 <- waterLevel(wldf, shiny = TRUE)
     
     expect_equal(wldf$station, wldf1$station)
@@ -45,7 +45,7 @@ test_that("waterLevel: Geesthacht", {
     if (Sys.info()["nodename"] == "hpc-service") {
         wldf2 <- readWaterLevelFileDB(river = getRiver(wldf),
                                       time = getTime(wldf),
-                                      from = 580, to = 585.7)
+                                      from = 570, to = 585.7)
         expect_equal(wldf1$station, wldf2$station)
         expect_equal(wldf1$station_int, wldf2$station_int)
         diff <- wldf1$w - wldf2$w
