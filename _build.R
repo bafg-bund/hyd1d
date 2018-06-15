@@ -2,7 +2,7 @@
 # _build.R
 #
 # author: arnd.weber@bafg.de
-# date:   30.05.2018
+# date:   15.06.2018
 #
 # purpose: 
 #   - build the repository version of hyd1d
@@ -36,12 +36,18 @@ require(pkgdown, lib.loc = lib)
 # source hyd1d-internal to obtain the credentials function
 source("R/hyd1d-internal.R")
 
+Sys.setlocale(category = "LC_ALL", locale = "en_US.UTF-8")
+Sys.setlocale(category = "LC_PAPER", locale = "en_US.UTF-8")
+Sys.setlocale(category = "LC_MEASUREMENT", locale = "en_US.UTF-8")
+Sys.setlocale(category = "LC_MESSAGES", locale = "en_US.UTF-8")
+sessionInfo()
+
 #####
 # package the data, if necessary ...
-# - reversed order, since some datasets are passed between individual 
+# - reversed order, since some datasets are passed between individual
 #   sourced scripts
 source("data-raw/data_date_gauging_data.R")
-for (a_file in rev(list.files("data-raw", pattern = "data_df.*", 
+for (a_file in rev(list.files("data-raw", pattern = "data_df.*",
                               full.names = TRUE))) {
     source(a_file)
 }
@@ -73,13 +79,13 @@ cat(y, file = "man/date_gauging_data.Rd", sep="\n")
 
 # df.gauging_station_data
 x <- readLines("man/df.gauging_station_data.Rd")
-y <- gsub('$RDO_NROW_DF.GAUGING_STATION_DATA$', 
+y <- gsub('$RDO_NROW_DF.GAUGING_STATION_DATA$',
           RDO_NROW_DF.GAUGING_STATION_DATA, x, fixed = TRUE)
 cat(y, file = "man/df.gauging_station_data.Rd", sep="\n")
 
 # df.flys
 x <- readLines("man/df.flys.Rd")
-y <- gsub('$RDO_NROW_DF.FLYS$', RDO_NROW_DF.FLYS, x, 
+y <- gsub('$RDO_NROW_DF.FLYS$', RDO_NROW_DF.FLYS, x,
           fixed = TRUE)
 cat(y, file = "man/df.flys.Rd", sep="\n")
 
@@ -96,7 +102,7 @@ devtools::build_vignettes(".")
 # check the package source
 write("#####", stderr())
 write(" check", stderr())
-devtools::check(".", document = FALSE, manual = FALSE, 
+devtools::check(".", document = FALSE, manual = FALSE,
                 build_args = "--no-build-vignettes")
 
 #####
@@ -107,7 +113,7 @@ devtools::build(".", path = build, vignettes = FALSE, manual = FALSE)
 
 #####
 # create public/downloads directory and copy hyd1d_*.tar.gz-files into it
-from <- list.files(path = build, 
+from <- list.files(path = build,
                    pattern = "hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]\\.tar\\.gz",
                    full.names = TRUE)
 file.copy(from = from, to = downloads, overwrite = TRUE, copy.date = TRUE)
@@ -117,7 +123,7 @@ file.copy(from = from, to = downloads, overwrite = TRUE, copy.date = TRUE)
 write("#####", stderr())
 write(" install from source", stderr())
 
-pkg_files <- list.files(path = build, 
+pkg_files <- list.files(path = build,
                         pattern = paste0("hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]",
                                          "\\.tar\\.gz"))
 
@@ -132,14 +138,14 @@ for (a_file in pkg_files) {
     # check presently installed local packages
     pkgs <- as.data.frame(installed.packages(lib.loc = lib))
     if (package_name %in% pkgs$Package) {
-        if (compareVersion(as.character(packageVersion(package_name, 
-                                                       lib.loc = lib)), 
+        if (compareVersion(as.character(packageVersion(package_name,
+                                                       lib.loc = lib)),
                            package_version) < 1) {
-            install.packages(paste(build, a_file, sep = "/"), 
+            install.packages(paste(build, a_file, sep = "/"),
                              lib = lib, dependencies = TRUE, quiet = quiet)
         }
     } else {
-        install.packages(paste(build, a_file, sep = "/"), 
+        install.packages(paste(build, a_file, sep = "/"),
                          lib = lib, dependencies = TRUE, quiet = quiet)
     }
 }
@@ -162,18 +168,18 @@ if (R_version != "3.4.4") {
 write("#####", stderr())
 write(" document", stderr())
 
-# render the README.md 
+# render the README.md
 if (!(file.exists("README.md"))) {
-    rmarkdown::render("README.Rmd", output_format = "github_document", 
+    rmarkdown::render("README.Rmd", output_format = "github_document",
                       output_file = "README.md", clean = TRUE)
     unlink("README.html", force = TRUE)
 }
 
 # render the package website 
 # document = FALSE, 
+# pkgdown::clean_site(".")
 pkgdown::build_site(".", examples = TRUE, preview = FALSE,
-                    override = list(destination = public))
-
+                    override = list(destination = public), new_process = FALSE)
 # insert the BfG logo into the header
 files <- list.files(path = public, pattern = "*[.]html",
                     all.files = TRUE, full.names = FALSE, recursive = TRUE,
