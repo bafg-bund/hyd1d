@@ -40,7 +40,7 @@ CREATE TABLE "gauging_data"
 ALTER TABLE "gauging_data" OWNER TO gauging_data;
 ALTER TABLE "gauging_data" SET WITH OIDS;
 COMMENT ON TABLE "gauging_data" IS 'gauging_data collection';
-\COPY public."gauging_data" FROM '/home/arnd/BfG/hyd1d/data-raw/gauging_data.csv' WITH (FORMAT CSV, HEADER, DELIMITER ';', NULL 'NULL', ENCODING 'UTF8');
+\COPY public."gauging_data" FROM '/tmp/gauging_data.csv' WITH (FORMAT CSV, HEADER, DELIMITER ';', NULL 'NULL', ENCODING 'UTF8');
 SELECT setval('public.gauging_data_id_seq', (SELECT max(id) FROM public."gauging_data"), true);
 
 DROP TABLE IF EXISTS "gauging_station_data";
@@ -74,7 +74,7 @@ CREATE TABLE "gauging_station_data"
 ALTER TABLE "gauging_station_data" OWNER TO gauging_data;
 ALTER TABLE "gauging_station_data" SET WITH OIDS;
 COMMENT ON TABLE "gauging_station_data" IS 'gauging_station_data collection';
-\COPY public."gauging_station_data" FROM '/home/arnd/BfG/hyd1d/data-raw/gauging_station_data.csv' WITH (FORMAT CSV, HEADER, DELIMITER ';', NULL 'NULL', ENCODING 'UTF8');
+\COPY public."gauging_station_data" FROM '/tmp/gauging_station_data.csv' WITH (FORMAT CSV, HEADER, DELIMITER ';', NULL 'NULL', ENCODING 'UTF8');
 SELECT setval('public.gauging_station_data_id_seq', (SELECT max(id) FROM public."gauging_station_data"), true);
 
 DROP TABLE IF EXISTS "gauging_data_missing";
@@ -87,5 +87,5 @@ CREATE TABLE "gauging_data_missing"
 ALTER TABLE "gauging_data_missing" OWNER TO gauging_data;
 ALTER TABLE "gauging_data_missing" SET WITH OIDS;
 COMMENT ON TABLE "gauging_data_missing" IS 'dates missing in the gauging_data collection';
-\COPY public."gauging_data_missing" FROM '/home/arnd/BfG/hyd1d/data-raw/gauging_data_missing.csv' WITH (FORMAT CSV, HEADER, DELIMITER ';', NULL 'NULL', ENCODING 'UTF8');
+\COPY public."gauging_data_missing" FROM '/tmp/gauging_data_missing.csv' WITH (FORMAT CSV, HEADER, DELIMITER ';', NULL 'NULL', ENCODING 'UTF8');
 SELECT setval('public.gauging_data_missing_id_seq', (SELECT max(id) FROM public."gauging_data_missing"), true);
