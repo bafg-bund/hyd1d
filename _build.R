@@ -2,7 +2,7 @@
 # _build.R
 #
 # author: arnd.weber@bafg.de
-# date:   15.06.2018
+# date:   20.06.2018
 #
 # purpose: 
 #   - build the repository version of hyd1d
@@ -159,10 +159,6 @@ system(paste0("R CMD Rd2pdf . --output=", downloads, "/hyd1d.pdf --no-preview ",
               "--force --RdMacros=Rdpack --encoding=UTF-8 --outputEncoding=UTF",
               "-8"))
 
-if (R_version != "3.4.4") {
-    q("no")
-}
-
 #####
 # document
 write("#####", stderr())
@@ -176,10 +172,17 @@ if (!(file.exists("README.md"))) {
 }
 
 # render the package website 
-# document = FALSE, 
-# pkgdown::clean_site(".")
-pkgdown::build_site(".", examples = TRUE, preview = FALSE,
-                    override = list(destination = public), new_process = FALSE)
+#pkgdown::clean_site(".")
+if (packageVersion("pkgdown") == "1.0.0.9000"){
+    # remove document = FALSE, new_process = FALSE
+    pkgdown::build_site(".", examples = TRUE, preview = FALSE, 
+                        override = list(destination = public))
+} else {
+    pkgdown::build_site(".", examples = TRUE, preview = FALSE, 
+                        document = FALSE, override = list(destination = public),
+                        new_process = FALSE)
+}
+
 # insert the BfG logo into the header
 files <- list.files(path = public, pattern = "*[.]html",
                     all.files = TRUE, full.names = FALSE, recursive = TRUE,
@@ -213,10 +216,10 @@ if (!(file.exists(paste0(public, "/bfg_logo.jpg")))){
 
 # user, nodename and version dependent sync to web roots and install directories
 if (Sys.info()["nodename"] == "hpc-service" & 
-    Sys.info()["user"] == "WeberA") {
-    system("cp -rp public/3.4.4/* /home/WeberA/public_html/hyd1d/")
+    Sys.info()["user"] == "WeberA" & R_version == "3.5.0") {
+    system("cp -rp public/3.5.0/* /home/WeberA/public_html/hyd1d/")
     system(paste0("[ -d /home/WeberA/freigaben/AG/R/server/server_admin/packag",
-                  "e_sources ] || cp -rp public/3.4.4/downloads/hyd1d_*.tar.gz",
+                  "e_sources ] || cp -rp public/3.5.0/downloads/hyd1d_*.tar.gz",
                   " /home/WeberA/freigaben/AG/R/server/server_admin/package_so",
                   "urces"))
 }
