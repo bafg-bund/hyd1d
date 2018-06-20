@@ -30,7 +30,7 @@ hour <- as.numeric(strftime(Sys.time(), "%H"))
 
 if (file.exists(from) & !(file.exists(to)) & hour >= 6 & hour < 7){
     
-    write("data-raw/df.gauging_data_latest.rda will been produced", stderr())
+    write("data-raw/df.gauging_data_latest.rda will be produced", stderr())
     
     # load required packages
     require(devtools, lib.loc = lib)
