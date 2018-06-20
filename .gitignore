@@ -6,6 +6,7 @@
 .Rd2pdf*
 *.dat
 DB_credentials_*
+*.Rd
 
 # ignore directories and files
 /build
@@ -21,7 +22,6 @@ DB_credentials_*
 /data-raw/postgres.sql.gz
 /public
 /inst/doc
-/man
 /vignettes/hyd1d.html
 /vignettes/Thumbs.db
 /vignettes/vignette_lang_DE.toc
