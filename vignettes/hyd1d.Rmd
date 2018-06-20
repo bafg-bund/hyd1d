@@ -51,7 +51,7 @@ require(hyd1d, lib.loc = lib)
 require(plotrix, lib.loc = lib)
 
 # set english locale to produce english plot labels
-Sys.setlocale(category = "LC_MESSAGES", locale = "en_US")
+Sys.setlocale(category = "LC_MESSAGES", locale = "en_US.utf8")
 
 # Determine the output format of the document
 outputFormat <- knitr::opts_knit$get("rmarkdown.pandoc.to")
