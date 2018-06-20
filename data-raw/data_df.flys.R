@@ -1,5 +1,5 @@
 
-if (Sys.info()["nodename"] != "lvps46-163-72-150.dedicated.hosteurope.de") {
+if (Sys.info()["nodename"] == "hpc-service") {
     
     require(ROracle, lib.loc = lib)
     
