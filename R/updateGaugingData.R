@@ -44,7 +44,7 @@ updateGaugingData <- function(x){
     if(x <= Sys.Date()){
         
         # download the df.gauging_data.rda
-        url <- paste0("https://www.aqualogy.de/wp-content/wp-content/uploads",
+        url <- paste0("https://www.aqualogy.de/wp-content/uploads",
                       "/bfg/df.gauging_data_latest.rda")
         utils::download.file(url, file_data, quiet = TRUE)
         
