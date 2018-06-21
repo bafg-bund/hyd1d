@@ -2,7 +2,7 @@
 # daily_df.gauging_data.R
 #
 # author: arnd.weber@bafg.de
-# date:   30.05.2018
+# date:   21.06.2018
 #
 # purpose: 
 #   - export gauging data stored in the gauging_data DB into an R data file
@@ -30,7 +30,8 @@ hour <- as.numeric(strftime(Sys.time(), "%H"))
 
 if (file.exists(from) & !(file.exists(to)) & hour >= 6 & hour < 7){
     
-    write("data-raw/df.gauging_data_latest.rda will be produced", stderr())
+    write(paste0(downloads, "/df.gauging_data_latest.rda will be produced"), 
+          stderr())
     
     # load required packages
     require(devtools, lib.loc = lib)
@@ -71,7 +72,7 @@ if (file.exists(from) & !(file.exists(to)) & hour >= 6 & hour < 7){
     save(df.gauging_data, file = from, compress = "bzip2")
     
 } else {
-    write("data-raw/df.gauging_data_latest.rda has been produced already", 
+    write(paste0(downloads, "/df.gauging_data_latest.rda will be produced"), 
           stderr())
 }
 
