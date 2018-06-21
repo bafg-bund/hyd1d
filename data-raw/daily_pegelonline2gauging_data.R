@@ -166,9 +166,9 @@ if (hour >= 6 & hour < 7) {
                             write(a_gs, stderr())
                             write(str(a_gs), stderr())
                             write(paste0("UPDATE public.gauging_station_dat",
-                                         "a SET (data_missing) = (TRUE) WHE",
-                                         "RE gauging_station = \'", a_gs,
-                                         "\'"), stderr())
+                                         "a SET data_missing = TRUE WHERE ",
+                                         "gauging_station = \'", a_gs, "\'"), 
+                                  stderr())
                             write(paste0("INSERT INTO public.gauging_data_m",
                                          "issing (id, gauging_station, date",
                                          ") VALUES (DEFAULT, \'", a_gs, 
@@ -180,9 +180,9 @@ if (hour >= 6 & hour < 7) {
                         
                         # update gauging_station_data
                         dbSendQuery(con, paste0("UPDATE public.gauging_station",
-                                                "_data SET (data_missing) = (T",
-                                                "RUE) WHERE gauging_station = ",
-                                                "\'", a_gs, "\'"))
+                                                "_data SET data_missing = TRUE",
+                                                " WHERE gauging_station = \'",
+                                                a_gs, "\'"))
                         
                         # insert missing values
                         dbSendQuery(con, paste0("INSERT INTO public.gauging_da",
@@ -200,7 +200,20 @@ if (hour >= 6 & hour < 7) {
             }
             
             # create a temporary file name for the download of data
-            destfile <- tempfile()
+            if (Sys.info()["nodename"] == "hpc-service" & 
+                Sys.info()["user"] == "WeberA") {
+                # assemble a file name
+                destfile <- paste0("/home/WeberA/flut3_", 
+                                   simpleCap(df.gs$water_longname[i]), 
+                                   "/data/w/pegelonline.wsv.de/", 
+                                   df.gs$water_longname[i], "_", a_gs, "_", 
+                                   strftime(a_date, format="%Y%m%d"), 
+                                    ".csv")
+                delete <- FALSE
+            } else {
+                destfile <- tempfile()
+                delete <- TRUE
+            }
             
             # download the file
             download.file(url, destfile, "wget", quiet = quiet)
@@ -215,7 +228,7 @@ if (hour >= 6 & hour < 7) {
                                   na.strings = "XXX,XXX")
             
             # delete destfile
-            unlink(destfile)
+            if (delete) {unlink(destfile)}
             
             # calculate daily mean
             w <- round(mean(as.numeric(df.data$V2), na.rm = TRUE), 0)
