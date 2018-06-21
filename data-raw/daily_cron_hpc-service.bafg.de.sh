@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 cd /srv/cifs-mounts/WeberA_home/WeberA/hyd1d
 git pull
-Rscript _install.R
-Rscript _build.R
+#Rscript _install.R
+#Rscript _build.R
 Rscript data-raw/daily_pegelonline2gauging_data.R
 Rscript data-raw/daily_df.gauging_data.R
 chown -R WeberA:users /srv/cifs-mounts/WeberA_home/WeberA/hyd1d
