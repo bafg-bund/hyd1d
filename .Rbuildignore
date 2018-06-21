@@ -20,3 +20,4 @@
 ^_build\.R$
 ^data/df\.gauging_data_latest\.rda$
 ^_pkgdown\.yml$
+^docs$
