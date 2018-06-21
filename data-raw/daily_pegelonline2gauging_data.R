@@ -2,10 +2,10 @@
 # daily_pegelonline2gauging_data.R
 #
 # author: arnd.weber@bafg.de
-# date:   30.05.2018
+# date:   21.06.2018
 #
 # purpose: 
-#   - download gauging data from pegelonline.wsv.de
+#   - download gauging data from pegelonline.wsv.de to hpc-service
 #   - write them into the postgresql database
 #
 ##################################################
