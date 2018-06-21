@@ -2,7 +2,7 @@
 # _build.R
 #
 # author: arnd.weber@bafg.de
-# date:   20.06.2018
+# date:   21.06.2018
 #
 # purpose: 
 #   - build the repository version of hyd1d
@@ -12,6 +12,11 @@
 # configure output
 verbose <- TRUE
 quiet <- !verbose
+
+#####
+# assemble variables, create output directories and load packages
+write("#####", stdout())
+write(" R variables", stdout())
 
 # standard library path for the package install
 R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
@@ -25,7 +30,10 @@ dir.create(public, verbose, TRUE)
 downloads <- paste0("public/", R_version, "/downloads")
 dir.create(downloads, verbose, TRUE)
 
+#####
 # load the packages
+write("#####", stdout())
+write(" load packages", stdout())
 require(devtools, lib.loc = lib)
 require(DBI, lib.loc = lib)
 require(RPostgreSQL, lib.loc = lib)
@@ -36,16 +44,27 @@ require(pkgdown, lib.loc = lib)
 # source hyd1d-internal to obtain the credentials function
 source("R/hyd1d-internal.R")
 
+#####
+# assemble variables and create output directories
+write("#####", stdout())
+write(" set en_US locale", stdout())
 Sys.setlocale(category = "LC_ALL", locale = "en_US.UTF-8")
 Sys.setlocale(category = "LC_PAPER", locale = "en_US.UTF-8")
 Sys.setlocale(category = "LC_MEASUREMENT", locale = "en_US.UTF-8")
 Sys.setlocale(category = "LC_MESSAGES", locale = "en_US.UTF-8")
+
+#####
+# assemble variables and create output directories
+write("#####", stdout())
+write(" sessionInfo", stdout())
 sessionInfo()
 
 #####
 # package the data, if necessary ...
 # - reversed order, since some datasets are passed between individual
 #   sourced scripts
+write("#####", stdout())
+write(" data-raw", stdout())
 source("data-raw/data_date_gauging_data.R")
 for (a_file in rev(list.files("data-raw", pattern = "data_df.*",
                               full.names = TRUE))) {
@@ -59,14 +78,14 @@ detach("package:DBI", unload = TRUE)
 
 #####
 # minimal devtools workflow
-write("#####", stderr())
-write(" load_all", stderr())
+write("#####", stdout())
+write(" load_all", stdout())
 devtools::load_all(".")
 
 #####
 # build documentation
-write("#####", stderr())
-write(" document", stderr())
+write("#####", stdout())
+write(" document", stdout())
 devtools::document(".")
 
 # postprocess package documentation
@@ -94,21 +113,21 @@ rm(x, y, today) #, RDO_NROW_DF.GAUGING_STATION_DATA, RDO_NROW_DF.FLYS)
 
 #####
 # build vignettes
-write("#####", stderr())
-write(" build vignettes", stderr())
+write("#####", stdout())
+write(" build vignettes", stdout())
 devtools::build_vignettes(".")
 
 #####
 # check the package source
-write("#####", stderr())
-write(" check", stderr())
+write("#####", stdout())
+write(" check", stdout())
 devtools::check(".", document = FALSE, manual = FALSE,
                 build_args = "--no-build-vignettes")
 
 #####
 # build the source package
-write("#####", stderr())
-write(" build", stderr())
+write("#####", stdout())
+write(" build", stdout())
 devtools::build(".", path = build, vignettes = FALSE, manual = FALSE)
 
 #####
@@ -120,8 +139,8 @@ file.copy(from = from, to = downloads, overwrite = TRUE, copy.date = TRUE)
 
 #####
 # install hyd1d from source
-write("#####", stderr())
-write(" install from source", stderr())
+write("#####", stdout())
+write(" install from source", stdout())
 
 pkg_files <- list.files(path = build,
                         pattern = paste0("hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]",
@@ -129,7 +148,7 @@ pkg_files <- list.files(path = build,
 
 for (a_file in pkg_files) {
     
-    write(a_file, stderr())
+    write(a_file, stdout())
     
     # seperate package name from version string
     package_name <- unlist(strsplit(a_file, "_"))[1]
@@ -152,8 +171,8 @@ for (a_file in pkg_files) {
 
 #####
 # export the documentation as pdf
-write("#####", stderr())
-write(" export the documentation as pdf", stderr())
+write("#####", stdout())
+write(" export the documentation as pdf", stdout())
 
 system(paste0("R CMD Rd2pdf . --output=", downloads, "/hyd1d.pdf --no-preview ",
               "--force --RdMacros=Rdpack --encoding=UTF-8 --outputEncoding=UTF",
@@ -161,8 +180,8 @@ system(paste0("R CMD Rd2pdf . --output=", downloads, "/hyd1d.pdf --no-preview ",
 
 #####
 # document
-write("#####", stderr())
-write(" document", stderr())
+write("#####", stdout())
+write(" document gitlab & website", stdout())
 
 # render the README.md
 if (!(file.exists("README.md"))) {
@@ -173,15 +192,8 @@ if (!(file.exists("README.md"))) {
 
 # render the package website 
 #pkgdown::clean_site(".")
-if (packageVersion("pkgdown") == "1.0.0.9000"){
-    # remove document = FALSE, new_process = FALSE
-    pkgdown::build_site(".", examples = TRUE, preview = FALSE, 
-                        override = list(destination = public))
-} else {
-    pkgdown::build_site(".", examples = TRUE, preview = FALSE, 
-                        document = FALSE, override = list(destination = public),
-                        new_process = FALSE)
-}
+pkgdown::build_site(".", examples = TRUE, preview = FALSE, document = FALSE, 
+                    override = list(destination = public), new_process = FALSE)
 
 # insert the BfG logo into the header
 files <- list.files(path = public, pattern = "*[.]html",
@@ -191,7 +203,7 @@ for (a_file in files){
     x <- readLines(paste0(public, "/", a_file))
     if (grepl("/", a_file, fixed = TRUE)){
         if (verbose) {
-            print(a_file)
+            write(a_file, stdout())
         }
         y <- gsub('<a href="http://www.bafg.de">BfG</a>',
                   paste0('<a href="http://www.bafg.de"><img border="0" src="..',
@@ -214,7 +226,12 @@ if (!(file.exists(paste0(public, "/bfg_logo.jpg")))){
     file.copy("pkgdown/bfg_logo.jpg", public)
 }
 
+#####
+# document
 # user, nodename and version dependent sync to web roots and install directories
+write("#####", stdout())
+write(" web", stdout())
+
 if (Sys.info()["nodename"] == "hpc-service" & 
     Sys.info()["user"] == "WeberA" & R_version == "3.5.0") {
     system("cp -rp public/3.5.0/* /home/WeberA/public_html/hyd1d/")
@@ -222,6 +239,9 @@ if (Sys.info()["nodename"] == "hpc-service" &
                   "e_sources ] || cp -rp public/3.5.0/downloads/hyd1d_*.tar.gz",
                   " /home/WeberA/freigaben/AG/R/server/server_admin/package_so",
                   "urces"))
+} else if (Sys.info()["nodename"] == "up" & 
+           Sys.info()["user"] == "gitlab-runner" & R_version == "3.5.0") {
+    system("cp -rp public/3.5.0/* ~/public_html/hyd1d/")
 }
 
 q("no")
