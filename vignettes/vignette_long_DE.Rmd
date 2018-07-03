@@ -852,8 +852,9 @@ finales Produkt:
 
 ## Installation und Laden des Paketes
 
-Momentan ist das Paket hyd1d noch nicht auf CRAN verfügbar. Daher kann nur die 
-aktuelle Entwicklungsversion vom GitBucket-Server der BfG installiert werden:
+Momentan ist das Paket **hyd1d** noch nicht auf CRAN verfügbar. Daher kann nur 
+die aktuelle Entwicklungsversion vom GitBucket-Server der BfG installiert 
+werden:
 
 ```{r install_git, eval = FALSE}
 install.packages("devtools")
@@ -861,7 +862,7 @@ library(devtools)
 devtools::install_git("git://apps.bafg.de/gitbucket/webera/hyd1d.git")
 ```
 
-Dannach kann das Paket hyd1d wie jedes andere installierte R-Paket über 
+Dannach kann das Paket **hyd1d** wie jedes andere installierte R-Paket über 
 folgenden Befehl geladen werden:
 
 ```{r, eval = FALSE}
@@ -870,7 +871,7 @@ library(hyd1d)
 
 ## S4-Klasse WaterLevelDataFrame
 
-Grundlage der Wasserspiegellagenberechungen mittels hyd1d ist die S4-Klasse 
+Grundlage der Wasserspiegellagenberechungen mittels **hyd1d** ist die S4-Klasse 
 [`WaterLevelDataFrame`](reference/WaterLevelDataFrame-class.html).
 Um Wasserspiegellagenberechnungen mit einer der `waterLevel...`-Funktionen 
 durchführen zu können, benötigt man zunächst einen initialisierten 
@@ -1102,7 +1103,7 @@ Vollständigkeit halber erwähnt.
 
 # Produkte
 
-Im Zusammenhang mit der Entwicklung des vorliegenden R-Paketes hyd1d wurden 
+Im Zusammenhang mit der Entwicklung des vorliegenden R-Paketes **hyd1d** wurden 
 verschiedene Datenbestände aufbereitet, bzw. können nun mit Veröffentlichung der
 Werkzeuge besser genutzt werden. Im Folgenden findet sich Produkte, die den 
 Zugriff auf die den Berechnungsverfahren zu Grunde liegenden Daten vereinfachen 
