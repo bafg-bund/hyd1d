@@ -83,8 +83,9 @@ capFig <- function(x){
 
 # Purpose
 
-hyd1d is an R package that provides a S4-class and several functions to compute
-1-dimensional water levels along the German federal waterways Elbe and Rhine.
+**hyd1d** is an R package that provides a S4-class and several functions to 
+compute 1-dimensional water levels along the German federal waterways Elbe and 
+Rhine.
 
 <BR>
 
@@ -92,7 +93,7 @@ hyd1d is an R package that provides a S4-class and several functions to compute
 
 ## Installation
 
-The package hyd1d is not available from CRAN at the moment. To install the 
+The package **hyd1d** is not available from CRAN at the moment. To install the 
 recent developmental version from the GitBucket server of the Federal Institute 
 of Hydrology (BfG) execute the following commands: 
 
@@ -102,7 +103,7 @@ library(devtools)
 devtools::install_git("git://apps.bafg.de/gitbucket/webera/hyd1d.git")
 ```
 
-Afterwards hyd1d can be loaded like every other R package with the following 
+Afterwards **hyd1d** can be loaded like every other R package with the following 
 command: 
 
 ```{r library, eval = TRUE, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
@@ -118,7 +119,7 @@ library(hyd1d)
 
 ## S4-class WaterLevelDataFrame
 
-Basis of all water level computations with hyd1d is the S4-class 
+Basis of all water level computations with **hyd1d** is the S4-class 
 [`WaterLevelDataFrame`](reference/WaterLevelDataFrame-class.html). To compute 
 water levels with one of the `waterLevel...`-functions, a `WaterLevelDataFrame`
 has to be initialized with the homonymous 
