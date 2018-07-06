@@ -1,0 +1,135 @@
+---
+title: hyd1d
+subtitle: Ein R-Paket zur Interpolation von 1D-Wasserspiegellagen und Pegeldaten
+author: Arnd Weber, Marcus Hatz, Wolfgang Stürmer, Wilfried Wiechmann
+date: "`r format(Sys.time(), '%d.%m.%Y')`"
+output:
+  revealjs::revealjs_presentation:
+    theme: white
+    css: ../vignettes/presentation/presentation.css
+    highlight: pygments
+    self_contained: true
+    center: true
+    transition: fade
+    fig_width: 9
+    fig_height: 6
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, error = FALSE, message = FALSE)
+```
+
+# Wie erhält man Wasserstandsinformationen für einen Punkt oder eine Strecke an einer Bundeswasserstraße? {#problemstellung}
+
+## {#problemstellung-karte data-background="map.png" data-background-size="auto 800px"}
+
+# PEGELONLINE {#po}
+
+## Abfrage der nächstgelegenen Pegel {#po-query}
+
+- <https://pegelonline.wsv.de/gast/stammdaten?pegelnr=501490>
+- <https://pegelonline.wsv.de/gast/stammdaten?pegelnr=502000>
+
+## {#po-query-rosslau data-background="screenshot_pegelonline_Rosslau.png" data-background-size="auto 750px"}
+
+## {#po-query-dessau data-background="screenshot_pegelonline_Dessau.png" data-background-size="auto 750px"}
+
+## Wasserstand der angrenzenden Pegel {#po-res1}
+
+```{r pegelonline-res1}
+# standard library path for the installed local packages
+R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
+lib <- paste0("~/R/", R_version, "/")
+require(hyd1d, lib.loc = lib)
+require(plotrix, lib.loc = lib)
+
+xlim_min <- 257
+xlim_max <- 263
+ylim_min <- 53.8
+ylim_max <- 55.7
+wldf <- WaterLevelDataFrame(river = "Elbe",
+                            time = as.POSIXct("2016-12-21"),
+                            station = seq(257, 262, 0.1))
+wldf1 <- waterLevel(wldf, TRUE)
+gs <- getGaugingStations(wldf1)
+id <- gs$km_qps >= xlim_min & gs$km_qps <= xlim_max
+lm_pegelonline <- lm(wl ~ km_qps, data = gs[id, ])
+
+{
+    par(cex = 1.2)
+    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
+         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)", 
+         ylab = "H\u00f6he (m \u00fcber NHN (DHHN92))")
+    
+    # landmarks
+    abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
+    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1, 
+                 border = FALSE)
+    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1, 
+                 border = FALSE)
+    abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
+    boxed.labels(259.6, 55.5, "MULDE", cex = 1, border = FALSE, col = "blue")
+    
+    # gauging data
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+           bg = "darkblue")
+    
+    # legend
+    legend("topright", 
+           pch = 21, col = "darkblue", pt.bg = "darkblue", pt.cex = 1,
+           legend = "Wasserstand", cex = 0.7, bty = "n")
+}
+```
+
+## Lineare Interpolation? {#po-res2}
+
+```{r pegelonline-res2}
+{
+    par(cex = 1.2)
+    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
+         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)", 
+         ylab = "H\u00f6he (m \u00fcber NHN (DHHN92))")
+    
+    # landmarks
+    abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
+    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1, 
+                 border = FALSE)
+    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1, 
+                 border = FALSE)
+    abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
+    boxed.labels(259.6, 55.5, "MULDE", cex = 1, border = FALSE, col = "blue")
+    
+    # lm
+    #abline(lm_pegelonline, col = "darkblue")
+    lines(x = gs$km_qps, y = gs$wl, col = "darkblue")
+    
+    # gauging data
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+           bg = "darkblue")
+    
+    # legend
+    legend("topright", 
+           pch = 21, col = "darkblue", pt.bg = "darkblue", pt.cex = 1,
+           legend = "Wasserstand", cex = 0.7, bty = "n")
+}
+```
+
+# FLYS 3
+
+# hyd1d
+
+```{r cars, echo = TRUE}
+summary(cars)
+```
+
+## Slide with Plot
+
+```{r pressure}
+plot(pressure)
+```
+
+# Weiterverwendung
+
+## {#wv-shiny-waterlevel data-background-iframe="http://hpc-service.bafg.de/shiny/WeberA/05-waterlevel/"}
+
+

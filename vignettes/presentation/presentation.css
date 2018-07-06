@@ -1,0 +1,39 @@
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+    font-family: Calibri, sans-serif;
+    color: #262673;
+    text-transform: none;
+    text-shadow: none;
+}
+
+.reveal h1.title {
+    font-weight: bolder;
+}
+
+.reveal h1.subtitle {
+    font-size-adjust: 0.19;
+}
+
+.reveal h2.author {
+    font-size-adjust: 0.23;
+}
+
+.reveal h3.date {
+    font-size-adjust: 0.27;
+}
+
+.reveal section img {
+    background: none; 
+    border: none; 
+    box-shadow: none;
+}
+
+#po-query {
+    font-size-adjust: 0.4;
+}
+
+
