@@ -23,7 +23,7 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, error = FALSE, message = FA
 
 ## {#problemstellung-karte data-background="map.png" data-background-size="auto 800px"}
 
-## 21.12.2016 {#problemstellung-karte data-background="map_flooded.png" data-background-size="auto 800px"}
+## 21.12.2016 {#problemstellung-karte-date data-background="map_flooded.png" data-background-size="auto 800px"}
 
 # PEGELONLINE {#po}
 
