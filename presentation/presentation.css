@@ -32,8 +32,11 @@
     box-shadow: none;
 }
 
+#problemstellung-karte-date h2 {
+    color: #ffffff;
+}
+
 #po-query {
     font-size-adjust: 0.4;
 }
-
 
