@@ -17,8 +17,7 @@
 ^.*\.dat$
 ^_documentation\.R$
 ^vignettes/Thumbs\.db$
-^vignettes/presentation\.Rmd$
-^vignettes/presentation$
+^presentation$
 ^_build\.R$
 ^data/df\.gauging_data_latest\.rda$
 ^_pkgdown\.yml$
