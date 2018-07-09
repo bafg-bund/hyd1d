@@ -6,7 +6,7 @@ date: "`r format(Sys.time(), '%d.%m.%Y')`"
 output:
   revealjs::revealjs_presentation:
     theme: white
-    css: ../vignettes/presentation/presentation.css
+    css: ../presentation/presentation.css
     highlight: pygments
     self_contained: true
     center: true
