@@ -20,10 +20,10 @@ DB_credentials_*
 /data-raw/pegelonline2gauging_data.err
 /data-raw/pegelonline2gauging_data.out
 /data-raw/postgres.sql.gz
+/presentation/Thumbs.db
 /public
 /inst/doc
 /vignettes/hyd1d.html
-/vignettes/presentation/Thumbs.db
 /vignettes/Thumbs.db
 /vignettes/vignette_lang_DE.toc
 /vignettes/vignette_lang_DE.html
