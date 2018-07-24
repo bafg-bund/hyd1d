@@ -1,6 +1,6 @@
 Package: hyd1d
 Type: Package
-Title: Compute 1D water levels along German federal waterways
+Title: Compute 1D water levels along German federal waterways Elbe and Rhine
 Version: 0.1.0
 Date: 2018-05-16
 Authors@R: c(person("Arnd", "Weber", email = "arnd.weber@bafg.de",
@@ -12,12 +12,13 @@ Authors@R: c(person("Arnd", "Weber", email = "arnd.weber@bafg.de",
                     role = c("ctb")),
              person("Wilfried", "Wiechmann", email="wiechmann@bafg.de",
                     role = c("ctb")))
-Description: hyd1d extends the functionalities of INFORM, a GIS modelling 
-    framework for ArcGIS for Desktop written in Python. The S4 class
-    WaterLevelDataFrame, included in hyd1d, enables the computation and 
-    visualisation of 1D water level information along the German federal 
-    waterways Elbe and Rhine based on the FLYS3 database and a gauging database 
-    derived from data from the BfG Wiski and http://pegelonline.wsv.de.
+Description: hyd1d provides an S4 class, datasets and several functions to 
+    interpolate 1D water levels with gauging data. The S4 class 
+    WaterLevelDataFrame structures the computation and visualisation of 1D 
+    water level information along the German federal waterways Elbe and Rhine. 
+    Based on package internal 1D water level data - provided by the FLYS 
+    database - and gauging data - provided by the hydrological databases HyDaBa 
+    and PEGELONLINE - near realtime predictions can be carried out.
 Depends: R (>= 3.2.0)
 Imports: methods, RJSONIO (>= 1.0-0), RCurl (>= 1.95-4.10), plotrix (>= 3.0-0), 
     Rdpack
@@ -50,5 +51,5 @@ Collate:
     'zzz.R'
 VignetteBuilder: knitr
 BugReports: https://apps.bafg.de/gitbucket/webera/hyd1d/issues
-URL: http://hpc-service.bafg.de/r-packages/hyd1d/index.html, 
+URL: http://hpc-service.bafg.de/~WeberA/hyd1d/index.html, 
     https://apps.bafg.de/gitbucket/webera/hyd1d
