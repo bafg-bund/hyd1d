@@ -923,13 +923,9 @@ install_git("git://apps.bafg.de/gitbucket/webera/hyd1d.git")
 ```
 
 - Nach einer Veröffentlichung auf [CRAN](https://cran.r-project.org) reicht eine 
-Zeile zur Installation:
+Zeile zur Installation, eine weitere zum Laden:
 ```{r hyd1d-install2, eval = FALSE, echo = TRUE}
 install.packages("hyd1d")
-```
-
-- Vor der Verwendung muss es dann nur noch geladen werden:
-```{r hyd1d-install3, eval = FALSE, echo = TRUE}
 library("hyd1d")
 ```
 
@@ -1042,13 +1038,9 @@ install_git("git://apps.bafg.de/gitbucket/webera/hydflood3.git")
 ```
 
 - Nach einer Veröffentlichung auf [CRAN](https://cran.r-project.org) reicht eine 
-Zeile zur Installation:
+Zeile zur Installation, eine weitere zum Laden:
 ```{r hydflood3-install2, eval = FALSE, echo = TRUE}
 install.packages("hydflood3")
-```
-
-- Vor der Verwendung muss es dann nur noch geladen werden:
-```{r hydflood3-install3, eval = FALSE, echo = TRUE}
 library("hydflood3")
 ```
 
