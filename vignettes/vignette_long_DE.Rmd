@@ -118,8 +118,8 @@ beobachten und bewerten, wie hier an den Pegeln
 ist: 
 
 ```{r figure01, echo = FALSE, error = FALSE, fig.cap = capFig("Tagesgemittelte Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau."), fig.show = 'asis', message = FALSE, warning = FALSE}
-require(hyd1d, lib.loc = "/home/WeberA/R/3.4")
-require(plotrix)
+require(hyd1d, lib.loc = lib)
+require(plotrix, lib.loc = lib)
 xlim_min <- 257
 xlim_max <- 263
 ylim_min <- 53.8
