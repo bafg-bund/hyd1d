@@ -109,8 +109,8 @@ writeWaterLevelJson <- function(wldf, file, overwrite = FALSE){
     # return
     if (l(errors) == "1"){
         # convert wldf to df
-        df <- data.frame(id = row.names(wldf), as.data.frame(wldf),
-                         stringsAsFactors = FALSE)
+        df <- data.frame(id = as.character(as.numeric(row.names(wldf)) - 1), 
+                         as.data.frame(wldf), stringsAsFactors = FALSE)
         df$w <- as.character(df$w)
         df$w[is.na(df$w)] <- "NaN"
         
