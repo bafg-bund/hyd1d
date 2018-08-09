@@ -121,6 +121,9 @@ waterLevel <- function(wldf, shiny = FALSE){
     for (a in c("gauging_station", "agency", "river")){
         df.gauging_station_data[, a] <- asc2utf8(df.gauging_station_data[, a])
     }
+    id <- which(df.gauging_station_data$river == "RHEIN" & 
+                df.gauging_station_data$km_qps < 336.2)
+    df.gauging_station_data <- df.gauging_station_data[-id,]
     
     #####
     # gauging_stations
@@ -169,20 +172,18 @@ waterLevel <- function(wldf, shiny = FALSE){
     gauging_stations_missing <- character()
     
     ###
-    # add the df.gs_up to this data.frame, if w is available for the df.gs_up 
+    # add the df.gs_up to this data.frame, if w is available for the df.gs_up
     # on the specified date
     if (df.gs_up$gauging_station %in% c("GRENZE_CZ", "KEHL-KRONENHOF")){
-        df.gs_up$w <- -9999
+        df.gs_up$w <- NA_real_
         gs_up_missing <- character()
     } else {
         gs_up_missing <- character()
         w <- getGaugingDataW(df.gs_up$gauging_station, time)
         if (is.na(w)){
-            df.gs_up$w <- -9999
             gs_up_missing <- df.gs_up$gauging_station
-        } else {
-            df.gs_up$w <- w
         }
+        df.gs_up$w <- w
     }
     
     # replace df.gs_up with the next gs further upstream, if w is
@@ -202,53 +203,50 @@ waterLevel <- function(wldf, shiny = FALSE){
         gs_up_missing <- character()
         w <- getGaugingDataW(df.gs_up$gauging_station, time)
         if (is.na(w)){
-            df.gs_up$w <- -9999
             gs_up_missing <- df.gs_up$gauging_station
-        } else {
-            df.gs_up$w <- w
         }
+        df.gs_up$w <- w
     }
-    df.gs <- df.gs_up
     
     ###
     # append the df.gs_inarea to this data.frame, if w is available for a_gs on
     # the specified date
+    df.gs_inarea$w <- rep(NA_real_, nrow(df.gs_inarea))
     i <- 1
     for (a_gs in df.gs_inarea$gauging_station){
-        if (a_gs %in% c("GRENZE_CZ", "GEESTHACHT_WEHR", 
-                        "KEHL-KRONENHOF", "GRENZE_NL")) {
-            w <- -9999
+        if (a_gs %in% 
+                df.gauging_station_data$gauging_station[!
+                    df.gauging_station_data$data_present]) {
+            no_limit <- FALSE
+            w <- NA_real_
         } else {
+            no_limit <- TRUE
             w <- getGaugingDataW(a_gs, time)
         }
-        if (is.na(w)){
+        if (is.na(w) & no_limit){
             gauging_stations_missing <- append(gauging_stations_missing,
                                                paste0('in: ', a_gs))
-        } else {
-            df.gs_temp <- df.gs_inarea[i, ]
-            df.gs_temp$w <- w
-            df.gs <- rbind(df.gs, df.gs_temp, stringsAsFactors = FALSE)
-            rm(df.gs_temp)
         }
+        df.gs_inarea$w[i] <- w
+        rm(no_limit)
         i <- i + 1
     }
     
     ###
-    # append the df.gs_do to this list, if w is available for the df.gs_do on 
+    # append the df.gs_do to this list, if w is available for the df.gs_do on
     # the specified date
     if (df.gs_do$gauging_station %in% c("GEESTHACHT_WEHR", "GRENZE_NL")){
         gs_do_missing <- character()
-        df.gs_do$w <- NA
+        df.gs_do$w <- NA_real_
     } else {
         gs_do_missing <- character()
         w <- getGaugingDataW(df.gs_do$gauging_station, time)
         if (is.na(w)){
             gs_do_missing <- df.gs_do$gauging_station
-        } else {
-            df.gs_do$w <- w
         }
+        df.gs_do$w <- w
     }
-    
+
     # replace df.gs_do with the next gs further downstream, if w is
     # available for the df.gs_do further downstream on the specified date
     while (length(gs_do_missing) > 0){
@@ -258,7 +256,7 @@ waterLevel <- function(wldf, shiny = FALSE){
                     df.gauging_station_data$km_qps > df.gs_do$km_qps &
                     df.gauging_station_data$data_present)
         if (length(id) > 0){
-            id_gs <- max(id)
+            id_gs <- min(id)
             df.gs_do <- df.gauging_station_data[id_gs, ]
         } else {
             break
@@ -267,56 +265,19 @@ waterLevel <- function(wldf, shiny = FALSE){
         w <- getGaugingDataW(df.gs_do$gauging_station, time)
         if (is.na(w)){
             gs_do_missing <- df.gs_do$gauging_station
-        } else {
-            df.gs_do$w <- w
         }
+        df.gs_do$w <- w
     }
-    df.gs <- rbind(df.gs, df.gs_do, stringsAsFactors = FALSE)
-    df.gs <- df.gs[order(df.gs$km_qps), ]
+    
+    # bind the df.gs_. datasets and remove gauging stations which should 
+    # have data, but don't have them
+    df.gs <- rbind(df.gs_up, df.gs_inarea, df.gs_do, stringAsFactors = FALSE)
+    df.gs <- unique(df.gs)
+    df.gs <- df.gs[order(df.gs$km_qps),]
+    df.gs <- df.gs[!(df.gs$data_present & is.na(df.gs$w)),]
     
     # clean up temporary objects
     remove(df.gs_inarea, df.gs_do, df.gs_up)
-    
-    ###
-    # special case SCH\u00d6NA
-    if (df.gs$gauging_station[1] == "GRENZE_CZ" &
-        df.gs$gauging_station[2] == "GRENZE_CZ"){
-        df.gs <- df.gs[c(min(which(df.gs$w != -9999)), 
-                         (min(which(df.gs$w != -9999)):nrow(df.gs))), ]
-        km_start <- 0
-        km_end <- df.gs$km_qps[min(which(df.gs$w != -9999))]
-    }
-    
-    # special case IFFEZHEIM
-    if (df.gs$gauging_station[1] == "KEHL-KRONENHOF" &
-        df.gs$gauging_station[2] == "IFFEZHEIM"){
-        df.gs <- df.gs[c(min(which(df.gs$w != -9999)), 
-                         (min(which(df.gs$w != -9999)):nrow(df.gs))), ]
-        km_start <- 336.2
-        km_end <- df.gs$km_qps[min(which(df.gs$w != -9999))]
-    }
-    
-    # special case GEESTHACHT
-    if (df.gs$gauging_station[nrow(df.gs) - 1] == "GEESTHACHT_WEHR" &
-        df.gs$gauging_station[nrow(df.gs)]     == "GEESTHACHT_WEHR"){
-        df.gs <- df.gs[c((1:(max(which(df.gs$w != -9999)))), 
-                         max(which(df.gs$w != -9999))), ]
-        if (!exists('km_start', envir = e)) {
-            km_start <- df.gs$km_qps[max(which(df.gs$w != -9999))]
-        }
-        km_end <- 585.7
-    }
-    
-    # special case GRENZE_NL
-    if (df.gs$gauging_station[nrow(df.gs) - 1] == "GRENZE_NL" &
-        df.gs$gauging_station[nrow(df.gs)]     == "GRENZE_NL"){
-        df.gs <- df.gs[c((1:(max(which(df.gs$w != -9999)))), 
-                         max(which(df.gs$w != -9999))), ]
-        if (!exists('km_start', envir = e)) {
-            km_start <- df.gs$km_qps[max(which(df.gs$w != -9999))]
-        }
-        km_end <- 865.7
-    }
     
     # add additional result columns to df.gs
     df.gs$wl <- round(df.gs$pnp + df.gs$w/100, 3)
@@ -346,7 +307,7 @@ waterLevel <- function(wldf, shiny = FALSE){
     
     #####
     # loop over the sections
-    for (s in 1:(nrow(df.gs)-1)){
+    for (s in 1:(nrow(df.gs)-1)) {
         
         #####
         # catch the exceptions for areas
@@ -356,36 +317,24 @@ waterLevel <- function(wldf, shiny = FALSE){
         # downstream of:
         #   - GEESTHACHT
         #   - EMMERICH
-        if (df.gs$gauging_station[s] ==
-            df.gs$gauging_station[s + 1]){
+        if (any(is.na(df.gs$w[c(s, s + 1)]))) {
             
-            ###
-            # obtain gauging data w originally stored as cm, convert it to m
-            w <- df.gauging_data$w[which(df.gauging_data$gauging_station == 
-                                         df.gs$gauging_station[s] &
-                                         df.gauging_data$date == time)] / 100
-            df.gs$w[s] <- w
-            df.gs$w[s + 1] <- w
-            
-            # waterlevel in m
-            wl <- round(df.gs$pnp[s] + w, 3)
-            df.gs$wl[s] <- wl
-            df.gs$wl[s + 1] <- wl
+            id_s <- c(s, s + 1)[!is.na(df.gs$w[c(s, s + 1)])]
             
             ###
             # query FLYS3 to get the 30 stationary water levels for the gauging
             # stations stationing
-            df.flys <- waterLevelFlys3InterpolateX(river, df.gs$km_qps[s])
+            df.flys <- waterLevelFlys3InterpolateX(river, df.gs$km_qps[id_s])
             
             ###
             # determine the computation relevant water levels
-            df.gs$n_wls_below_w_up[s] <- sum(df.flys$w <= df.gs$wl[s])
-            df.gs$n_wls_above_w_up[s] <- sum(df.flys$w > df.gs$wl[s])
-            df.gs$n_wls_below_w_do[s + 1] <- sum(df.flys$w <= df.gs$wl[s + 1])
-            df.gs$n_wls_above_w_do[s + 1] <- sum(df.flys$w > df.gs$wl[s + 1])
+            df.gs$n_wls_below_w_up[s] <- sum(df.flys$w <= df.gs$wl[id_s])
+            df.gs$n_wls_above_w_up[s] <- sum(df.flys$w > df.gs$wl[id_s])
+            df.gs$n_wls_below_w_do[s + 1] <- sum(df.flys$w <= df.gs$wl[id_s])
+            df.gs$n_wls_above_w_do[s + 1] <- sum(df.flys$w > df.gs$wl[id_s])
             
-            wls_below <- sum(df.flys$w <= df.gs$wl[s])
-            wls_above <- 31 - sum(df.flys$w > df.gs$wl[s])
+            wls_below <- sum(df.flys$w <= df.gs$wl[id_s])
+            wls_above <- 31 - sum(df.flys$w > df.gs$wl[id_s])
             
             # special situation, that the w is
             # - below the lowest stationary water level of FLYS
@@ -417,14 +366,15 @@ waterLevel <- function(wldf, shiny = FALSE){
             
             ###
             # calculate the relative positions
-            y <- (df.gs$wl[s] - wl_le) / (wl_gr - wl_le)
+            y <- (df.gs$wl[id_s] - wl_le) / (wl_gr - wl_le)
             df.gs$weight_up[s] <- y
             df.gs$weight_do[s + 1] <- y
             
             ###
             # get the stationary water levels between the gauging_stations
             # - identify the stations within this section
-            id <- which(wldf$station >= km_start & wldf$station <= km_end)
+            id <- which(wldf$station >= df.gs$km_qps[s] & 
+                            wldf$station <= df.gs$km_qps[s + 1])
             
             # get the lower stationary water level for a section
             wldf.wl_le <- waterLevelFlys3(wldf[id, ], flys_wls[wls_below])
@@ -514,7 +464,7 @@ waterLevel <- function(wldf, shiny = FALSE){
             ###
             # identify the stations within this section
             id <- which(wldf$station >= df.gs$km_qps[s] & 
-                            wldf$station <= df.gs$km_qps[s + 1])
+                        wldf$station <= df.gs$km_qps[s + 1])
             #wldf_sub <- subset(wldf, station >= df.gs$km_qps[s] & 
             #                         station <= df.gs$km_qps[s + 1])
             
