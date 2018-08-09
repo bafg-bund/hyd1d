@@ -85,18 +85,61 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     }
     
     #####
+    # ...
+    dots <- list(...)
+    
+    ###
+    # modify known plot.default variables
+    # xlim
+    if (!("xlim" %in% names(dots))){
+        dots$xlim <- c(min(df.gs$km_qps), max(df.gs$km_qps))
+        ylim_set_x <- FALSE
+    } else {
+        ylim_set_x <- TRUE
+    }
+    
+    #####
     # FLYS preprocessing
-    if (add_flys){
-        # obtain the relevant FLYS water level data
-        df.flys <- data.frame(station = wldf$station,
-                              station_int = wldf$station_int,
-                              section = wldf$section)
-        
-        flys_wls <- unique(c(as.matrix(df.gs[,c("name_wl_below_w_do",
-                                                "name_wl_above_w_do",
-                                                "name_wl_below_w_up",
-                                                "name_wl_above_w_up")])))
-        flys_wls <- flys_wls[!(is.na(flys_wls))]
+    # obtain the relevant FLYS water level data
+    # for the wldf
+    df.flys <- data.frame(station = wldf$station,
+                          station_int = wldf$station_int,
+                          section = wldf$section)
+    
+    # for the total stretch
+    if (min(df.gs$km_qps) == min(wldf$station) |
+        min(df.gs$km_qps) >= min(wldf$station) - 0.1) {
+        station_up <- numeric()
+    } else {
+        station_up <- seq(min(df.gs$km_qps), min(wldf$station) - 0.1, 0.1)
+    }
+    if (max(df.gs$km_qps) == max(wldf$station) |
+        max(df.gs$km_qps) + 0.1 <= max(wldf$station)) {
+        station_do <- numeric()
+    } else {
+        station_do <- seq(max(wldf$station) + 0.1, max(df.gs$km_qps), 0.1)
+    }
+    station_total <- c(station_up, wldf$station, station_do)
+    section_total <- c(rep(min(wldf$section), length(station_up)), 
+                       wldf$section,
+                       rep(max(wldf$section), length(station_do)))
+    df.flys_total <- data.frame(station = station_total,
+                                station_int = as.integer(station_total * 
+                                                             1000),
+                                section = section_total)
+    wldf_total <- WaterLevelDataFrame(river = getRiver(wldf),
+                                      time = as.POSIXct(NA),
+                                      station_int = 
+                                          as.integer(station_total * 1000))
+    
+    # obtain the flys water levels
+    flys_wls <- unique(c(as.matrix(df.gs[,c("name_wl_below_w_do",
+                                            "name_wl_above_w_do",
+                                            "name_wl_below_w_up",
+                                            "name_wl_above_w_up")])))
+    flys_wls <- flys_wls[!(is.na(flys_wls))]
+    flys_wl <- ifelse(length(flys_wls > 1), TRUE, FALSE)
+    if (flys_wl) {
         for (a_wls in flys_wls){
             # query the FLYS data from the DB
             wldf_flys <- waterLevelFlys3(wldf, a_wls)
@@ -105,37 +148,47 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
             df.flys <- cbind(df.flys, wldf_flys$w)
             df.flys_names <- c(temp_names, a_wls)
             names(df.flys) <- df.flys_names
+            
+            # query the FLYS data from the DB
+            wldf_flys_total <- waterLevelFlys3(wldf_total, a_wls)
+            # bind the w column to df.flys
+            temp_names <- names(df.flys_total)
+            df.flys_total <- cbind(df.flys_total, wldf_flys_total$w)
+            df.flys_names <- c(temp_names, a_wls)
+            names(df.flys_total) <- df.flys_names
         }
         
-        # set ylim depending on flys water levels 
-        ylim_max <- max(df.flys[, 4:ncol(df.flys)])
-        ylim_min <- min(df.flys[, 4:ncol(df.flys)])
+        if (ylim_set_x) {
+            df.flys_total_s <- df.flys_total[
+                which(df.flys_total$station >= dots$xlim[1] &
+                      df.flys_total$station <= dots$xlim[2]), 
+                4:ncol(df.flys_total)]
+        }
         
-    } else {
-        
-        # set ylim depending on w
-        ylim_max <- max(wldf$w)
-        ylim_min <- min(wldf$w)
-        
-    }
-    
-    #####
-    # ...
-    dots <- list(...)
-    
-    ###
-    # modify known plot.default variables
-    # xlim
-    if (!("xlim" %in% names(dots))){
-        if (!(any(df.gs$km_qps >= min(df.gs$km_qps) & 
-                  df.gs$km_qps <= max(df.gs$km_qps)))){
-            if (nrow(df.gs) == 2){
-                dots$xlim <- c(min(df.gs$km_qps), max(df.gs$km_qps))
+        if (add_flys){
+            if (ylim_set_x) {
+                ylim_max <- max(df.flys_total_s)
+                ylim_min <- min(df.flys_total_s)
             } else {
-                dots$xlim <- c(min(wldf$station), max(wldf$station))
+                ylim_max <- max(df.flys_total[, 4:ncol(df.flys_total)])
+                ylim_min <- min(df.flys_total[, 4:ncol(df.flys_total)])
             }
         } else {
-            dots$xlim <- c(min(wldf$station), max(wldf$station))
+            if (ylim_set_x) {
+                ylim_max <- max(df.flys_total_s)
+                ylim_min <- min(df.flys_total_s)
+            } else {
+                ylim_max <- max(df.gs$wl, na.rm = TRUE)
+                ylim_min <- min(df.gs$wl, na.rm = TRUE)
+            }
+        }
+    } else {
+        if (ylim_set_x) {
+            ylim_max <- max(wldf$w)
+            ylim_min <- min(wldf$w)
+        } else {
+            ylim_max <- max(df.gs$wl, na.rm = TRUE)
+            ylim_min <- min(df.gs$wl, na.rm = TRUE)
         }
     }
     
@@ -181,9 +234,10 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     # append additional variables to dots
     dots$wldf <- wldf
     dots$add_flys <- add_flys
-    if (add_flys) {
+    if (add_flys & flys_wl) {
         dots$flys_wls <- flys_wls
         dots$df.flys <- df.flys
+        dots$df.flys_total <- df.flys_total
     }
     dots$add_flys_labels <- add_flys_labels
     dots$y_gauging_station_lab_max <- y_gauging_station_lab_max
@@ -203,6 +257,8 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     wldf <- dots$wldf
     dots$wldf <- NULL
     df.gs <- getGaugingStations(wldf)
+    gs_missing <- getGaugingStationsMissing(wldf)
+    gs_missing <- unlist(strsplit(gs_missing, ": "))[2 * 1:length(gs_missing)]
     
     add_flys <- dots$add_flys
     dots$add_flys <- NULL
@@ -212,6 +268,9 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     
     df.flys <- dots$df.flys
     dots$df.flys <- NULL
+    
+    df.flys_total <- dots$df.flys_total
+    dots$df.flys_total <- NULL
     
     add_flys_labels <- dots$add_flys_labels
     dots$add_flys_labels <- NULL
@@ -243,31 +302,60 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
         sections <- unique(wldf$section)
         if (length(sections) > 1){
             for (s in sections){
+                # subset df.flys and df.flys_total
                 df.flys_temp <- df.flys[which(df.flys$section == s), ]
-                # lower wl
+                df.flys_total_temp <- df.flys_total[
+                                            which(df.flys_total$section == s), ]
+                
+                ## lower wl
                 name_below <- df.gs$name_wl_below_w_up[s]
+                
+                # total
+                graphics::lines(df.flys_total_temp$station, 
+                                df.flys_total_temp[, name_below], lwd = 0.5)
+                
+                # in wldf
                 station_below <- df.gs$km_qps[s + 1]
                 w_below <- df.gs$w_wl_below_w_do[s + 1]
-                df.temp_below <- data.frame(station = c(df.gs$km_qps[s],
-                                                        df.flys_temp$station,
-                                                        station_below), 
-                                            w   = c(df.gs$w_wl_below_w_up[s],
-                                                    df.flys_temp[, name_below],
-                                                    w_below))
+                if (s == max(sections)) {
+                    df.temp_below <- data.frame(
+                        station = c(df.gs$km_qps[s], df.flys_temp$station), 
+                        w = c(df.gs$w_wl_below_w_up[s], 
+                              df.flys_temp[, name_below]))
+                } else {
+                    df.temp_below <- data.frame(
+                        station = c(df.gs$km_qps[s], df.flys_temp$station,
+                                    station_below), 
+                        w = c(df.gs$w_wl_below_w_up[s], 
+                              df.flys_temp[, name_below], w_below))
+                }
                 df.temp_below <- df.temp_below[
                     df.temp_below$station >= dots$xlim[1] & 
                         df.temp_below$station <= dots$xlim[2], ]
                 
-                # upper wl
+                ## upper wl
                 name_above <- df.gs$name_wl_above_w_up[s]
+                
+                # total
+                graphics::lines(df.flys_total_temp$station, 
+                                df.flys_total_temp[, name_above], 
+                                lwd = 0.5, col = "red")
+                
+                # in wldf
                 station_above <- df.gs$km_qps[s + 1]
                 w_above <- df.gs$w_wl_above_w_do[s + 1]
-                df.temp_above <- data.frame(station = c(df.gs$km_qps[s],
-                                                        df.flys_temp$station,
-                                                        df.gs$km_qps[s + 1]), 
-                                            w = c(df.gs$w_wl_above_w_up[s],
-                                                  df.flys_temp[, name_above],
-                                                  df.gs$w_wl_above_w_do[s + 1]))
+                if (s == max(sections)) {
+                    df.temp_above <- data.frame(
+                        station = c(df.gs$km_qps[s], df.flys_temp$station), 
+                        w = c(df.gs$w_wl_above_w_up[s], 
+                              df.flys_temp[, name_above]))
+                } else {
+                    df.temp_above <- data.frame(
+                        station = c(df.gs$km_qps[s], df.flys_temp$station,
+                                    station_above), 
+                        w = c(df.gs$w_wl_above_w_up[s], 
+                              df.flys_temp[, name_above], w_above))
+                }
                 df.temp_above <- df.temp_above[
                     df.temp_above$station >= dots$xlim[1] & 
                         df.temp_above$station <= dots$xlim[2],]
@@ -279,10 +367,9 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
                                                  rev(df.temp_above$w)))
                 graphics::polygon(df.temp_poly$station, df.temp_poly$w,
                                   col = "grey95", border = NA)
-                graphics::lines(df.temp_below$station, df.temp_below$w, 
-                                lwd = 0.6)
+                graphics::lines(df.temp_below$station, df.temp_below$w)
                 graphics::lines(df.temp_above$station, df.temp_above$w, 
-                                lwd = 0.6, col = "red")
+                                col = "red")
                 
                 # add letters
                 if (add_flys_labels) {
@@ -308,7 +395,13 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
             }
         } else {
             # lower wl
-            name_below <- df.gs$name_wl_below_w_up
+            name_below <- stats::na.omit(df.gs$name_wl_below_w_up)
+            
+            # total
+            graphics::lines(df.flys_total$station, 
+                            df.flys_total[, name_below], lwd = 0.5)
+            
+            # in wldf
             df.temp_below <- data.frame(station = df.flys$station,
                                         w = df.flys[, name_below])
             df.temp_below <- df.temp_below[
@@ -316,7 +409,13 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
                     df.temp_below$station <= dots$xlim[2], ]
             
             # upper wl
-            name_above <- df.gs$name_wl_above_w_up
+            name_above <- stats::na.omit(df.gs$name_wl_above_w_up)
+            
+            # total
+            graphics::lines(df.flys_total$station, 
+                            df.flys_total[, name_above], 
+                            lwd = 0.5, col = "red")
+            
             df.temp_above <- data.frame(station = df.flys$station,
                                         w = df.flys[, name_above])
             df.temp_above <- df.temp_above[
@@ -330,9 +429,8 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
                                              rev(df.temp_above$w)))
             graphics::polygon(df.temp_poly$station, df.temp_poly$w,
                               col = "grey95", border = NA)
-            graphics::lines(df.temp_below$station, df.temp_below$w, lwd = 0.6)
-            graphics::lines(df.temp_above$station, df.temp_above$w, lwd = 0.6, 
-                            col = "red")
+            graphics::lines(df.temp_below$station, df.temp_below$w)
+            graphics::lines(df.temp_above$station, df.temp_above$w, col = "red")
             
             # add letters
             if (add_flys_labels) {
@@ -352,11 +450,49 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     #####
     # add the gauging station 
     ##
+    # make parent environment accessible through the local environment
+    e <- environment()
+    p_env <- parent.env(e)
+    
+    # access the gauging_station_data
+    if (exists("df.gauging_station_data", where = p_env)){
+        get("df.gauging_station_data", envir = p_env)
+    } else {
+        utils::data("df.gauging_station_data")
+    }
+    for (a in c("gauging_station", "agency", "river")){
+        df.gauging_station_data[, a] <- asc2utf8(df.gauging_station_data[, a])
+    }
+    id <- which(df.gauging_station_data$river == "RHEIN" & 
+                df.gauging_station_data$km_qps < 336.2)
+    df.gauging_station_data <- df.gauging_station_data[-id,]
+    id <- which(df.gauging_station_data$river == toupper(getRiver(wldf)))
+    df.gsm <- df.gauging_station_data[id,]
+    
+    #####
+    # gauging_stations
+    # get a data.frame of the relevant gauging stations between start and end
+    id <- numeric()
+    for (i in 1:nrow(df.gsm)) {
+        if (df.gsm$gauging_station[i] %in% gs_missing) {
+            id <- append(id, i)
+        }
+    }
+    df.gsm <- df.gsm[id,]
+    
     # lines
     df.gs <- df.gs[df.gs$km_qps >= dots$xlim[1] & df.gs$km_qps <= dots$xlim[2],]
     if (nrow(df.gs) > 0){
         for (i in 1:nrow(df.gs)){
             graphics::lines(rep(df.gs$km_qps[i], 2), dots$ylim, lty = 3, 
+                            lwd = 0.5)
+        }
+    }
+    df.gsm <- df.gsm[df.gsm$km_qps >= dots$xlim[1] & 
+                     df.gsm$km_qps <= dots$xlim[2],]
+    if (nrow(df.gsm) > 0){
+        for (i in 1:nrow(df.gsm)){
+            graphics::lines(rep(df.gsm$km_qps[i], 2), dots$ylim, lty = 3, 
                             lwd = 0.5)
         }
     }
@@ -373,7 +509,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
                                           nrow(df.gs[id1 & id2, ])),
                                       df.gs$gauging_station[id1 & id2], 
                                       bg="white", srt = 90, border = FALSE, 
-                                      xpad = 4, ypad = 0.7, cex = 0.7)
+                                      xpad = 0.5, ypad = 0.5, cex = 0.7)
             }
         } else {
             id2 <- df.gs$km_qps > (dots$xlim[1] + 
@@ -384,7 +520,34 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
                                           nrow(df.gs[id1 & id2, ])),
                                       df.gs$gauging_station[id1 & id2],
                                       bg = "white", srt = 90, border = FALSE,
-                                      xpad = 4, ypad = 0.7, cex = 0.7)
+                                      xpad = 0.5, ypad = 0.5, cex = 0.7)
+            }
+        }
+    }
+    
+    id3 <- df.gsm$km_qps >= min(dots$xlim) & df.gsm$km_qps <= max(dots$xlim)
+    for (i in 1:2){
+        if (i == 1){
+            id4 <- df.gsm$km_qps <= (dots$xlim[1] + 
+                                         (dots$xlim[2] - dots$xlim[1]) / 2)
+            if (any(id3 & id4)){
+                plotrix::boxed.labels(df.gsm$km_qps[id3 & id4],
+                                      rep(y_gauging_station_lab_min, 
+                                          nrow(df.gsm[id3 & id4, ])),
+                                      df.gsm$gauging_station[id3 & id4], 
+                                      bg="white", srt = 90, border = FALSE, 
+                                      xpad = 0.5, ypad = 0.5, cex = 0.7)
+            }
+        } else {
+            id4 <- df.gsm$km_qps > (dots$xlim[1] + 
+                                        (dots$xlim[2] - dots$xlim[1]) / 2)
+            if (any(id3 & id4)){
+                plotrix::boxed.labels(df.gsm$km_qps[id3 & id4],
+                                      rep(y_gauging_station_lab_max, 
+                                          nrow(df.gsm[id3 & id4, ])),
+                                      df.gsm$gauging_station[id3 & id4],
+                                      bg = "white", srt = 90, border = FALSE,
+                                      xpad = 0.5, ypad = 0.5, cex = 0.7)
             }
         }
     }
@@ -419,6 +582,8 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
             }
         }
     }
+    
+    graphics::box()
 }
 
 .plot <- function(...){
