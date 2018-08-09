@@ -271,7 +271,7 @@ waterLevel <- function(wldf, shiny = FALSE){
     
     # bind the df.gs_. datasets and remove gauging stations which should 
     # have data, but don't have them
-    df.gs <- rbind(df.gs_up, df.gs_inarea, df.gs_do, stringAsFactors = FALSE)
+    df.gs <- rbind(df.gs_up, df.gs_inarea, df.gs_do, stringsAsFactors = FALSE)
     df.gs <- unique(df.gs)
     df.gs <- df.gs[order(df.gs$km_qps),]
     df.gs <- df.gs[!(df.gs$data_present & is.na(df.gs$w)),]
