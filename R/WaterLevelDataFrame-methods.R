@@ -1042,15 +1042,25 @@ methods::setMethod(f = "summary",
 #' 
 methods::setMethod("[", 
                    methods::signature(x = "WaterLevelDataFrame"),
-                   function(x, i, j, ...) {
-                   methods::initialize(x, 
-                                       .Data = as.data.frame(x)[i, j, drop = TRUE],
-                                       river = getRiver(x),
-                                       time = getTime(x),
-                                       gauging_stations = getGaugingStations(x),
-                                       gauging_stations_missing = 
-                                           getGaugingStationsMissing(x),
-                                       comment = comment(x))
+                   function(x, i, j) {
+                   # methods::initialize(x, 
+                   #                     .Data = as.data.frame(x)[i, j],
+                   #                     river = getRiver(x),
+                   #                     time = getTime(x),
+                   #                     gauging_stations = getGaugingStations(x),
+                   #                     gauging_stations_missing = 
+                   #                         getGaugingStationsMissing(x),
+                   #                     comment = comment(x))
+   wldf_data <- as.data.frame(x)[i, j, drop = TRUE]
+   wldf <- WaterLevelDataFrame(river = getRiver(x),
+                               time = getTime(x),
+                               gauging_stations_missing =
+                                   getGaugingStationsMissing(x),
+                               comment = comment(x),
+                               station_int = 
+                                   wldf_data$station_int,
+                               w = wldf_data$w)
+   return(wldf)
 })
 
 
@@ -1063,14 +1073,23 @@ methods::setReplaceMethod("[",
                  function(x, i, j, value) {
                      wldf_data <- as.data.frame(x)
                      wldf_data[i, j] <- value
-                     methods::initialize(x, 
-                                         .Data = wldf_data,
-                                         river = getRiver(x),
-                                         time = getTime(x),
-                                         gauging_stations = 
-                                             getGaugingStations(x),
-                                         gauging_stations_missing = 
-                                             getGaugingStationsMissing(x),
-                                         comment = comment(x))
+                     # methods::initialize(x, 
+                     #                     .Data = wldf_data,
+                     #                     river = getRiver(x),
+                     #                     time = getTime(x),
+                     #                     gauging_stations = 
+                     #                         getGaugingStations(x),
+                     #                     gauging_stations_missing = 
+                     #                         getGaugingStationsMissing(x),
+                     #                     comment = comment(x))
+                     wldf <- WaterLevelDataFrame(river = getRiver(x),
+                                                 time = getTime(x),
+                                                 gauging_stations_missing =
+                                                   getGaugingStationsMissing(x),
+                                                 comment = comment(x),
+                                                 station_int = 
+                                                   wldf_data$station_int,
+                                                 w = wldf_data$w)
+                     return(wldf)
 })
 

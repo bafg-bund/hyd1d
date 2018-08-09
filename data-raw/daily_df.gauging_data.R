@@ -72,7 +72,8 @@ if (file.exists(from) & !(file.exists(to)) & hour >= 6 & hour < 7){
     save(df.gauging_data, file = from, compress = "bzip2")
     
 } else {
-    write(paste0(downloads, "/df.gauging_data_latest.rda will be produced"), 
+    write(paste0("It is not the time to produce ", downloads, "/df.gauging_dat",
+                 "a_latest.rda or it has been produced already."), 
           stderr())
 }
 

@@ -836,32 +836,36 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
             }
             # w: range
             if (!(error_river)) {
-                if (min(w, na.rm = TRUE) < w_min) {
-                  errors <- c(errors, paste0("Error ", l(errors), ": min(w) ",
-                                             "must be above ",
-                                             as.character(w_min),
-                                             " m a.s.l. (DHHN92) for river '",
-                                             river, "'."))
-                }
-                if (max(w, na.rm = TRUE) > w_max) {
-                  errors <- c(errors, paste0("Error ", l(errors), ": max(w) ",
-                                             "must be below ",
-                                             as.character(w_max),
-                                             " m a.s.l. (DHHN92) for river '",
-                                             river, "'."))
+                if (!(all(is.na(w)))) {
+                    if (min(w, na.rm = TRUE) < w_min) {
+                      errors <- c(errors, paste0("Error ", l(errors), ": min(w",
+                                                 ") must be above ",
+                                                 as.character(w_min),
+                                                 " m a.s.l. (DHHN92) for river",
+                                                 " '", river, "'."))
+                    }
+                    if (max(w, na.rm = TRUE) > w_max) {
+                      errors <- c(errors, paste0("Error ", l(errors), ": max(w",
+                                                 ") must be below ",
+                                                 as.character(w_max),
+                                                 " m a.s.l. (DHHN92) for river",
+                                                 " '", river, "'."))
+                    }
                 }
             } else {
-                if (min(w, na.rm = TRUE) < w_min) {
-                  errors <- c(errors, paste0("Error ", l(errors), ": min(w) ",
-                                             "must be above ", 
-                                             as.character(w_min),
-                                             " m a.s.l.", " (DHHN92)."))
-                }
-                if (max(w, na.rm = TRUE) > w_max) {
-                  errors <- c(errors, paste0("Error ", l(errors), ": max(w) ",
-                                             "must be below ", 
-                                             as.character(w_max),
-                                             " m a.s.l.", " (DHHN92)."))
+                if (!(all(is.na(w)))) {
+                    if (min(w, na.rm = TRUE) < w_min) {
+                      errors <- c(errors, paste0("Error ", l(errors), ": min(w",
+                                                 ") must be above ", 
+                                                 as.character(w_min),
+                                                 " m a.s.l.", " (DHHN92)."))
+                    }
+                    if (max(w, na.rm = TRUE) > w_max) {
+                      errors <- c(errors, paste0("Error ", l(errors), ": max(w",
+                                                 ") must be below ", 
+                                                 as.character(w_max),
+                                                 " m a.s.l.", " (DHHN92)."))
+                    }
                 }
             }
             wldf_w <- w
@@ -943,32 +947,36 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
             }
             ## w: range
             if (!(error_river)) {
-                if (min(w, na.rm = TRUE) < w_min) {
-                  errors <- c(errors, paste0("Error ", l(errors), ": min(w) ",
-                                             "must be above ",
-                                             as.character(w_min),
-                                             " m a.s.l. (DHHN92) for river '",
-                                             river, "'."))
-                }
-                if (max(w, na.rm = TRUE) > w_max) {
-                  errors <- c(errors, paste0("Error ", l(errors), ": max(w) ",
-                                             "must be below ",
-                                             as.character(w_max),
-                                             " m a.s.l. (DHHN92) for river '",
-                                             river, "'."))
+                if (!(all(is.na(w)))) {
+                    if (min(w, na.rm = TRUE) < w_min) {
+                      errors <- c(errors, paste0("Error ", l(errors), ": min(w",
+                                                 ") must be above ",
+                                                 as.character(w_min),
+                                                 " m a.s.l. (DHHN92) for river",
+                                                 " '", river, "'."))
+                    }
+                    if (max(w, na.rm = TRUE) > w_max) {
+                      errors <- c(errors, paste0("Error ", l(errors), ": max(w",
+                                                 ") must be below ",
+                                                 as.character(w_max),
+                                                 " m a.s.l. (DHHN92) for river",
+                                                 " '", river, "'."))
+                    }
                 }
             } else {
-                if (min(w, na.rm = TRUE) < w_min) {
-                  errors <- c(errors, paste0("Error ", l(errors), ": min(w) ",
-                                             "must be above ",
-                                             as.character(w_min),
-                                             " m a.s.l. (DHHN92)."))
-                }
-                if (max(w, na.rm = TRUE) > w_max) {
-                  errors <- c(errors, paste0("Error ", l(errors), ": max(w) ",
-                                             "must be below ",
-                                             as.character(w_max),
-                                             " m a.s.l. (DHHN92)."))
+                if (!(all(is.na(w)))) {
+                    if (min(w, na.rm = TRUE) < w_min) {
+                      errors <- c(errors, paste0("Error ", l(errors), ": min(w",
+                                                 ") must be above ",
+                                                 as.character(w_min),
+                                                 " m a.s.l. (DHHN92)."))
+                    }
+                    if (max(w, na.rm = TRUE) > w_max) {
+                      errors <- c(errors, paste0("Error ", l(errors), ": max(w",
+                                                 ") must be below ",
+                                                 as.character(w_max),
+                                                 " m a.s.l. (DHHN92)."))
+                    }
                 }
             }
             wldf_w <- w
