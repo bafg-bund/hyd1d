@@ -26,7 +26,7 @@ source("R/hyd1d-internal.R")
 # loop over all dates and sections
 for (a_day in seq(as.Date("2017-01-01"), as.Date("2018-08-07"), by = "days")) {
     for (i in 1:nrow(df.sections)) {
-        print(as.character(a_day))
+        
         # create the empty wldf
         river <- simpleCap(df.sections$river[i])
         section <- asc2utf8(df.sections$name[i])
