@@ -49,7 +49,7 @@ test_that("waterLevel: Geesthacht", {
         expect_equal(wldf1$station, wldf2$station)
         expect_equal(wldf1$station_int, wldf2$station_int)
         diff <- wldf1$w - wldf2$w
-        expect_equal(min(diff), -0.01, 
+        expect_equal(min(diff), 0, 
                      label = "minimum difference: computed wl <> stored  wl")
         expect_equal(max(diff), 0.01, 
                      label = "maximum difference: computed wl <> stored  wl")
