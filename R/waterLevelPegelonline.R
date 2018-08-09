@@ -239,7 +239,7 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE){
     
     # bind the df.gs_. datasets and remove gauging stations which should 
     # have data, but don't have them
-    df.gs <- rbind(df.gs_up, df.gs_inarea, df.gs_do, stringAsFactors = FALSE)
+    df.gs <- rbind(df.gs_up, df.gs_inarea, df.gs_do, stringsAsFactors = FALSE)
     df.gs <- unique(df.gs)
     df.gs <- df.gs[order(df.gs$km_qps),]
     df.gs <- df.gs[!(df.gs$data_present & is.na(df.gs$w)),]
@@ -341,7 +341,8 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE){
             ###
             # get the stationary water levels between the gauging_stations
             # - identify the stations within this section
-            id <- which(wldf$station >= km_start & wldf$station <= km_end)
+            id <- which(wldf$station >= df.gs$km_qps[s] & 
+                            wldf$station <= df.gs$km_qps[s + 1])
             
             # get the lower stationary water level for a section
             wldf.wl_le <- waterLevelFlys3(wldf[id, ], flys_wls[wls_below])
