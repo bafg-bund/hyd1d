@@ -162,9 +162,17 @@ waterLevelFlys3 <- function(wldf, name){
     # identify the relevant river stretch
     id <- which(df.flys_sel$station >= min(wldf$station) &
                 df.flys_sel$station <= max(wldf$station))
-    df.wl_left <- df.flys_sel[min(id), ]
-    df.wl_right <- df.flys_sel[max(id), ]
-    id <- c(min(id) - 1, id, max(id) + 1)
+    if (length(id) == 0) {
+        id_min <- min(which(df.flys_sel$station >= min(wldf$station)))
+        id_max <- max(which(df.flys_sel$station <= max(wldf$station)))
+        df.wl_left <- df.flys_sel[id_min, ]
+        df.wl_right <- df.flys_sel[id_max, ]
+        id <- c(id_min, id_max)
+    } else {
+        df.wl_left <- df.flys_sel[min(id), ]
+        df.wl_right <- df.flys_sel[max(id), ]
+        id <- c(min(id) - 1, id, max(id) + 1)
+    }
     df.wl <- stats::na.omit(df.flys_sel[id, ])
     
     #####
