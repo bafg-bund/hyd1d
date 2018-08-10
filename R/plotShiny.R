@@ -315,19 +315,28 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
                                 df.flys_total_temp[, name_below], lwd = 0.5)
                 
                 # in wldf
-                station_below <- df.gs$km_qps[s + 1]
-                w_below <- df.gs$w_wl_below_w_do[s + 1]
-                if (s == max(sections)) {
-                    df.temp_below <- data.frame(
-                        station = c(df.gs$km_qps[s], df.flys_temp$station), 
-                        w = c(df.gs$w_wl_below_w_up[s], 
-                              df.flys_temp[, name_below]))
+                df.temp_below <- data.frame(station = numeric(),
+                                            w = numeric())
+                station_below <- df.gs$km_qps[s]
+                w_below <- df.gs$w_wl_below_w_up[s]
+                if (df.gs$km_qps[s] >= min(wldf$station) & 
+                    df.gs$km_qps[s] <= max(wldf$station)) {
+                    df.temp_below <- rbind(df.temp_below,
+                        data.frame(station = station_below,
+                                   w = w_below))
                 } else {
-                    df.temp_below <- data.frame(
-                        station = c(df.gs$km_qps[s], df.flys_temp$station,
-                                    station_below), 
-                        w = c(df.gs$w_wl_below_w_up[s], 
-                              df.flys_temp[, name_below], w_below))
+                    station_below <- min(wldf$station)
+                    w_below <- df.flys[
+                        which(df.flys$station == min(wldf$station)), name_below]
+                }
+                df.temp_below <- rbind(df.temp_below,
+                    data.frame(station = df.flys_temp$station,
+                               w = df.flys_temp[, name_below]))
+                if (df.gs$km_qps[s + 1] >= min(wldf$station) & 
+                    df.gs$km_qps[s + 1] <= max(wldf$station)) {
+                    df.temp_below <- rbind(df.temp_below,
+                        data.frame(station = df.gs$km_qps[s + 1],
+                                   w = df.gs$w_wl_below_w_do[s + 1]))
                 }
                 df.temp_below <- df.temp_below[
                     df.temp_below$station >= dots$xlim[1] & 
@@ -342,19 +351,28 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
                                 lwd = 0.5, col = "red")
                 
                 # in wldf
-                station_above <- df.gs$km_qps[s + 1]
-                w_above <- df.gs$w_wl_above_w_do[s + 1]
-                if (s == max(sections)) {
-                    df.temp_above <- data.frame(
-                        station = c(df.gs$km_qps[s], df.flys_temp$station), 
-                        w = c(df.gs$w_wl_above_w_up[s], 
-                              df.flys_temp[, name_above]))
+                df.temp_above <- data.frame(station = numeric(),
+                                            w = numeric())
+                station_above <- df.gs$km_qps[s]
+                w_above <- df.gs$w_wl_above_w_up[s]
+                if (df.gs$km_qps[s] >= min(wldf$station) & 
+                    df.gs$km_qps[s] <= max(wldf$station)) {
+                    df.temp_above <- rbind(df.temp_above,
+                        data.frame(station = station_above,
+                                   w = w_above))
                 } else {
-                    df.temp_above <- data.frame(
-                        station = c(df.gs$km_qps[s], df.flys_temp$station,
-                                    station_above), 
-                        w = c(df.gs$w_wl_above_w_up[s], 
-                              df.flys_temp[, name_above], w_above))
+                    station_above <- min(wldf$station)
+                    w_above <- df.flys[
+                        which(df.flys$station == min(wldf$station)), name_above]
+                }
+                df.temp_above <- rbind(df.temp_above,
+                    data.frame(station = df.flys_temp$station,
+                               w = df.flys_temp[, name_above]))
+                if (df.gs$km_qps[s + 1] >= min(wldf$station) & 
+                    df.gs$km_qps[s + 1] <= max(wldf$station)) {
+                    df.temp_above <- rbind(df.temp_above,
+                        data.frame(station = df.gs$km_qps[s + 1],
+                                   w = df.gs$w_wl_above_w_do[s + 1]))
                 }
                 df.temp_above <- df.temp_above[
                     df.temp_above$station >= dots$xlim[1] & 
