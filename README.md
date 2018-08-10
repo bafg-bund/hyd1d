@@ -1,16 +1,18 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-hyd1d
-=====
 
-[![pipeline status](https://git.aqualogy.de/arnd/hyd1d/badges/master/pipeline.svg)](https://git.aqualogy.de/arnd/hyd1d/commits/master)
+# hyd1d
 
-The R package **hyd1d** is designed to compute 1-dimensional water level information along German federal waterways Elbe and Rhine.
+[![pipeline
+status](https://git.aqualogy.de/arnd/hyd1d/badges/master/pipeline.svg)](https://git.aqualogy.de/arnd/hyd1d/commits/master)
 
-Installation
-------------
+The R package **hyd1d** is designed to compute 1-dimensional water level
+information along German federal waterways Elbe and Rhine.
 
-**hyd1d** is not currently available from CRAN, but you can install the development version from BfG's gitbucket server with:
+## Installation
+
+**hyd1d** is not currently available from CRAN, but you can install the
+development version from BfG’s gitbucket server with:
 
 ``` r
 install.packages("devtools")
@@ -18,10 +20,13 @@ library(devtools)
 devtools::install_git("git://apps.bafg.de/gitbucket/webera/hyd1d.git")
 ```
 
-Usage
------
+## Usage
 
-The package **hyd1d** is build around the S4-class `WaterLevelDataFrame`. To compute and visualize 1-dimensional water level information an object of class `WaterLevelDataFrame` has to be initialized. Various functions included in **hyd1d** use these objects and compute water levels stored in the column `w`.
+The package **hyd1d** is build around the S4-class
+`WaterLevelDataFrame`. To compute and visualize 1-dimensional water
+level information an object of class `WaterLevelDataFrame` has to be
+initialized. Various functions included in **hyd1d** use these objects
+and compute water levels stored in the column `w`.
 
 ``` r
 # load the package
@@ -36,7 +41,7 @@ wldf <- WaterLevelDataFrame(river   = "Elbe",
 wldf <- waterLevel(wldf, TRUE)
 
 # and plot it
-plotShiny(wldf, TRUE, TRUE, TRUE)
+plotShiny(wldf, TRUE, TRUE, TRUE, xlim = c(256.8, 262.2))
 ```
 
 <img src="README_files/figure-markdown_github/usage-1.png" style="display: block; margin: auto;" />
