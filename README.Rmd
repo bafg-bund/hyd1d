@@ -61,5 +61,5 @@ wldf <- WaterLevelDataFrame(river   = "Elbe",
 wldf <- waterLevel(wldf, TRUE)
 
 # and plot it
-plotShiny(wldf, TRUE, TRUE, TRUE)
+plotShiny(wldf, TRUE, TRUE, TRUE, xlim = c(256.8, 262.2))
 ```
