@@ -5,7 +5,8 @@
 # date:   09.08.2018
 #
 # purpose: 
-#   - compute all missing daily water levels and export them file based in Z:
+#   - compute daily water levels and export them file based in Z:
+#   - run to recomputed water levels with validated W data from HyDaBa
 #
 ##################################################
 
@@ -24,7 +25,7 @@ library(hyd1d, lib.loc = lib)
 source("R/hyd1d-internal.R")
 
 # loop over all dates and sections
-for (a_day in seq(as.Date("2017-01-01"), as.Date("2018-08-07"), by = "days")) {
+for (a_day in seq(as.Date("2017-01-01"), as.Date("2017-12-31"), by = "days")) {
     for (i in 1:nrow(df.sections)) {
         
         # create the empty wldf
