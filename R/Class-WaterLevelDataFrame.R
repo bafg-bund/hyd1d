@@ -521,7 +521,7 @@ methods::setClass(
 #'   and maximal allowed values of \code{w} are river-specific: Elbe (m a.s.l. 0
 #'   - 130), Rhein (m a.s.l. 5 - 120).
 #'
-#' @return The function above produces an object of class
+#' @return The function produces an object of class
 #'   \code{"WaterLevelDataFrame"} which might contain 1D water level data and
 #'   information to recompute it.
 #'
