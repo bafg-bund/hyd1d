@@ -1,6 +1,9 @@
 
 if (Sys.info()["nodename"] == "hpc-service") {
-    
+    if (!exists("lib")){
+        v <- R.Version()
+        lib <- paste0("~/R/", paste(sep = ".", v$major, v$minor))
+    }
     require(ROracle, lib.loc = lib)
     
     # get credentials
