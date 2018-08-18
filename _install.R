@@ -23,7 +23,7 @@ dir.create(lib, verbose, TRUE)
 # ROracle (>= 1.1-1) needs an Oracle (Instant)Client
 packages <- c("RJSONIO", "RCurl", "plotrix", "Rdpack", "DBI", "ROracle", 
               "RPostgreSQL", "testthat", "knitr", "rmarkdown", "stringr", 
-              "devtools", "pkgdown", "roxygen2", "revealjs")
+              "devtools", "pkgdown", "roxygen2", "revealjs", "shiny")
 
 for (a_package in packages) {
     if (! (a_package %in% installed.packages(lib.loc = lib)[, "Package"])) {
