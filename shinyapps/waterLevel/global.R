@@ -1,6 +1,10 @@
+# standard library path for the package install
+R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
+lib <- paste0("~/R/", R_version, "/")
+
 # load the necessary packages
-library(shiny)
-library(hyd1d, lib.loc = "/home/WeberA/R/3.5.0")
+library(shiny, lib.loc = lib)
+library(hyd1d, lib.loc = lib)
 
 # set english locale to produce english plot labels
 Sys.setlocale(category = "LC_MESSAGES", locale = "en_US.utf8")
