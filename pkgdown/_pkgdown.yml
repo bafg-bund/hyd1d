@@ -70,6 +70,12 @@ navbar:
         href: articles/presentation_DE.html
     - text: Reference
       href: reference/index.html
+    - text: "ShinyApps"
+      menu:
+      - text: "waterLevel()"
+        href: http://hpc-service.bafg.de/shiny/WeberA/05-waterlevel/
+      - text: "waterLevelPegelonline()"
+        href: http://hpc-service.bafg.de/shiny/WeberA/06-waterlevelpegelonline/
   right:
     - text: BfG
       href: http://www.bafg.de
