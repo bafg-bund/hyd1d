@@ -1,7 +1,7 @@
 ---
 title: hyd1d & hydflood3
 subtitle: R-Pakete zur Interpolation von 1D-Wasserspiegellagen mit Pegeldaten und zur Überflutungsdauerberechnung
-author: Arnd Weber, Marcus Hatz, Wolfgang Stürmer, Wilfried Wiechmann
+author: Arnd Weber, Marcus Hatz, Stephan Rosenzweig
 date: "`r format(Sys.time(), '%d.%m.%Y')`"
 output:
   revealjs::revealjs_presentation:
@@ -36,7 +36,7 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, error = FALSE, message = FA
 
 ## {#po-query-dessau data-background="screenshot_pegelonline_Dessau.png" data-background-size="auto 750px"}
 
-## Wasserstand der angrenzenden Pegel {#po-res1}
+## Wasserstände der angrenzenden Pegel {#po-res1}
 
 ```{r pegelonline-res1}
 # standard library path for the installed local packages
@@ -1012,7 +1012,7 @@ Querprofilflächen
 ## Vergleich von Überflutungsdauern {#hydflood3-comp}
 
 - Es fehlt ein Vergleich zwischen den Überflutungsdauern nach **flood3** und 
-einem instationären 2D- oder 3D-Hydraulik-Modell.
+einem instationären 2D- oder 3D-Hydraulik-Modell und der realen Messdaten.
 
 ## Zusammenfassung {#hydflood3-summary}
 
