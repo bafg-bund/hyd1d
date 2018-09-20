@@ -1,5 +1,5 @@
 ---
-title: hyd1d & hydflood3
+title: hyd1d & hydflood
 subtitle: R-Pakete zur Interpolation von 1D-Wasserspiegellagen mit Pegeldaten und zur Überflutungsdauerberechnung
 author: Arnd Weber, Marcus Hatz, Stephan Rosenzweig
 date: "`r format(Sys.time(), '%d.%m.%Y')`"
@@ -19,15 +19,21 @@ output:
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, error = FALSE, message = FALSE)
 ```
 
-# Wie erhält man Wasserstandsinformationen für einen Punkt oder eine Strecke an einer Bundeswasserstraße zu einem ausgewählten Zeitpunkt? {#problemstellung}
+# Wie erhält man Wasserstandsinformationen für einen Punkt oder eine Strecke an einer Bundeswasserstraße zu einem ausgewählten Zeitpunkt? {#problemstellung data-background="background.png" data-background-size="auto 800px"}
 
 ## {#problemstellung-karte data-background="map.png" data-background-size="auto 800px"}
 
 ## 21.12.2016 {#problemstellung-karte-date data-background="screenshot_hydflood3_20161221.png" data-background-size="auto 800px"}
 
-# PEGELONLINE {#po}
+## Wie aggregiert man diese flächige Wasserstandsinformation über die Zeit zu Überflutungsdauern? {#problemstellung-flood1 data-background="background.png" data-background-size="auto 800px"}
 
-## Abfrage der nächstgelegenen Pegel {#po-query}
+## Wie aggregiert man diese flächige Wasserstandsinformation über die Zeit zu Überflutungsdauern? {#problemstellung-flood2 data-background="background.png" data-background-size="auto 800px"}
+
+[http://hpc-service.bafg.de/shiny/WeberA/07-flood3/](http://hpc-service.bafg.de/shiny/WeberA/07-flood3/)
+
+# PEGELONLINE {#po data-background="background.png" data-background-size="auto 800px"}
+
+## Abfrage der nächstgelegenen Pegel {#po-query data-background="background.png" data-background-size="auto 800px"}
 
 - <https://pegelonline.wsv.de/gast/stammdaten?pegelnr=501490>
 - <https://pegelonline.wsv.de/gast/stammdaten?pegelnr=502000>
@@ -36,13 +42,14 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, error = FALSE, message = FA
 
 ## {#po-query-dessau data-background="screenshot_pegelonline_Dessau.png" data-background-size="auto 750px"}
 
-## Wasserstände der angrenzenden Pegel {#po-res1}
+## Wasserstände der angrenzenden Pegel {#po-res1 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r pegelonline-res1}
 # standard library path for the installed local packages
 R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
 lib <- paste0("~/R/", R_version, "/")
 require(hyd1d, lib.loc = lib)
+require(hydflood3, lib.loc = lib)
 require(plotrix, lib.loc = lib)
 
 cex_legend <- 0.7
@@ -85,7 +92,7 @@ lm_pegelonline <- lm(wl ~ km_qps, data = gs[id, ])
 }
 ```
 
-## Lineare Interpolation {#po-res2}
+## Lineare Interpolation {#po-res2 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r pegelonline-res2}
 {
@@ -118,9 +125,9 @@ lm_pegelonline <- lm(wl ~ km_qps, data = gs[id, ])
 }
 ```
 
-# FLYS
+# FLYS {#flys data-background="background.png" data-background-size="auto 800px"}
 
-## Einleitung {#flys-intro}
+## Einleitung {#flys-intro data-background="background.png" data-background-size="auto 800px"}
 
 > - **FLYS** ist kein hydraulisches Modell, sondern eine Plattform zur Ausgabe 
 und Interpolation von Modellergebnissen.
@@ -129,9 +136,9 @@ Abflusslängsschnitte von 0.5MNQ bis HQ500 aus 1D-SOBEK-Berechnungen bereit.
 > - <https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html>
 > - Quellcode verfügbar auf <http://www.dive4elements.org>
 
-## Verfügbare Wasserspiegellagen {#flys-wsl}
+## Verfügbare Wasserspiegellagen {#flys-wsl1}
 
-```{r flys-wsl}
+```{r flys-wsl1}
 flys3_water_levels <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ", "c",
                         "2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5", "g", 
                         "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50", "HQ75", 
@@ -162,7 +169,49 @@ flys3_water_levels <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ", "c",
 }
 ```
 
-## Ausgewählte Wasserspiegellagen {#flys-wsl-sel1}
+## Verfügbare Wasserspiegellagen {#flys-wsl2}
+
+```{r flys-wsl2}
+flys3_water_levels <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ", "c",
+                        "2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5", "g", 
+                        "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50", "HQ75", 
+                        "HQ100", "i", "HQ150", "HQ200", "HQ300", "HQ500")
+
+{
+    par(cex = 1.2)
+    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), ylim = c(53, 62), 
+         xlab = "Flusskilometer (km)", 
+         ylab = "H\u00f6he (m \u00fcber NHN (DHHN92))")
+    for (a_wl in flys3_water_levels){
+        wldf_temp <- waterLevelFlys3(wldf, a_wl)
+        if (a_wl %in% c("0.5MNQ", "MNQ", "MQ", "MHQ", "HQ10", "HQ100", "HQ500")){
+            lines(wldf_temp$station, wldf_temp$w, lty = 1, col = "darkblue")
+            text(262.0, wldf_temp$w[nrow(wldf_temp)], a_wl, pos = 4, cex = 1)
+        } else {
+            lines(wldf_temp$station, wldf_temp$w, lty = 3, lwd = 0.2, 
+                  col = "darkblue")
+        }
+    }
+    abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
+    boxed.labels(gs$km_qps[2], 53.5, gs$gauging_station[2], cex = 1, 
+                 border = FALSE)
+    boxed.labels(gs$km_qps[3], 61.5, gs$gauging_station[3], cex = 1, 
+                 border = FALSE)
+    abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
+    boxed.labels(259.6, 61.5, "MULDE", cex = 1, border = FALSE, col = "blue")
+    
+    # gauging data
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+           bg = "darkblue")
+    
+    # legend
+    legend("topright", 
+           pch = 21, col = "darkblue", pt.bg = "darkblue", pt.cex = 1,
+           legend = "Wasserstand", cex = cex_legend, bty = "n")
+}
+```
+
+## Ausgewählte Wasserspiegellagen {#flys-wsl-sel1 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r flys-wsl-sel1}
 mq_0.5 <- waterLevelFlys3(wldf, "0.5MQ")
@@ -204,7 +253,7 @@ mq <- waterLevelFlys3(wldf, "MQ")
 }
 ```
 
-## Interpolierte Wasserspiegellagen {#flys-wsl-sel2}
+## Interpolierte Wasserspiegellagen {#flys-wsl-sel2 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r flys-wsl-sel2}
 wldf2 <- waterLevelFlys3InterpolateY(wldf, "WITTENBERG", shiny = TRUE)
@@ -240,7 +289,7 @@ wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
 }
 ```
 
-## Interpolierte Wasserspiegellagen {#flys-wsl-sel3}
+## Interpolierte Wasserspiegellagen {#flys-wsl-sel3 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r flys-wsl-sel3}
 {
@@ -277,7 +326,7 @@ wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
 }
 ```
 
-## Interpolierte Wasserspiegellagen {#flys-wsl-sel4}
+## Interpolierte Wasserspiegellagen {#flys-wsl-sel4 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r flys-wsl-sel4}
 {
@@ -314,7 +363,7 @@ wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
 }
 ```
 
-## Interpolierte Wasserspiegellagen {#flys-wsl-sel5}
+## Interpolierte Wasserspiegellagen {#flys-wsl-sel5 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r flys-wsl-sel5}
 {
@@ -351,7 +400,7 @@ wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
 }
 ```
 
-## Interpolierte Wasserspiegellagen {#flys-wsl-sel6}
+## Interpolierte Wasserspiegellagen {#flys-wsl-sel6 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r flys-wsl-sel6}
 {
@@ -396,7 +445,7 @@ wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
 }
 ```
 
-## Vergleich der Wasserspiegellagen {#flys-wsl-sel7}
+## Vergleich der Wasserspiegellagen {#flys-wsl-sel7 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r flys-wsl-sel7}
 {
@@ -442,7 +491,7 @@ wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
 
 ```
 
-## Zusammenfassung {#flys-summary}
+## Zusammenfassung {#flys-summary data-background="background.png" data-background-size="auto 800px"}
 
 > - **FLYS** interpoliert stationäre Wasserspiegellagen abschnittsweise mit 
 jeweils einem Bezugspegel.
@@ -453,9 +502,9 @@ mehreren Dezimetern zwischen mit **FLYS** abschnittsweise berechneten
 Wasserspiegellagen verursachen.
 > - Sprünge, bzw. Diskontinuitäten an Abschnittsgrenzen sind daher unvermeidbar.
 
-# hyd1d
+# hyd1d {#hyd1d data-background="background.png" data-background-size="auto 800px"}
 
-## Einleitung {#hyd1d-intro}
+## Einleitung {#hyd1d-intro data-background="background.png" data-background-size="auto 800px"}
 
 > - **hyd1d** ist als **R**-Paket programmiert und soll über [CRAN](https://cran.r-project.org) unter der
 [GPL2](https://www.gnu.org/licenses/gpl-2.0) veröffentlicht werden.
@@ -467,7 +516,7 @@ Wasserspiegellagen von [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/0
 resultierenden Wasserspiegellagen auch über lange Strecken keine 
 Diskontinuitäten aufweisen.
 
-## Methodik {#hyd1d-method}
+## Methodik {#hyd1d-method data-background="background.png" data-background-size="auto 800px"}
 
 1. Bestimmung der relevanten Pegel für den Berechnungsort, bzw. die
 Berechnungsstrecke
@@ -479,7 +528,7 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
 5. Abschnittsweise, entfernungsabhängige Interpolation zwischen den einrahmenden
 FLYS-Wasserspiegellagen
 
-## 1. Streckenrelevante Pegel {#hyd1d-method-1}
+## 1. Streckenrelevante Pegel {#hyd1d-method-1 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r hyd1d-method-1}
 {
@@ -501,7 +550,7 @@ FLYS-Wasserspiegellagen
 }
 ```
 
-## 2. Wasserstände {#hyd1d-method-2}
+## 2. Wasserstände {#hyd1d-method-2 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r hyd1d-method-2}
 {
@@ -531,7 +580,7 @@ FLYS-Wasserspiegellagen
 }
 ```
 
-## 3. Aufteilung der Berechnungsstrecke {#hyd1d-method-3}
+## 3. Aufteilung der Berechnungsstrecke {#hyd1d-method-3 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r hyd1d-method-3}
 {
@@ -570,7 +619,7 @@ FLYS-Wasserspiegellagen
 }
 ```
 
-## 4. Einrahmende Wasserspiegellagen {#hyd1d-method-4}
+## 4. Einrahmende Wasserspiegellagen {#hyd1d-method-4 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r hyd1d-method-4}
 {
@@ -613,7 +662,7 @@ FLYS-Wasserspiegellagen
 }
 ```
 
-## 5.1 Gewichtung an den Pegeln {#hyd1d-method-5-1}
+## 5.1 Gewichtung an den Pegeln {#hyd1d-method-5-1 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r hyd1d-method-5-1}
 {
@@ -665,7 +714,7 @@ FLYS-Wasserspiegellagen
 }
 ```
 
-## 5.2 Gewichtung entlang der Strecke {#hyd1d-method-5-2}
+## 5.2 Gewichtung entlang der Strecke {#hyd1d-method-5-2 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r hyd1d-method-5-2}
 {
@@ -695,7 +744,7 @@ FLYS-Wasserspiegellagen
 }
 ```
 
-## 5.3 Interpolation der Wasserspiegellage {#hyd1d-method-5-3}
+## 5.3 Interpolation der Wasserspiegellage {#hyd1d-method-5-3 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r hyd1d-method-5-3}
 {
@@ -747,7 +796,7 @@ FLYS-Wasserspiegellagen
 }
 ```
 
-## 5.4 Interpolationen zusammengefasst {#hyd1d-method-5-4}
+## 5.4 Interpolationen zusammengefasst {#hyd1d-method-5-4 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r hyd1d-method-5-4}
 {
@@ -776,7 +825,7 @@ FLYS-Wasserspiegellagen
 }
 ```
 
-## Vergleich der Wasserspiegellagen {#hyd1d-wsl-comp1}
+## Vergleich der Wasserspiegellagen {#hyd1d-wsl-comp1 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r hyd1d-wsl-comp1}
 {
@@ -811,7 +860,7 @@ FLYS-Wasserspiegellagen
 }
 ```
 
-## Vergleich der Wasserspiegellagen {#hyd1d-wsl-comp2}
+## Vergleich der Wasserspiegellagen {#hyd1d-wsl-comp2 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r hyd1d-wsl-comp2}
 {
@@ -855,7 +904,7 @@ FLYS-Wasserspiegellagen
 }
 ```
 
-## Vergleich der Wasserspiegellagen {#hyd1d-wsl-comp3}
+## Vergleich der Wasserspiegellagen {#hyd1d-wsl-comp3 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r hyd1d-wsl-comp3}
 {
@@ -899,7 +948,7 @@ FLYS-Wasserspiegellagen
 }
 ```
 
-## Zusammenfassung {#hyd1d-summary}
+## Zusammenfassung {#hyd1d-summary data-background="background.png" data-background-size="auto 800px"}
 
 > - **hyd1d** interpoliert stationäre Wasserspiegellagen von **FLYS** 
 abschnittsweise mit Hilfe der umliegenden Pegel.
@@ -910,9 +959,9 @@ abgebildet.
 > - Sprünge, bzw. Diskontinuitäten werden durch das abschnittssweise 
 Aufhängen der resultierenden Wasserspiegellage an den Pegeln unmöglich.
 
-# Das R-Paket 
+# Das R-Paket {#hyd1d-package data-background="background.png" data-background-size="auto 800px"}
 
-## Installation {#hyd1d-install}
+## Installation {#hyd1d-install data-background="background.png" data-background-size="auto 800px"}
 
 - Bisher ist **hyd1d** nur innerhalb der BfG verfügbar und kann mit folgenden 
 Befehlen installiert werden:
@@ -929,32 +978,32 @@ install.packages("hyd1d")
 library("hyd1d")
 ```
 
-## S4-Klasse WaterLevelDataFrame {#hyd1d-s4-1}
+## S4-Klasse WaterLevelDataFrame {#hyd1d-s4-1 data-background="background.png" data-background-size="auto 800px"}
 
 > - Eine S4-Klasse auf Basis der S3-Klasse `data.frame`
 > - In diesem wird intern die Wasserspiegellage abgelegt.
-> - 8 weitere Slots beinhalten alle weiteren relevanten Informationen.
+> - 8 weitere Slots beinhalten alle weiteren berechnungs- und darstellungsrelevanten Informationen.
 
-## S4-Klasse WaterLevelDataFrame {#hyd1d-s4-2}
+## S4-Klasse WaterLevelDataFrame {#hyd1d-s4-2 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r hyd1d-s4-2}
 str(wldf1, max.level = 2, vec.len = 3, width = 160, strict.width = "cut")
 ```
 
-## S4-Klasse WaterLevelDataFrame {#hyd1d-s4-3}
+## S4-Klasse WaterLevelDataFrame {#hyd1d-s4-3 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r hyd1d-s4-3}
 head(as.data.frame(wldf1))
 ```
 
-## S4-Klasse WaterLevelDataFrame {#hyd1d-s4-4}
+## S4-Klasse WaterLevelDataFrame {#hyd1d-s4-4 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r hyd1d-s4-4}
 str(wldf1@gauging_stations, max.level = 2, vec.len = 3, width = 160, 
     strict.width = "cut")
 ```
 
-## waterLevel...()-Funktionen {#hyd1d-waterLevel}
+## waterLevel...()-Funktionen {#hyd1d-waterLevel data-background="background.png" data-background-size="auto 800px"}
 
 > - [waterLevelFlut1()](http://hpc-service.bafg.de/~WeberA/hyd1d/reference/waterLevelFlut1.html)
 > - [waterLevelFlys3()](http://hpc-service.bafg.de/~WeberA/hyd1d/reference/waterLevelFlys3.html)
@@ -965,9 +1014,9 @@ str(wldf1@gauging_stations, max.level = 2, vec.len = 3, width = 160,
 
 ## {#hyd1d-references data-background-iframe="http://hpc-service.bafg.de/~WeberA/hyd1d/reference/index.html"}
 
-# hydflood3
+# hydflood {#hydflood data-background="background.png" data-background-size="auto 800px"}
 
-## Einleitung {#hydflood3-intro}
+## Einleitung {#hydflood-intro data-background="background.png" data-background-size="auto 800px"}
 
 > - **hydflood3** ist als **R**-Paket programmiert und soll über [CRAN](https://cran.r-project.org) unter der
 [GPL2](https://www.gnu.org/licenses/gpl-2.0) veröffentlicht werden.
@@ -977,11 +1026,11 @@ str(wldf1@gauging_stations, max.level = 2, vec.len = 3, width = 160,
 Querprofilflächen in die Aue extrapoliert und mit digitalen Geländemodellen 
 (DGM's) verglichen.
 
-## Datengrundlagen {#hydflood3-data}
+## Datengrundlagen {#hydflood3-data data-background="background.png" data-background-size="auto 800px"}
 
-1. Querprofilspuren aus den SOBEK-Modellen für FLYS, umgerechnet zu Querprofilflächen
+1. Querprofilspuren aus den SOBEK-Modellen für FLYS, umgerechnet zu Querprofilflächen (`qpf`)
 2. Wasserspiegellagen von **hyd1d**
-3. Digitale Geländemodelle
+3. Digitale Geländemodelle (`dgm`)
 
 ## {#hydflood3-data-csa1 data-background="screenshot_hydflood3_crosssections.png" data-background-size="auto 800px"}
 
@@ -991,12 +1040,12 @@ Querprofilflächen in die Aue extrapoliert und mit digitalen Geländemodellen
 
 ## {#hydflood3-data-dem data-background="screenshot_hydflood3_dem.png" data-background-size="auto 800px"}
 
-## flood3()-Funktion {#hydflood3-algorythm}
+## flood3()-Funktion {#hydflood3-algorythm data-background="background.png" data-background-size="auto 800px"}
 
 1. Berechnung der Wasserspiegellage
-2. Übertrag der Wasserspiegellage über das Feld `station_int` auf die 
-Querprofilflächen
-3. $ufd[qpf > dgm] = ufd[qpf > dgm] + 1$
+2. Übertrag der Wasserspiegellage über das Join-Feld `station_int` auf die 
+Querprofilflächen (`qpf`)
+3. `ufd[qpf > dgm] = ufd[qpf > dgm] + 1`
 4. gegebenenfalls Wiederholung über eine Sequenz von Zeitschritten
 
 ## 21.12.2016 {#hydflood3-algorythm1 data-background="screenshot_hydflood3_20161221.png" data-background-size="auto 800px"}
@@ -1009,12 +1058,12 @@ Querprofilflächen
 
 ## 2016 {#hydflood3-algorythm4 data-background="screenshot_hydflood3_2016.png" data-background-size="auto 800px"}
 
-## Vergleich von Überflutungsdauern {#hydflood3-comp}
+## Vergleich von Überflutungsdauern {#hydflood3-comp data-background="background.png" data-background-size="auto 800px"}
 
 - Es fehlt ein Vergleich zwischen den Überflutungsdauern nach **flood3** und 
-einem instationären 2D- oder 3D-Hydraulik-Modell und der realen Messdaten.
+einem instationären 2D- oder 3D-Hydraulik-Modell und realen Messdaten.
 
-## Zusammenfassung {#hydflood3-summary}
+## Zusammenfassung {#hydflood3-summary data-background="background.png" data-background-size="auto 800px"}
 
 > - **hydflood3** verwendet interpolierte Wasserspiegellagen von **hyd1d**, um 
 mittels der Funktion `flood3()` Überflutungsflächen und -dauern zu berechnen.
@@ -1023,11 +1072,11 @@ mittels der Funktion `flood3()` Überflutungsflächen und -dauern zu berechnen.
 >     * hohe räumliche und zeitliche Auflösung
 >     * kachelweise parallelisierbare, schnelle und großflächige Berechnung
 > - Nachteil:
->     * kein physikalisches Modell, Flächen ohne Zufluss werden überflutet
+>     * kein physikalisches Modell, auch Flächen ohne Zufluss werden überflutet
 
-# Das R-Paket 
+# Das R-Paket {#hydflood-package data-background="background.png" data-background-size="auto 800px"}
 
-## Installation {#hydflood3-install}
+## Installation {#hydflood3-install data-background="background.png" data-background-size="auto 800px"}
 
 - Bisher ist **hydflood3** nur innerhalb der BfG verfügbar und kann mit folgenden 
 Befehlen installiert werden:
@@ -1044,9 +1093,59 @@ install.packages("hydflood3")
 library("hydflood3")
 ```
 
+## S4-Klasse hydRasterStack {#hydflood-s4-1 data-background="background.png" data-background-size="auto 800px"}
+
+> - Eine S4-Klasse auf Basis der S4-Klasse `RasterStack`
+> - Beinhaltet RasterLayer des digitalen Geländemodells (`dgm`) und der Querprofilflächen (`qpf`).
+> - eigene Datensätze sind verwendbar, ansonsten stehen Paket-eigene Querprofilfächen und downloadbare digitale Geländemodelle (`dgm`) zur Verfügung.
+> - für diese automatisierte Erstellung eines `hydRasterStack` müssen nur die Ausdehnung (`ext`) und das Koordinatensystem (`crs`) angegeben werden.
+
+## S4-Klasse hydRasterStack {#hydflood-s4-2 data-background="background.png" data-background-size="auto 800px"}
+
+- Initialisierung des `hydRasterStack` mit Nutzer-eigenen Datensätzen
+```{r hydflood3-hydRasterStack1, eval = FALSE, echo = TRUE}
+x <- hydRasterStack(filename_dem = "data-raw/raster.dem.tif",
+                    filename_csa = "data-raw/raster.csa.tif")
+```
+
+- mit `extent(x)` und `CRS(x)` `hydRasterStack` initialisieren und Daten herunterladen 
+```{r hydflood3-hydRasterStack2, eval = FALSE, echo = TRUE}
+ext <- extent(x)
+crs <- CRS(x)
+x <- hydRasterStack(ext = ext, crs = crs)
+```
+
+## S4-Klasse hydRasterStack {#hydflood-s4-3 data-background="background.png" data-background-size="auto 800px"}
+
+```{r hydflood3-hydRasterStack-strprep, include = FALSE}
+# mit eigenen Datensätzen
+x <- hydRasterStack(filename_dem = "~/hydflood3/data-raw/raster.dem.tif",
+                    filename_csa = "~/hydflood3/data-raw/raster.csa.tif")
+```
+
+```{r hydflood3-hydRasterStack-str}
+str(x, max.level = 2, vec.len = 3, width = 160, strict.width = "cut")
+```
+
+## flood3() {#hydflood-flood3 data-background="background.png" data-background-size="auto 800px"}
+
+```{r hydflood3-flood, eval = FALSE, echo = TRUE}
+# Initialisierung von x mit eigenen Datensätzen
+x <- hydRasterStack(filename_dem = "data-raw/raster.dem.tif",
+                    filename_csa = "data-raw/raster.csa.tif")
+
+# Sequenz des Berechnungszeitraums
+seq <- seq.Date(from = as.Date("2017-01-01"), 
+                to = as.Date("2017-12-31"), 
+                by = "day")
+
+# Berechnung der Überflutungsdauer
+ufd <- flood3(x = x, seq = seq)
+```
+
 ## {#hydflood3-references data-background-iframe="http://hpc-service.bafg.de/~WeberA/hydflood3/reference/index.html"}
 
-# Produkte
+# Produkte {#products data-background="background.png" data-background-size="auto 800px"}
 
 ## {#product-waterlevels data-background="screenshot_hyd1d_products.png"}
 
@@ -1056,17 +1155,22 @@ library("hydflood3")
 
 ## {#product-raster data-background="screenshot_hydflood3_products.png"}
 
-## Zusammenfassung {#product-summary}
+## {#product-shiny-flood3 data-background-iframe="http://hpc-service.bafg.de/shiny/WeberA/07-flood3/"}
+
+## {#product-shiny-flood3-wms data-background-iframe="http://hpc-service.bafg.de/shiny/WeberA/08-flood3wms/"}
+
+## Zusammenfassung {#product-summary data-background="background.png" data-background-size="auto 800px"}
 
 > - R-Pakete
 > - 1D-Wasserspiegellagen für Rhein und Elbe seit dem 01.01.1990
 > - Shiny-Services zur interaktiven Berechnung von Wasserspiegellagen
 > - jährliche Überflutungsdauern als Rasterdatensätze
 > - langjährig gemittelte Überflutungsdauerrasterdatensätze
+> - Shiny-Services zur interaktiven Berechnung und Darstellung von Überflutungsdauern
 
-# Veröffentlichung
+# Veröffentlichung {#publication data-background="background.png" data-background-size="auto 800px"}
 
-## hyd1d
+## hyd1d {#hyd1d-publication data-background="background.png" data-background-size="auto 800px"}
 
 > - OpenSource-Software in [R](https://cran.r-project.org)
 > - Dokumentationswebseite
@@ -1078,21 +1182,30 @@ und [HyDaBa](http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.ht
 und [waterLevelPegelonline()](http://hpc-service.bafg.de/shiny/WeberA/06-waterlevelpegelonline/)
 > - Einbettung der Shiny-Services in FLYS 3.3
 
-## hydflood3
+## hydflood3 {#hydflood-publication data-background="background.png" data-background-size="auto 800px"}
 
 > - OpenSource-Software in [R](https://cran.r-project.org)
 > - Dokumentationswebseite
+> - beinhaltet eine (Wieder-)Veröffentlichung der 
+[DGM-W](https://www.govdata.de/daten/-/details/1c669080-c804-11e4-8731-1681e6b88ec1bkg)'s und der Querprofilflächen
 > - jährliche Überflutungsdauerraster von 1990 bis 2017
 > - langjährig aggregierte Überflutungsdauerraster
 > - WMS-Dienste der jährlichen und aggregierten Überflutungsdauerraster
+> - Shiny-Services [flood3()](http://hpc-service.bafg.de/shiny/WeberA/07-flood3/) 
+und [flood3()-WMS](http://hpc-service.bafg.de/shiny/WeberA/08-flood3wms/)
 > - Einbettung der WMS-Dienste in FLYS 3.3
+> - Einbettung der Shiny-Services in FLYS 3.3
 
-## {#publication data-background-iframe="https://www.journals.elsevier.com/environmental-modelling-and-software"}
+## {#publication-ems data-background-iframe="https://www.journals.elsevier.com/environmental-modelling-and-software"}
 
-# Fragen?
+# flood3()-Demo {#flood3-result data-background-iframe="http://hpc-service.bafg.de/shiny/WeberA/07-flood3/?_state_id_=530c656e3abaa905"}
 
-# Vielen Dank für Ihre Aufmerksamkeit
+[http://hpc-service.bafg.de/shiny/WeberA/07-flood3/?_state_id_=530c656e3abaa905](http://hpc-service.bafg.de/shiny/WeberA/07-flood3/?_state_id_=530c656e3abaa905)
+
+# Fragen? {#questions data-background="background.png" data-background-size="auto 800px"}
+
+# Vielen Dank für Ihre Aufmerksamkeit {#thanks data-background="background.png" data-background-size="auto 800px"}
 
 # {#contact data-background="contact.png"}
 
-
+# {#lenzen data-background-video="flood3-2fps-lenzen.mp4"}
