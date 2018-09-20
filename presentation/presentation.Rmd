@@ -1028,9 +1028,9 @@ Querprofilflächen in die Aue extrapoliert und mit digitalen Geländemodellen
 
 ## Datengrundlagen {#hydflood3-data data-background="background.png" data-background-size="auto 800px"}
 
-1. Querprofilspuren aus den SOBEK-Modellen für FLYS, umgerechnet zu Querprofilflächen (`qpf`)
-2. Wasserspiegellagen von **hyd1d**
-3. Digitale Geländemodelle (`dgm`)
+> - Querprofilspuren aus den SOBEK-Modellen für FLYS, umgerechnet zu Querprofilflächen (`qpf`)
+> - Wasserspiegellagen von **hyd1d**
+> - Digitale Geländemodelle (`dgm`)
 
 ## {#hydflood3-data-csa1 data-background="screenshot_hydflood3_crosssections.png" data-background-size="auto 800px"}
 
@@ -1042,11 +1042,11 @@ Querprofilflächen in die Aue extrapoliert und mit digitalen Geländemodellen
 
 ## flood3()-Funktion {#hydflood3-algorythm data-background="background.png" data-background-size="auto 800px"}
 
-1. Berechnung der Wasserspiegellage
-2. Übertrag der Wasserspiegellage über das Join-Feld `station_int` auf die 
+> - Berechnung der Wasserspiegellage
+> - Übertrag der Wasserspiegellage über das Join-Feld `station_int` auf die 
 Querprofilflächen (`qpf`)
-3. `ufd[qpf > dgm] = ufd[qpf > dgm] + 1`
-4. gegebenenfalls Wiederholung über eine Sequenz von Zeitschritten
+> - `ufd[qpf > dgm] = ufd[qpf > dgm] + 1`
+> - gegebenenfalls Wiederholung über eine Sequenz von Zeitschritten
 
 ## 21.12.2016 {#hydflood3-algorythm1 data-background="screenshot_hydflood3_20161221.png" data-background-size="auto 800px"}
 
@@ -1159,15 +1159,6 @@ ufd <- flood3(x = x, seq = seq)
 
 ## {#product-shiny-flood3-wms data-background-iframe="http://hpc-service.bafg.de/shiny/WeberA/08-flood3wms/"}
 
-## Zusammenfassung {#product-summary data-background="background.png" data-background-size="auto 800px"}
-
-> - R-Pakete
-> - 1D-Wasserspiegellagen für Rhein und Elbe seit dem 01.01.1990
-> - Shiny-Services zur interaktiven Berechnung von Wasserspiegellagen
-> - jährliche Überflutungsdauern als Rasterdatensätze
-> - langjährig gemittelte Überflutungsdauerrasterdatensätze
-> - Shiny-Services zur interaktiven Berechnung und Darstellung von Überflutungsdauern
-
 # Veröffentlichung {#publication data-background="background.png" data-background-size="auto 800px"}
 
 ## hyd1d {#hyd1d-publication data-background="background.png" data-background-size="auto 800px"}
@@ -1198,9 +1189,7 @@ und [flood3()-WMS](http://hpc-service.bafg.de/shiny/WeberA/08-flood3wms/)
 
 ## {#publication-ems data-background-iframe="https://www.journals.elsevier.com/environmental-modelling-and-software"}
 
-# flood3()-Demo {#flood3-result data-background-iframe="http://hpc-service.bafg.de/shiny/WeberA/07-flood3/?_state_id_=530c656e3abaa905"}
-
-[http://hpc-service.bafg.de/shiny/WeberA/07-flood3/?_state_id_=530c656e3abaa905](http://hpc-service.bafg.de/shiny/WeberA/07-flood3/?_state_id_=530c656e3abaa905)
+# {#flood3-result data-background-iframe="http://hpc-service.bafg.de/shiny/WeberA/07-flood3/?_state_id_=530c656e3abaa905"}
 
 # Fragen? {#questions data-background="background.png" data-background-size="auto 800px"}
 
