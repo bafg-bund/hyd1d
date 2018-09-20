@@ -241,7 +241,7 @@ write(" web", stdout())
 
 host <- Sys.info()["nodename"]
 user <- Sys.info()["user"]
-if (host == "hpc-service" & user == "WeberA" & R_version == "3.5.1") {
+if (host == "hpc-service" & user == "WeberA" & R_version == "3.5.0") {
     system(paste0("cp -rp public/", R_version, "/* /home/", user, "/public_htm",
                   "l/hyd1d/"))
     system(paste0("find /home/", user, "/public_html/hyd1d/ -type f -print0 | ",
@@ -254,8 +254,6 @@ if (host == "hpc-service" & user == "WeberA" & R_version == "3.5.1") {
                   "ces ] && cp -rp public/", R_version, "/downloads/hyd1d_*.ta",
                   "r.gz /home/", user, "/freigaben_r/server_admin/package_sour",
                   "ces"))
-} else if (host == "up" & user == "gitlab-runner" & R_version == "3.5.1") {
-    system(paste0("cp -rp public/", R_version, "/* ~/public_html/hyd1d/"))
 }
 
 q("no")
