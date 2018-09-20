@@ -1,5 +1,5 @@
 ---
-title: hyd1d & hydflood
+title: hyd1d & hydflood3
 subtitle: R-Pakete zur Interpolation von 1D-Wasserspiegellagen mit Pegeldaten und zur Überflutungsdauerberechnung
 author: Arnd Weber, Marcus Hatz, Stephan Rosenzweig
 date: "`r format(Sys.time(), '%d.%m.%Y')`"
@@ -1014,9 +1014,9 @@ str(wldf1@gauging_stations, max.level = 2, vec.len = 3, width = 160,
 
 ## {#hyd1d-references data-background-iframe="http://hpc-service.bafg.de/~WeberA/hyd1d/reference/index.html"}
 
-# hydflood {#hydflood data-background="background.png" data-background-size="auto 800px"}
+# hydflood3 {#hydflood3 data-background="background.png" data-background-size="auto 800px"}
 
-## Einleitung {#hydflood-intro data-background="background.png" data-background-size="auto 800px"}
+## Einleitung {#hydflood3-intro data-background="background.png" data-background-size="auto 800px"}
 
 > - **hydflood3** ist als **R**-Paket programmiert und soll über [CRAN](https://cran.r-project.org) unter der
 [GPL2](https://www.gnu.org/licenses/gpl-2.0) veröffentlicht werden.
@@ -1074,7 +1074,7 @@ mittels der Funktion `flood3()` Überflutungsflächen und -dauern zu berechnen.
 > - Nachteil:
 >     * kein physikalisches Modell, auch Flächen ohne Zufluss werden überflutet
 
-# Das R-Paket {#hydflood-package data-background="background.png" data-background-size="auto 800px"}
+# Das R-Paket {#hydflood3-package data-background="background.png" data-background-size="auto 800px"}
 
 ## Installation {#hydflood3-install data-background="background.png" data-background-size="auto 800px"}
 
@@ -1093,14 +1093,14 @@ install.packages("hydflood3")
 library("hydflood3")
 ```
 
-## S4-Klasse hydRasterStack {#hydflood-s4-1 data-background="background.png" data-background-size="auto 800px"}
+## S4-Klasse hydRasterStack {#hydflood3-s4-1 data-background="background.png" data-background-size="auto 800px"}
 
 > - Eine S4-Klasse auf Basis der S4-Klasse `RasterStack`
 > - Beinhaltet RasterLayer des digitalen Geländemodells (`dgm`) und der Querprofilflächen (`qpf`).
 > - eigene Datensätze sind verwendbar, ansonsten stehen Paket-eigene Querprofilfächen und downloadbare digitale Geländemodelle (`dgm`) zur Verfügung.
 > - für diese automatisierte Erstellung eines `hydRasterStack` müssen nur die Ausdehnung (`ext`) und das Koordinatensystem (`crs`) angegeben werden.
 
-## S4-Klasse hydRasterStack {#hydflood-s4-2 data-background="background.png" data-background-size="auto 800px"}
+## S4-Klasse hydRasterStack {#hydflood3-s4-2 data-background="background.png" data-background-size="auto 800px"}
 
 - Initialisierung des `hydRasterStack` mit Nutzer-eigenen Datensätzen
 ```{r hydflood3-hydRasterStack1, eval = FALSE, echo = TRUE}
@@ -1115,7 +1115,7 @@ crs <- CRS(x)
 x <- hydRasterStack(ext = ext, crs = crs)
 ```
 
-## S4-Klasse hydRasterStack {#hydflood-s4-3 data-background="background.png" data-background-size="auto 800px"}
+## S4-Klasse hydRasterStack {#hydflood3-s4-3 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r hydflood3-hydRasterStack-strprep, include = FALSE}
 # mit eigenen Datensätzen
@@ -1127,7 +1127,7 @@ x <- hydRasterStack(filename_dem = "~/hydflood3/data-raw/raster.dem.tif",
 str(x, max.level = 2, vec.len = 3, width = 160, strict.width = "cut")
 ```
 
-## flood3() {#hydflood-flood3 data-background="background.png" data-background-size="auto 800px"}
+## flood3() {#hydflood3-flood3 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r hydflood3-flood, eval = FALSE, echo = TRUE}
 # Initialisierung von x mit eigenen Datensätzen
@@ -1182,7 +1182,7 @@ und [HyDaBa](http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.ht
 und [waterLevelPegelonline()](http://hpc-service.bafg.de/shiny/WeberA/06-waterlevelpegelonline/)
 > - Einbettung der Shiny-Services in FLYS 3.3
 
-## hydflood3 {#hydflood-publication data-background="background.png" data-background-size="auto 800px"}
+## hydflood3 {#hydflood3-publication data-background="background.png" data-background-size="auto 800px"}
 
 > - OpenSource-Software in [R](https://cran.r-project.org)
 > - Dokumentationswebseite
