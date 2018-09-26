@@ -296,7 +296,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     # add the flys waterlevels
     if (add_flys){
         for (a_wls in flys_wls){
-            graphics::lines(df.flys$station, df.flys[, a_wls],
+            graphics::lines(df.flys_total$station, df.flys_total[, a_wls],
                             lty = 1, lwd = 0.3, col = "grey60")
         }
         sections <- unique(wldf$section)
