@@ -72,6 +72,8 @@ navbar:
       href: reference/index.html
     - text: "ShinyApps"
       menu:
+      - text: "Pegeldatenbank"
+        href: http://hpc-service.bafg.de/shiny/WeberA/02-gauging_data/
       - text: "waterLevel()"
         href: http://hpc-service.bafg.de/shiny/WeberA/05-waterlevel/
       - text: "waterLevelPegelonline()"
