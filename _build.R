@@ -176,7 +176,7 @@ write(" export the documentation as pdf", stdout())
 
 system(paste0("R CMD Rd2pdf . --output=", downloads, "/hyd1d.pdf --no-preview ",
               "--force --RdMacros=Rdpack --encoding=UTF-8 --outputEncoding=UTF",
-              "-8"))
+              "-8"), ignore.stdout = quiet, ignore.stderr = quiet)
 
 #####
 # document
