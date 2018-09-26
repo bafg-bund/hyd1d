@@ -1153,23 +1153,15 @@ Wasserspiegelinformationen auf Anfrage zu generieren.
 knitr::include_graphics('screenshot_waterLevelPegelonline.png')
 ```
 
-## Überflutungsflächen und -dauern
+## hydflood3 (Überflutungsflächen und -dauern)
 
 Durch Übertragung der Wasserspiegellagen entlang der Gewässerachse auf 
-sogenannte Querprofilflächen lassen sich im GIS mittels des INFORM-Moduls Flut3
+sogenannte Querprofilflächen lassen sich im GIS mittels des R-Paketes hydflood3
 Überflutungsflächen, bzw. bei Betrachtung längerer Zeiträume auch 
 Überflutungsdauern berechnen. Nähere Details zum Berechungsverfahren finden 
-sich auf dem Dokumentationsportal von INFORM:
+sich auf dem Dokumentationsportal von hydflood3:
 
-<p style="text-align: center;"><http://hpc-service.bafg.de/~WeberA/INFORM%204/arc_flu_flut3.html></p>
-
-Eine animierte Anwendung zu Überflutungsflächen an der Elbe findert sich hier:
-
-<p style="text-align: center;"><http://hpc-service.bafg.de/shiny/WeberA/03-flut3/></p>
-
-```{r figure22, echo = FALSE, fig.cap = capFig("Screenshot der [Flut3-ShinyApp](http://hpc-service.bafg.de/shiny/WeberA/03-flut3/) mit einer Wasserstandszeitreihe für den Zeitraum vom 12.04.2017 bis 12.04.2018 am Pegel Dessau und dem Überschwemmungsgebiet am 08.01.2018."), fig.show = 'asis', out.width = "100%"}
-knitr::include_graphics('screenshot_flut3.png')
-```
+<p style="text-align: center;"><http://hpc-service.bafg.de/~WeberA/hydflood3/></p>
 
 <BR>
 
