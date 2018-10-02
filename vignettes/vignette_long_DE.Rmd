@@ -481,7 +481,7 @@ Innerhalb des Pakets **hyd1d** ist ein eigener Stammdatensatz vorhanden
 
 Auch die stationären Wasserspiegellagen für Elbe und Rhein aus FLYS3 sind in das
 Paket **hyd1d** integriert. Der paket-interne Datensatz
-[df.flys_data](reference/df.flys_data.html)
+[df.flys](reference/df.flys.html)
 beinhaltet die 30 stationären Wasserspiegellagen für den Rhein 
 [@hkv_hydrokontor_erstellung_2014] und die Elbe [@busch_einheitliche_2009]. Die
 räumlichen Auflösung der Daten beträgt im Normalfall 200 m, was 
@@ -885,10 +885,12 @@ wldf <- WaterLevelDataFrame(river   = "Elbe",
                             station = seq(257, 262, 0.1))
 ```
 
-Mindestinformationen, die für das Anlegen eines `WaterLevelDataFrame` nötig 
+Mindestinformationen, die für das Anlegen eines
+[`WaterLevelDataFrame`](reference/WaterLevelDataFrame-class.html) nötig 
 sind, sind die Argumente `river`, `time` und eines der zwei möglichen 
 Stationierungsargumente (`station` oder `station_int`). Mit diesen 
-Informationen wird ein Object der Klasse `WaterLevelDataFrame` angelegt, 
+Informationen wird ein Object der Klasse 
+[`WaterLevelDataFrame`](reference/WaterLevelDataFrame-class.html) angelegt, 
 welches folgende Struktur aufweist:
 
 ```{r, eval = TRUE}
@@ -913,7 +915,8 @@ Für die Verwendung der `waterLevel...`-Funktionen sind die Informationen der
 S4-Slots `river` und gegebenenfalls auch `time` essentiell. Erst sie ermöglichen 
 eine eindeutige Lokalisation der Stationierung entlang der Elbe und des Rheins
 und die Festlegung des Berechungszeitpunktes. Die weiteren Slots eines Objektes 
-der Klasse `WaterLevelDataFrame` werden erst bei einer 
+der Klasse [`WaterLevelDataFrame`](reference/WaterLevelDataFrame-class.html) 
+werden erst bei einer 
 Wasserspiegellagenberechnung gefüllt und enthalten Teilergebnisse, die zum 
 Beispiel zur Visualisierung notwendig sind (`gauging_station`) oder informativen 
 Charakter haben (`gauging_stations_missing`, `comment`).
@@ -931,7 +934,8 @@ welcher tages-gemittelte Pegeldaten seit dem 01.01.1990 enthält. Daher sind
 Berechungen für den Zeitraum vom 01.01.1990 bis gestern möglich.
 
 Nach der [Initialisierung](articles/hyd1d.html#s4-klasse-waterleveldataframe) 
-eines `WaterLevelDataFrame` ist die Verwendung der Funktion denkbar einfach:
+eines Objektes der Klasse [`WaterLevelDataFrame`](reference/WaterLevelDataFrame-class.html) 
+ist die Verwendung der Funktion denkbar einfach:
 
 ```{r, eval = TRUE}
 wldf <- waterLevel(wldf)
