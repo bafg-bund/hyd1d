@@ -53,7 +53,7 @@ if (hour >= 6 & hour < 7) {
     ###
     # produce a vector of dates to be downloaded
     # set constant variables
-    days_back <- 3
+    days_back <- 30
     req_dates <- as.character(seq(Sys.Date() - days_back, Sys.Date() - 1, 
                                   length.out = days_back))
     
