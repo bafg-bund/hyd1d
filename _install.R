@@ -24,7 +24,7 @@ dir.create(lib, verbose, TRUE)
 packages <- c("RJSONIO", "RCurl", "plotrix", "Rdpack", "DBI", "ROracle", 
               "RPostgreSQL", "testthat", "knitr", "rmarkdown", "stringr", 
               "devtools", "pkgdown", "roxygen2", "revealjs", "shiny", 
-              "shinyTime", "lubridate")
+              "shinyTime", "lubridate", "usethis")
 
 for (a_package in packages) {
     if (! (a_package %in% installed.packages(lib.loc = lib)[, "Package"])) {
