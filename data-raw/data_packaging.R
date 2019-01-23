@@ -1,4 +1,4 @@
-library(devtools)
+library(usethis)
 
 if (file.exists("data/date_gauging_data.rda")) {
     
@@ -21,7 +21,7 @@ if (file.exists("data/date_gauging_data.rda")) {
         
         # store date_gauging_data as external dataset
         date_gauging_data <- Sys.Date()
-        devtools::use_data(date_gauging_data, pkg = ".", overwrite = TRUE, 
+        usethis::use_data(date_gauging_data, pkg = ".", overwrite = TRUE, 
                            compress = "bzip2")
         
     } else {
@@ -44,7 +44,7 @@ if (file.exists("data/date_gauging_data.rda")) {
     
     # store date_gauging_data as external dataset
     date_gauging_data <- Sys.Date()
-    devtools::use_data(date_gauging_data, pkg = ".", overwrite = TRUE, 
+    usethis::use_data(date_gauging_data, pkg = ".", overwrite = TRUE, 
                        compress = "bzip2")
     
 }

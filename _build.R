@@ -35,6 +35,7 @@ dir.create(downloads, verbose, TRUE)
 write("#####", stdout())
 write(" load packages", stdout())
 require(devtools, lib.loc = lib)
+require(usethis, lib.loc = lib)
 require(DBI, lib.loc = lib)
 require(RPostgreSQL, lib.loc = lib)
 require(knitr, lib.loc = lib)
@@ -121,8 +122,7 @@ devtools::build_vignettes(".")
 # check the package source
 write("#####", stdout())
 write(" check", stdout())
-devtools::check(".", document = FALSE, manual = FALSE,
-                build_args = "--no-build-vignettes")
+devtools::check(".", document = FALSE, manual = FALSE)
 
 #####
 # build the source package
@@ -194,13 +194,6 @@ if (!(file.exists("README.md"))) {
 #pkgdown::clean_site(".")
 pkgdown::build_site(".", examples = TRUE, preview = FALSE, document = FALSE, 
                     override = list(destination = public), new_process = FALSE)
-
-if (file.exists("_pkgdown.yml")) {
-    file.remove("_pkgdown.yml")
-}
-if (dir.exists("docs")) {
-    unlink("docs", TRUE, TRUE)
-}
 
 # insert the BfG logo into the header
 files <- list.files(path = public, pattern = "*[.]html",

@@ -11,7 +11,7 @@ if (!(file.exists("data/df.sections.rda"))){
     }
     
     # store df.sections as external dataset
-    devtools::use_data(df.sections, pkg = ".", overwrite = TRUE, 
+    usethis::use_data(df.sections, pkg = ".", overwrite = TRUE, 
                        compress = "bzip2")
     
     # clean up

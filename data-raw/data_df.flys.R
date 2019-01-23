@@ -90,7 +90,7 @@ if (Sys.info()["nodename"] == "hpc-service") {
                                     stringsAsFactors = FALSE)
         
         # store df.flys as external dataset
-        devtools::use_data(df.flys, pkg = ".", overwrite = TRUE, 
+        usethis::use_data(df.flys, pkg = ".", overwrite = TRUE, 
                            compress = "bzip2")
         
         # variables for RDO

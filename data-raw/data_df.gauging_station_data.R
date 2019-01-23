@@ -30,7 +30,7 @@ if (!(file.exists("data/df.gauging_station_data.rda"))) {
     }
     
     # store df.gauging_station_data as external dataset
-    devtools::use_data(df.gauging_station_data, pkg = ".", overwrite = TRUE,
+    usethis::use_data(df.gauging_station_data, pkg = ".", overwrite = TRUE,
                        compress = "bzip2")
     
     # variables for RDO
