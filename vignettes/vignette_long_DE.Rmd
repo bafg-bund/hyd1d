@@ -1,5 +1,5 @@
 ---
-title: "hyd1d"
+title: "hyd1d - Das Paket"
 author: "Arnd Weber"
 date: "`r Sys.Date()`"
 output:
@@ -9,7 +9,7 @@ output:
 bibliography: ../inst/REFERENCES.bib
 csl: ../vignettes/apa_modified.csl
 vignette: |
-  %\VignetteIndexEntry{hyd1d} 
+  %\VignetteIndexEntry{hyd1d - Das Paket} 
   %\VignetteEncoding{UTF-8} 
   %\VignetteEngine{knitr::rmarkdown} 
 ---
