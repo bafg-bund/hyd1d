@@ -32,7 +32,7 @@ test_that("getGaugingDataW", {
                                  time = as.Date("1989-12-31")), 
                  "You requested earlier data. Please ")
     expect_error(getGaugingDataW(gauging_station = "DESSAU",
-                                 time = Sys.time() + 3600), 
+                                 time = Sys.time() + 10), 
                  "You requested data of today.")
     expect_equal(getGaugingDataW(gauging_station = "DESSAU",
                                  time = as.Date("2016-12-21")), 165)
