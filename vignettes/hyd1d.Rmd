@@ -266,7 +266,7 @@ method of the modelling environment [INFORM](http://www.bafg.de/DE/08_Ref/U2/02_
 so that it intersects with the gauge height at a selected reference gauging 
 station.
 
-```{r figure3, fig.show = 'asis', fig.cap = capFig("Water levels computed after the Flut1-mnethod with the reference gauges Rosslau (wldf1) and Dessau (wldf2) at the 2016-12-21 at River Elbe between Rosslau and Dessau."), eval = TRUE}
+```{r figure3, fig.show = 'asis', fig.cap = capFig("Water levels computed after the Flut1-method with the reference gauges Rosslau (wldf1) and Dessau (wldf2) at the 2016-12-21 at River Elbe between Rosslau and Dessau."), eval = TRUE}
 wldf <- WaterLevelDataFrame(river   = "Elbe",
                             time    = as.POSIXct("2016-12-21"),
                             station = seq(257, 262, 0.1))
