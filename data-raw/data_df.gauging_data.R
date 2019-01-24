@@ -26,7 +26,7 @@ if (!(file.exists("data/df.gauging_data.rda"))) {
                                              sub = "byte")
     
     # store df.gauging_data as external dataset
-    devtools::use_data(df.gauging_data, pkg = ".", overwrite = TRUE,
+    usethis::use_data(df.gauging_data, pkg = ".", overwrite = TRUE,
                        compress = "bzip2")
     
     # clean up
