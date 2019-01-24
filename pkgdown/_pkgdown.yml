@@ -65,7 +65,7 @@ navbar:
       - text: "Get Started (EN)"
         href: articles/hyd1d.html
       - text: "Los gehts (DE)"
-        href: articles/vignette_long_DE.html
+        href: articles/vignette_DE.html
       - text: "Präsentation (DE)"
         href: articles/presentation_DE.html
     - text: Reference
