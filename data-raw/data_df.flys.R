@@ -8,7 +8,7 @@ if (Sys.info()["nodename"] == "hpc-service") {
         require(ROracle, lib.loc = lib)
         
         # get credentials
-        f3_credentials <- credentials("/home/WeberA/hyd1d/DB_credentials_flys3")
+        f3_credentials <- credentials("~/hyd1d/DB_credentials_flys3")
         
         # read the data
         # access the FLYS3 DB
@@ -90,15 +90,14 @@ if (Sys.info()["nodename"] == "hpc-service") {
                                     stringsAsFactors = FALSE)
         
         # store df.flys as external dataset
-        usethis::use_data(df.flys, pkg = ".", overwrite = TRUE, 
-                           compress = "bzip2")
+        usethis::use_data(df.flys, overwrite = TRUE, compress = "bzip2")
         
         # variables for RDO
         RDO_NROW_DF.FLYS <- as.character(nrow(df.flys))
         
         # clean up
-        rm(f3_con, f3_credentials, f3_string, query_string_elbe, query_string_rhein,
-           df.flys_elbe, df.flys_rhein, df.flys)
+        rm(f3_con, f3_credentials, f3_string, query_string_elbe, 
+           query_string_rhein, df.flys_elbe, df.flys_rhein, df.flys)
         
         # detach ROracle
         detach("package:ROracle", unload = TRUE)
