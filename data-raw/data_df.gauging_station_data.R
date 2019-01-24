@@ -2,8 +2,7 @@
 if (!(file.exists("data/df.gauging_station_data.rda"))) {
     
     # get credentials
-    gd_credentials <- credentials(paste0("/home/WeberA/hyd1d/DB_credentials_g",
-                                         "auging_data"))
+    gd_credentials <- credentials("~/hyd1d/DB_credentials_gauging_data")
     
     # read the data
     # access the gauging_data DB
@@ -30,8 +29,8 @@ if (!(file.exists("data/df.gauging_station_data.rda"))) {
     }
     
     # store df.gauging_station_data as external dataset
-    usethis::use_data(df.gauging_station_data, pkg = ".", overwrite = TRUE,
-                       compress = "bzip2")
+    usethis::use_data(df.gauging_station_data, overwrite = TRUE,
+                      compress = "bzip2")
     
     # variables for RDO
     RDO_NROW_DF.GAUGING_STATION_DATA <- 
