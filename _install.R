@@ -35,7 +35,7 @@ for (a_package in packages) {
 }
 
 # update.packages
-update.packages(lib.loc = lib, ask = FALSE)
+update.packages(lib.loc = lib, ask = FALSE, checkBuilt = TRUE)
 
 # install the local package
 require(devtools, lib.loc = lib)
