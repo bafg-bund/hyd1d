@@ -21,8 +21,8 @@ if (file.exists("data/date_gauging_data.rda")) {
         
         # store date_gauging_data as external dataset
         date_gauging_data <- Sys.Date()
-        usethis::use_data(date_gauging_data, pkg = ".", overwrite = TRUE, 
-                           compress = "bzip2")
+        usethis::use_data(date_gauging_data, overwrite = TRUE, 
+                          compress = "bzip2")
         
     } else {
         write("data are up to date", stderr())
@@ -44,8 +44,7 @@ if (file.exists("data/date_gauging_data.rda")) {
     
     # store date_gauging_data as external dataset
     date_gauging_data <- Sys.Date()
-    usethis::use_data(date_gauging_data, pkg = ".", overwrite = TRUE, 
-                       compress = "bzip2")
+    usethis::use_data(date_gauging_data, overwrite = TRUE, compress = "bzip2")
     
 }
 

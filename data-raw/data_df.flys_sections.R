@@ -41,8 +41,7 @@ if (!(file.exists("data/df.flys_sections.rda"))){
     }
     
     # store df.flys_sections as external dataset
-    usethis::use_data(df.flys_sections, pkg = ".", overwrite = TRUE,
-                       compress = "bzip2")
+    usethis::use_data(df.flys_sections, overwrite = TRUE, compress = "bzip2")
     
     # clean up
     rm(a, df.flys_sections, df.gauging_station_data)

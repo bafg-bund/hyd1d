@@ -27,8 +27,6 @@ build <- paste0("build/", R_version)
 dir.create(build, verbose, TRUE)
 public <- paste0("public/", R_version)
 dir.create(public, verbose, TRUE)
-downloads <- paste0("public/", R_version, "/downloads")
-dir.create(downloads, verbose, TRUE)
 
 #####
 # load the packages
@@ -131,13 +129,6 @@ write(" build", stdout())
 devtools::build(".", path = build, vignettes = FALSE, manual = FALSE)
 
 #####
-# create public/downloads directory and copy hyd1d_*.tar.gz-files into it
-from <- list.files(path = build,
-                   pattern = "hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]\\.tar\\.gz",
-                   full.names = TRUE)
-file.copy(from = from, to = downloads, overwrite = TRUE, copy.date = TRUE)
-
-#####
 # install hyd1d from source
 write("#####", stdout())
 write(" install from source", stdout())
@@ -170,15 +161,6 @@ for (a_file in pkg_files) {
 }
 
 #####
-# export the documentation as pdf
-write("#####", stdout())
-write(" export the documentation as pdf", stdout())
-
-system(paste0("R CMD Rd2pdf . --output=", downloads, "/hyd1d.pdf --no-preview ",
-              "--force --RdMacros=Rdpack --encoding=UTF-8 --outputEncoding=UTF",
-              "-8"), ignore.stdout = quiet, ignore.stderr = quiet)
-
-#####
 # document
 write("#####", stdout())
 write(" document gitlab & website", stdout())
@@ -191,7 +173,7 @@ if (!(file.exists("README.md"))) {
 }
 
 # render the package website 
-#pkgdown::clean_site(".")
+pkgdown::clean_site(".")
 pkgdown::build_site(".", examples = TRUE, preview = FALSE, document = FALSE, 
                     override = list(destination = public), new_process = FALSE)
 
@@ -225,6 +207,24 @@ rm(a_file, files, x, y)
 if (!(file.exists(paste0(public, "/bfg_logo.jpg")))){
     file.copy("pkgdown/bfg_logo.jpg", public)
 }
+
+#####
+# create public/downloads directory and copy hyd1d_*.tar.gz-files into it
+downloads <- paste0("public/", R_version, "/downloads")
+dir.create(downloads, verbose, TRUE)
+from <- list.files(path = build,
+                   pattern = "hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]\\.tar\\.gz",
+                   full.names = TRUE)
+file.copy(from = from, to = downloads, overwrite = TRUE, copy.date = TRUE)
+
+#####
+# export the documentation as pdf
+write("#####", stdout())
+write(" export the documentation as pdf", stdout())
+
+system(paste0("R CMD Rd2pdf . --output=", downloads, "/hyd1d.pdf --no-preview ",
+              "--force --RdMacros=Rdpack --encoding=UTF-8 --outputEncoding=UTF",
+              "-8"), ignore.stdout = quiet, ignore.stderr = quiet)
 
 #####
 # document
