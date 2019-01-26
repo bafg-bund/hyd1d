@@ -6,13 +6,17 @@ date: "`r format(Sys.time(), '%d.%m.%Y')`"
 output:
   revealjs::revealjs_presentation:
     theme: white
-    css: ../presentation/presentation.css
+    css: presentation.css
     highlight: pygments
     self_contained: true
     center: true
     transition: none
     fig_width: 9
     fig_height: 6
+vignette: |
+  %\VignetteIndexEntry{hyd1d and hydflood3} 
+  %\VignetteEngine{knitr::rmarkdown} 
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
@@ -136,7 +140,7 @@ Abflusslängsschnitte von 0.5MNQ bis HQ500 aus 1D-SOBEK-Berechnungen bereit.
 > - <https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html>
 > - Quellcode verfügbar auf <http://www.dive4elements.org>
 
-## Verfügbare Wasserspiegellagen {#flys-wsl1}
+## Verfügbare Wasserspiegellagen {#flys-wsl1 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r flys-wsl1}
 flys3_water_levels <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ", "c",
@@ -169,7 +173,7 @@ flys3_water_levels <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ", "c",
 }
 ```
 
-## Verfügbare Wasserspiegellagen {#flys-wsl2}
+## Verfügbare Wasserspiegellagen {#flys-wsl2 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r flys-wsl2}
 flys3_water_levels <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ", "c",

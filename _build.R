@@ -39,6 +39,7 @@ require(RPostgreSQL, lib.loc = lib)
 require(knitr, lib.loc = lib)
 require(rmarkdown, lib.loc = lib)
 require(pkgdown, lib.loc = lib)
+require(revealjs, lib.loc = lib)
 
 # source hyd1d-internal to obtain the credentials function
 source("R/hyd1d-internal.R")
@@ -225,6 +226,27 @@ write(" export the documentation as pdf", stdout())
 system(paste0("R CMD Rd2pdf . --output=", downloads, "/hyd1d.pdf --no-preview ",
               "--force --RdMacros=Rdpack --encoding=UTF-8 --outputEncoding=UTF",
               "-8"), ignore.stdout = quiet, ignore.stderr = quiet)
+
+
+#####
+# presentation
+rmarkdown::render(input = "presentation/presentation_DE.Rmd", 
+                  output_file = "presentation_DE.html", 
+                  output_dir = paste0("public/", R_version, "/articles"))
+
+# copy external image and video files
+from <- list.files(path = "presentation", pattern = "*\\.png",
+                   full.names = TRUE)
+file.copy(from = from, to = paste0("public/", R_version, "/articles"), 
+          overwrite = TRUE, copy.date = TRUE)
+from <- list.files(path = "presentation", pattern = "*\\.css",
+                   full.names = TRUE)
+file.copy(from = from, to = paste0("public/", R_version, "/articles"), 
+          overwrite = TRUE, copy.date = TRUE)
+from <- list.files(path = "presentation", pattern = "*\\.mp4",
+                   full.names = TRUE)
+file.copy(from = from, to = paste0("public/", R_version, "/articles"), 
+          overwrite = TRUE, copy.date = TRUE)
 
 #####
 # document
