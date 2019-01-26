@@ -25,5 +25,5 @@
 ^screenshot_flys_export_2\.png$
 ^shinyapps$
 ^vignettes/Thumbs\.db$
-^.*\.xcf$
+^vignettes/.*\.xcf$
 ^vignettes/vignette_long_DE\.sty$
