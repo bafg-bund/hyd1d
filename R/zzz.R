@@ -31,6 +31,7 @@
     
     # load df.gauging_data
     if (file.exists(file_data)){
+        #browser()
         load(file_data, envir = parent.env(environment()))
     } else (
         utils::data("df.gauging_data", package = pkgname, 
