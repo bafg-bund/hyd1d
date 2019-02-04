@@ -42,12 +42,9 @@ $(document).ready(function() {
 
 <!-- numbering for figures and tables-->
 ```{r captions, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
-# standard library path for the installed local packages
-R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
-lib <- paste0("~/R/", R_version, "/")
-require(hyd1d, lib.loc = lib)
-require(plotrix, lib.loc = lib)
-library(stringr, lib.loc = lib)
+require(hyd1d)
+require(plotrix)
+require(stringr)
 
 # Determine the output format of the document
 outputFormat <- knitr::opts_knit$get("rmarkdown.pandoc.to")
@@ -118,8 +115,8 @@ beobachten und bewerten, wie hier an den Pegeln
 ist: 
 
 ```{r figure01, echo = FALSE, error = FALSE, fig.cap = capFig("Tagesgemittelte Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau."), fig.show = 'asis', message = FALSE, warning = FALSE}
-require(hyd1d, lib.loc = lib)
-require(plotrix, lib.loc = lib)
+require(hyd1d)
+require(plotrix)
 xlim_min <- 257
 xlim_max <- 263
 ylim_min <- 53.8

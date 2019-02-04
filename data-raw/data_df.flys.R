@@ -1,14 +1,11 @@
 
 if (Sys.info()["nodename"] == "hpc-service") {
     if (!(file.exists("data/df.flys.rda"))){
-        if (!exists("lib")){
-            v <- R.Version()
-            lib <- paste0("~/R/", paste(sep = ".", v$major, v$minor))
-        }
-        require(ROracle, lib.loc = lib)
+
+        require(ROracle)
         
         # get credentials
-        f3_credentials <- credentials("~/hyd1d/DB_credentials_flys3")
+        f3_credentials <- credentials("DB_credentials_flys3")
         
         # read the data
         # access the FLYS3 DB

@@ -2,7 +2,7 @@
 if (!(file.exists("data/df.gauging_station_data.rda"))) {
     
     # get credentials
-    gd_credentials <- credentials("~/hyd1d/DB_credentials_gauging_data")
+    gd_credentials <- credentials("DB_credentials_gauging_data")
     
     # read the data
     # access the gauging_data DB
