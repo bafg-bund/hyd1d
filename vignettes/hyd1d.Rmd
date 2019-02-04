@@ -44,11 +44,8 @@ $(document).ready(function() {
 <!-- numbering for figures and tables-->
 
 ```{r captions, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE, include = FALSE}
-# standard library path for the installed local packages
-R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
-lib <- paste0("~/R/", R_version, "/")
-require(hyd1d, lib.loc = lib)
-require(plotrix, lib.loc = lib)
+require(hyd1d)
+require(plotrix)
 
 # set english locale to produce english plot labels
 Sys.setlocale(category = "LC_MESSAGES", locale = "en_US.utf8")
@@ -106,14 +103,7 @@ devtools::install_git("git://apps.bafg.de/gitbucket/webera/hyd1d.git")
 Afterwards **hyd1d** can be loaded like every other R package with the following 
 command: 
 
-```{r library, eval = TRUE, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
-# standard library path for the installed local packages
-R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
-lib <- paste0("~/R/", R_version, "/")
-library(hyd1d, lib.loc = lib)
-```
-
-```{r library_print, eval = FALSE, echo = TRUE}
+```{r library, eval = TRUE, echo = TRUE, error = FALSE, warning = FALSE, message = FALSE}
 library(hyd1d)
 ```
 
