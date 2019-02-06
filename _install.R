@@ -10,8 +10,10 @@
 #
 ##################################################
 
+print(Sys.getenv())
+
 # update.packages
-update.packages(ask = FALSE, checkBuilt = TRUE)
+update.packages(lib.loc = .libPaths()[1], ask = FALSE, checkBuilt = TRUE)
 
 # install dependencies
 # ROracle (>= 1.1-1) needs an Oracle (Instant)Client
