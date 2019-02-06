@@ -6,8 +6,8 @@ output:
   html_vignette:
     toc: yes
     toc_depth: 3
-bibliography: ../inst/REFERENCES.bib
-csl: ../vignettes/apa_modified.csl
+bibliography: "`r paste0(Sys.getenv()['hyd1d'], 'inst/REFERENCES.bib')`"
+csl: "`r paste0(Sys.getenv()['hyd1d'], 'vignettes/apa_modified.csl')`"
 vignette: |
   %\VignetteIndexEntry{hyd1d - Das Paket} 
   %\VignetteEncoding{UTF-8} 
