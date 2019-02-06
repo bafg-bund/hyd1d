@@ -420,17 +420,8 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
         #####
         # sections
         ##
-        # make parent environment accessible through the local environment
-        e <- environment()
-        p_env <- parent.env(e)
-        
         #  get the names of all available gauging_stations
-        if (exists("df.sections", where = p_env)){
-            get("df.sections", envir = p_env)
-        } else {
-            utils::data("df.sections", 
-                        envir = environment())
-        }
+        get("df.sections", pos = -1)
         
         # replace byte encoded letters
         columns <- c("name", "gs_upper", "gs_lower")

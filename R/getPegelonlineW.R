@@ -131,17 +131,8 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
     #####
     # assemble internal variables and check the existence of required data
     ##
-    # make parent environment accessible through the local environment
-    e <- environment()
-    p_env <- parent.env(e)
-    
     #  get the names of all available gauging_stations
-    if (exists("df.gauging_station_data", where = p_env)){
-        get("df.gauging_station_data", envir = p_env)
-    } else {
-        utils::data("df.gauging_station_data", 
-                    envir = environment())
-    }
+    get("df.gauging_station_data", pos = -1)
     id <- which(df.gauging_station_data$data_present)
     gs <- asc2utf8(df.gauging_station_data$gauging_station[id])
     uuids <- df.gauging_station_data$uuid[id]

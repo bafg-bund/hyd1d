@@ -144,16 +144,8 @@ waterLevelFlys3 <- function(wldf, name){
     ##########
     # processing
     #####
-    # make parent environment accessible through the local environment
-    e <- environment()
-    p_env <- parent.env(e)
-    
     # access the FLYS3 data
-    if (exists("df.flys", where = p_env)){
-        get("df.flys", envir = p_env)
-    } else {
-        utils::data("df.flys")
-    }
+    get("df.flys", pos = -1)
     
     # select the water level for a specified river and name
     id <- which(df.flys$river == getRiver(wldf) & df.flys$name == name)
