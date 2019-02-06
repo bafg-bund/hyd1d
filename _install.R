@@ -10,10 +10,6 @@
 #
 ##################################################
 
-# configure output
-verbose <- TRUE
-quiet <- !verbose
-
 # update.packages
 update.packages(ask = FALSE, checkBuilt = TRUE)
 
@@ -26,14 +22,13 @@ packages <- c("RJSONIO", "RCurl", "plotrix", "Rdpack", "DBI", "ROracle",
 
 for (a_package in packages) {
     if (! (a_package %in% installed.packages()[, "Package"])) {
-        install.packages(a_package, dependencies = TRUE, quiet = quiet)
+        install.packages(a_package, dependencies = TRUE)
     }
 }
 
 # install the local package
 require(devtools)
-devtools::install(".", reload = FALSE, quick = TRUE, quiet = quiet, 
-                  dependencies = TRUE)
+devtools::install(".", quick = TRUE, dependencies = TRUE)
 
 # exit
 q("no")
