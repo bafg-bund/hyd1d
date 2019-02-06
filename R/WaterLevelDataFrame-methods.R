@@ -936,9 +936,9 @@ subset.WaterLevelDataFrame <- function(x, subset, select, drop = FALSE, ...) {
 }
 
 
-#' @name summary
-#' @rdname summary
-#' @aliases summary,WaterLevelDataFrame-method
+#' @name summary.WaterLevelDataFrame
+#' @rdname summary.WaterLevelDataFrame
+#' @aliases summary.WaterLevelDataFrame
 #' 
 #' @title WaterLevelDataFrame summary
 #' 
@@ -961,20 +961,17 @@ subset.WaterLevelDataFrame <- function(x, subset, select, drop = FALSE, ...) {
 #' wldf <- waterLevel(wldf)
 #' summary(wldf)
 #' 
-#' @exportMethod summary
+#' @export
 #' 
-methods::setGeneric("summary", function(object, ...) {
-    standardGeneric("summary")
-})
-
-
-#' @name summary-method
-#' @rdname summary
-#' @aliases summary,WaterLevelDataFrame-method
-methods::setMethod(f = "summary", 
-                   methods::signature(object = "WaterLevelDataFrame"),
-                   function(object) {
-    s_data <- summary(as.data.frame(object))
+#####
+# S3 method
+summary.WaterLevelDataFrame <- function(object, ...) {
+    
+    if (class(object) != "WaterLevelDataFrame") {
+        stop("'object' must be type 'WaterLevelDataFrame'.")
+    }
+    
+    s_data <- summary(as.data.frame.WaterLevelDataFrame(object, ...))
     s_river <- getRiver(object)
     s_time <- as.character(getTime(object))
     s_gauging_stations <- getGaugingStations(object)$gauging_station
@@ -1003,7 +1000,50 @@ methods::setMethod(f = "summary",
     res <- list(slots = s_slots,
                 data = s_data)
     return(res)
-})
+}
+
+
+#methods::setGeneric("summary", function(object, ...) {
+#    standardGeneric("summary")
+#})
+#
+#
+# @name summary-method
+# @rdname summary
+# @aliases summary,WaterLevelDataFrame-method
+#methods::setMethod(f = "summary", 
+#                   methods::signature(object = "WaterLevelDataFrame"),
+#                   function(object) {
+#    s_data <- summary(as.data.frame(object))
+#    s_river <- getRiver(object)
+#    s_time <- as.character(getTime(object))
+#    s_gauging_stations <- getGaugingStations(object)$gauging_station
+#    if (length(s_gauging_stations) == 0) {
+#        s_gauging_stations <- "None"
+#    } else {
+#        s_gauging_stations <- paste(s_gauging_stations, collapse = ", ")
+#    }
+#    s_gauging_stations_missing <- getGaugingStationsMissing(object)
+#    if (length(s_gauging_stations_missing) == 0) {
+#        s_gauging_stations_missing <- "None"
+#    } else if (length(s_gauging_stations_missing) == 1 & 
+#               is.na(s_gauging_stations_missing)) {
+#        s_gauging_stations_missing <- "None"
+#    } else {
+#        s_gauging_stations_missing <- paste(s_gauging_stations_missing, 
+#                                            collapse = ", ")
+#    }
+#    s_comment <- comment(object)
+#    s_slots <- c(s_river, s_time, s_gauging_stations, 
+#                 s_gauging_stations_missing, s_comment)
+#    names(s_slots) <- c("river", "time", "gauging_stations", 
+#                        "gauging_stations_missing", "comment")
+#    s_slots <- as.data.frame(s_slots)
+#    names(s_slots) <- NULL
+#    res <- list(slots = s_slots,
+#                data = s_data)
+#    return(res)
+#})
 
 
 #' @name [.WaterLevelDataFrame
