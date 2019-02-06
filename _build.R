@@ -9,23 +9,19 @@
 #
 ##################################################
 
-# configure output
-verbose <- TRUE
-quiet <- !verbose
-
 #####
 # assemble variables, create output directories and load packages
 write("#####", stdout())
-write(" R variables", stdout())
+write(" determine output directories", stdout())
 
 # version
-R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
+R_version <- as.character(getRversion())
 
 # output paths
 build <- paste0("build/", R_version)
-dir.create(build, verbose, TRUE)
+dir.create(build, FALSE, TRUE)
 public <- paste0("public/", R_version)
-dir.create(public, verbose, TRUE)
+dir.create(public, FALSE, TRUE)
 
 #####
 # load the packages
@@ -64,7 +60,6 @@ sessionInfo()
 #   sourced scripts
 write("#####", stdout())
 write(" data-raw", stdout())
-source("data-raw/data_date_gauging_data.R")
 for (a_file in rev(list.files("data-raw", pattern = "data_df.*",
                               full.names = TRUE))) {
     source(a_file)
@@ -87,14 +82,8 @@ write("#####", stdout())
 write(" document", stdout())
 devtools::document(".")
 
+##
 # postprocess package documentation
-today <- strftime(Sys.Date(), "%Y-%m-%d")
-
-# date_gauging_data
-x <- readLines("man/date_gauging_data.Rd")
-y <- gsub('$RDO_DATE_GAUGING_DATA$', today, x, fixed = TRUE)
-cat(y, file = "man/date_gauging_data.Rd", sep="\n")
-
 # df.gauging_station_data
 x <- readLines("man/df.gauging_station_data.Rd")
 y <- gsub('$RDO_NROW_DF.GAUGING_STATION_DATA$',
@@ -108,7 +97,7 @@ y <- gsub('$RDO_NROW_DF.FLYS$', RDO_NROW_DF.FLYS, x,
 cat(y, file = "man/df.flys.Rd", sep="\n")
 
 # clean up
-rm(x, y, today) #, RDO_NROW_DF.GAUGING_STATION_DATA, RDO_NROW_DF.FLYS)
+rm(x, y)
 
 #####
 # build vignettes
@@ -151,11 +140,10 @@ for (a_file in pkg_files) {
         if (compareVersion(as.character(packageVersion(package_name)),
                            package_version) < 1) {
             install.packages(paste(build, a_file, sep = "/"), 
-                             dependencies = TRUE, quiet = quiet)
+                             dependencies = TRUE)
         }
     } else {
-        install.packages(paste(build, a_file, sep = "/"), dependencies = TRUE, 
-                         quiet = quiet)
+        install.packages(paste(build, a_file, sep = "/"), dependencies = TRUE)
     }
 }
 
@@ -173,8 +161,8 @@ if (!(file.exists("README.md"))) {
 
 # render the package website 
 pkgdown::clean_site(".")
-pkgdown::build_site(".", examples = TRUE, preview = FALSE, document = FALSE, 
-                    override = list(destination = public), new_process = FALSE)
+pkgdown::build_site(".", examples = TRUE, document = FALSE, 
+                    override = list(destination = public))
 
 # insert the BfG logo into the header
 files <- list.files(path = public, pattern = "*[.]html",
@@ -183,9 +171,7 @@ files <- list.files(path = public, pattern = "*[.]html",
 for (a_file in files){
     x <- readLines(paste0(public, "/", a_file))
     if (grepl("/", a_file, fixed = TRUE)){
-        if (verbose) {
-            write(a_file, stdout())
-        }
+        write(a_file, stdout())
         y <- gsub('<a href="http://www.bafg.de">BfG</a>',
                   paste0('<a href="http://www.bafg.de"><img border="0" src="..',
                          '/bfg_logo.jpg" height="50px" width="114px"></a>'), x)
@@ -210,7 +196,7 @@ if (!(file.exists(paste0(public, "/bfg_logo.jpg")))){
 #####
 # create public/downloads directory and copy hyd1d_*.tar.gz-files into it
 downloads <- paste0("public/", R_version, "/downloads")
-dir.create(downloads, verbose, TRUE)
+dir.create(downloads, FALSE, TRUE)
 from <- list.files(path = build,
                    pattern = "hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]\\.tar\\.gz",
                    full.names = TRUE)
@@ -223,7 +209,7 @@ write(" export the documentation as pdf", stdout())
 
 system(paste0("R CMD Rd2pdf . --output=", downloads, "/hyd1d.pdf --no-preview ",
               "--force --RdMacros=Rdpack --encoding=UTF-8 --outputEncoding=UTF",
-              "-8"), ignore.stdout = quiet, ignore.stderr = quiet)
+              "-8"))
 
 
 #####
