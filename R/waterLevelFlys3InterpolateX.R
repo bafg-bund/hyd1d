@@ -257,16 +257,8 @@ waterLevelFlys3InterpolateX <- function(river = c("Elbe", "Rhein"),
     
     #####
     # load internally used data
-    # make parent environment accessible through the local environment
-    e <- environment()
-    p_env <- parent.env(e)
-    
     # access the FLYS3 data
-    if (exists("df.flys", where = p_env)){
-        get("df.flys", envir = p_env)
-    } else {
-        utils::data("df.flys")
-    }
+    get("df.flys", pos = -1)
     
     # prepare flys variables
     df.flys <- df.flys[df.flys$river == river, ]

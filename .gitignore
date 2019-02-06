@@ -12,7 +12,12 @@ DB_credentials_*
 *.log
 
 # ignore directories and files
+/Meta
+/doc
 /build
+/db
+/db/date_gauging_data.rda
+/db/df.gauging_data_latest.rda
 /data/date_gauging_data.rda
 /data/df.gauging_data_latest.rda
 /data-raw/daily_cron_hpc-service.bafg.de.log

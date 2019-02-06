@@ -1,9 +1,9 @@
-#' @name date_gauging_data
-#' @rdname date_gauging_data
-#' @title Date df.gauging_data was saved
-#' @description Date df.gauging_data was saved. Presently it is the 
-#'   $RDO_DATE_GAUGING_DATA$.
-"date_gauging_data"
+# @name date_gauging_data
+# @rdname date_gauging_data
+# @title Date df.gauging_data was saved
+# @description Date df.gauging_data was saved. Presently it is the 
+#   $RDO_DATE_GAUGING_DATA$.
+#"date_gauging_data"
 
 
 #' @name df.gauging_data
