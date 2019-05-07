@@ -468,16 +468,8 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     #####
     # add the gauging station 
     ##
-    # make parent environment accessible through the local environment
-    e <- environment()
-    p_env <- parent.env(e)
-    
     # access the gauging_station_data
-    if (exists("df.gauging_station_data", where = p_env)){
-        get("df.gauging_station_data", envir = p_env)
-    } else {
-        utils::data("df.gauging_station_data")
-    }
+    get("df.gauging_station_data", pos = -1)
     for (a in c("gauging_station", "agency", "river")){
         df.gauging_station_data[, a] <- asc2utf8(df.gauging_station_data[, a])
     }

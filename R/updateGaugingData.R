@@ -37,20 +37,22 @@ updateGaugingData <- function(x){
         stop("'x' must have length 1.")
     }
     
-    p_source <- find.package("hyd1d")
-    file_date <- paste0(p_source, "/data/date_gauging_data.rda")
-    file_data <- paste0(p_source, "/data/df.gauging_data_latest.rda")
+    file_date <- paste0(DBpath(), "date_gauging_data.rda")
+    file_data <- paste0(DBpath(), "df.gauging_data_latest.rda")
     
-    if(x <= Sys.Date()){
+    if((x < Sys.Date() & 
+        Sys.time() > trunc.POSIXt(Sys.time(), units = "days") + 60 * 60 * 6.5) | 
+       (!file.exists(file_date) & !file.exists(file_data))){
         
         # download the df.gauging_data.rda
-        url <- paste0("https://www.aqualogy.de/wp-content/uploads",
-                      "/bfg/df.gauging_data_latest.rda")
+        url <- paste0("https://www.aqualogy.de/wp-content/uploads/bfg/df.gaugi",
+                      "ng_data_latest.rda")
         utils::download.file(url, file_data, quiet = TRUE)
         
-        # store yesterdays date
+        # store todays date
         date_gauging_data <- Sys.Date()
         save(date_gauging_data, file = file_date)
+        .db_updated <<- TRUE
         
         if (file.exists(file_data) & file.exists(file_date) & 
             (file.info(file_date)$mtime > Sys.time() - 5)){

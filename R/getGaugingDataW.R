@@ -111,17 +111,8 @@ getGaugingDataW <- function(gauging_station, time, uuid) {
     #####
     # assemble internal variables and check the existence of required data
     ##
-    # make parent environment accessible through the local environment
-    e <- environment()
-    p_env <- parent.env(e)
-    
     #  get the names of all available gauging_stations
-    if (exists("df.gauging_station_data", where = p_env)){
-        get("df.gauging_station_data", envir = p_env)
-    } else {
-        utils::data("df.gauging_station_data", 
-                    envir = environment())
-    }
+    get("df.gauging_station_data", pos = -1)
     id <- which(df.gauging_station_data$data_present)
     gs <- asc2utf8(df.gauging_station_data$gauging_station[id])
     uuids <- df.gauging_station_data$uuid[id]
@@ -244,23 +235,26 @@ getGaugingDataW <- function(gauging_station, time, uuid) {
         # }
     }
     
-    ##
-    # access and subset the gauging_data
-    if (exists("df.gauging_data", where = p_env)){
-        get("df.gauging_data", envir = p_env)
-    } else {
-        utils::data("df.gauging_data")
-    }
-    
     #####
-    # query df.gauging_data
+    # query df.gauging_data or .df.gauging_data
     w <- numeric()
-    for (a_date in date){
-        b_date <- as.Date(a_date, origin = as.Date("1970-01-01"))
-        id <- which(df.gauging_data$gauging_station == gs_internal_asc & 
-                    df.gauging_data$date == b_date)
-        if (length(id) == 1){
-            w <- append(w, round(df.gauging_data$w[id], 0))
+    if (exists(".df.gauging_data", envir = .GlobalEnv)) {
+        for (a_date in date){
+            b_date <- as.Date(a_date, origin = as.Date("1970-01-01"))
+            id <- which(.df.gauging_data$gauging_station == gs_internal_asc & 
+                        .df.gauging_data$date == b_date)
+            if (length(id) == 1){
+                w <- append(w, round(.df.gauging_data$w[id], 0))
+            }
+        }
+    } else {
+        for (a_date in date){
+            b_date <- as.Date(a_date, origin = as.Date("1970-01-01"))
+            id <- which(df.gauging_data$gauging_station == gs_internal_asc & 
+                            df.gauging_data$date == b_date)
+            if (length(id) == 1){
+                w <- append(w, round(df.gauging_data$w[id], 0))
+            }
         }
     }
     

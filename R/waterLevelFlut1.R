@@ -177,13 +177,7 @@ waterLevelFlut1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
         ##
         # gauging_station &| uuid
         #  get the names of all available gauging_stations
-        if (exists("df.gauging_station_data", where = p_env)){
-            get("df.gauging_station_data", envir = p_env)
-        } else {
-            utils::data("df.gauging_station_data", 
-                        envir = environment())
-        }
-        
+        get("df.gauging_station_data", pos = -1)
         id <- which(df.gauging_station_data$data_present & 
                     df.gauging_station_data$river == RIVER)
         df.gauging_station_data_sel <- df.gauging_station_data[id, ]
