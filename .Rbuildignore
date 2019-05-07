@@ -8,6 +8,7 @@
 ^data/df\.gauging_data_latest\.rda$
 ^data-raw$
 ^.*\.dat$
+^db$
 ^DB_credentials_flys3$
 ^DB_credentials_gauging_data$
 ^docs$

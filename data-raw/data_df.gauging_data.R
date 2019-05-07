@@ -15,8 +15,9 @@ if (!(file.exists("data/df.gauging_data.rda"))) {
     
     # retrieve the data
     query_string <- paste0("SELECT gauging_station, date, w FROM gauging_data ",
-                           "WHERE date = '2016-12-21' OR date = '1991-12-16' ",
-                           "ORDER BY gauging_station, date")
+                           "WHERE (date >= '2016-12-01' AND date <= '2016-12-3",
+                           "1') OR date = '1991-12-16' ORDER BY gauging_statio",
+                           "n, date")
     df.gauging_data <- DBI::dbGetQuery(gd_con, query_string)
     
     # replace non-ASCII characters

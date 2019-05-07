@@ -10,12 +10,10 @@
 #
 ##################################################
 
-# configure output
-verbose <- TRUE
-quiet <- !verbose
+print(Sys.getenv())
 
 # update.packages
-update.packages(ask = FALSE, checkBuilt = TRUE)
+update.packages(lib.loc = .libPaths()[1], ask = FALSE, checkBuilt = TRUE)
 
 # install dependencies
 # ROracle (>= 1.1-1) needs an Oracle (Instant)Client
@@ -26,14 +24,13 @@ packages <- c("RJSONIO", "RCurl", "plotrix", "Rdpack", "DBI", "ROracle",
 
 for (a_package in packages) {
     if (! (a_package %in% installed.packages()[, "Package"])) {
-        install.packages(a_package, dependencies = TRUE, quiet = quiet)
+        install.packages(a_package, dependencies = TRUE)
     }
 }
 
 # install the local package
 require(devtools)
-devtools::install(".", reload = FALSE, quick = TRUE, quiet = quiet, 
-                  dependencies = TRUE)
+devtools::install(".", quick = TRUE, dependencies = TRUE)
 
 # exit
 q("no")

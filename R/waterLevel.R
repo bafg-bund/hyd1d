@@ -84,40 +84,18 @@ waterLevel <- function(wldf, shiny = FALSE){
         stop("'shiny' must have length 1.")
     }
     
-    # make parent environment accessible through the local environment
-    e <- environment()
-    p_env <- parent.env(e)
-    
     #####
     # connect the relevant datasets
     # access the FLYS3 data
-    if (exists("df.flys", where = p_env)){
-        get("df.flys", envir = p_env)
-    } else {
-        utils::data("df.flys")
-    }
+    get("df.flys", pos = -1)
     
     # prepare flys variables
     flys_stations <- unique(df.flys[df.flys$river == river, "station"])
     flys_wls <- df.flys[df.flys$station == flys_stations[1] &
                         df.flys$river == river, "name"]
     
-    # access and subset the gauging_data
-    if (exists("df.gauging_data", where = p_env)){
-        get("df.gauging_data", envir = p_env)
-    } else {
-        utils::data("df.gauging_data")
-    }
-    
-    df.gauging_data <- df.gauging_data[df.gauging_data$date == time, ]
-    df.gauging_data$gauging_station <- asc2utf8(df.gauging_data$gauging_station)
-    
     # access the gauging_station_data
-    if (exists("df.gauging_station_data", where = p_env)){
-        get("df.gauging_station_data", envir = p_env)
-    } else {
-        utils::data("df.gauging_station_data")
-    }
+    get("df.gauging_station_data", pos = -1)
     for (a in c("gauging_station", "agency", "river")){
         df.gauging_station_data[, a] <- asc2utf8(df.gauging_station_data[, a])
     }
