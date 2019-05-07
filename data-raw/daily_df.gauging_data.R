@@ -13,10 +13,6 @@
 verbose <- TRUE
 quiet <- !verbose
 
-# standard library path for the package install
-R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
-lib <- paste0("~/R/", R_version, "/")
-
 # output paths
 downloads <- paste0("public/", R_version, "/downloads")
 dir.create(downloads, verbose, TRUE)
@@ -34,16 +30,16 @@ if (file.exists(from) & !(file.exists(to)) & hour >= 6 & hour < 7){
           stderr())
     
     # load required packages
-    require(devtools, lib.loc = lib)
-    require(DBI, lib.loc = lib)
-    require(RPostgreSQL, lib.loc = lib)
+    require(devtools)
+    require(DBI)
+    require(RPostgreSQL)
     
     # source hyd1d-internal to obtain the credentials function
     source("R/hyd1d-internal.R")
     
     # read the data
     # get DB credentials
-    credentials <- credentials("/home/WeberA/hyd1d/DB_credentials_gauging_data")
+    credentials <- credentials("DB_credentials_gauging_data")
     
     # access the gauging_data DB
     con <- DBI::dbConnect(drv      = DBI::dbDriver("PostgreSQL"),
