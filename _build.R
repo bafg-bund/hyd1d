@@ -18,9 +18,8 @@ quiet <- !verbose
 write("#####", stdout())
 write(" R variables", stdout())
 
-# standard library path for the package install
+# version
 R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
-lib <- paste0("~/R/", R_version, "/")
 
 # output paths
 build <- paste0("build/", R_version)
@@ -32,14 +31,14 @@ dir.create(public, verbose, TRUE)
 # load the packages
 write("#####", stdout())
 write(" load packages", stdout())
-require(devtools, lib.loc = lib)
-require(usethis, lib.loc = lib)
-require(DBI, lib.loc = lib)
-require(RPostgreSQL, lib.loc = lib)
-require(knitr, lib.loc = lib)
-require(rmarkdown, lib.loc = lib)
-require(pkgdown, lib.loc = lib)
-require(revealjs, lib.loc = lib)
+require(devtools)
+require(usethis)
+require(DBI)
+require(RPostgreSQL)
+require(knitr)
+require(rmarkdown)
+require(pkgdown)
+require(revealjs)
 
 # source hyd1d-internal to obtain the credentials function
 source("R/hyd1d-internal.R")
@@ -147,17 +146,16 @@ for (a_file in pkg_files) {
     package_version <- gsub(".tar.gz", "", unlist(strsplit(a_file, "_"))[2])
     
     # check presently installed local packages
-    pkgs <- as.data.frame(installed.packages(lib.loc = lib))
+    pkgs <- as.data.frame(installed.packages())
     if (package_name %in% pkgs$Package) {
-        if (compareVersion(as.character(packageVersion(package_name,
-                                                       lib.loc = lib)),
+        if (compareVersion(as.character(packageVersion(package_name)),
                            package_version) < 1) {
-            install.packages(paste(build, a_file, sep = "/"),
-                             lib = lib, dependencies = TRUE, quiet = quiet)
+            install.packages(paste(build, a_file, sep = "/"), 
+                             dependencies = TRUE, quiet = quiet)
         }
     } else {
-        install.packages(paste(build, a_file, sep = "/"),
-                         lib = lib, dependencies = TRUE, quiet = quiet)
+        install.packages(paste(build, a_file, sep = "/"), dependencies = TRUE, 
+                         quiet = quiet)
     }
 }
 
@@ -256,7 +254,7 @@ write(" web", stdout())
 
 host <- Sys.info()["nodename"]
 user <- Sys.info()["user"]
-if (host == "hpc-service" & user == "WeberA" & R_version == "3.5.0") {
+if (host == "hpc-service" & user == "WeberA" & R_version == "3.5.2") {
     system(paste0("cp -rp public/", R_version, "/* /home/", user, "/public_htm",
                   "l/hyd1d/"))
     system(paste0("find /home/", user, "/public_html/hyd1d/ -type f -print0 | ",

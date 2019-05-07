@@ -38,12 +38,7 @@ compute and visualize 1-dimensional water level information an object of class
 `WaterLevelDataFrame` has to be initialized. Various functions included in 
 **hyd1d** use these objects and compute water levels stored in the column `w`.
 
-```{r library, error = FALSE, message = FALSE, warning = FALSE, include = FALSE}
-# standard library path for the installed local packages
-R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
-lib <- paste0("~/R/", R_version, "/")
-library(hyd1d, lib.loc = lib)
-
+```{r language, error = FALSE, message = FALSE, warning = FALSE, include = FALSE}
 # set english locale to produce english plot labels
 Sys.setlocale(category = "LC_MESSAGES", locale = "en_US")
 ```

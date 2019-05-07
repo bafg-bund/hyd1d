@@ -14,10 +14,6 @@
 verbose <- TRUE
 quiet <- !verbose
 
-# standard library path for the package install
-R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
-lib <- paste0("~/R/", R_version, "/")
-
 # check the time
 hour <- as.numeric(strftime(Sys.time(), "%H"))
 
@@ -26,15 +22,15 @@ if (hour >= 6 & hour < 7) {
     write("gauging_data are queried from pegelonline.wsv.de", stderr())
     
     # load required packages
-    require("DBI", lib.loc = lib)
-    require("RPostgreSQL", lib.loc = lib)
-    require("RCurl", lib.loc = lib)
+    require("DBI")
+    require("RPostgreSQL")
+    require("RCurl")
     
     # source hyd1d-internal to obtain the credentials function
     source("R/hyd1d-internal.R")
     
     ### open the connection using user, password, etc., as
-    credentials <- credentials("/home/WeberA/hyd1d/DB_credentials_gauging_data")
+    credentials <- credentials("DB_credentials_gauging_data")
     con <- dbConnect("PostgreSQL", 
                      host = credentials["host"], 
                      dbname = credentials["dbname"], 
@@ -53,7 +49,7 @@ if (hour >= 6 & hour < 7) {
     ###
     # produce a vector of dates to be downloaded
     # set constant variables
-    days_back <- 30
+    days_back <- 8
     req_dates <- as.character(seq(Sys.Date() - days_back, Sys.Date() - 1, 
                                   length.out = days_back))
     
