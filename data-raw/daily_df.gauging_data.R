@@ -9,13 +9,9 @@
 #
 ##################################################
 
-# configure output
-verbose <- TRUE
-quiet <- !verbose
-
 # output paths
-downloads <- paste0("public/", R_version, "/downloads")
-dir.create(downloads, verbose, TRUE)
+downloads <- paste0("public/", Sys.getenv("R_VERSION"), "/downloads")
+dir.create(downloads, FALSE, TRUE)
 
 # check the existence of resulting datasets and time
 from <- paste0(downloads, "/df.gauging_data_latest.rda")
@@ -24,7 +20,7 @@ to <- paste0(downloads, "/df.gauging_data_", as.character(Sys.Date() - 2),
 
 hour <- as.numeric(strftime(Sys.time(), "%H"))
 
-if (file.exists(from) & !(file.exists(to)) & hour >= 6 & hour < 7){
+if (file.exists(from) & !(file.exists(to)) & (hour >= 6 & hour < 7)) {
     
     write(paste0(downloads, "/df.gauging_data_latest.rda will be produced"), 
           stderr())
