@@ -32,7 +32,9 @@
     # load df.gauging_data into .GlobalEnv
     load(file_data, envir = .GlobalEnv)
     .GlobalEnv$.df.gauging_data <- .GlobalEnv$df.gauging_data
-    rm(df.gauging_data, envir = .GlobalEnv)
+    if (exists("df.gauging_data", envir = .GlobalEnv)) {
+        rm(df.gauging_data, envir = .GlobalEnv)
+    }
 }
 
 .onAttach <- function(libname, pkgname) {
