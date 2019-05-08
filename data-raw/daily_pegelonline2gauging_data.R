@@ -10,10 +10,6 @@
 #
 ##################################################
 
-# configure output
-verbose <- TRUE
-quiet <- !verbose
-
 # check the time
 hour <- as.numeric(strftime(Sys.time(), "%H"))
 
@@ -49,7 +45,7 @@ if (hour >= 6 & hour < 7) {
     ###
     # produce a vector of dates to be downloaded
     # set constant variables
-    days_back <- 8
+    days_back <- 30
     req_dates <- as.character(seq(Sys.Date() - days_back, Sys.Date() - 1, 
                                   length.out = days_back))
     
@@ -70,10 +66,8 @@ if (hour >= 6 & hour < 7) {
                                  "ing_station = \'", a_gs, "\' AND date = \'", 
                                  strftime(a_date, "%Y-%m-%d"), "\'")
             if(nrow(dbGetQuery(con, query_str1)) == 1) {
-                if (verbose) {
-                    write(paste(sep=" ", a_gs, a_date, "existiert bereits"), 
-                          stderr())
-                }
+                write(paste(sep=" ", a_gs, a_date, "existiert bereits"),
+                      stderr())
                 
                 # delete accidentally present entries in gauging_data_missing
                 query_str2 <- paste0("SELECT * FROM public.gauging_data_missin",
@@ -94,9 +88,7 @@ if (hour >= 6 & hour < 7) {
                 
             }
             
-            if (verbose) {
-                write(paste(sep=" ", a_gs, a_date, "wird eingefügt"), stdout())
-            }
+            write(paste(sep=" ", a_gs, a_date, "wird eingefügt"), stdout())
             
             #####
             # assemble the regular url
@@ -156,23 +148,21 @@ if (hour >= 6 & hour < 7) {
                         
             #####
             # record missing values and jump to next step in the for loop
-                        if (verbose) {
-                            write(paste(sep=" ", a_gs, a_date, "URL problems"),
-                                  stderr())
-                            write(a_gs, stderr())
-                            write(str(a_gs), stderr())
-                            write(paste0("UPDATE public.gauging_station_dat",
-                                         "a SET data_missing = TRUE WHERE ",
-                                         "gauging_station = \'", a_gs, "\'"), 
-                                  stderr())
-                            write(paste0("INSERT INTO public.gauging_data_m",
-                                         "issing (id, gauging_station, date",
-                                         ") VALUES (DEFAULT, \'", a_gs, 
-                                         "\', \'", 
-                                         as.Date(a_date, 
-                                                 origin="1970-01-01"), 
-                                         "\')"), stderr())
-                        }
+                        write(paste(sep=" ", a_gs, a_date, "URL problems"),
+                              stderr())
+                        write(a_gs, stderr())
+                        write(str(a_gs), stderr())
+                        write(paste0("UPDATE public.gauging_station_dat",
+                                     "a SET data_missing = TRUE WHERE ",
+                                     "gauging_station = \'", a_gs, "\'"), 
+                              stderr())
+                        write(paste0("INSERT INTO public.gauging_data_m",
+                                     "issing (id, gauging_station, date",
+                                     ") VALUES (DEFAULT, \'", a_gs, 
+                                     "\', \'", 
+                                     as.Date(a_date, 
+                                             origin="1970-01-01"), 
+                                     "\')"), stderr())
                         
                         # update gauging_station_data
                         dbSendQuery(con, paste0("UPDATE public.gauging_station",
@@ -212,15 +202,14 @@ if (hour >= 6 & hour < 7) {
             }
             
             # download the file
-            download.file(url, destfile, "wget", quiet = quiet)
+            download.file(url, destfile, "wget", quiet = TRUE)
             
             # read the downloaded file
             # header (CHECK PNP!!!)
-            header <- scan(destfile, "list", sep = ";", nlines = 1, 
-                           quiet = quiet)
+            header <- scan(destfile, "list", sep = ";", nlines = 1)
             
             # data
-            df.data <- read.table(destfile, header = FALSE, sep = ";", skip = 1, 
+            df.data <- read.table(destfile, header = FALSE, sep = ";", skip = 1,
                                   na.strings = "XXX,XXX")
             
             # delete destfile
@@ -240,7 +229,7 @@ if (hour >= 6 & hour < 7) {
             
             # delete row(s) from gauging_data_missing table
             query_str4 <- paste0("SELECT * FROM public.gauging_data_missing WH",
-                                 "ERE gauging_station = \'", a_gs, "\' AND dat", 
+                                 "ERE gauging_station = \'", a_gs, "\' AND dat",
                                  "e = \'", strftime(a_date, "%Y-%m-%d"), "\'")
             if (nrow(dbGetQuery(con, query_str4))  > 0) {
                 dbSendQuery(con, paste0("DELETE FROM public.gauging_data_missi",
@@ -265,10 +254,8 @@ if (hour >= 6 & hour < 7) {
                         nrow(dbGetQuery(con, query_str6)) == 0) {
                         
                         # print
-                        if (verbose) {
-                            write(paste(sep=" ", a_gs, a_missing_date, 
-                                        "missing"), stdout())
-                        }
+                        write(paste(sep=" ", a_gs, a_missing_date, "missing"),
+                              stdout())
                         
                         dbSendQuery(con, paste0("INSERT INTO public.gauging_da",
                                                 "ta_missing (id, gauging_stati",

@@ -9,14 +9,6 @@
 #
 ##################################################
 
-# configure output
-verbose <- TRUE
-quiet <- !verbose
-
-# standard library path for the package install
-R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
-lib <- paste0("~/R/", R_version, "/")
-
 # check the time
 hour <- as.numeric(strftime(Sys.time(), "%H"))
 
@@ -25,7 +17,7 @@ if (hour >= 6 & hour < 7) {
     write("waterLevels will be computed", stderr())
     
     # load hyd1d
-    library(hyd1d, lib.loc = lib)
+    library(hyd1d)
     
     # source hyd1d-internal to obtain the credentials function
     source("R/hyd1d-internal.R")
@@ -49,10 +41,10 @@ if (hour >= 6 & hour < 7) {
         write(paste0(strftime(time, "%Y-%m-%d"), ": ", river, ": ", section), 
               stdout())
         
-        f_in <- paste0("/home/WeberA/freigaben/U/U2/", dir, "/data/wl/",
-                       section, "/km_values.txt")
-        d_out <- paste0("/home/WeberA/freigaben/U/U2/", dir, "/data/wl/",
-                        section, "/", strftime(time, "%Y"), "/")
+        f_in <- paste0("/home/WeberA/freigaben/U/U3/Auengruppe_INFORM/", dir,
+                       "/data/wl/", section, "/km_values.txt")
+        d_out <- paste0("/home/WeberA/freigaben/U/U3/Auengruppe_INFORM/", dir,
+                        "/data/wl/", section, "/", strftime(time, "%Y"), "/")
         f_out <- paste0(d_out, strftime(time, "%Y%m%d"), ".txt")
         
         wldf <- readWaterLevelStationInt(file = f_in, river = river, 
