@@ -9,13 +9,9 @@
 #
 ##################################################
 
-# configure output
-verbose <- TRUE
-quiet <- !verbose
-
 # output paths
-downloads <- paste0("public/", R_version, "/downloads")
-dir.create(downloads, verbose, TRUE)
+downloads <- paste0("public/", Sys.getenv("R_VERSION"), "/downloads")
+dir.create(downloads, FALSE, TRUE)
 
 # check the existence of resulting datasets and time
 from <- paste0(downloads, "/df.gauging_data_latest.rda")

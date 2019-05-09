@@ -9,14 +9,6 @@
 #
 ##################################################
 
-# configure output
-verbose <- TRUE
-quiet <- !verbose
-
-# standard library path for the package install
-R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
-lib <- paste0("~/R/", R_version, "/")
-
 # check the time
 hour <- as.numeric(strftime(Sys.time(), "%H"))
 
@@ -25,7 +17,7 @@ if (hour >= 6 & hour < 7) {
     write("waterLevels will be computed", stderr())
     
     # load hyd1d
-    library(hyd1d, lib.loc = lib)
+    library(hyd1d)
     
     # source hyd1d-internal to obtain the credentials function
     source("R/hyd1d-internal.R")

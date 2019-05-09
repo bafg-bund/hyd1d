@@ -10,10 +10,6 @@
 #
 ##################################################
 
-# configure output
-verbose <- TRUE
-quiet <- !verbose
-
 # check the time
 hour <- as.numeric(strftime(Sys.time(), "%H"))
 
@@ -70,10 +66,8 @@ if (hour >= 6 & hour < 7) {
                                  "ing_station = \'", a_gs, "\' AND date = \'", 
                                  strftime(a_date, "%Y-%m-%d"), "\'")
             if(nrow(dbGetQuery(con, query_str1)) == 1) {
-                if (verbose) {
-                    write(paste(sep=" ", a_gs, a_date, "existiert bereits"), 
-                          stderr())
-                }
+                write(paste(sep=" ", a_gs, a_date, "existiert bereits"), 
+                      stderr())
                 
                 # delete accidentally present entries in gauging_data_missing
                 query_str2 <- paste0("SELECT * FROM public.gauging_data_missin",
@@ -94,9 +88,7 @@ if (hour >= 6 & hour < 7) {
                 
             }
             
-            if (verbose) {
-                write(paste(sep=" ", a_gs, a_date, "wird eingefügt"), stdout())
-            }
+            write(paste(sep=" ", a_gs, a_date, "wird eingefügt"), stdout())
             
             #####
             # assemble the regular url
@@ -156,23 +148,20 @@ if (hour >= 6 & hour < 7) {
                         
             #####
             # record missing values and jump to next step in the for loop
-                        if (verbose) {
-                            write(paste(sep=" ", a_gs, a_date, "URL problems"),
-                                  stderr())
-                            write(a_gs, stderr())
-                            write(str(a_gs), stderr())
-                            write(paste0("UPDATE public.gauging_station_dat",
-                                         "a SET data_missing = TRUE WHERE ",
-                                         "gauging_station = \'", a_gs, "\'"), 
-                                  stderr())
-                            write(paste0("INSERT INTO public.gauging_data_m",
-                                         "issing (id, gauging_station, date",
-                                         ") VALUES (DEFAULT, \'", a_gs, 
-                                         "\', \'", 
-                                         as.Date(a_date, 
-                                                 origin="1970-01-01"), 
-                                         "\')"), stderr())
-                        }
+                        write(paste(sep=" ", a_gs, a_date, "URL problems"),
+                              stderr())
+                        write(a_gs, stderr())
+                        write(str(a_gs), stderr())
+                        write(paste0("UPDATE public.gauging_station_data_missi",
+                                     "ng = TRUE WHERE a SET datgauging_station",
+                                     " = \'", a_gs, "\'"), 
+                              stderr())
+                        write(paste0("INSERT INTO public.gauging_data_missing ",
+                                     "(id, gauging_station, date) VALUES (DEFA",
+                                     "ULT, \'", a_gs, "\', \'", 
+                                     as.Date(a_date, 
+                                             origin="1970-01-01"), "\')"),
+                              stderr())
                         
                         # update gauging_station_data
                         dbSendQuery(con, paste0("UPDATE public.gauging_station",
