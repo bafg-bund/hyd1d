@@ -73,7 +73,7 @@ waterLevel <- function(wldf, shiny = FALSE){
     start_f <- min(df.data$station)
     
     # end
-    end_f = max(df.data$station)
+    end_f <- max(df.data$station)
     
     ##
     # shiny
@@ -224,7 +224,7 @@ waterLevel <- function(wldf, shiny = FALSE){
         }
         df.gs_do$w <- w
     }
-
+    
     # replace df.gs_do with the next gs further downstream, if w is
     # available for the df.gs_do further downstream on the specified date
     while (length(gs_do_missing) > 0){
