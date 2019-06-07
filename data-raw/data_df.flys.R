@@ -1,7 +1,7 @@
 
-if (Sys.info()["nodename"] == "hpc-service") {
+if (Sys.info()["nodename"] %in% c("hpc-service", "r.bafg.de")) {
     if (!(file.exists("data/df.flys.rda"))){
-
+        
         require(ROracle)
         
         # get credentials
