@@ -152,17 +152,16 @@ if (hour >= 6 & hour < 7) {
                               stderr())
                         write(a_gs, stderr())
                         write(str(a_gs), stderr())
-                        write(paste0("UPDATE public.gauging_station_dat",
-                                     "a SET data_missing = TRUE WHERE ",
-                                     "gauging_station = \'", a_gs, "\'"), 
+                        write(paste0("UPDATE public.gauging_station_data_missi",
+                                     "ng = TRUE WHERE a SET datgauging_station",
+                                     " = \'", a_gs, "\'"), 
                               stderr())
-                        write(paste0("INSERT INTO public.gauging_data_m",
-                                     "issing (id, gauging_station, date",
-                                     ") VALUES (DEFAULT, \'", a_gs, 
-                                     "\', \'", 
+                        write(paste0("INSERT INTO public.gauging_data_missing ",
+                                     "(id, gauging_station, date) VALUES (DEFA",
+                                     "ULT, \'", a_gs, "\', \'", 
                                      as.Date(a_date, 
-                                             origin="1970-01-01"), 
-                                     "\')"), stderr())
+                                             origin="1970-01-01"), "\')"),
+                              stderr())
                         
                         # update gauging_station_data
                         dbSendQuery(con, paste0("UPDATE public.gauging_station",
