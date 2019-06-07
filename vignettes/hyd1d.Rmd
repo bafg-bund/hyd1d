@@ -169,7 +169,7 @@ between 1990-01-01 and yesterday.
 After the [initialization](articles/hyd1d.html#s4-klasse-waterleveldataframe) of 
 a `WaterLevelDataFrame` the application is very simple:
 
-```{r water_level, eval = TRUE}
+```{r waterlevel, eval = TRUE}
 wldf <- waterLevel(wldf)
 summary(wldf)
 
