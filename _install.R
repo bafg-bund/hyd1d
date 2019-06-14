@@ -10,8 +10,6 @@
 #
 ##################################################
 
-print(Sys.getenv())
-
 # update.packages
 update.packages(lib.loc = .libPaths()[1], ask = FALSE, checkBuilt = TRUE)
 
