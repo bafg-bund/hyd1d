@@ -37,8 +37,8 @@ updateGaugingData <- function(x){
         stop("'x' must have length 1.")
     }
     
-    file_date <- paste0(DBpath(), "date_gauging_data.rda")
-    file_data <- paste0(DBpath(), "df.gauging_data_latest.rda")
+    file_date <- paste0(path.expand('~'), "/.hyd1d/date_gauging_data.RDS")
+    file_data <- paste0(path.expand('~'), "/.hyd1d/df.gauging_data_latest.RDS")
     
     if((x < Sys.Date() & 
         Sys.time() > trunc.POSIXt(Sys.time(), units = "days") + 60 * 60 * 6.5) | 
