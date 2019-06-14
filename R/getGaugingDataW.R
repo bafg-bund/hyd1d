@@ -241,8 +241,8 @@ getGaugingDataW <- function(gauging_station, time, uuid) {
     if (exists(".df.gauging_data", envir = .GlobalEnv)) {
         for (a_date in date){
             b_date <- as.Date(a_date, origin = as.Date("1970-01-01"))
-            id <- which(df.gauging_data$gauging_station == gs_internal_asc & 
-                        df.gauging_data$date == b_date)
+            id <- which(.df.gauging_data$gauging_station == gs_internal & 
+                            .df.gauging_data$date == b_date)
             if (length(id) == 1){
                 w <- append(w, round(.df.gauging_data$w[id], 0))
             }
