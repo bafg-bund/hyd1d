@@ -13,7 +13,7 @@
 # check the time
 hour <- as.numeric(strftime(Sys.time(), "%H"))
 
-if (hour >= 6 & hour < 7) {
+if (hour >= 6 & hour < 17) {
     
     write("gauging_data are queried from pegelonline.wsv.de", stderr())
     

@@ -14,15 +14,15 @@ downloads <- paste0("public/", Sys.getenv("R_VERSION"), "/downloads")
 dir.create(downloads, FALSE, TRUE)
 
 # check the existence of resulting datasets and time
-from <- paste0(downloads, "/df.gauging_data_latest.rda")
+from <- paste0(downloads, "/df.gauging_data_latest.RDS")
 to <- paste0(downloads, "/df.gauging_data_", as.character(Sys.Date() - 2), 
-             ".rda")
+             ".RDS")
 
 hour <- as.numeric(strftime(Sys.time(), "%H"))
 
-if (file.exists(from) & !(file.exists(to)) & (hour >= 6 & hour < 7)) {
+if (file.exists(from) & !(file.exists(to)) & (hour >= 6 & hour < 17)) {
     
-    write(paste0(downloads, "/df.gauging_data_latest.rda will be produced"), 
+    write(paste0(downloads, "/df.gauging_data_latest.RDS will be produced"), 
           stderr())
     
     # load required packages
@@ -61,11 +61,11 @@ if (file.exists(from) & !(file.exists(to)) & (hour >= 6 & hour < 7)) {
     file.rename(from = from, to = to)
     
     # store df.gauging_data
-    save(df.gauging_data, file = from, compress = "bzip2")
+    saveRDS(df.gauging_data, file = from, compress = "bzip2")
     
 } else {
     write(paste0("It is not the time to produce ", downloads, "/df.gauging_dat",
-                 "a_latest.rda or it has been produced already."), 
+                 "a_latest.RDS or it has been produced already."), 
           stderr())
 }
 
