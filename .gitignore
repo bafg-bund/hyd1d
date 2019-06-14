@@ -10,7 +10,6 @@ doc
 DB_credentials_*
 *.Rd
 *.log
-NAMESPACE
 
 # ignore directories and files
 /Meta
