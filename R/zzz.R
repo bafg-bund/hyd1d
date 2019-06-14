@@ -4,10 +4,11 @@
     utils::data("df.flys", "df.flys_sections", "df.gauging_station_data", 
                 "df.sections", "df.gauging_data", package = pkgname, 
                 envir = parent.env(environment()))
+    df.gauging_data$gauging_station <- asc2utf8(df.gauging_data$gauging_station)
     
     # set relevant DB variables
-    file_date <- paste0(DBpath(), "date_gauging_data.rda")
-    file_data <- paste0(DBpath(), "df.gauging_data_latest.rda")
+    file_date <- paste0(DBpath(), "date_gauging_data.RDS")
+    file_data <- paste0(DBpath(), "df.gauging_data_latest.RDS")
     
     # update date_gauging_data 
     .db_updated <<- FALSE
@@ -30,8 +31,9 @@
     }
     
     # load df.gauging_data into .GlobalEnv
-    load(file_data, envir = .GlobalEnv)
-    .GlobalEnv$.df.gauging_data <- .GlobalEnv$df.gauging_data
+    df.gd <- readRDS(file_data)
+    df.gd$gauging_station <- asc2utf8(df.gd$gauging_station)
+    .GlobalEnv$.df.gauging_data <- df.gd
     if (exists("df.gauging_data", envir = .GlobalEnv)) {
         rm(df.gauging_data, envir = .GlobalEnv)
     }

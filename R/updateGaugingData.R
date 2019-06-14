@@ -44,14 +44,14 @@ updateGaugingData <- function(x){
         Sys.time() > trunc.POSIXt(Sys.time(), units = "days") + 60 * 60 * 6.5) | 
        (!file.exists(file_date) & !file.exists(file_data))){
         
-        # download the df.gauging_data.rda
+        # download the df.gauging_data.RDS
         url <- paste0("https://www.aqualogy.de/wp-content/uploads/bfg/df.gaugi",
-                      "ng_data_latest.rda")
+                      "ng_data_latest.RDS")
         utils::download.file(url, file_data, quiet = TRUE)
         
         # store todays date
         date_gauging_data <- Sys.Date()
-        save(date_gauging_data, file = file_date)
+        saveRDS(date_gauging_data, file = file_date)
         .db_updated <<- TRUE
         
         if (file.exists(file_data) & file.exists(file_date) & 
