@@ -45,6 +45,7 @@ updateGaugingData <- function(x){
        (!file.exists(file_date) & !file.exists(file_data))){
         
         # download the df.gauging_data.RDS
+        dir.create(paste0(path.expand('~'), "/.hyd1d"), FALSE, TRUE, "0600")
         url <- paste0("https://www.aqualogy.de/wp-content/uploads/bfg/df.gaugi",
                       "ng_data_latest.RDS")
         utils::download.file(url, file_data, quiet = TRUE)
