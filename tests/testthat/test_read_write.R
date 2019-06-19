@@ -4,7 +4,7 @@ library(hyd1d)
 context("read & write")
 
 test_that("readWaterLevelFileDB", {
-    if (Sys.info()["nodename"] == "hpc-service") {
+    if (Sys.info()["nodename"] == "r.bafg.de") {
         wldf <- readWaterLevelFileDB(river = "Elbe",
                                      time = as.POSIXct("2016-12-21"),
                                      from = 257, to = 262)
@@ -37,7 +37,7 @@ test_that("readWaterLevelFileDB", {
 })
 
 test_that("readWaterLevelJson", {
-    if (Sys.info()["nodename"] == "hpc-service") {
+    if (Sys.info()["nodename"] == "r.bafg.de") {
         file <- "/home/WeberA/ShinyApps/05-waterlevel/www/ELBE/e020_DESSAU/2016/20161221.txt"
         file1 <- "/home/WeberA/ShinyApps/05-waterlevel/www/ELBE/e020_DESSAU/201/20161221.txt"
         wldf <- readWaterLevelJson(file)
@@ -61,7 +61,7 @@ test_that("readWaterLevelJson", {
 })
 
 test_that("readWaterLevelStationInt", {
-    if (Sys.info()["nodename"] == "hpc-service") {
+    if (Sys.info()["nodename"] == "r.bafg.de") {
         file <- "/home/WeberA/ShinyApps/05-waterlevel/www/ELBE/e020_DESSAU/km_values.txt"
         file1 <- "/home/WeberA/ShinyApps/05-waterlevel/www/ELBE/e020_DESSAU/kmvalues.txt"
         wldf <- readWaterLevelStationInt(file)

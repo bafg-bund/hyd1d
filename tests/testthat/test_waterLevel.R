@@ -16,7 +16,7 @@ test_that("waterLevel: Dessau", {
     expect_equal(order(wldf1$station), order(- wldf1$w), 
                  label = "inversed order between station and w")
     
-    if (Sys.info()["nodename"] == "hpc-service") {
+    if (Sys.info()["nodename"] == "r.bafg.de") {
         wldf2 <- readWaterLevelFileDB(river = getRiver(wldf),
                                       time = getTime(wldf),
                                       from = 257, to = 262)
@@ -42,7 +42,7 @@ test_that("waterLevel: Geesthacht", {
     #expect_equal(order(wldf1$station), order(- wldf1$w), 
     #             label = "inversed order between station and w")
     
-    if (Sys.info()["nodename"] == "hpc-service") {
+    if (Sys.info()["nodename"] == "r.bafg.de") {
         wldf2 <- readWaterLevelFileDB(river = getRiver(wldf),
                                       time = getTime(wldf),
                                       from = 570, to = 585.7)
@@ -70,7 +70,7 @@ test_that("waterLevel: Schöna", {
     expect_equal(order(wldf1$station), order(- wldf1$w), 
                  label = "inversed order between station and w")
     
-    if (Sys.info()["nodename"] == "hpc-service") {
+    if (Sys.info()["nodename"] == "r.bafg.de") {
         wldf2 <- readWaterLevelFileDB(river = getRiver(wldf),
                                       time = getTime(wldf),
                                       from = 0, to = 20)
@@ -86,8 +86,12 @@ test_that("waterLevel: Schöna", {
 
 
 test_that("waterLevel: Iffezheim", {
-    if (Sys.info()["nodename"] == "hpc-service") {
-        wldf <- readWaterLevelStationInt(file = "/home/WeberA/freigaben/U/U2/RH_336_867_UFD/data/wl/r001_IFFEZHEIM/km_values.txt",
+    if (Sys.info()["nodename"] == "r.bafg.de") {
+        wldf <- readWaterLevelStationInt(file = paste0("/home/WeberA/freigaben",
+                                                       "/U/U3/Auengruppe_INFOR",
+                                                       "M/RH_336_867_UFD/data/",
+                                                       "wl/r001_IFFEZHEIM/km_v",
+                                                       "alues.txt"),
                                          time = as.POSIXct("2016-12-21"))
         #id <- which(wldf$station > 336.2 & wldf$station <= 340)
         wldf1 <- subset(wldf, station > 336.2 & station <= 340)
