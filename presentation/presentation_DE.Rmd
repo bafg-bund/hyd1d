@@ -49,8 +49,8 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, error = FALSE, message = FA
 ## Wasserstände der angrenzenden Pegel {#po-res1 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r pegelonline-res1}
-require(hyd1d)
-require(hydflood3)
+require(hyd1d, lib.loc = paste0("~/R/", as.character(getRversion())))
+require(hydflood3, lib.loc = paste0("~/R/", as.character(getRversion())))
 require(plotrix)
 
 cex_legend <- 0.7
