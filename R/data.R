@@ -166,6 +166,6 @@
 #'   \item{gs_lower}{name of the section downstream (type \code{character}).}
 #' }
 #' 
-#' @source \url{http://hpc-service.bafg.de/~WeberA/INFORM 4}
+#' @source \url{http://r.bafg.de/~WeberA/INFORM 4}
 "df.sections"
 

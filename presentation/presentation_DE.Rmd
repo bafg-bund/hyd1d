@@ -33,7 +33,7 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, error = FALSE, message = FA
 
 ## Wie aggregiert man diese flächige Wasserstandsinformation über die Zeit zu Überflutungsdauern? {#problemstellung-flood2 data-background="background.png" data-background-size="auto 800px"}
 
-[http://hpc-service.bafg.de/shiny/WeberA/07-flood3/](http://hpc-service.bafg.de/shiny/WeberA/07-flood3/)
+[http://r.bafg.de/shiny/WeberA/07-flood3/](http://r.bafg.de/shiny/WeberA/07-flood3/)
 
 # PEGELONLINE {#po data-background="background.png" data-background-size="auto 800px"}
 
@@ -1006,14 +1006,14 @@ str(wldf1@gauging_stations, max.level = 2, vec.len = 3, width = 160,
 
 ## waterLevel...()-Funktionen {#hyd1d-waterLevel data-background="background.png" data-background-size="auto 800px"}
 
-> - [waterLevelFlut1()](http://hpc-service.bafg.de/~WeberA/hyd1d/reference/waterLevelFlut1.html)
-> - [waterLevelFlys3()](http://hpc-service.bafg.de/~WeberA/hyd1d/reference/waterLevelFlys3.html)
-> - [waterLevelFlys3InterpolateX()](http://hpc-service.bafg.de/~WeberA/hyd1d/reference/waterLevelFlys3InterpolateX.html)
-> - [waterLevelFlys3InterpolateY()](http://hpc-service.bafg.de/~WeberA/hyd1d/reference/waterLevelFlys3InterpolateY.html)
-> - [waterLevel()](http://hpc-service.bafg.de/~WeberA/hyd1d/reference/waterLevel.html)
-> - [waterLevelPegelonline()](http://hpc-service.bafg.de/~WeberA/hyd1d/reference/waterLevel.html)
+> - [waterLevelFlut1()](http://r.bafg.de/~WeberA/hyd1d/reference/waterLevelFlut1.html)
+> - [waterLevelFlys3()](http://r.bafg.de/~WeberA/hyd1d/reference/waterLevelFlys3.html)
+> - [waterLevelFlys3InterpolateX()](http://r.bafg.de/~WeberA/hyd1d/reference/waterLevelFlys3InterpolateX.html)
+> - [waterLevelFlys3InterpolateY()](http://r.bafg.de/~WeberA/hyd1d/reference/waterLevelFlys3InterpolateY.html)
+> - [waterLevel()](http://r.bafg.de/~WeberA/hyd1d/reference/waterLevel.html)
+> - [waterLevelPegelonline()](http://r.bafg.de/~WeberA/hyd1d/reference/waterLevel.html)
 
-## {#hyd1d-references data-background-iframe="http://hpc-service.bafg.de/~WeberA/hyd1d/reference/index.html"}
+## {#hyd1d-references data-background-iframe="http://r.bafg.de/~WeberA/hyd1d/reference/index.html"}
 
 # hydflood3 {#hydflood3 data-background="background.png" data-background-size="auto 800px"}
 
@@ -1146,21 +1146,21 @@ seq <- seq.Date(from = as.Date("2017-01-01"),
 ufd <- flood3(x = x, seq = seq)
 ```
 
-## {#hydflood3-references data-background-iframe="http://hpc-service.bafg.de/~WeberA/hydflood3/reference/index.html"}
+## {#hydflood3-references data-background-iframe="http://r.bafg.de/~WeberA/hydflood3/reference/index.html"}
 
 # Produkte {#products data-background="background.png" data-background-size="auto 800px"}
 
 ## {#product-waterlevels data-background="screenshot_hyd1d_products.png"}
 
-## {#product-shiny-waterlevel data-background-iframe="http://hpc-service.bafg.de/shiny/WeberA/05-waterlevel/"}
+## {#product-shiny-waterlevel data-background-iframe="http://r.bafg.de/shiny/WeberA/05-waterlevel/"}
 
-## {#product-shiny-waterlevelpegelonline data-background-iframe="http://hpc-service.bafg.de/shiny/WeberA/06-waterlevelpegelonline/"}
+## {#product-shiny-waterlevelpegelonline data-background-iframe="http://r.bafg.de/shiny/WeberA/06-waterlevelpegelonline/"}
 
 ## {#product-raster data-background="screenshot_hydflood3_products.png"}
 
-## {#product-shiny-flood3 data-background-iframe="http://hpc-service.bafg.de/shiny/WeberA/07-flood3/"}
+## {#product-shiny-flood3 data-background-iframe="http://r.bafg.de/shiny/WeberA/07-flood3/"}
 
-## {#product-shiny-flood3-wms data-background-iframe="http://hpc-service.bafg.de/shiny/WeberA/08-flood3wms/"}
+## {#product-shiny-flood3-wms data-background-iframe="http://r.bafg.de/shiny/WeberA/08-flood3wms/"}
 
 # Veröffentlichung {#publication data-background="background.png" data-background-size="auto 800px"}
 
@@ -1172,8 +1172,8 @@ ufd <- flood3(x = x, seq = seq)
 [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen 
 und [HyDaBa](http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html)-Pegeldaten
 > - vorberechnete 1D-Wasserspiegellagen für Rhein und Elbe vom 01.01.1990 bis gestern
-> - Shiny-Services [waterLevel()](http://hpc-service.bafg.de/shiny/WeberA/05-waterlevel/) 
-und [waterLevelPegelonline()](http://hpc-service.bafg.de/shiny/WeberA/06-waterlevelpegelonline/)
+> - Shiny-Services [waterLevel()](http://r.bafg.de/shiny/WeberA/05-waterlevel/) 
+und [waterLevelPegelonline()](http://r.bafg.de/shiny/WeberA/06-waterlevelpegelonline/)
 > - Einbettung der Shiny-Services in [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html) 3.3
 
 ## hydflood3 {#hydflood3-publication data-background="background.png" data-background-size="auto 800px"}
@@ -1185,14 +1185,14 @@ und [waterLevelPegelonline()](http://hpc-service.bafg.de/shiny/WeberA/06-waterle
 > - jährliche Überflutungsdauerraster von 1990 bis 2017
 > - langjährig aggregierte Überflutungsdauerraster
 > - WMS-Dienste der jährlichen und aggregierten Überflutungsdauerraster
-> - Shiny-Services [flood3()](http://hpc-service.bafg.de/shiny/WeberA/07-flood3/) 
-und [flood3()-WMS](http://hpc-service.bafg.de/shiny/WeberA/08-flood3wms/)
+> - Shiny-Services [flood3()](http://r.bafg.de/shiny/WeberA/07-flood3/) 
+und [flood3()-WMS](http://r.bafg.de/shiny/WeberA/08-flood3wms/)
 > - Einbettung der WMS-Dienste in [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html) 3.3
 > - Einbettung der Shiny-Services in [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html) 3.3
 
 ## {#publication-ems data-background-iframe="https://www.journals.elsevier.com/environmental-modelling-and-software"}
 
-# {#flood3-result data-background-iframe="http://hpc-service.bafg.de/shiny/WeberA/07-flood3/?_state_id_=530c656e3abaa905"}
+# {#flood3-result data-background-iframe="http://r.bafg.de/shiny/WeberA/07-flood3/?_state_id_=530c656e3abaa905"}
 
 # Danke {#thanks data-background="background.png" data-background-size="auto 800px"}
 

@@ -53,5 +53,5 @@ Collate:
     'zzz.R'
 VignetteBuilder: knitr
 BugReports: https://apps.bafg.de/gitbucket/webera/hyd1d/issues
-URL: http://hpc-service.bafg.de/~WeberA/hyd1d/index.html, 
+URL: http://r.bafg.de/~WeberA/hyd1d/index.html, 
     https://apps.bafg.de/gitbucket/webera/hyd1d
