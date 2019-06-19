@@ -1119,9 +1119,9 @@ und [`df.gauging_station_data`](reference/df.gauging_station_data.html)
 enthalten, können aber auch über eine ShinyApp im Browser abgefragt, 
 visualisiert und exportiert werden:
 
-<p style="text-align: center;"><http://hpc-service.bafg.de/shiny/WeberA/02-gauging_data/></p>
+<p style="text-align: center;"><http://r.bafg.de/shiny/WeberA/02-gauging_data/></p>
 
-```{r figure19, echo = FALSE, fig.cap = capFig("Screenshot der [gauging_data-ShinyApp](http://hpc-service.bafg.de/shiny/WeberA/02-gauging_data/) mit Pegelstammdaten, Karte und Wasserstandszeitreihe für den Zeitraum vom 12.04.2017 bis 12.04.2018 am Pegel Rosslau."), fig.show = 'asis', out.width = "100%"}
+```{r figure19, echo = FALSE, fig.cap = capFig("Screenshot der [gauging_data-ShinyApp](http://r.bafg.de/shiny/WeberA/02-gauging_data/) mit Pegelstammdaten, Karte und Wasserstandszeitreihe für den Zeitraum vom 12.04.2017 bis 12.04.2018 am Pegel Rosslau."), fig.show = 'asis', out.width = "100%"}
 knitr::include_graphics('screenshot_gauging_data.png')
 ```
 
@@ -1134,9 +1134,9 @@ Eingabeparameter, die zur Initialisierung eines
 prädestiniert die Funktion dazu eine interaktive Berechnungsapplikation für die 
 Nutzung im Browser mittels Shiny zu implementieren.
 
-<p style="text-align: center;"><http://hpc-service.bafg.de/shiny/WeberA/05-waterlevel/></p>
+<p style="text-align: center;"><http://r.bafg.de/shiny/WeberA/05-waterlevel/></p>
 
-```{r figure20, echo = FALSE, fig.cap = capFig("Screenshot der [waterLevel-ShinyApp](http://hpc-service.bafg.de/shiny/WeberA/05-waterlevel/) mit der interpolierten Wasserspiegellage, berechnungsrelevanten stationären FLYS3 Wasserspiegellagen (**0.5MQ**, **a** und **0.75MQ**) und Wasserständen vom 21.12.2016 an der Elbe bei Rosslau und Dessau."), fig.show = 'asis', out.width = "100%"}
+```{r figure20, echo = FALSE, fig.cap = capFig("Screenshot der [waterLevel-ShinyApp](http://r.bafg.de/shiny/WeberA/05-waterlevel/) mit der interpolierten Wasserspiegellage, berechnungsrelevanten stationären FLYS3 Wasserspiegellagen (**0.5MQ**, **a** und **0.75MQ**) und Wasserständen vom 21.12.2016 an der Elbe bei Rosslau und Dessau."), fig.show = 'asis', out.width = "100%"}
 knitr::include_graphics('screenshot_waterLevel.png')
 ```
 
@@ -1148,9 +1148,9 @@ die Pegeldaten auch noch über das Internet und nicht aus Paket-internen Daten
 bezieht, ist diese Applikation sehr gut geeignet aktuelle 
 Wasserspiegelinformationen auf Anfrage zu generieren.
 
-<p style="text-align: center;"><http://hpc-service.bafg.de/shiny/WeberA/06-waterlevelpegelonline/></p>
+<p style="text-align: center;"><http://r.bafg.de/shiny/WeberA/06-waterlevelpegelonline/></p>
 
-```{r figure21, echo = FALSE, fig.cap = capFig("Screenshot der [waterLevelPegelonline-ShinyApp](http://hpc-service.bafg.de/shiny/WeberA/06-waterlevelpegelonline/) mit der interpolierten Wasserspiegellage, berechnungsrelevanten stationären FLYS3 Wasserspiegellagen (**a**, **0.75MQ** und **b**) und Wasserständen vom 13.04.2018 11:00 Uhr an der Elbe bei Rosslau und Dessau."), fig.show = 'asis', out.width = "100%"}
+```{r figure21, echo = FALSE, fig.cap = capFig("Screenshot der [waterLevelPegelonline-ShinyApp](http://r.bafg.de/shiny/WeberA/06-waterlevelpegelonline/) mit der interpolierten Wasserspiegellage, berechnungsrelevanten stationären FLYS3 Wasserspiegellagen (**a**, **0.75MQ** und **b**) und Wasserständen vom 13.04.2018 11:00 Uhr an der Elbe bei Rosslau und Dessau."), fig.show = 'asis', out.width = "100%"}
 knitr::include_graphics('screenshot_waterLevelPegelonline.png')
 ```
 
@@ -1162,7 +1162,7 @@ sogenannte Querprofilflächen lassen sich im GIS mittels des R-Paketes hydflood3
 Überflutungsdauern berechnen. Nähere Details zum Berechungsverfahren finden 
 sich auf dem Dokumentationsportal von hydflood3:
 
-<p style="text-align: center;"><http://hpc-service.bafg.de/~WeberA/hydflood3/></p>
+<p style="text-align: center;"><http://r.bafg.de/~WeberA/hydflood3/></p>
 
 <BR>
 

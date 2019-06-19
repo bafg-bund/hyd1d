@@ -50,11 +50,12 @@ test_that("waterLevelPegelonline: Geesthacht", {
 
 
 test_that("waterLevelPegelonline: Iffezheim", {
-    if (Sys.info()["nodename"] == "hpc-service") {
+    if (Sys.info()["nodename"] == "r.bafg.de") {
         wldf <- readWaterLevelStationInt(file = paste0("/home/WeberA/freigaben",
-                                                       "/U/U2/RH_336_867_UFD/d",
-                                                       "ata/wl/r001_IFFEZHEIM/",
-                                                       "km_values.txt"),
+                                                       "/U/U3/Auengruppe_INFOR",
+                                                       "M/RH_336_867_UFD/data/",
+                                                       "wl/r001_IFFEZHEIM/km_v",
+                                                       "alues.txt"),
                                          time = as.POSIXct("2016-12-21"))
         wldf1 <- subset(wldf, station > 336.2 & station <= 340)
         wldf2 <- waterLevel(wldf1, shiny = TRUE)
