@@ -21,7 +21,8 @@ DB_credentials_*
 /data/date_gauging_data.rda
 /data/df.gauging_data_latest.rda
 /data-raw/daily_cron_hpc-service.bafg.de.log
-/data-raw/daily_cron_aqualogy-cloud.de.log
+/data-raw/daily_cron_r.bafg.de.log
+/data-raw/daily_cron_aqualogy.de.log
 /data-raw/gauging_data.csv
 /data-raw/gauging_data.sql.gz
 /data-raw/gauging_data_missing.csv
@@ -32,6 +33,7 @@ DB_credentials_*
 /inst/doc
 /man/figures/Thumbs.db
 /presentation/presentation.html
+/presentation/presentation_DE_files
 /presentation/Thumbs.db
 /public
 /vignettes/hyd1d.html
