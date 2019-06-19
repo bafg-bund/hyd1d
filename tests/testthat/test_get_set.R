@@ -51,7 +51,7 @@ test_that("time", {
     setTime(wldf) <- as.POSIXct("2016-12-21")
     wldf <- waterLevel(wldf)
     
-    if (Sys.info()["nodename"] == "hpc-service") {
+    if (Sys.info()["nodename"] == "r.bafg.de") {
         wldf1 <- readWaterLevelFileDB(river = getRiver(wldf),
                                       time = getTime(wldf),
                                       from = 256, to = 263)

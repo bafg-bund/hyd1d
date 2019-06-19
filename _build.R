@@ -139,11 +139,14 @@ for (a_file in pkg_files) {
     if (package_name %in% pkgs$Package) {
         if (compareVersion(as.character(packageVersion(package_name)),
                            package_version) < 1) {
-            install.packages(paste(build, a_file, sep = "/"), 
+            install.packages(paste(build, a_file, sep = "/"),
+                             lib = paste0("~/R/", R_version),
                              dependencies = TRUE)
         }
     } else {
-        install.packages(paste(build, a_file, sep = "/"), dependencies = TRUE)
+        install.packages(paste(build, a_file, sep = "/"),
+                         lib = paste0("~/R/", R_version),
+                         dependencies = TRUE)
     }
 }
 
@@ -240,18 +243,18 @@ write(" web", stdout())
 
 host <- Sys.info()["nodename"]
 user <- Sys.info()["user"]
-if (host == "hpc-service" & user == "WeberA" & R_version == "3.5.2") {
+if (host == "r.bafg.de" & user == "WeberA" & R_version == "3.5.2") {
     system(paste0("cp -rp public/", R_version, "/* /home/", user, "/public_htm",
                   "l/hyd1d/"))
     system(paste0("find /home/", user, "/public_html/hyd1d/ -type f -print0 | ",
                   "xargs -0 chmod 0644"))
     system(paste0("find /home/", user, "/public_html/hyd1d/ -type d -print0 | ",
                   "xargs -0 chmod 0755"))
-    system(paste0("chcon -R -t httpd_user_content_t /home/", user,
-                  "/public_html/"))
-    system(paste0("[ -d /home/", user, "/freigaben_r/server_admin/package_sour",
+    # system(paste0("chcon -R -t httpd_user_content_t /home/", user,
+    #               "/public_html/"))
+    system(paste0("[ -d /home/", user, "/freigaben_r/_packages/package_sour",
                   "ces ] && cp -rp public/", R_version, "/downloads/hyd1d_*.ta",
-                  "r.gz /home/", user, "/freigaben_r/server_admin/package_sour",
+                  "r.gz /home/", user, "/freigaben_r/_packages/package_sour",
                   "ces"))
 }
 

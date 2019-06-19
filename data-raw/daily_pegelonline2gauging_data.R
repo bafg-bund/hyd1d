@@ -5,7 +5,7 @@
 # date:   21.06.2018
 #
 # purpose: 
-#   - download gauging data from pegelonline.wsv.de to hpc-service
+#   - download gauging data from pegelonline.wsv.de to r.bafg.de
 #   - write them into the postgresql database
 #
 ##################################################
@@ -185,7 +185,7 @@ if (hour >= 6 & hour < 17) {
             }
             
             # create a temporary file name for the download of data
-            if (Sys.info()["nodename"] == "hpc-service" & 
+            if (Sys.info()["nodename"] == "r.bafg.de" & 
                 Sys.info()["user"] == "WeberA") {
                 # assemble a file name
                 destfile <- paste0("/home/WeberA/flut3_", 
