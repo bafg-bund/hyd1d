@@ -3,7 +3,7 @@ cd /srv/cifs-mounts/WeberA_home/WeberA/hyd1d
 
 # compare local repository with remote 'origin'
 UPSTREAM=${1:-'@{u}'}
-LOCAL=$(git rev-parse @)
+LOCAL=$(git rev-parse master)
 REMOTE=$(git rev-parse "$UPSTREAM")
 BASE=$(git merge-base @ "$UPSTREAM")
 
