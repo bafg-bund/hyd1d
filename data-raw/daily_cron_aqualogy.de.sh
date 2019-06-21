@@ -20,11 +20,13 @@ elif [ $LOCAL = $BASE ]; then
     git pull
     Rscript _install.R
     Rscript _build.R
+    cp build/$R_VERSION/*.tar.gz /home/arnd/BfG/r.bafg.de/_packages/package_sources
 elif [ $REMOTE = $BASE ]; then
     echo "Need to push"
     git push
     Rscript _install.R
     Rscript _build.R
+    cp build/$R_VERSION/*.tar.gz /home/arnd/BfG/r.bafg.de/_packages/package_sources
 else
     echo "Diverged"
 fi
