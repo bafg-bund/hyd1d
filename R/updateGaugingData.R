@@ -38,7 +38,7 @@ updateGaugingData <- function(x){
     }
     
     # set relevant DB variables
-    if (compareVersion(as.character(getRversion()), "3.5.0") < 0) {
+    if (utils::compareVersion(as.character(getRversion()), "3.5.0") < 0) {
         file_date <- paste0(path.expand('~'), "/.hyd1d/date_gauging_data_v2.RD",
                             "S")
         file_data <- paste0(path.expand('~'), "/.hyd1d/df.gauging_data_latest_",

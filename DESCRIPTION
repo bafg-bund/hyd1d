@@ -21,8 +21,8 @@ Description: hyd1d provides an S4 class, datasets and several functions to
     database - and gauging data - provided by the hydrological databases HyDaBa 
     and PEGELONLINE - near realtime predictions can be carried out.
 Depends: R (>= 3.2.0)
-Imports: methods, RJSONIO (>= 1.0-0), RCurl (>= 1.95-4.10), plotrix (>= 3.0-0), 
-    Rdpack
+Imports: methods, utils, RJSONIO (>= 1.0-0), RCurl (>= 1.95-4.10), 
+    plotrix (>= 3.0-0), Rdpack
 Suggests: DBI (>= 0.4-9), ROracle (>= 1.1-1), RPostgreSQL (>= 0.6-1), testthat,
     knitr, rmarkdown, stringr, devtools, pkgdown, roxygen2, revealjs, shiny,
     shinyTime, lubridate, usethis
