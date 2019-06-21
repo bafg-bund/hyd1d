@@ -1,11 +1,32 @@
 #!/usr/bin/bash
 cd /srv/cifs-mounts/WeberA_home/WeberA/hyd1d
-git pull origin master
-#Rscript _install.R
-#Rscript _build.R
+
+# compare local repository with remote 'origin'
+UPSTREAM=${1:-'@{u}'}
+LOCAL=$(git rev-parse @)
+REMOTE=$(git rev-parse "$UPSTREAM")
+BASE=$(git merge-base @ "$UPSTREAM")
+
+if [ $LOCAL = $REMOTE ]; then
+    echo "Up-to-date"
+elif [ $LOCAL = $BASE ]; then
+    echo "Need to pull"
+    git pull
+    Rscript _install.R
+    Rscript _build.R
+elif [ $REMOTE = $BASE ]; then
+    echo "Need to push"
+    git push
+    Rscript _install.R
+    Rscript _build.R
+else
+    echo "Diverged"
+fi
+
+# run the daily scripts
 Rscript data-raw/daily_pegelonline2gauging_data.R
 Rscript data-raw/daily_df.gauging_data.R
-Rscript data-raw/daily_waterLevels.R
+#Rscript data-raw/daily_waterLevels.R
 chown -R WeberA:users /srv/cifs-mounts/WeberA_home/WeberA/hyd1d
 
 # sync hyd1d website
@@ -16,8 +37,8 @@ chown -R WeberA:users /srv/cifs-mounts/WeberA_home/WeberA/hyd1d
 #find /home/WeberA/public_html/hyd1d/ -type d -print0 | xargs -0 chmod 0755
 
 # copy data
-cp -u /srv/cifs-mounts/WeberA_home/WeberA/hyd1d/public/$R_VERSION/downloads/df.gauging_data_latest.rda /home/WeberA/public_html/hyd1d/downloads/
-chmod 644 /home/WeberA/public_html/hyd1d/downloads/df.gauging_data_latest.rda
+cp -u /srv/cifs-mounts/WeberA_home/WeberA/hyd1d/public/downloads/*.RDS /home/WeberA/public_html/hyd1d/downloads/
+chmod 644 /home/WeberA/public_html/hyd1d/downloads/*.RDS
 
 # exit
 exit 0

@@ -1,15 +1,34 @@
 #!/bin/bash
-# download present package repository
-cd $hyd1d
-git pull
-
 # use R $R_VERSION from the i4 module environment
 source /etc/profile.d/modules.sh
 module add i4/applications/R-$R_VERSION
 
+# download present package repository
+cd $hyd1d
+
+# compare local repository with remote 'origin'
+UPSTREAM=${1:-'@{u}'}
+LOCAL=$(git rev-parse @)
+REMOTE=$(git rev-parse "$UPSTREAM")
+BASE=$(git merge-base @ "$UPSTREAM")
+
+if [ $LOCAL = $REMOTE ]; then
+    echo "Up-to-date"
+elif [ $LOCAL = $BASE ]; then
+    echo "Need to pull"
+    git pull
+    Rscript _install.R
+    Rscript _build.R
+elif [ $REMOTE = $BASE ]; then
+    echo "Need to push"
+    git push
+    Rscript _install.R
+    Rscript _build.R
+else
+    echo "Diverged"
+fi
+
 # run the daily scripts
-Rscript _install.R
-Rscript _build.R
 Rscript data-raw/daily_pegelonline2gauging_data.R
 Rscript data-raw/daily_df.gauging_data.R
 chown -R arnd:arnd $hyd1d
