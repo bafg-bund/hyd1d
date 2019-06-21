@@ -31,6 +31,7 @@ data-raw/pegelonline2gauging_data.out
 data-raw/postgres.sql.gz
 inst/doc
 presentation/Thumbs.db
+presentation/presentation_DE.html
 public
 vignettes/hyd1d.html
 vignettes/Thumbs.db
