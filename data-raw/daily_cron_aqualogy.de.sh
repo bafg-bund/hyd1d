@@ -18,10 +18,11 @@ chown -R arnd:arnd $hyd1d
 if [ "$USER" == "root" ]
   then
     # sync hyd1d website
-    export FROM=$hyd1d/public/$R_VERSION
+    export FROM=$hyd1d/public/$R_VERSION/
     export TO=/var/www/hyd1d
     export OPTS="-v --recursive --delete --times --no-implied-dirs --iconv=utf8"
-    rsync $OPTS $FROM $TO
+    rsync $OPTS --exclude 'downloads' $FROM $TO
+    rsync $OPTS $hyd1d/public/downloads $TO
     chown -R www-data:www-data $TO
     chown root:www-data $TO
     
@@ -35,8 +36,8 @@ if [ "$USER" == "root" ]
     export PUBLIC=/var/www/wordpress/wp-content/uploads/bfg
     export GD=$PUBLIC/df.gauging_data_latest.RDS
     export GD_v2=$PUBLIC/df.gauging_data_latest_v2.RDS
-    cp $FROM/downloads/df.gauging_data_latest.RDS $GD
-    cp $FROM/downloads/df.gauging_data_latest_v2.RDS $GD_v2
+    cp $hyd1d/public/downloads/df.gauging_data_latest.RDS $GD
+    cp $hyd1d/public/downloads/df.gauging_data_latest_v2.RDS $GD_v2
     chown www-data:www-data $GD
     chown www-data:www-data $GD_v2
     chmod 640 $GD

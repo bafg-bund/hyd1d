@@ -9,16 +9,8 @@
 #
 ##################################################
 
-R_VERSION <- Sys.getenv("R_VERSION")
-if (R_VERSION == "") {
-    write(paste0("The environmental variable 'R_VERSION' with your stable vers",
-                 "ion of R needs to be defined!"), 
-          stderr())
-    q("no")
-}
-
 # output paths
-downloads <- paste0("public/", Sys.getenv("R_VERSION"), "/downloads")
+downloads <- "public/downloads"
 dir.create(downloads, FALSE, TRUE)
 
 write(paste0(downloads, "/df.gauging_data_latest.RDS will be produced"), 
