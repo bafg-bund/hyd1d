@@ -7,6 +7,7 @@ module add i4/applications/R-$R_VERSION
 cd $hyd1d
 
 # compare local repository with remote 'origin'
+git fetch origin
 UPSTREAM=${1:-'@{u}'}
 LOCAL=$(git rev-parse @)
 REMOTE=$(git rev-parse "$UPSTREAM")
