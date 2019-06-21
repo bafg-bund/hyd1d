@@ -37,6 +37,7 @@
 #' water level data at the gauging stations.
 #' 
 #' @importFrom Rdpack reprompt
+#' @import utils
 #' @import methods
 #'
 NULL
