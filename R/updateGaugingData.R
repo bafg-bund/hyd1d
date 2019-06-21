@@ -37,8 +37,21 @@ updateGaugingData <- function(x){
         stop("'x' must have length 1.")
     }
     
-    file_date <- paste0(path.expand('~'), "/.hyd1d/date_gauging_data.RDS")
-    file_data <- paste0(path.expand('~'), "/.hyd1d/df.gauging_data_latest.RDS")
+    # set relevant DB variables
+    if (compareVersion(as.character(getRversion()), "3.5.0") < 0) {
+        file_date <- paste0(path.expand('~'), "/.hyd1d/date_gauging_data_v2.RD",
+                            "S")
+        file_data <- paste0(path.expand('~'), "/.hyd1d/df.gauging_data_latest_",
+                            "v2.RDS")
+        url <- paste0("https://www.aqualogy.de/wp-content/uploads/bfg/df.gaugi",
+                      "ng_data_latest_v2.RDS")
+    } else {
+        file_date <- paste0(path.expand('~'), "/.hyd1d/date_gauging_data.RDS")
+        file_data <- paste0(path.expand('~'), "/.hyd1d/df.gauging_data_latest.",
+                            "RDS")
+        url <- paste0("https://www.aqualogy.de/wp-content/uploads/bfg/df.gaugi",
+                      "ng_data_latest.RDS")
+    }
     
     if((x < Sys.Date() & 
         Sys.time() > trunc.POSIXt(Sys.time(), units = "days") + 60 * 60 * 6.5) | 
@@ -46,8 +59,6 @@ updateGaugingData <- function(x){
         
         # download the df.gauging_data.RDS
         dir.create(paste0(path.expand('~'), "/.hyd1d"), FALSE, TRUE, "0777")
-        url <- paste0("https://www.aqualogy.de/wp-content/uploads/bfg/df.gaugi",
-                      "ng_data_latest.RDS")
         utils::download.file(url, file_data, quiet = TRUE)
         
         # store todays date

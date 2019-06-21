@@ -15,8 +15,11 @@ dir.create(downloads, FALSE, TRUE)
 
 # check the existence of resulting datasets and time
 from <- paste0(downloads, "/df.gauging_data_latest.RDS")
+from2 <- paste0(downloads, "/df.gauging_data_latest_v2.RDS")
 to <- paste0(downloads, "/df.gauging_data_", as.character(Sys.Date() - 2), 
              ".RDS")
+to2 <- paste0(downloads, "/df.gauging_data_", as.character(Sys.Date() - 2), 
+              "_v2.RDS")
 
 hour <- as.numeric(strftime(Sys.time(), "%H"))
 
@@ -59,9 +62,11 @@ if (file.exists(from) & !(file.exists(to)) & (hour >= 6 & hour < 17)) {
     # rename yesterdays version to the day before yesterday (latest date in the
     # dataset)
     file.rename(from = from, to = to)
+    file.rename(from = from2, to = to2)
     
     # store df.gauging_data
-    saveRDS(df.gauging_data, file = from, compress = "bzip2")
+    saveRDS(df.gauging_data, file = from, version = 3, compress = "bzip2")
+    saveRDS(df.gauging_data, file = from2, version = 2, compress = "bzip2")
     
 } else {
     write(paste0("It is not the time to produce ", downloads, "/df.gauging_dat",
