@@ -14,8 +14,8 @@ output:
     fig_width: 9
     fig_height: 6
 vignette: |
-  %\VignetteIndexEntry{hyd1d and hydflood3} 
-  %\VignetteEngine{knitr::rmarkdown} 
+  %\VignetteIndexEntry{hyd1d and hydflood3}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -69,27 +69,26 @@ lm_pegelonline <- lm(wl ~ km_qps, data = gs[id, ])
 
 {
     par(cex = 1.2)
-    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
-         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)", 
+    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max),
+         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)",
          ylab = "H\u00f6he (m \u00fcber NHN (DHHN92))")
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1, 
+    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1,
                  border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1, 
+    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1,
                  border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
     boxed.labels(259.6, 55.5, "MULDE", cex = 1, border = FALSE, col = "blue")
     
     # gauging data
-    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue",
            bg = "darkblue")
     
     # legend
-    legend("topright", 
-           pch = 21, col = "darkblue", pt.bg = "darkblue", pt.cex = 1,
-           legend = "Wasserstand", cex = cex_legend, bty = "n")
+    legend("topright", pch = 21, col = "darkblue", pt.bg = "darkblue",
+           pt.cex = 1, legend = "Wasserstand", cex = cex_legend, bty = "n")
 }
 ```
 
@@ -98,15 +97,15 @@ lm_pegelonline <- lm(wl ~ km_qps, data = gs[id, ])
 ```{r pegelonline-res2}
 {
     par(cex = 1.2)
-    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
-         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)", 
+    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max),
+         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)",
          ylab = "H\u00f6he (m \u00fcber NHN (DHHN92))")
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1, 
+    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1,
                  border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1, 
+    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1,
                  border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
     boxed.labels(259.6, 55.5, "MULDE", cex = 1, border = FALSE, col = "blue")
@@ -116,13 +115,12 @@ lm_pegelonline <- lm(wl ~ km_qps, data = gs[id, ])
     lines(x = gs$km_qps, y = gs$wl, col = "red")
     
     # gauging data
-    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue",
            bg = "darkblue")
     
     # legend
-    legend("topright", 
-           pch = 21, col = "darkblue", pt.bg = "darkblue", pt.cex = 1,
-           legend = "Wasserstand", cex = cex_legend, bty = "n")
+    legend("topright", pch = 21, col = "darkblue", pt.bg = "darkblue",
+           pt.cex = 1, legend = "Wasserstand", cex = cex_legend, bty = "n")
 }
 ```
 
@@ -130,10 +128,12 @@ lm_pegelonline <- lm(wl ~ km_qps, data = gs[id, ])
 
 ## Einleitung {#flys-intro data-background="background.png" data-background-size="auto 800px"}
 
-> - [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html) ist kein hydraulisches Modell, sondern eine Plattform zur Ausgabe 
-und Interpolation von Modellergebnissen.
-> - [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html) stellt 30 stationäre Wasserspiegellagen für gleichwertige 
-Abflusslängsschnitte von 0.5MNQ bis HQ500 aus 1D-SOBEK-Berechnungen bereit.
+> - [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+ist kein hydraulisches Modell, sondern eine Plattform zur Ausgabe und
+Interpolation von Modellergebnissen
+> - [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+stellt 30 stationäre Wasserspiegellagen für gleichwertige 
+Abflusslängsschnitte von 0.5MNQ bis HQ500 aus 1D-SOBEK-Berechnungen bereit
 > - <https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html>
 > - Quellcode verfügbar auf <http://www.dive4elements.org>
 
@@ -141,14 +141,14 @@ Abflusslängsschnitte von 0.5MNQ bis HQ500 aus 1D-SOBEK-Berechnungen bereit.
 
 ```{r flys-wsl1}
 flys3_water_levels <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ", "c",
-                        "2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5", "g", 
-                        "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50", "HQ75", 
+                        "2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5", "g",
+                        "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50", "HQ75",
                         "HQ100", "i", "HQ150", "HQ200", "HQ300", "HQ500")
 
 {
     par(cex = 1.2)
-    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), ylim = c(53, 62), 
-         xlab = "Flusskilometer (km)", 
+    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), ylim = c(53, 62),
+         xlab = "Flusskilometer (km)",
          ylab = "H\u00f6he (m \u00fcber NHN (DHHN92))")
     for (a_wl in flys3_water_levels){
         wldf_temp <- waterLevelFlys3(wldf, a_wl)
@@ -156,14 +156,14 @@ flys3_water_levels <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ", "c",
             lines(wldf_temp$station, wldf_temp$w, lty = 1, col = "darkblue")
             text(262.0, wldf_temp$w[nrow(wldf_temp)], a_wl, pos = 4, cex = 1)
         } else {
-            lines(wldf_temp$station, wldf_temp$w, lty = 3, lwd = 0.2, 
+            lines(wldf_temp$station, wldf_temp$w, lty = 3, lwd = 0.2,
                   col = "darkblue")
         }
     }
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 53.5, gs$gauging_station[2], cex = 1, 
+    boxed.labels(gs$km_qps[2], 53.5, gs$gauging_station[2], cex = 1,
                  border = FALSE)
-    boxed.labels(gs$km_qps[3], 61.5, gs$gauging_station[3], cex = 1, 
+    boxed.labels(gs$km_qps[3], 61.5, gs$gauging_station[3], cex = 1,
                  border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
     boxed.labels(259.6, 61.5, "MULDE", cex = 1, border = FALSE, col = "blue")
@@ -174,14 +174,14 @@ flys3_water_levels <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ", "c",
 
 ```{r flys-wsl2}
 flys3_water_levels <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ", "c",
-                        "2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5", "g", 
-                        "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50", "HQ75", 
+                        "2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5", "g",
+                        "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50", "HQ75",
                         "HQ100", "i", "HQ150", "HQ200", "HQ300", "HQ500")
 
 {
     par(cex = 1.2)
-    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), ylim = c(53, 62), 
-         xlab = "Flusskilometer (km)", 
+    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), ylim = c(53, 62),
+         xlab = "Flusskilometer (km)",
          ylab = "H\u00f6he (m \u00fcber NHN (DHHN92))")
     for (a_wl in flys3_water_levels){
         wldf_temp <- waterLevelFlys3(wldf, a_wl)
@@ -189,26 +189,25 @@ flys3_water_levels <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ", "c",
             lines(wldf_temp$station, wldf_temp$w, lty = 1, col = "darkblue")
             text(262.0, wldf_temp$w[nrow(wldf_temp)], a_wl, pos = 4, cex = 1)
         } else {
-            lines(wldf_temp$station, wldf_temp$w, lty = 3, lwd = 0.2, 
+            lines(wldf_temp$station, wldf_temp$w, lty = 3, lwd = 0.2,
                   col = "darkblue")
         }
     }
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 53.5, gs$gauging_station[2], cex = 1, 
+    boxed.labels(gs$km_qps[2], 53.5, gs$gauging_station[2], cex = 1,
                  border = FALSE)
-    boxed.labels(gs$km_qps[3], 61.5, gs$gauging_station[3], cex = 1, 
+    boxed.labels(gs$km_qps[3], 61.5, gs$gauging_station[3], cex = 1,
                  border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
     boxed.labels(259.6, 61.5, "MULDE", cex = 1, border = FALSE, col = "blue")
     
     # gauging data
-    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue",
            bg = "darkblue")
     
     # legend
-    legend("topright", 
-           pch = 21, col = "darkblue", pt.bg = "darkblue", pt.cex = 1,
-           legend = "Wasserstand", cex = cex_legend, bty = "n")
+    legend("topright", pch = 21, col = "darkblue", pt.bg = "darkblue",
+           pt.cex = 1, legend = "Wasserstand", cex = cex_legend, bty = "n")
 }
 ```
 
@@ -222,21 +221,21 @@ mq <- waterLevelFlys3(wldf, "MQ")
 
 {
     par(cex = 1.2)
-    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
-         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)", 
+    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max),
+         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)",
          ylab = "H\u00f6he (m \u00fcber NHN (DHHN92))")
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1, 
+    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1,
                  border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1, 
+    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1,
                  border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
     boxed.labels(259.6, 55.5, "MULDE", cex = 1, border = FALSE, col = "blue")
     
     # gauging data
-    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue",
            bg = "darkblue")
     
     # FLYS
@@ -248,9 +247,8 @@ mq <- waterLevelFlys3(wldf, "MQ")
     text(262, min(mq_0.75$w), "0.75MQ", pos = 4, cex = 1)
     
     # legend
-    legend("topright", 
-           pch = 21, col = "darkblue", pt.bg = "darkblue", pt.cex = 1,
-           legend = "Wasserstand", cex = cex_legend, bty = "n")
+    legend("topright", pch = 21, col = "darkblue", pt.bg = "darkblue",
+           pt.cex = 1, legend = "Wasserstand", cex = cex_legend, bty = "n")
 }
 ```
 
@@ -268,21 +266,20 @@ wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1, 
+    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1,
                  border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1, 
+    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1,
                  border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
     boxed.labels(259.6, 55.5, "MULDE", cex = 1, border = FALSE, col = "blue")
     
     # gauging data
-    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue",
            bg = "darkblue")
     
     # legend
-    legend("topright", 
-           pch = 21, col = "darkblue", pt.bg = "darkblue", pt.cex = 1,
-           legend = "Wasserstand", cex = cex_legend, bty = "n")
+    legend("topright", pch = 21, col = "darkblue", pt.bg = "darkblue",
+           pt.cex = 1, legend = "Wasserstand", cex = cex_legend, bty = "n")
     text(262.5, 54.7, "Bezugspegel", cex = 1)
     text(262, min(wldf2$w), "WITTENBERG", pos = 4, cex = 1)
     #text(262, min(wldf3$w), "ROSSLAU", pos = 4, cex = 1)
@@ -297,33 +294,28 @@ wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
     par(cex = 1.2)
     plotShiny(wldf2, FALSE, FALSE, FALSE, xlim = c(xlim_min, xlim_max),
               ylim = c(ylim_min, ylim_max))
-    #polygon(x = c(wldf3$station, rev(wldf4$station)),
-    #        y = c(wldf3$w, rev(wldf4$w)), col = "grey95", border = NA)
     lines(wldf2$station, wldf2$w, lty = 1, col = "darkblue")
     lines(wldf3$station, wldf3$w, lty = 2, col = "darkblue")
-    #lines(wldf4$station, wldf4$w, lty = 3, col = "darkblue")
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1, 
+    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1,
                  border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1, 
+    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1,
                  border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
     boxed.labels(259.6, 55.5, "MULDE", cex = 1, border = FALSE, col = "blue")
     
     # gauging data
-    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue",
            bg = "darkblue")
     
     # legend
-    legend("topright", 
-           pch = 21, col = "darkblue", pt.bg = "darkblue", pt.cex = 1,
-           legend = "Wasserstand", cex = cex_legend, bty = "n")
+    legend("topright", pch = 21, col = "darkblue", pt.bg = "darkblue",
+           pt.cex = 1, legend = "Wasserstand", cex = cex_legend, bty = "n")
     text(262.5, 54.7, "Bezugspegel", cex = 1)
     text(262, min(wldf2$w), "WITTENBERG", pos = 4, cex = 1)
     text(262, min(wldf3$w), "ROSSLAU", pos = 4, cex = 1)
-    #text(262, min(wldf4$w), "DESSAU", pos = 4, cex = 1)
 }
 ```
 
@@ -334,29 +326,26 @@ wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
     par(cex = 1.2)
     plotShiny(wldf2, FALSE, FALSE, FALSE, xlim = c(xlim_min, xlim_max),
               ylim = c(ylim_min, ylim_max))
-    #polygon(x = c(wldf3$station, rev(wldf4$station)),
-    #        y = c(wldf3$w, rev(wldf4$w)), col = "grey95", border = NA)
     lines(wldf2$station, wldf2$w, lty = 1, col = "darkblue")
     lines(wldf3$station, wldf3$w, lty = 2, col = "darkblue")
     lines(wldf4$station, wldf4$w, lty = 3, col = "darkblue")
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1, 
+    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1,
                  border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1, 
+    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1,
                  border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
     boxed.labels(259.6, 55.5, "MULDE", cex = 1, border = FALSE, col = "blue")
     
     # gauging data
-    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue",
            bg = "darkblue")
     
     # legend
-    legend("topright", 
-           pch = 21, col = "darkblue", pt.bg = "darkblue", pt.cex = 1,
-           legend = "Wasserstand", cex = cex_legend, bty = "n")
+    legend("topright", pch = 21, col = "darkblue", pt.bg = "darkblue",
+           pt.cex = 1, legend = "Wasserstand", cex = cex_legend, bty = "n")
     text(262.5, 54.7, "Bezugspegel", cex = 1)
     text(262, min(wldf2$w), "WITTENBERG", pos = 4, cex = 1)
     text(262, min(wldf3$w), "ROSSLAU", pos = 4, cex = 1)
@@ -379,21 +368,20 @@ wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1, 
+    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1,
                  border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1, 
+    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1,
                  border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
     boxed.labels(259.6, 55.5, "MULDE", cex = 1, border = FALSE, col = "blue")
     
     # gauging data
-    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue",
            bg = "darkblue")
     
     # legend
-    legend("topright", 
-           pch = 21, col = "darkblue", pt.bg = "darkblue", pt.cex = 1,
-           legend = "Wasserstand", cex = cex_legend, bty = "n")
+    legend("topright", pch = 21, col = "darkblue", pt.bg = "darkblue",
+           pt.cex = 1, legend = "Wasserstand", cex = cex_legend, bty = "n")
     text(262.5, 54.7, "Bezugspegel", cex = 1)
     text(262, min(wldf2$w), "WITTENBERG", pos = 4, cex = 1)
     text(262, min(wldf3$w), "ROSSLAU", pos = 4, cex = 1)
@@ -416,29 +404,28 @@ wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1, 
+    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1,
                  border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1, 
+    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1,
                  border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
     boxed.labels(259.6, 55.5, "MULDE", cex = 1, border = FALSE, col = "blue")
     
     # gauging data
-    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue",
            bg = "darkblue")
     
     # difference
     id_sel <- which(wldf1$station == 260)
-    arrows(x0 = 260, y0 = wldf3$w[id_sel], y1 = wldf4$w[id_sel], length = 0.13, 
+    arrows(x0 = 260, y0 = wldf3$w[id_sel], y1 = wldf4$w[id_sel], length = 0.13,
            code = 3, col = "red", lwd = 3)
-    text(260, (wldf3$w[id_sel] + wldf4$w[id_sel])/2, 
-         labels = paste(round(wldf4$w[id_sel] - wldf3$w[id_sel], 2), "m"), 
+    text(260, (wldf3$w[id_sel] + wldf4$w[id_sel])/2,
+         labels = paste(round(wldf4$w[id_sel] - wldf3$w[id_sel], 2), "m"),
          pos = 4, col = "red", font = 2)
     
     # legend
-    legend("topright", 
-           pch = 21, col = "darkblue", pt.bg = "darkblue", pt.cex = 1,
-           legend = "Wasserstand", cex = cex_legend, bty = "n")
+    legend("topright", pch = 21, col = "darkblue", pt.bg = "darkblue",
+           pt.cex = 1, legend = "Wasserstand", cex = cex_legend, bty = "n")
     text(262.5, 54.7, "Bezugspegel", cex = 1)
     text(262, min(wldf2$w), "WITTENBERG", pos = 4, cex = 1)
     text(262, min(wldf3$w), "ROSSLAU", pos = 4, cex = 1)
@@ -461,29 +448,27 @@ wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1, 
+    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1,
                  border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1, 
+    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1,
                  border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
     boxed.labels(259.6, 55.5, "MULDE", cex = 1, border = FALSE, col = "blue")
     
     # pegelonline comparison
-    po <- approx(x = gs$km_qps, y = gs$wl, 
+    po <- approx(x = gs$km_qps, y = gs$wl,
                  xout = c(xlim_min, gs$km_qps[id], 262))
     lines(x = po$x, y = po$y, col = "red")
     
     # gauging data
-    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue",
            bg = "darkblue")
     
     # legend
-    legend("topright", 
-           lty = c(0, 1), lwd = c(0, 1),
-           pch = c(21, NA), col = c("darkblue", "red"), 
-           pt.bg = c("darkblue", NA), pt.cex = c(1, NA),
-           legend = c("Wasserstand", "PEGELONLINE"), cex = cex_legend, 
-           bty = "n")
+    legend("topright", lty = c(0, 1), lwd = c(0, 1), pch = c(21, NA),
+           col = c("darkblue", "red"), pt.bg = c("darkblue", NA),
+           pt.cex = c(1, NA), legend = c("Wasserstand", "PEGELONLINE"),
+           cex = cex_legend, bty = "n")
     text(262.5, 54.7, "Bezugspegel", cex = 1)
     text(262, min(wldf2$w), "WITTENBERG", pos = 4, cex = 1)
     text(262, min(wldf3$w), "ROSSLAU", pos = 4, cex = 1)
@@ -494,38 +479,42 @@ wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
 
 ## Zusammenfassung {#flys-summary data-background="background.png" data-background-size="auto 800px"}
 
-> - [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html) interpoliert stationäre Wasserspiegellagen abschnittsweise mit 
-jeweils einem Bezugspegel.
-> - Die Auswahl des Bezugspegels und dessen relativer Abfluss kann starken 
-Einfluss auf die resultierende Wasserspiegellage haben.
-> - Ungleichwertige Abflüsse großer Nebengewässer können Differenzen von 
-mehreren Dezimetern zwischen mit [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html) abschnittsweise berechneten 
-Wasserspiegellagen verursachen.
-> - Sprünge, bzw. Diskontinuitäten an Abschnittsgrenzen sind daher unvermeidbar.
+> - [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+interpoliert stationäre Wasserspiegellagen abschnittsweise mit jeweils einem
+Bezugspegel
+> - Die Auswahl des Bezugspegels und dessen relativer Abfluss kann starken
+Einfluss auf die resultierende Wasserspiegellage haben
+> - Ungleichwertige Abflüsse großer Nebengewässer können Differenzen von
+mehreren Dezimetern zwischen mit 
+[FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+abschnittsweise berechneten Wasserspiegellagen verursachen
+> - Sprünge, bzw. Diskontinuitäten an Abschnittsgrenzen sind daher unvermeidbar
 
 # hyd1d {#hyd1d data-background="background.png" data-background-size="auto 800px"}
 
 ## Einleitung {#hyd1d-intro data-background="background.png" data-background-size="auto 800px"}
 
-> - **hyd1d** ist als **R**-Paket programmiert und soll über [CRAN](https://cran.r-project.org) unter der
-[GPL2](https://www.gnu.org/licenses/gpl-2.0) veröffentlicht werden.
+> - **hyd1d** ist als **R**-Paket programmiert und soll über
+[CRAN](https://cran.r-project.org) unter der
+[GPL2](https://www.gnu.org/licenses/gpl-2.0) veröffentlicht werden
 > - **hyd1d** integriert Paket-eigene Pegeldaten aus der
-[HyDaBa](http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html), 
-aktuelle Pegeldaten von [PEGELONLINE](https://pegelonline.wsv.de), und 
-Wasserspiegellagen von [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html).
-> - Pegel- und Wasserspiegeldaten werden so miteinander interpoliert, dass 
-resultierenden Wasserspiegellagen auch über lange Strecken keine 
-Diskontinuitäten aufweisen.
+[HyDaBa](http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html),
+aktuelle Pegeldaten von [PEGELONLINE](https://pegelonline.wsv.de), und
+Wasserspiegellagen von [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+> - Pegel- und Wasserspiegeldaten werden so miteinander interpoliert, dass
+resultierenden Wasserspiegellagen auch über lange Strecken keine
+Diskontinuitäten aufweisen
 
 ## Methodik {#hyd1d-method data-background="background.png" data-background-size="auto 800px"}
 
 1. Bestimmung der relevanten Pegel für den Berechnungsort, bzw. die
 Berechnungsstrecke
 2. Bestimmung der Wasserstände dieser Pegeln zum gewählten Zeitpunkt
-3. Aufteilung der Berechnungsstrecke in Abschnitte, die von jeweils zwei Pegeln 
+3. Aufteilung der Berechnungsstrecke in Abschnitte, die von jeweils zwei Pegeln
 eingerahmt werden
-4. Abschnittsweise Bestimmung, welche [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen die 
-Wasserspiegellagen an den beiden Pegeln einrahmen
+4. Abschnittsweise Bestimmung, welche
+[FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen
+die Wasserspiegellagen an den beiden Pegeln einrahmen
 5. Abschnittsweise, entfernungsabhängige Interpolation zwischen den einrahmenden
 [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen
 
@@ -534,13 +523,12 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
 ```{r hyd1d-method-1}
 {
     par(cex = 1.2)
-    plot(1, 1, type = "n", xlim = c(243, 276.8), 
-         ylim = c(51, 58), xlab = "Flusskilometer (km)", 
+    plot(1, 1, type = "n", xlim = c(243, 276.8),
+         ylim = c(51, 58), xlab = "Flusskilometer (km)",
          ylab = "H\u00f6he (m \u00fcber NHN (DHHN92))")
     
     # berechnungsstrecke
-    polygon(x = c(257, 262, 262, 257),
-            y = c(50.8, 50.8, 58.2, 58.2),
+    polygon(x = c(257, 262, 262, 257), y = c(50.8, 50.8, 58.2, 58.2),
             col = "grey95", border = NA)
     
     # landmarks
@@ -556,8 +544,8 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
 ```{r hyd1d-method-2}
 {
     par(cex = 1.2)
-    plot(1, 1, type = "n", xlim = c(243, 276.8), 
-         ylim = c(51, 58), xlab = "Flusskilometer (km)", 
+    plot(1, 1, type = "n", xlim = c(243, 276.8),
+         ylim = c(51, 58), xlab = "Flusskilometer (km)",
          ylab = "H\u00f6he (m \u00fcber NHN (DHHN92))")
     
     # stretch
@@ -574,9 +562,9 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
     points(gs$km_qps, gs$wl, pch = 21, col = "darkblue", bg = "darkblue")
     
     # legend
-    legend("topright", 
-           pch = 21, col = "darkblue", pt.bg = "darkblue", pt.cex = 1,
-           legend = "Wasserstand", cex = cex_legend, bty = "o", box.col = "white")
+    legend("topright", pch = 21, col = "darkblue", pt.bg = "darkblue",
+           pt.cex = 1, legend = "Wasserstand", cex = cex_legend, bty = "o",
+           box.col = "white")
     box()
 }
 ```
@@ -586,8 +574,8 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
 ```{r hyd1d-method-3}
 {
     par(cex = 1.2)
-    plot(1, 1, type = "n", xlim = c(243, 276.8), 
-         ylim = c(51, 58), xlab = "Flusskilometer (km)", 
+    plot(1, 1, type = "n", xlim = c(243, 276.8),
+         ylim = c(51, 58), xlab = "Flusskilometer (km)",
          ylab = "H\u00f6he (m \u00fcber NHN (DHHN92))")
     
     # stretch
@@ -597,7 +585,8 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
     
     # sections
     for (i in 1:(nrow(gs) - 1)) {
-        rect(gs$km_qps[i], 53, gs$km_qps[i + 1], 54, col = "lightblue", border = NA)
+        rect(gs$km_qps[i], 53, gs$km_qps[i + 1], 54, col = "lightblue",
+             border = NA)
         text((gs$km_qps[i] + gs$km_qps[i + 1])/2, 53.5, i, font = 2)
         lines(rep(gs$km_qps[i], 2), c(53, 54), lwd = 2)
         lines(rep(gs$km_qps[i + 1], 2), c(53, 54), lwd = 2)
@@ -612,9 +601,8 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
     points(gs$km_qps, gs$wl, pch = 21, col = "darkblue", bg = "darkblue")
     
     # legend
-    legend("topright", 
-           pch = 21, col = "darkblue", pt.bg = "darkblue", pt.cex = 1,
-           legend = "Wasserstand", cex = cex_legend, bty = "o", 
+    legend("topright", pch = 21, col = "darkblue", pt.bg = "darkblue",
+           pt.cex = 1, legend = "Wasserstand", cex = cex_legend, bty = "o",
            box.col = "white")
     box()
 }
@@ -625,27 +613,27 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
 ```{r hyd1d-method-4}
 {
     par(cex = 1.2)
-    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
-         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)", 
+    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max),
+         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)",
          ylab = "H\u00f6he (m \u00fcber NHN (DHHN92))")
     
     for (a_wl in flys3_water_levels){
         wldf_temp <- waterLevelFlys3(wldf, a_wl)
-        lines(wldf_temp$station, wldf_temp$w, lty = 3, lwd = 0.2, 
+        lines(wldf_temp$station, wldf_temp$w, lty = 3, lwd = 0.2,
               col = "darkblue")
     }
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1, 
+    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1,
                  border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1, 
+    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1,
                  border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
     boxed.labels(259.6, 55.5, "MULDE", cex = 1, border = FALSE, col = "blue")
     
     # gauging data
-    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue",
            bg = "darkblue")
     
     # FLYS
@@ -657,9 +645,8 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
     text(261.2, min(mq_0.75$w[i]), "0.75MQ", pos = 4, cex = 1)
     
     # legend
-    legend("topright", 
-           pch = 21, col = "darkblue", pt.bg = "darkblue", pt.cex = 1,
-           legend = "Wasserstand", cex = cex_legend, bty = "n")
+    legend("topright", pch = 21, col = "darkblue", pt.bg = "darkblue",
+           pt.cex = 1, legend = "Wasserstand", cex = cex_legend, bty = "n")
 }
 ```
 
@@ -668,21 +655,21 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
 ```{r hyd1d-method-5-1}
 {
     par(cex = 1.2)
-    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
-         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)", 
+    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max),
+         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)",
          ylab = "H\u00f6he (m \u00fcber NHN (DHHN92))")
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.52)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1, 
+    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1,
                  border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1, 
+    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1,
                  border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
     boxed.labels(259.6, 55.5, "MULDE", cex = 1, border = FALSE, col = "blue")
     
     # gauging data
-    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue",
            bg = "darkblue")
     
     # weighting
@@ -701,17 +688,12 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
     text(257.8, max(mq_0.75$w[i]), "1", pos = 2, font = 2, col = "red")
     
     # legend
-    legend("topright", 
-           col = c("darkblue", "darkblue", "red", "black"), 
-           pch = c(21, NA, NA, NA), 
-           pt.bg = c("darkblue", NA, NA, NA), 
-           pt.cex = c(1, NA, NA, NA), 
-           lty = c(0, 0, 1, 1), 
-           legend = c("Wasserstand", "Gewicht", "obere FLYS-WSL", 
-                      "untere FLYS-WSL"), 
-           text.font = c(1, 2, 1, 1), 
-           text.col = c(1, "darkblue", 1, 1),
-           cex = cex_legend, bty = "n")
+    legend("topright", col = c("darkblue", "darkblue", "red", "black"),
+           pch = c(21, NA, NA, NA), pt.bg = c("darkblue", NA, NA, NA),
+           pt.cex = c(1, NA, NA, NA), lty = c(0, 0, 1, 1),
+           legend = c("Wasserstand", "Gewicht", "obere FLYS-WSL",
+                      "untere FLYS-WSL"), text.font = c(1, 2, 1, 1),
+           text.col = c(1, "darkblue", 1, 1), cex = cex_legend, bty = "n")
 }
 ```
 
@@ -720,15 +702,15 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
 ```{r hyd1d-method-5-2}
 {
     par(cex = 1.2)
-    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
-         ylim = c(-0.1, 1.1), xlab = "Flusskilometer (km)", 
+    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max),
+         ylim = c(-0.1, 1.1), xlab = "Flusskilometer (km)",
          ylab = "relatives Gewicht")
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], -0.05, gs$gauging_station[2], cex = 1, 
+    boxed.labels(gs$km_qps[2], -0.05, gs$gauging_station[2], cex = 1,
                  border = FALSE)
-    boxed.labels(gs$km_qps[3], 1.05, gs$gauging_station[3], cex = 1, 
+    boxed.labels(gs$km_qps[3], 1.05, gs$gauging_station[3], cex = 1,
                  border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
     boxed.labels(259.6, 1.05, "MULDE", cex = 1, border = FALSE, col = "blue")
@@ -738,9 +720,9 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
           y = c(gs$weight_up[id][1], gs$weight_do[id][2]))
     points(gs$km_qps[id][1], gs$weight_up[id][1], pch = 21, col = 1, bg = 1)
     points(gs$km_qps[id][2], gs$weight_do[id][2], pch = 21, col = 1, bg = 1)
-    text(gs$km_qps[id][1], gs$weight_up[id][1], round(gs$weight_up[id][1], 2), 
+    text(gs$km_qps[id][1], gs$weight_up[id][1], round(gs$weight_up[id][1], 2),
          pos = 2, font = 2, col = "darkblue")
-    text(gs$km_qps[id][2], gs$weight_do[id][2], round(gs$weight_do[id][2], 2), 
+    text(gs$km_qps[id][2], gs$weight_do[id][2], round(gs$weight_do[id][2], 2),
          pos = 4, font = 2, col = "darkblue")
 }
 ```
@@ -750,21 +732,21 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
 ```{r hyd1d-method-5-3}
 {
     par(cex = 1.2)
-    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
-         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)", 
+    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max),
+         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)",
          ylab = "H\u00f6he (m \u00fcber NHN (DHHN92))")
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1, 
+    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1,
                  border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1, 
+    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1,
                  border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
     boxed.labels(259.6, 55.5, "MULDE", cex = 1, border = FALSE, col = "blue")
     
     # gauging data
-    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue",
            bg = "darkblue")
     
     # FLYS
@@ -782,17 +764,14 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
          cex = 1, font = 2, col = "darkblue")
     
     # legend
-    legend("topright", 
-           col = c("darkblue", "darkblue", "darkblue", "red", "black"), 
-           pch = c(21, NA, NA, NA, NA), 
-           pt.bg = c("darkblue", NA, NA, NA, NA), 
-           pt.cex = c(1, NA, NA, NA, NA), 
-           lty = c(0, 0, 1, 1, 1), 
+    legend("topright",
+           col = c("darkblue", "darkblue", "darkblue", "red", "black"),
+           pch = c(21, NA, NA, NA, NA), pt.bg = c("darkblue", NA, NA, NA, NA),
+           pt.cex = c(1, NA, NA, NA, NA), lty = c(0, 0, 1, 1, 1),
            lwd = c(0, 0, 2, 1, 1),
-           legend = c("Wasserstand", "Gewicht", "waterLevel", "obere FLYS-WSL", 
-                      "untere FLYS-WSL"), 
-           text.col = c(1, "darkblue", 1, 1, 1),
-           text.font = c(1, 2, 1, 1, 1),
+           legend = c("Wasserstand", "Gewicht", "waterLevel", "obere FLYS-WSL",
+                      "untere FLYS-WSL"),
+           text.col = c(1, "darkblue", 1, 1, 1), text.font = c(1, 2, 1, 1, 1),
            cex = cex_legend, bty = "n")
 }
 ```
@@ -807,21 +786,18 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
     
     # landmark
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
-    boxed.labels(259.6, 55.5, "MULDE", cex = 0.7, border = FALSE, col = "blue", 
+    boxed.labels(259.6, 55.5, "MULDE", cex = 0.7, border = FALSE, col = "blue",
                  srt = 90)
     
     # legend
-    legend("topright", 
-           col = c("darkblue", "darkblue", "darkblue", "red", "black"), 
-           pch = c(21, NA, NA, NA, NA), 
-           pt.bg = c("darkblue", NA, NA, NA, NA), 
-           pt.cex = c(1, NA, NA, NA, NA), 
-           lty = c(0, 0, 1, 1, 1), 
-           lwd = c(0, 0, 2, 1, 1),
-           legend = c("Wasserstand", "Gewicht", "waterLevel", "obere FLYS-WSL", 
-                      "untere FLYS-WSL"), 
-           text.col = c(1, "darkblue", 1, 1, 1),
-           cex = cex_legend, bty = "n")
+    legend("topright",
+           col = c("darkblue", "darkblue", "darkblue", "red", "black"),
+           pch = c(21, NA, NA, NA, NA), pt.bg = c("darkblue", NA, NA, NA, NA),
+           pt.cex = c(1, NA, NA, NA, NA),
+           lty = c(0, 0, 1, 1, 1), lwd = c(0, 0, 2, 1, 1),
+           legend = c("Wasserstand", "Gewicht", "waterLevel", "obere FLYS-WSL",
+                      "untere FLYS-WSL"),
+           text.col = c(1, "darkblue", 1, 1, 1), cex = cex_legend, bty = "n")
     box()
 }
 ```
@@ -831,15 +807,15 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
 ```{r hyd1d-wsl-comp1}
 {
     par(cex = 1.2)
-    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
-         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)", 
+    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max),
+         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)",
          ylab = "H\u00f6he (m \u00fcber NHN (DHHN92))")
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1, 
+    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1,
                  border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1, 
+    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1,
                  border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
     boxed.labels(259.6, 55.5, "MULDE", cex = 1, border = FALSE, col = "blue")
@@ -848,16 +824,14 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
     lines(x = po$x, y = po$y, col = "red")
     
     # gauging data
-    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue",
            bg = "darkblue")
     
     # legend
-    legend("topright", 
-           lty = c(0, 1), lwd = c(0, 1),
-           pch = c(21, NA), col = c("darkblue", "red"), 
-           pt.bg = c("darkblue", NA), pt.cex = c(1, NA),
-           legend = c("Wasserstand", "PEGELONLINE"), cex = cex_legend, 
-           bty = "n")
+    legend("topright", lty = c(0, 1), lwd = c(0, 1), pch = c(21, NA),
+           col = c("darkblue", "red"), pt.bg = c("darkblue", NA),
+           pt.cex = c(1, NA), legend = c("Wasserstand", "PEGELONLINE"),
+           cex = cex_legend, bty = "n")
 }
 ```
 
@@ -866,8 +840,8 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
 ```{r hyd1d-wsl-comp2}
 {
     par(cex = 1.2)
-    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
-         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)", 
+    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max),
+         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)",
          ylab = "H\u00f6he (m \u00fcber NHN (DHHN92))")
     #polygon(x = c(wldf3$station, rev(wldf4$station)),
     #        y = c(wldf3$w, rev(wldf4$w)), col = "grey95", border = NA)
@@ -877,9 +851,9 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1, 
+    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1,
                  border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1, 
+    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1,
                  border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
     boxed.labels(259.6, 55.5, "MULDE", cex = 1, border = FALSE, col = "blue")
@@ -888,15 +862,14 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
     lines(x = po$x, y = po$y, col = "red")
     
     # gauging data
-    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue",
            bg = "darkblue")
     
     # legend
-    legend("topright", 
-           lty = c(0, 1, 1), lwd = c(0, 1, 1),
-           pch = c(21, NA, NA), col = c("darkblue", "red", "darkblue"), 
+    legend("topright", lty = c(0, 1, 1), lwd = c(0, 1, 1),
+           pch = c(21, NA, NA), col = c("darkblue", "red", "darkblue"),
            pt.bg = c("darkblue", NA, NA), pt.cex = c(1, NA, NA),
-           legend = c("Wasserstand", "PEGELONLINE", "FLYS"), cex = cex_legend, 
+           legend = c("Wasserstand", "PEGELONLINE", "FLYS"), cex = cex_legend,
            bty = "n")
     text(262.5, 54.7, "Bezugspegel", cex = 1, col = "darkblue")
     text(262, min(wldf2$w), "WITTENBERG", pos = 4, cex = 1, col = "darkblue")
@@ -910,15 +883,15 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
 ```{r hyd1d-wsl-comp3}
 {
     par(cex = 1.2)
-    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
-         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)", 
+    plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max),
+         ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)",
          ylab = "H\u00f6he (m \u00fcber NHN (DHHN92))")
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1, 
+    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 1,
                  border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1, 
+    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 1,
                  border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
     boxed.labels(259.6, 55.5, "MULDE", cex = 1, border = FALSE, col = "blue")
@@ -931,16 +904,16 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
     lines(wldf1$station, wldf1$w, lty = 1, col = "black", lwd = 2)
     
     # gauging data
-    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
+    points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue",
            bg = "darkblue")
     
     # legend
-    legend("topright", 
-           lty = c(0, 1, 1, 1), lwd = c(0, 1, 1, 2), pch = c(21, NA, NA, NA),
-           col = c("darkblue", "red", "darkblue", "black"), 
+    legend("topright", lty = c(0, 1, 1, 1), lwd = c(0, 1, 1, 2),
+           pch = c(21, NA, NA, NA),
+           col = c("darkblue", "red", "darkblue", "black"),
            pt.bg = c("darkblue", NA, NA, NA), pt.cex = c(1, NA, NA, NA),
-           legend = c("Wasserstand", "PEGELONLINE", "FLYS", "hyd1d"), 
-           cex = cex_legend, text.col = c("darkblue", "red", "darkblue", 
+           legend = c("Wasserstand", "PEGELONLINE", "FLYS", "hyd1d"),
+           cex = cex_legend, text.col = c("darkblue", "red", "darkblue",
                                           "black"), bty = "n")
     text(262.5, 54.7, "Bezugspegel", cex = 1, col = "darkblue")
     text(262, min(wldf2$w), "WITTENBERG", pos = 4, cex = 1, col = "darkblue")
@@ -951,20 +924,21 @@ Wasserspiegellagen an den beiden Pegeln einrahmen
 
 ## Zusammenfassung {#hyd1d-summary data-background="background.png" data-background-size="auto 800px"}
 
-> - **hyd1d** interpoliert stationäre Wasserspiegellagen von [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html) 
-abschnittsweise mit Hilfe der umliegenden Pegel.
+> - **hyd1d** interpoliert stationäre Wasserspiegellagen von
+[FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+abschnittsweise mit Hilfe der umliegenden Pegel
 > - Die Interpolation wird mit **allen** für den Zeitpunkt und den
-Gewässerabschnitt verfügbaren Pegeldaten durchgeführt.
-> - Ungleichwertige Abflüsse großer Nebengewässer werden durch die Pegel 
+Gewässerabschnitt verfügbaren Pegeldaten durchgeführt
+> - Ungleichwertige Abflüsse großer Nebengewässer werden durch die Pegel
 abgebildet.
-> - Sprünge, bzw. Diskontinuitäten werden durch das abschnittssweise 
-Aufhängen der resultierenden Wasserspiegellage an den Pegeln unmöglich.
+> - Sprünge, bzw. Diskontinuitäten werden durch das abschnittssweise
+Aufhängen der resultierenden Wasserspiegellage an den Pegeln unmöglich
 
 # Das R-Paket {#hyd1d-package data-background="background.png" data-background-size="auto 800px"}
 
 ## Installation {#hyd1d-install data-background="background.png" data-background-size="auto 800px"}
 
-- Bisher ist **hyd1d** nur innerhalb der BfG verfügbar und kann mit folgenden 
+- Bisher ist **hyd1d** nur innerhalb der BfG verfügbar und kann mit folgenden
 Befehlen installiert werden:
 ```{r hyd1d-install1, eval = FALSE, echo = TRUE}
 install.packages("devtools")
@@ -972,7 +946,7 @@ library("devtools")
 install_git("git://apps.bafg.de/gitbucket/webera/hyd1d.git")
 ```
 
-- Nach einer Veröffentlichung auf [CRAN](https://cran.r-project.org) reicht eine 
+- Nach einer Veröffentlichung auf [CRAN](https://cran.r-project.org) reicht eine
 Zeile zur Installation, eine weitere zum Laden:
 ```{r hyd1d-install2, eval = FALSE, echo = TRUE}
 install.packages("hyd1d")
@@ -982,8 +956,9 @@ library("hyd1d")
 ## S4-Klasse WaterLevelDataFrame {#hyd1d-s4-1 data-background="background.png" data-background-size="auto 800px"}
 
 > - Eine S4-Klasse auf Basis der S3-Klasse `data.frame`
-> - In diesem wird intern die Wasserspiegellage abgelegt.
-> - 8 weitere Slots beinhalten alle weiteren berechnungs- und darstellungsrelevanten Informationen.
+> - In diesem wird intern die Wasserspiegellage abgelegt
+> - 8 weitere Slots beinhalten alle weiteren berechnungs- und
+darstellungsrelevanten Informationen
 
 ## S4-Klasse WaterLevelDataFrame {#hyd1d-s4-2 data-background="background.png" data-background-size="auto 800px"}
 
@@ -1000,7 +975,7 @@ head(as.data.frame(wldf1))
 ## S4-Klasse WaterLevelDataFrame {#hyd1d-s4-4 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r hyd1d-s4-4}
-str(wldf1@gauging_stations, max.level = 2, vec.len = 3, width = 160, 
+str(wldf1@gauging_stations, max.level = 2, vec.len = 3, width = 160,
     strict.width = "cut")
 ```
 
@@ -1019,17 +994,20 @@ str(wldf1@gauging_stations, max.level = 2, vec.len = 3, width = 160,
 
 ## Einleitung {#hydflood3-intro data-background="background.png" data-background-size="auto 800px"}
 
-> - **hydflood3** ist als **R**-Paket programmiert und soll über [CRAN](https://cran.r-project.org) unter der
-[GPL2](https://www.gnu.org/licenses/gpl-2.0) veröffentlicht werden.
+> - **hydflood3** ist als **R**-Paket programmiert und soll über
+[CRAN](https://cran.r-project.org) unter der
+[GPL2](https://www.gnu.org/licenses/gpl-2.0) veröffentlicht werden
 > - **hydflood3** dient der Berechnung von Überflutungsflächen und -dauern,
 äquivalent zum INFORM-Modul Flut 3.
-> - Wasserspiegellagen, die mittels **hyd1d** berechnet wurden, werden über 
-Querprofilflächen in die Aue extrapoliert und mit digitalen Geländemodellen 
-(DGM's) verglichen.
+> - Wasserspiegellagen, die mittels **hyd1d** berechnet wurden, werden über
+Querprofilflächen in die Aue extrapoliert und mit digitalen Geländemodellen
+(DGM's) verglichen
 
 ## Datengrundlagen {#hydflood3-data data-background="background.png" data-background-size="auto 800px"}
 
-> - Querprofilspuren aus den SOBEK-Modellen für [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html), umgerechnet zu Querprofilflächen (`qpf`)
+> - Querprofilspuren aus den SOBEK-Modellen für
+[FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html),
+umgerechnet zu Querprofilflächen (`qpf`)
 > - Wasserspiegellagen von **hyd1d**
 > - Digitale Geländemodelle (`dgm`)
 
@@ -1044,7 +1022,7 @@ Querprofilflächen in die Aue extrapoliert und mit digitalen Geländemodellen
 ## flood3()-Funktion {#hydflood3-algorythm data-background="background.png" data-background-size="auto 800px"}
 
 > - Berechnung der Wasserspiegellage
-> - Übertrag der Wasserspiegellage über das Join-Feld `station_int` auf die 
+> - Übertrag der Wasserspiegellage über das Join-Feld `station_int` auf die
 Querprofilflächen (`qpf`)
 > - `ufd[qpf > dgm] = ufd[qpf > dgm] + 1`
 > - gegebenenfalls Wiederholung über eine Sequenz von Zeitschritten
@@ -1061,13 +1039,13 @@ Querprofilflächen (`qpf`)
 
 ## Vergleich von Überflutungsdauern {#hydflood3-comp data-background="background.png" data-background-size="auto 800px"}
 
-- Es fehlt ein Vergleich zwischen den Überflutungsdauern nach **flood3** und 
-einem instationären 2D- oder 3D-Hydraulik-Modell und realen Messdaten.
+- Es fehlt ein Vergleich zwischen den Überflutungsdauern nach **flood3** und
+einem instationären 2D- oder 3D-Hydraulik-Modell und realen Messdaten
 
 ## Zusammenfassung {#hydflood3-summary data-background="background.png" data-background-size="auto 800px"}
 
-> - **hydflood3** verwendet interpolierte Wasserspiegellagen von **hyd1d**, um 
-mittels der Funktion `flood3()` Überflutungsflächen und -dauern zu berechnen.
+> - **hydflood3** verwendet interpolierte Wasserspiegellagen von **hyd1d**, um
+mittels der Funktion `flood3()` Überflutungsflächen und -dauern zu berechnen
 > - Vorteile:
 >     * wenige, bereits vorhandene Eingangsdatensätze (DGM, Querprofilspuren, Pegeldaten)
 >     * hohe räumliche und zeitliche Auflösung
@@ -1079,15 +1057,15 @@ mittels der Funktion `flood3()` Überflutungsflächen und -dauern zu berechnen.
 
 ## Installation {#hydflood3-install data-background="background.png" data-background-size="auto 800px"}
 
-- Bisher ist **hydflood3** nur innerhalb der BfG verfügbar und kann mit folgenden 
-Befehlen installiert werden:
+- Bisher ist **hydflood3** nur innerhalb der BfG verfügbar und kann mit
+folgenden Befehlen installiert werden:
 ```{r hydflood3-install1, eval = FALSE, echo = TRUE}
 install.packages("devtools")
 library("devtools")
 install_git("git://apps.bafg.de/gitbucket/webera/hydflood3.git")
 ```
 
-- Nach einer Veröffentlichung auf [CRAN](https://cran.r-project.org) reicht eine 
+- Nach einer Veröffentlichung auf [CRAN](https://cran.r-project.org) reicht eine
 Zeile zur Installation, eine weitere zum Laden:
 ```{r hydflood3-install2, eval = FALSE, echo = TRUE}
 install.packages("hydflood3")
@@ -1097,9 +1075,12 @@ library("hydflood3")
 ## S4-Klasse hydRasterStack {#hydflood3-s4-1 data-background="background.png" data-background-size="auto 800px"}
 
 > - Eine S4-Klasse auf Basis der S4-Klasse `RasterStack`
-> - Beinhaltet RasterLayer des digitalen Geländemodells (`dgm`) und der Querprofilflächen (`qpf`).
-> - eigene Datensätze sind verwendbar, ansonsten stehen Paket-eigene Querprofilfächen und downloadbare digitale Geländemodelle (`dgm`) zur Verfügung.
-> - für diese automatisierte Erstellung eines `hydRasterStack` müssen nur die Ausdehnung (`ext`) und das Koordinatensystem (`crs`) angegeben werden.
+> - Beinhaltet RasterLayer des digitalen Geländemodells (`dgm`) und der
+Querprofilflächen (`qpf`)
+> - eigene Datensätze sind verwendbar, ansonsten stehen Paket-eigene
+Querprofilfächen und downloadbare digitale Geländemodelle (`dgm`) zur Verfügung
+> - für diese automatisierte Erstellung eines `hydRasterStack` müssen nur die
+Ausdehnung (`ext`) und das Koordinatensystem (`crs`) angegeben werden
 
 ## S4-Klasse hydRasterStack {#hydflood3-s4-2 data-background="background.png" data-background-size="auto 800px"}
 
@@ -1138,8 +1119,8 @@ x <- hydRasterStack(filename_dem = "data-raw/raster.dem.tif",
                     filename_csa = "data-raw/raster.csa.tif")
 
 # Sequenz des Berechnungszeitraums
-seq <- seq.Date(from = as.Date("2017-01-01"), 
-                to = as.Date("2017-12-31"), 
+seq <- seq.Date(from = as.Date("2017-01-01"),
+                to = as.Date("2017-12-31"),
                 by = "day")
 
 # Berechnung der Überflutungsdauer
@@ -1169,26 +1150,30 @@ ufd <- flood3(x = x, seq = seq)
 > - OpenSource-Package auf [CRAN](https://cran.r-project.org)
 > - Dokumentationswebseite
 > - beinhaltet eine Veröffentlichung von
-[FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen 
+[FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen
 und [HyDaBa](http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html)-Pegeldaten
 > - vorberechnete 1D-Wasserspiegellagen für Rhein und Elbe vom 01.01.1990 bis gestern
-> - Shiny-Services [waterLevel()](http://r.bafg.de/shiny/WeberA/05-waterlevel/) 
+> - Shiny-Services [waterLevel()](http://r.bafg.de/shiny/WeberA/05-waterlevel/)
 und [waterLevelPegelonline()](http://r.bafg.de/shiny/WeberA/06-waterlevelpegelonline/)
-> - Einbettung der Shiny-Services in [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html) 3.3
+> - Einbettung der Shiny-Services in
+[FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html) 3.3
 
 ## hydflood3 {#hydflood3-publication data-background="background.png" data-background-size="auto 800px"}
 
 > - OpenSource-Package auf [CRAN](https://cran.r-project.org)
 > - Dokumentationswebseite
-> - beinhaltet eine (Wieder-)Veröffentlichung der 
-[DGM-W](https://www.govdata.de/daten/-/details/1c669080-c804-11e4-8731-1681e6b88ec1bkg)'s und der Querprofilflächen
+> - beinhaltet eine (Wieder-)Veröffentlichung der
+[DGM-W](https://www.govdata.de/daten/-/details/1c669080-c804-11e4-8731-1681e6b88ec1bkg)'s
+und der Querprofilflächen
 > - jährliche Überflutungsdauerraster von 1990 bis 2017
 > - langjährig aggregierte Überflutungsdauerraster
 > - WMS-Dienste der jährlichen und aggregierten Überflutungsdauerraster
-> - Shiny-Services [flood3()](http://r.bafg.de/shiny/WeberA/07-flood3/) 
+> - Shiny-Services [flood3()](http://r.bafg.de/shiny/WeberA/07-flood3/)
 und [flood3()-WMS](http://r.bafg.de/shiny/WeberA/08-flood3wms/)
-> - Einbettung der WMS-Dienste in [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html) 3.3
-> - Einbettung der Shiny-Services in [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html) 3.3
+> - Einbettung der WMS-Dienste in [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+3.3
+> - Einbettung der Shiny-Services in [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+3.3
 
 ## {#publication-ems data-background-iframe="https://www.journals.elsevier.com/environmental-modelling-and-software"}
 
