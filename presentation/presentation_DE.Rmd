@@ -49,8 +49,8 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, error = FALSE, message = FA
 ## Wasserstände der angrenzenden Pegel {#po-res1 data-background="background.png" data-background-size="auto 800px"}
 
 ```{r pegelonline-res1}
-require(hyd1d, lib.loc = paste0("~/R/", as.character(getRversion())))
-require(hydflood3, lib.loc = paste0("~/R/", as.character(getRversion())))
+require(hyd1d)
+require(hydflood3)
 require(plotrix)
 
 cex_legend <- 0.7
@@ -1118,7 +1118,7 @@ x <- hydRasterStack(ext = ext, crs = crs)
 
 ## S4-Klasse hydRasterStack {#hydflood3-s4-3 data-background="background.png" data-background-size="auto 800px"}
 
-```{r hydflood3-hydRasterStack-strprep, include = FALSE}
+```{r hydflood3-hydRasterStack-strprep, eval = TRUE, echo = FALSE}
 hf3 <- Sys.getenv("hydflood3")
 
 # mit eigenen Datensätzen

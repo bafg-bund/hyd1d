@@ -164,7 +164,7 @@ if (!(file.exists("README.md"))) {
 
 # render the package website 
 pkgdown::clean_site(".")
-pkgdown::build_site(".", examples = TRUE, document = FALSE, 
+pkgdown::build_site(".", examples = TRUE, document = FALSE, preview = FALSE,
                     override = list(destination = public))
 
 # insert the BfG logo into the header
@@ -214,24 +214,21 @@ system(paste0("R CMD Rd2pdf . --output=", downloads, "/hyd1d.pdf --no-preview ",
               "--force --RdMacros=Rdpack --encoding=UTF-8 --outputEncoding=UTF",
               "-8"))
 
-
 #####
 # presentation
-rmarkdown::render(input = "presentation/presentation_DE.Rmd", 
-                  output_file = "presentation_DE.html", 
-                  output_dir = paste0("public/", R_version, "/articles"))
+if (!file.exists("presentation/presentation_DE.html")) {
+    system("R -e 'rmarkdown::render(\"presentation/presentation_DE.Rmd\")'",
+           intern = FALSE, wait = TRUE)
+}
 
 # copy external image and video files
-from <- list.files(path = "presentation", pattern = "*\\.png",
-                   full.names = TRUE)
-file.copy(from = from, to = paste0("public/", R_version, "/articles"), 
-          overwrite = TRUE, copy.date = TRUE)
-from <- list.files(path = "presentation", pattern = "*\\.css",
-                   full.names = TRUE)
-file.copy(from = from, to = paste0("public/", R_version, "/articles"), 
-          overwrite = TRUE, copy.date = TRUE)
-from <- list.files(path = "presentation", pattern = "*\\.mp4",
-                   full.names = TRUE)
+from <- "presentation/presentation_DE.html"
+from <- append(from, list.files(path = "presentation", pattern = "*\\.png",
+                                full.names = TRUE))
+from <- append(from, list.files(path = "presentation", pattern = "*\\.css",
+                                full.names = TRUE))
+from <- append(from, list.files(path = "presentation", pattern = "*\\.mp4",
+                                full.names = TRUE))
 file.copy(from = from, to = paste0("public/", R_version, "/articles"), 
           overwrite = TRUE, copy.date = TRUE)
 
