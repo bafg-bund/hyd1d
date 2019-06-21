@@ -140,12 +140,10 @@ for (a_file in pkg_files) {
         if (compareVersion(as.character(packageVersion(package_name)),
                            package_version) < 1) {
             install.packages(paste(build, a_file, sep = "/"),
-                             lib = paste0("~/R/", R_version),
                              dependencies = TRUE)
         }
     } else {
         install.packages(paste(build, a_file, sep = "/"),
-                         lib = paste0("~/R/", R_version),
                          dependencies = TRUE)
     }
 }
