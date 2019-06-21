@@ -38,7 +38,7 @@ df.gs <- dbGetQuery(con, paste0("SELECT gauging_station, water_longname, pnp, ",
 ###
 # produce a vector of dates to be downloaded
 # set constant variables
-days_back <- 30
+days_back <- 8
 req_dates <- as.character(seq(Sys.Date() - days_back, Sys.Date() - 1,
                               length.out = days_back))
 
