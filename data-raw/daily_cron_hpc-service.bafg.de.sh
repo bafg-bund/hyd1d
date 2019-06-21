@@ -2,26 +2,27 @@
 cd /srv/cifs-mounts/WeberA_home/WeberA/hyd1d
 
 # compare local repository with remote 'origin'
-# UPSTREAM=${1:-'@{u}'}
-# LOCAL=$(git rev-parse master)
-# REMOTE=$(git rev-parse "$UPSTREAM")
-# BASE=$(git merge-base @ "$UPSTREAM")
-# 
-# if [ $LOCAL = $REMOTE ]; then
-#     echo "Up-to-date"
-# elif [ $LOCAL = $BASE ]; then
-#     echo "Need to pull"
-#     git pull
-#     Rscript _install.R
-#     Rscript _build.R
-# elif [ $REMOTE = $BASE ]; then
-#     echo "Need to push"
-#     git push
-#     Rscript _install.R
-#     Rscript _build.R
-# else
-#     echo "Diverged"
-# fi
+git fetch origin
+UPSTREAM=${1:-'@{u}'}
+LOCAL=$(git rev-parse @{0})
+REMOTE=$(git rev-parse "$UPSTREAM")
+BASE=$(git merge-base @{0} "$UPSTREAM")
+
+if [ $LOCAL = $REMOTE ]; then
+    echo "Up-to-date"
+elif [ $LOCAL = $BASE ]; then
+    echo "Need to pull"
+    git pull
+    Rscript _install.R
+    Rscript _build.R
+elif [ $REMOTE = $BASE ]; then
+    echo "Need to push"
+    git push
+    Rscript _install.R
+    Rscript _build.R
+else
+    echo "Diverged"
+fi
 
 # run the daily scripts
 Rscript data-raw/daily_pegelonline2gauging_data.R
