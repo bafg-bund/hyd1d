@@ -123,7 +123,7 @@ wldf <- WaterLevelDataFrame(river   = "Elbe",
 
 The minimal required information to initialize a `WaterLevelDataFrame` are the 
 the function arguments `river`, `time` and at least one of the two possible 
-atation arguments (`station` or `station_int`). With this information an object 
+station arguments (`station` or `station_int`). With this information an object 
 of class `WaterLevelDataFrame` can be created, which has the following 
 structure:
 
