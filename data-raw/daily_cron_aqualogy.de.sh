@@ -31,6 +31,7 @@ elif [ $REMOTE = $BASE ]; then
     git rev-parse HEAD > .commit
 else
     echo "Diverged"
+    exit 0
 fi
 
 # rebuild, if the present commit has not been build
@@ -57,7 +58,7 @@ chown -R arnd:arnd $hyd1d
 if [ "$USER" == "root" ]; then
     # sync hyd1d website
     export FROM=$hyd1d/public/$R_VERSION/
-    export TO=/var/www/hyd1d
+    export TO=/var/www/R/packages/hyd1d
     export OPTS="-v --recursive --delete --times --no-implied-dirs --iconv=utf8"
     rsync $OPTS --exclude 'downloads' $FROM $TO
     rsync $OPTS $hyd1d/public/downloads $TO
