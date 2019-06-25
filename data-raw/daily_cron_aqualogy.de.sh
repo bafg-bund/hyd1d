@@ -1,7 +1,7 @@
 #!/bin/bash
 # use R $R_VERSION from the i4 module environment
 source /etc/profile.d/modules.sh
-module add i4/applications/R-$R_VERSION
+module add i4/applications/R-OS
 
 # download present package repository
 cd $hyd1d
@@ -21,14 +21,31 @@ elif [ $LOCAL = $BASE ]; then
     Rscript _install.R
     Rscript _build.R
     cp build/$R_VERSION/*.tar.gz /home/arnd/BfG/r.bafg.de/_packages/package_sources
+    git rev-parse HEAD > .commit
 elif [ $REMOTE = $BASE ]; then
     echo "Need to push"
     git push
     Rscript _install.R
     Rscript _build.R
     cp build/$R_VERSION/*.tar.gz /home/arnd/BfG/r.bafg.de/_packages/package_sources
+    git rev-parse HEAD > .commit
 else
     echo "Diverged"
+fi
+
+# rebuild, if the present commit has not been build
+if [ -f .commit ]; then
+    export commit_processed=$(cat .commit)
+else
+    export commit_processed=
+fi
+export commit_present=$(git rev-parse HEAD)
+if [ "$commit_processed" != "$commit_present" ]; then
+    echo "The present commit has not been built!"
+    Rscript _install.R
+    Rscript _build.R
+    cp build/$R_VERSION/*.tar.gz /home/arnd/BfG/r.bafg.de/_packages/package_sources
+    git rev-parse HEAD > .commit
 fi
 
 # run the daily scripts
@@ -37,8 +54,7 @@ Rscript data-raw/daily_df.gauging_data.R
 chown -R arnd:arnd $hyd1d
 
 # check user, then sync
-if [ "$USER" == "root" ]
-  then
+if [ "$USER" == "root" ]; then
     # sync hyd1d website
     export FROM=$hyd1d/public/$R_VERSION/
     export TO=/var/www/hyd1d

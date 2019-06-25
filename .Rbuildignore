@@ -5,6 +5,7 @@
 ^\.Rproj\.user$
 ^_build\.R$
 ^build$
+^\.commit$
 ^data/df\.gauging_data_latest\.rda$
 ^data-raw$
 ^.*\.dat$
