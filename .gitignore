@@ -12,6 +12,7 @@ DB_credentials_*
 .Renviron
 .Rprofile
 .commit
+README.md
 
 # ignore directories and files
 Meta
@@ -41,4 +42,3 @@ vignettes/vignette_lang_DE.pdf
 vignettes/vignette_lang_DE.tex
 README.md
 README_files
-README_files/figure-markdown_github/Thumbs.db

@@ -21,8 +21,6 @@
 ^pkgdown$
 ^presentation$
 ^public$
-^README_files$
-^README\.Rmd$
 ^screenshot_flys_export_1\.png$
 ^screenshot_flys_export_2\.png$
 ^shinyapps$
