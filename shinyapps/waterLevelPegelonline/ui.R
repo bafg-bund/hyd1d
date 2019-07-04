@@ -1,10 +1,3 @@
-# standard library path for the package install
-R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
-lib <- paste0("~/R/", R_version, "/")
-
-# load the necessary packages
-library(shiny, lib.loc = lib)
-
 fluidPage(
     
     titlePanel("waterLevelPegelonline()",

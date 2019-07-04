@@ -1,10 +1,6 @@
-# standard library path for the package install
-R_version <- paste(sep = ".", R.Version()$major, R.Version()$minor)
-lib <- paste0("~/R/", R_version, "/")
-
 # load the necessary packages
-library(shiny, lib.loc = lib)
-library(hyd1d, lib.loc = lib)
+library(shiny)
+library(hyd1d)
 
 # set english locale to produce english plot labels
 Sys.setlocale(category = "LC_MESSAGES", locale = "en_US.utf8")
