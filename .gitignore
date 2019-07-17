@@ -12,7 +12,6 @@ DB_credentials_*
 .Renviron
 .Rprofile
 .commit
-README.md
 
 # ignore directories and files
 Meta
@@ -40,5 +39,3 @@ vignettes/vignette_lang_DE.toc
 vignettes/vignette_lang_DE.html
 vignettes/vignette_lang_DE.pdf
 vignettes/vignette_lang_DE.tex
-README.md
-README_files
