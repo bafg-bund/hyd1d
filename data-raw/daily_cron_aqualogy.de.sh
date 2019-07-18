@@ -59,6 +59,7 @@ if [ "$USER" == "root" ]; then
     # sync hyd1d website
     export FROM=$hyd1d/public/$R_VERSION/
     export TO=/var/www/R/packages/hyd1d
+    mkdir -p $TO
     export OPTS="-v --recursive --times --no-implied-dirs --iconv=utf8"
     rsync $OPTS --delete --exclude 'downloads' $FROM $TO
     rsync $OPTS $hyd1d/public/downloads $TO
