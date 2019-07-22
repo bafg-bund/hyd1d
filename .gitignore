@@ -14,8 +14,6 @@ DB_credentials_*
 .commit
 
 # ignore directories and files
-Meta
-doc
 build
 data/date_gauging_data.rda
 data/df.gauging_data_latest.rda
@@ -29,10 +27,13 @@ data-raw/gauging_station_data.csv
 data-raw/pegelonline2gauging_data.err
 data-raw/pegelonline2gauging_data.out
 data-raw/postgres.sql.gz
+doc
 inst/doc
+Meta
 presentation/Thumbs.db
 presentation/presentation_DE.html
 public
+shinyapps/waterlevel/www
 vignettes/hyd1d.html
 vignettes/Thumbs.db
 vignettes/vignette_lang_DE.toc
