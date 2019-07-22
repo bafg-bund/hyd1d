@@ -194,6 +194,11 @@ if (!(file.exists(paste0(public, "/bfg_logo.jpg")))){
     file.copy("pkgdown/bfg_logo.jpg", public)
 }
 
+# copy README_files into public
+dir.create(paste0(public, "/README_files/figure-gfm"), FALSE, TRUE)
+file.copy("README_files/figure-gfm/usage-1.png", 
+          paste0(public, "/README_files/figure-gfm"))
+
 #####
 # create public/downloads directory and copy hyd1d_*.tar.gz-files into it
 downloads <- paste0("public/", R_version, "/downloads")
