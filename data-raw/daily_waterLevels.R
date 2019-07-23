@@ -9,57 +9,59 @@
 #
 ##################################################
 
-# check the time
-hour <- as.numeric(strftime(Sys.time(), "%H"))
+write("waterLevels will be computed", stderr())
 
-if (hour >= 6 & hour < 7) {
+# load hyd1d
+library(hyd1d)
+
+# source hyd1d-internal to obtain the credentials function
+source("R/hyd1d-internal.R")
+
+# temporal sequence (last X days)
+dates <- as.character(seq.Date(Sys.Date() - 8, Sys.Date() - 1, by = "1 day"))
+
+# loop over all sections
+for (i in 1:nrow(df.sections)) {
     
-    write("waterLevels will be computed", stderr())
+    # prepare the empty wldf
+    river <- simpleCap(df.sections$river[i])
+    section <- asc2utf8(df.sections$name[i])
     
-    # load hyd1d
-    library(hyd1d)
+    if (river == "Elbe") {
+        dir <- "EL_000_586_UFD"
+    } else if (river == "Rhein") {
+        dir <- "RH_336_867_UFD"
+    } else {
+        write(paste0("The river '", river, "' does not exist."), stderr())
+        next
+    }
     
-    # source hyd1d-internal to obtain the credentials function
-    source("R/hyd1d-internal.R")
-    
-    # loop over all sections
-    for (i in 1:nrow(df.sections)) {
+    # loop over all dates
+    for (a_date in dates) {
         
-        # create the empty wldf
-        river <- simpleCap(df.sections$river[i])
-        section <- asc2utf8(df.sections$name[i])
-        time <- as.POSIXct(as.character(Sys.Date() - 2))
-        if (river == "Elbe") {
-            dir <- "EL_000_586_UFD"
-        } else if (river == "Rhein") {
-            dir <- "RH_336_867_UFD"
-        } else {
-            write(paste0("The river '", river, "' does not exist."), stderr())
-            next
-        }
-        
-        write(paste0(strftime(time, "%Y-%m-%d"), ": ", river, ": ", section), 
-              stdout())
+        write(paste0(a_date, ": ", river, ": ", section), stdout())
         
         f_in <- paste0("/home/WeberA/freigaben/U/U3/Auengruppe_INFORM/", dir,
                        "/data/wl/", section, "/km_values.txt")
         d_out <- paste0("/home/WeberA/freigaben/U/U3/Auengruppe_INFORM/", dir,
-                        "/data/wl/", section, "/", strftime(time, "%Y"), "/")
-        f_out <- paste0(d_out, strftime(time, "%Y%m%d"), ".txt")
-        
-        wldf <- readWaterLevelStationInt(file = f_in, river = river, 
-                                         time = time)
-        
-        # compute the water level
-        wldf <- waterLevel(wldf)
-        
-        # and export it
+                        "/data/wl/", section, "/", substr(a_date, 1, 4), "/")
         dir.create(d_out, FALSE, TRUE)
-        writeWaterLevelJson(wldf, file = f_out, overwrite = TRUE)
+        
+        f_out <- paste0(d_out, gsub("-", "", a_date, fixed = TRUE), ".txt")
+        
+        if (file.exists(f_out)) {
+            write("  exists already", stdout())
+        } else {
+            write("  will be computed", stdout())
+            # import stationing
+            wldf <- readWaterLevelStationInt(file = f_in, river = river, 
+                                             time = as.POSIXct(a_date))
+            # compute the water level
+            wldf <- waterLevel(wldf)
+            # and export it
+            writeWaterLevelJson(wldf, file = f_out, overwrite = TRUE)
+        }
     }
-    
-} else {
-    write("It's not the time to compute waterLevels", stderr())
 }
 
 # exit R
