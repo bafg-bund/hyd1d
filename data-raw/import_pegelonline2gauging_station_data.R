@@ -170,7 +170,7 @@ for (i in 1:nrow(df.stations)) {
                        pnp, ", ",
                        "TRUE, ",
                        "\'", paste(sep = " - ", Sys.Date() - 31,
-                                   Sys.Date() - 1), "\'",
+                                   Sys.Date() - 1), "\', ",
                        df.stations$km[i], ", ",
                        df.stations$km[i], ")"))
         }
