@@ -220,7 +220,7 @@ for (i in 1:nrow(df.stations)) {
                     pnp <- 23.52
                 }
                 if (df.stations$longname[i] == "HOYA") {
-                    pnp <- 11.17
+                    pnp <- 11.169
                 }
             }
             
