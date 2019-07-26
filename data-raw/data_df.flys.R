@@ -82,6 +82,40 @@ if (Sys.info()["nodename"] %in% c("hpc-service", "r.bafg.de")) {
                                           stringsAsFactors = FALSE),
                                df.flys_rhein)
         
+        # for the Weser
+        query_string_weser <- "
+        SELECT
+            FLYS3.WST_COLUMNS.NAME AS \"name\",
+            FLYS3.WST_COLUMN_VALUES.POSITION AS \"station\",
+            FLYS3.WST_COLUMN_VALUES.W AS \"w\"
+        FROM
+            FLYS3.RIVERS
+            INNER JOIN FLYS3.WSTS ON FLYS3.RIVERS.ID = FLYS3.WSTS.RIVER_ID
+            INNER JOIN FLYS3.WST_KINDS ON FLYS3.WST_KINDS.ID = FLYS3.WSTS.KIND
+            INNER JOIN FLYS3.WST_COLUMNS ON FLYS3.WSTS.ID = 
+                FLYS3.WST_COLUMNS.WST_ID
+            INNER JOIN FLYS3.WST_COLUMN_VALUES ON FLYS3.WST_COLUMNS.ID = 
+                FLYS3.WST_COLUMN_VALUES.WST_COLUMN_ID
+        WHERE
+            FLYS3.WSTS.KIND = 0 AND
+            FLYS3.RIVERS.NAME = 'Weser' AND
+            FLYS3.WST_COLUMN_VALUES.POSITION <= 362.125 AND
+            FLYS3.WST_COLUMN_VALUES.POSITION >= 0
+        ORDER BY
+            FLYS3.WST_COLUMN_VALUES.POSITION ASC, FLYS3.WST_COLUMN_VALUES.W"
+        
+        # CAST(FLYS3.WST_COLUMN_VALUES.W * 100 AS INTEGER) AS \"w_int\",
+        # CAST(FLYS3.WST_COLUMN_VALUES.POSITION * 1000 AS INTEGER) AS \"station_int\",
+        
+        df.flys_weser <- dbGetQuery(f3_con, query_string_weser)
+        df.flys_weser <- cbind(data.frame(river = as.character("Weser", 
+                                                               nrow(df.flys_weser)),
+                                          stringsAsFactors = FALSE),
+                               df.flys_weser)
+        # df.flys_sel <- df.flys_weser[which(df.flys_weser$station == 0.1), ]
+        # df.flys_sel <- df.flys_sel[order(df.flys_sel$w), ]
+        # paste(collapse = '", "', df.flys_sel$name)
+        
         # combine both datasets
         df.flys <- rbind.data.frame(df.flys_elbe, df.flys_rhein,
                                     stringsAsFactors = FALSE)
