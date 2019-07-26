@@ -2,8 +2,8 @@
 library(shiny)
 library(hyd1d)
 
-# set english locale to produce english plot labels
-Sys.setlocale(category = "LC_MESSAGES", locale = "en_US.utf8")
+# set german locale to produce german plot labels
+Sys.setlocale(category = "LC_MESSAGES", locale = "de_DE.utf8")
 
 #https://stackoverflow.com/questions/47750273/shiny-application-get-browser-language-settings
 #https://github.com/chrislad/multilingualShinyApp
