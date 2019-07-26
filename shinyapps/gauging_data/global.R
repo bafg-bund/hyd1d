@@ -7,8 +7,27 @@ library(rgdal)
 library(plotrix)
 
 # access and query the gauging_data DB
-source("~/hyd1d/R/hyd1d-internal.R")
-credentials <- credentials("~/hyd1d/DB_credentials_gauging_data")
+# extract DB credentials from unversioned credential files
+# 
+credentials <- function(file) {
+    if (file.exists(file)) {
+        credentials_temp <- utils::read.table(file, header = FALSE, sep = ";", 
+                                              stringsAsFactors = FALSE)
+    } else {
+        if (file.exists(basename(file))) {
+            credentials_temp <- utils::read.table(file = basename(file), 
+                                                  header = FALSE, sep = ";", 
+                                                  stringsAsFactors = FALSE)
+        } else {
+            stop("'file' could not be found")
+        }
+    }
+    
+    credentials <- credentials_temp$V2
+    names(credentials) <- credentials_temp$V1
+    return(credentials)
+}
+credentials <- credentials("DB_credentials_gauging_data")
 p_con <- dbConnect(drv      = RPostgreSQL::PostgreSQL(),
                    dbname   = credentials["dbname"],
                    host     = credentials["host"],
