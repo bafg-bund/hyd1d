@@ -1,0 +1,7 @@
+Title: Pegeldaten für die waterLevel()-Funktion
+Author: Arnd Weber
+AuthorUrl: https://www.bafg.de/DE/08_Ref/U3/05_Mitarbeiter/weber_a/weber_node.html
+License: GPL-3
+DisplayMode: Normal
+Tags: gauging data, Pegeldaten, PostgreSQL, RPostgreSQL, DBI, leaflet, sp, rgdal
+Type: Shiny
