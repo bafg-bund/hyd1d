@@ -199,6 +199,13 @@ dir.create(paste0(public, "/README_files/figure-gfm"), FALSE, TRUE)
 file.copy("README_files/figure-gfm/usage-1.png", 
           paste0(public, "/README_files/figure-gfm"))
 
+# modify js code in public/pkgdown.js
+# remove bug introduced through JS (https://github.com/r-lib/pkgdown/issues/326)
+js  <- readLines(paste0(public, "/pkgdown.js"))
+js  <- gsub("menu_anchor.parent().addClass(\"active\");",
+            "menu_anchor.parent();", x = js, fixed = TRUE)
+writeLines(js, con = paste0(public, "/pkgdown.js"))
+
 #####
 # create public/downloads directory and copy hyd1d_*.tar.gz-files into it
 downloads <- paste0("public/", R_version, "/downloads")
