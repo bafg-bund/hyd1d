@@ -71,7 +71,7 @@ navbar:
       href: reference/index.html
     - text: "ShinyApps"
       menu:
-      - text: "Pegeldatenbank"
+      - text: "gauging_data"
         href: http://r.bafg.de/shiny/WeberA/02-gauging_data/
       - text: "waterLevel()"
         href: http://r.bafg.de/shiny/WeberA/05-waterlevel/
