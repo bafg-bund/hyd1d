@@ -1005,46 +1005,53 @@ legend("topright",
        cex = 0.7, bty = "n")
 ```
 
-### waterLevelFlut1
+### waterLevelFlood1 & waterLevelFlood2
 
 Um die neu entwickelten Funktionen [`waterLevel`](reference/waterLevel.html) 
 und [`waterLevelPegelonline`](reference/waterLevel.html) mit den existierenden 
-Berechnungsmethoden vergleichen zu können, wurde auch die Funktion 
-[`waterLevelFlut1`](reference/waterLevelFlut1.html) implementiert. Diese 
-Funktion berechnet Wasserspiegellagen analog zur Flut1-Methode der 
+Berechnungsmethoden vergleichen zu können, wurde auch die Funktionen 
+[`waterLevelFlood1`](reference/waterLevelFlood1.html) und 
+[`waterLevelFlood2`](reference/waterLevelFlood2.html) implementiert. Diese 
+Funktionen berechnen Wasserspiegellagen analog zur Flut1- und Flut2-Methoden der 
 Modellierungsumgebung [INFORM](http://www.bafg.de/DE/08_Ref/U2/02_analyse/01_INFORM/inform.html) 
-[@rosenzweig_inform_2011]. Dazu wird die Referenzwasserspiegellage **MQ** 
-vertikal so verschoben, dass sie den Wasserstandswert am ausgewählten 
-Bezugspegel schneidet.
+[@rosenzweig_inform_2011]. Dazu wird mittels der Flut1-Methode die
+Referenzwasserspiegellage **MQ** vertikal so verschoben, dass sie den
+Wasserstandswert am ausgewählten Bezugspegel schneidet, bei der Flut2-Methode 
+werden Wasserspiegellagen durch lineare Interpolation umliegender Pegeldaten
+berechnet.
 
-```{r figure16, fig.show = 'asis', fig.cap = capFig("Wasserspiegellagen nach Flut1 mit den Bezugspegeln Rosslau (wldf1) und Dessau (wldf2) für den 21.12.2016 an der Elbe bei Rosslau und Dessau."), eval = TRUE}
+```{r figure16, fig.show = 'asis', fig.cap = capFig("Wasserspiegellagen nach Flut1 mit den Bezugspegeln Rosslau (wldf1) und Dessau (wldf2) und Flut2 (wldf3) für den 21.12.2016 an der Elbe bei Rosslau und Dessau."), eval = TRUE}
 wldf <- WaterLevelDataFrame(river   = "Elbe",
                             time    = as.POSIXct("2016-12-21"),
                             station = seq(257, 262, 0.1))
 
-wldf1 <- waterLevelFlut1(wldf, "ROSSLAU", shiny = TRUE)
+wldf1 <- waterLevelFlood1(wldf, "ROSSLAU", shiny = TRUE)
 summary(wldf1)
 
-wldf2 <- waterLevelFlut1(wldf, "DESSAU", shiny = TRUE)
+wldf2 <- waterLevelFlood1(wldf, "DESSAU", shiny = TRUE)
 summary(wldf2)
+
+wldf3 <- waterLevelFlood2(wldf)
+summary(wldf3)
 
 df.gs2 <- getGaugingStations(wldf2)
 
 {
     plotShiny(wldf1, FALSE, FALSE, FALSE, xlim = c(xlim_min, xlim_max))
     lines(wldf2$station, wldf2$w, col = "darkblue", lty = 2)
+    lines(wldf3$station, wldf3$w, col = "red", lty = 2)
     abline(v = df.gs2$km_qps, lty = 3, lwd = 0.5)
     points(df.gs2$km_qps, df.gs2$wl, pch=21, col="darkblue", bg="darkblue")
     boxed.labels(df.gs2$km_qps, 55.4, df.gs2$gauging_station, bg="white", 
                  srt = 90, border = FALSE, xpad = 4, ypad = 0.7, cex = 0.7)
     legend("topright", 
-           col = c("darkblue", "darkblue", "darkblue"), 
-           pch = c(21, NA, NA), 
-           pt.bg = c("darkblue", NA, NA), 
-           pt.cex = c(1, NA, NA), 
-           lty = c(0, 1, 2), 
-           lwd = c(0, 1, 1), 
-           legend = c("Wasserstand", "wldf1", "wldf2"), 
+           col = c("darkblue", "darkblue", "darkblue", "red"), 
+           pch = c(21, NA, NA, NA), 
+           pt.bg = c("darkblue", NA, NA, NA), 
+           pt.cex = c(1, NA, NA, NA), 
+           lty = c(0, 1, 2, 2), 
+           lwd = c(0, 1, 1, 1), 
+           legend = c("Wasserstand", "wldf1", "wldf2", "wldf3"), 
            cex = 0.7, bty = "n")
 }
 ```

@@ -52,7 +52,8 @@ reference:
     contents:
       - "`waterLevel`"
       - "`waterLevelPegelonline`"
-      - "`waterLevelFlut1`"
+      - "`waterLevelFlood1`"
+      - "`waterLevelFlood2`"
       - "`waterLevelFlys3`"
       - "`waterLevelFlys3Seq`"
       - "`waterLevelFlys3InterpolateX`"
