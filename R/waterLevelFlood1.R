@@ -1,17 +1,20 @@
-#' @name waterLevelFlut1
-#' @rdname waterLevelFlut1
-#' @aliases waterLevelFlut1
+#' @name waterLevelFlood1
+#' @rdname waterLevelFlood1
+#' @aliases waterLevelFlood1
 #'
 #' @title Compute 1D water level data from the FLYS3 water level MQ and a
-#'   gauging station according to Flut1
+#'   gauging station according to the INFORM 3-method Flood1 (Flut1)
 #'
 #' @description This function computes a 1D water level according to the
 #'   \href{https://www.bafg.de/DE/08_Ref/U2/02_analyse/01_INFORM/inform.html}{INFORM}
-#'    flood duration method Flut1 and store it as column \code{w} of an S4
-#'   object of type \linkS4class{WaterLevelDataFrame}. First the function
+#'   flood duration method Flood1 (Flut1) and stores it as column \code{w} of an
+#'   S4 object of type \linkS4class{WaterLevelDataFrame}. First the function
 #'   obtains the reference water level MQ from the FLYS3 database. This
 #'   reference water level is then shifted by the difference between measured
 #'   water and the FLYS3 water level for MQ at the specified gauging station.
+#'   Here it is provided mainly for historical reasons and more advanced 
+#'   functions like \code{\link{waterLevel}} or 
+#'   \code{\link{waterLevelPegelonline}} be used.
 #'
 #' @param wldf an object of class \linkS4class{WaterLevelDataFrame}.
 #' @param gauging_station has to be type \code{character} and has to have a
@@ -124,14 +127,14 @@
 #' wldf <- WaterLevelDataFrame(river   = "Elbe",
 #'                             time    = as.POSIXct("2016-12-21"),
 #'                             station = seq(257, 262, 0.1))
-#' wldf1 <- waterLevelFlut1(wldf, "ROSSLAU")
-#' wldf2 <- waterLevelFlut1(wldf, "DESSAU")
+#' wldf1 <- waterLevelFlood1(wldf, "ROSSLAU")
+#' wldf2 <- waterLevelFlood1(wldf, "DESSAU")
 #'
 #' wldf1$w - wldf2$w
 #'
 #' @export
 #' 
-waterLevelFlut1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
+waterLevelFlood1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
     
     # make parent environment accessible through the local environment
     e <- environment()
@@ -145,11 +148,6 @@ waterLevelFlut1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
     l <- function(x) {as.character(length(x) + 1)}
     
     ## wldf
-    # presence
-    if (missing(wldf)){
-        errors <- c(errors, paste0("Error ", l(errors),
-                                   ": 'wldf' has to be supplied."))
-    }
     # WaterLevelDataFrame
     if (class(wldf) != "WaterLevelDataFrame"){
         errors <- c(errors, paste0("Error ", l(errors), ": 'wldf' ",
@@ -170,7 +168,7 @@ waterLevelFlut1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
         # time
         if (is.na(time) & missing(w)){
             errors <- c(errors, paste0("Error ", l(errors), ": The time slot ",
-                                       "of 'wldf' must not be NA or 'w' must",
+                                       "of 'wldf' must not be NA or 'w' must ",
                                        "be specified."))
         }
         
@@ -197,8 +195,9 @@ waterLevelFlut1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
                 }
                 if (length(gauging_station) != 1){
                     errors <- c(errors, paste0("Error ", l(errors), ": 'gaugi",
-                                               "ng_station'  must have length",
-                                               " 1."))
+                                               "ng_station' must have length ",
+                                               "1."))
+                    stop(paste0(errors, collapse="\n  "))
                 }
                 if (!(gauging_station %in% gs)) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'gaugi",
@@ -249,6 +248,7 @@ waterLevelFlut1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
                 if (length(uuid) != 1){
                     errors <- c(errors, paste0("Error ", l(errors), ": 'uuid' ",
                                                "must have length 1."))
+                    stop(paste0(errors, collapse="\n  "))
                 }
                 if (!(uuid %in% uuids)) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'uuid' ",
@@ -315,16 +315,19 @@ waterLevelFlut1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
                             errors <- c(errors, paste0("Error ", l(errors), ":",
                                                        " 'w' must have length ",
                                                        "1."))
+                            stop(paste0(errors, collapse="\n  "))
                         }
                         if (class(w) != "numeric"){
                             errors <- c(errors, paste0("Error ", l(errors), ":",
                                                        " 'w' must be type 'num",
                                                        "eric'."))
+                            stop(paste0(errors, collapse="\n  "))
                         }
                         if (w < 0 | w >= 1000) {
                             errors <- c(errors, paste0("Error ", l(errors), ":",
                                                        " 'w' must be in a rang",
                                                        "e between 0 and 1000."))
+                            stop(paste0(errors, collapse="\n  "))
                         }
                         if (w != df.gs$w){
                             warning("The 'w' computed internally through getGa",
@@ -424,7 +427,7 @@ waterLevelFlut1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
                              time                     = time,
                              gauging_stations         = df.gs,
                              gauging_stations_missing = character(),
-                             comment = paste0("Computed by waterLevelFlut1",
+                             comment = paste0("Computed by waterLevelFlood1",
                                               "(): gauging_station = ",
                                               df.gs$gauging_station,
                                               ", w = ", df.gs$w))
@@ -437,7 +440,7 @@ waterLevelFlut1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
                              time                     = time,
                              gauging_stations         = df.gs,
                              gauging_stations_missing = character(),
-                             comment = paste0("Computed by waterLevelFlut1",
+                             comment = paste0("Computed by waterLevelFlood1",
                                               "(): gauging_station = ",
                                               df.gs$gauging_station,
                                               ", w = ", df.gs$w))
