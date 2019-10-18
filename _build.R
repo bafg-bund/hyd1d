@@ -162,7 +162,7 @@ if (!(file.exists("README.md"))) {
 
 # render the package website 
 pkgdown::clean_site(".")
-pkgdown::build_site(".", examples = TRUE, document = FALSE, preview = FALSE,
+pkgdown::build_site(".", examples = TRUE, preview = FALSE, new_process = TRUE,
                     override = list(destination = public))
 
 # insert the BfG logo into the header
@@ -250,7 +250,7 @@ write(" web", stdout())
 
 host <- Sys.info()["nodename"]
 user <- Sys.info()["user"]
-if (host == "r.bafg.de" & user == "WeberA" & R_version == "3.5.2") {
+if (host == "r.bafg.de" & user == "WeberA" & R_version == "3.6.0") {
     system(paste0("cp -rp public/", R_version, "/* /home/", user, "/public_htm",
                   "l/hyd1d/"))
     system(paste0("find /home/", user, "/public_html/hyd1d/ -type f -print0 | ",
