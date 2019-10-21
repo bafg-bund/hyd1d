@@ -138,10 +138,6 @@ for(a_gs in df.gs$gauging_station) {
                           stderr())
                     write(a_gs, stderr())
                     write(str(a_gs), stderr())
-                    write(paste0("UPDATE public.gauging_station_data_missing =",
-                                 " TRUE WHERE a SET datgauging_station = \'",
-                                 a_gs, "\'"),
-                          stderr())
                     write(paste0("INSERT INTO public.gauging_data_missing (id,",
                                  " gauging_station, date) VALUES (DEFAULT, \'",
                                  a_gs, "\', \'",
