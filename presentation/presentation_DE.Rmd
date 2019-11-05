@@ -1,5 +1,5 @@
 ---
-title: hyd1d & hydflood3
+title: hyd1d & hydflood
 subtitle: R-Pakete zur Interpolation von 1D-Wasserspiegellagen mit Pegeldaten und zur Überflutungsdauerberechnung
 author: Arnd Weber, Marcus Hatz, Stephan Rosenzweig
 date: "`r format(Sys.time(), '%d.%m.%Y')`"
@@ -14,7 +14,7 @@ output:
     fig_width: 9
     fig_height: 6
 vignette: |
-  %\VignetteIndexEntry{hyd1d and hydflood3}
+  %\VignetteIndexEntry{hyd1d and hydflood}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -27,7 +27,7 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, error = FALSE, message = FA
 
 ## {#problemstellung-karte data-background="map.png" data-background-size="auto 800px"}
 
-## 21.12.2016 {#problemstellung-karte-date data-background="screenshot_hydflood3_20161221.png" data-background-size="auto 800px"}
+## 21.12.2016 {#problemstellung-karte-date data-background="screenshot_hydflood_20161221.png" data-background-size="auto 800px"}
 
 ## Wie aggregiert man diese flächige Wasserstandsinformation über die Zeit zu Überflutungsdauern? {#problemstellung-flood1 data-background="background.png" data-background-size="auto 800px"}
 
@@ -50,7 +50,7 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, error = FALSE, message = FA
 
 ```{r pegelonline-res1}
 require(hyd1d)
-require(hydflood3)
+require(hydflood)
 require(plotrix)
 
 cex_legend <- 0.7
@@ -990,20 +990,20 @@ str(wldf1@gauging_stations, max.level = 2, vec.len = 3, width = 160,
 
 ## {#hyd1d-references data-background-iframe="http://r.bafg.de/~WeberA/hyd1d/reference/index.html"}
 
-# hydflood3 {#hydflood3 data-background="background.png" data-background-size="auto 800px"}
+# hydflood {#hydflood data-background="background.png" data-background-size="auto 800px"}
 
-## Einleitung {#hydflood3-intro data-background="background.png" data-background-size="auto 800px"}
+## Einleitung {#hydflood-intro data-background="background.png" data-background-size="auto 800px"}
 
-> - **hydflood3** ist als **R**-Paket programmiert und soll über
+> - **hydflood** ist als **R**-Paket programmiert und soll über
 [CRAN](https://cran.r-project.org) unter der
 [GPL2](https://www.gnu.org/licenses/gpl-2.0) veröffentlicht werden
-> - **hydflood3** dient der Berechnung von Überflutungsflächen und -dauern,
+> - **hydflood** dient der Berechnung von Überflutungsflächen und -dauern,
 äquivalent zum INFORM-Modul Flut 3.
 > - Wasserspiegellagen, die mittels **hyd1d** berechnet wurden, werden über
 Querprofilflächen in die Aue extrapoliert und mit digitalen Geländemodellen
 (DGM's) verglichen
 
-## Datengrundlagen {#hydflood3-data data-background="background.png" data-background-size="auto 800px"}
+## Datengrundlagen {#hydflood-data data-background="background.png" data-background-size="auto 800px"}
 
 > - Querprofilspuren aus den SOBEK-Modellen für
 [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html),
@@ -1011,15 +1011,15 @@ umgerechnet zu Querprofilflächen (`qpf`)
 > - Wasserspiegellagen von **hyd1d**
 > - Digitale Geländemodelle (`dgm`)
 
-## {#hydflood3-data-csa1 data-background="screenshot_hydflood3_crosssections.png" data-background-size="auto 800px"}
+## {#hydflood-data-csa1 data-background="screenshot_hydflood_crosssections.png" data-background-size="auto 800px"}
 
-## {#hydflood3-data-csa2 data-background="screenshot_hydflood3_crosssectionareas.png" data-background-size="auto 800px"}
+## {#hydflood-data-csa2 data-background="screenshot_hydflood_crosssectionareas.png" data-background-size="auto 800px"}
 
-## {#hydflood3-data-csa3 data-background="screenshot_hydflood3_crosssectionareas_cs.png" data-background-size="auto 800px"}
+## {#hydflood-data-csa3 data-background="screenshot_hydflood_crosssectionareas_cs.png" data-background-size="auto 800px"}
 
-## {#hydflood3-data-dem data-background="screenshot_hydflood3_dem.png" data-background-size="auto 800px"}
+## {#hydflood-data-dem data-background="screenshot_hydflood_dem.png" data-background-size="auto 800px"}
 
-## flood3()-Funktion {#hydflood3-algorythm data-background="background.png" data-background-size="auto 800px"}
+## flood3()-Funktion {#hydflood-algorythm data-background="background.png" data-background-size="auto 800px"}
 
 > - Berechnung der Wasserspiegellage
 > - Übertrag der Wasserspiegellage über das Join-Feld `station_int` auf die
@@ -1027,24 +1027,24 @@ Querprofilflächen (`qpf`)
 > - `ufd[qpf > dgm] = ufd[qpf > dgm] + 1`
 > - gegebenenfalls Wiederholung über eine Sequenz von Zeitschritten
 
-## 21.12.2016 {#hydflood3-algorythm1 data-background="screenshot_hydflood3_20161221.png" data-background-size="auto 800px"}
+## 21.12.2016 {#hydflood-algorythm1 data-background="screenshot_hydflood_20161221.png" data-background-size="auto 800px"}
 
-## {#hydflood3-algorythm2 data-background="screenshot_hydflood3_20161221_video.png" data-background-size="auto 800px"}
+## {#hydflood-algorythm2 data-background="screenshot_hydflood_20161221_video.png" data-background-size="auto 800px"}
 
-## {#hydflood3-video data-background-video="flood3-2fps-dessau.mp4"}
+## {#hydflood-video data-background-video="flood3-2fps-dessau.mp4"}
 
-## 2002 {#hydflood3-algorythm3 data-background="screenshot_hydflood3_2002.png" data-background-size="auto 800px"}
+## 2002 {#hydflood-algorythm3 data-background="screenshot_hydflood_2002.png" data-background-size="auto 800px"}
 
-## 2016 {#hydflood3-algorythm4 data-background="screenshot_hydflood3_2016.png" data-background-size="auto 800px"}
+## 2016 {#hydflood-algorythm4 data-background="screenshot_hydflood_2016.png" data-background-size="auto 800px"}
 
-## Vergleich von Überflutungsdauern {#hydflood3-comp data-background="background.png" data-background-size="auto 800px"}
+## Vergleich von Überflutungsdauern {#hydflood-comp data-background="background.png" data-background-size="auto 800px"}
 
 - Es fehlt ein Vergleich zwischen den Überflutungsdauern nach **flood3** und
 einem instationären 2D- oder 3D-Hydraulik-Modell und realen Messdaten
 
-## Zusammenfassung {#hydflood3-summary data-background="background.png" data-background-size="auto 800px"}
+## Zusammenfassung {#hydflood-summary data-background="background.png" data-background-size="auto 800px"}
 
-> - **hydflood3** verwendet interpolierte Wasserspiegellagen von **hyd1d**, um
+> - **hydflood** verwendet interpolierte Wasserspiegellagen von **hyd1d**, um
 mittels der Funktion `flood3()` Überflutungsflächen und -dauern zu berechnen
 > - Vorteile:
 >     * wenige, bereits vorhandene Eingangsdatensätze (DGM, Querprofilspuren, Pegeldaten)
@@ -1053,26 +1053,26 @@ mittels der Funktion `flood3()` Überflutungsflächen und -dauern zu berechnen
 > - Nachteil:
 >     * kein physikalisches Modell, auch Flächen ohne Zufluss werden überflutet
 
-# Das R-Paket {#hydflood3-package data-background="background.png" data-background-size="auto 800px"}
+# Das R-Paket {#hydflood-package data-background="background.png" data-background-size="auto 800px"}
 
-## Installation {#hydflood3-install data-background="background.png" data-background-size="auto 800px"}
+## Installation {#hydflood-install data-background="background.png" data-background-size="auto 800px"}
 
-- Bisher ist **hydflood3** nur innerhalb der BfG verfügbar und kann mit
+- Bisher ist **hydflood** nur innerhalb der BfG verfügbar und kann mit
 folgenden Befehlen installiert werden:
-```{r hydflood3-install1, eval = FALSE, echo = TRUE}
+```{r hydflood-install1, eval = FALSE, echo = TRUE}
 install.packages("devtools")
 library("devtools")
-install_git("git://apps.bafg.de/gitbucket/webera/hydflood3.git")
+install_git("git://apps.bafg.de/gitbucket/webera/hydflood.git")
 ```
 
 - Nach einer Veröffentlichung auf [CRAN](https://cran.r-project.org) reicht eine
 Zeile zur Installation, eine weitere zum Laden:
-```{r hydflood3-install2, eval = FALSE, echo = TRUE}
-install.packages("hydflood3")
-library("hydflood3")
+```{r hydflood-install2, eval = FALSE, echo = TRUE}
+install.packages("hydflood")
+library("hydflood")
 ```
 
-## S4-Klasse hydRasterStack {#hydflood3-s4-1 data-background="background.png" data-background-size="auto 800px"}
+## S4-Klasse hydRasterStack {#hydflood-s4-1 data-background="background.png" data-background-size="auto 800px"}
 
 > - Eine S4-Klasse auf Basis der S4-Klasse `RasterStack`
 > - Beinhaltet RasterLayer des digitalen Geländemodells (`dgm`) und der
@@ -1082,38 +1082,38 @@ Querprofilfächen und downloadbare digitale Geländemodelle (`dgm`) zur Verfügu
 > - für diese automatisierte Erstellung eines `hydRasterStack` müssen nur die
 Ausdehnung (`ext`) und das Koordinatensystem (`crs`) angegeben werden
 
-## S4-Klasse hydRasterStack {#hydflood3-s4-2 data-background="background.png" data-background-size="auto 800px"}
+## S4-Klasse hydRasterStack {#hydflood-s4-2 data-background="background.png" data-background-size="auto 800px"}
 
 - Initialisierung des `hydRasterStack` mit Nutzer-eigenen Datensätzen
-```{r hydflood3-hydRasterStack1, eval = FALSE, echo = TRUE}
+```{r hydflood-hydRasterStack1, eval = FALSE, echo = TRUE}
 x <- hydRasterStack(filename_dem = "data-raw/raster.dem.tif",
                     filename_csa = "data-raw/raster.csa.tif")
 ```
 
 - mit `extent(x)` und `CRS(x)` `hydRasterStack` initialisieren und Daten herunterladen 
-```{r hydflood3-hydRasterStack2, eval = FALSE, echo = TRUE}
+```{r hydflood-hydRasterStack2, eval = FALSE, echo = TRUE}
 ext <- extent(x)
 crs <- CRS(x)
 x <- hydRasterStack(ext = ext, crs = crs)
 ```
 
-## S4-Klasse hydRasterStack {#hydflood3-s4-3 data-background="background.png" data-background-size="auto 800px"}
+## S4-Klasse hydRasterStack {#hydflood-s4-3 data-background="background.png" data-background-size="auto 800px"}
 
-```{r hydflood3-hydRasterStack-strprep, eval = TRUE, echo = FALSE}
-hf3 <- Sys.getenv("hydflood3")
+```{r hydflood-hydRasterStack-strprep, eval = TRUE, echo = FALSE}
+hf3 <- Sys.getenv("hydflood")
 
 # mit eigenen Datensätzen
 x <- hydRasterStack(filename_dem = paste0(hf3, "/data-raw/raster.dem.tif"),
                     filename_csa = paste0(hf3, "/data-raw/raster.dem.tif"))
 ```
 
-```{r hydflood3-hydRasterStack-str}
+```{r hydflood-hydRasterStack-str}
 str(x, max.level = 2, vec.len = 3, width = 160, strict.width = "cut")
 ```
 
-## flood3() {#hydflood3-flood3 data-background="background.png" data-background-size="auto 800px"}
+## flood3() {#hydflood-flood3 data-background="background.png" data-background-size="auto 800px"}
 
-```{r hydflood3-flood, eval = FALSE, echo = TRUE}
+```{r hydflood-flood, eval = FALSE, echo = TRUE}
 # Initialisierung von x mit eigenen Datensätzen
 x <- hydRasterStack(filename_dem = "data-raw/raster.dem.tif",
                     filename_csa = "data-raw/raster.csa.tif")
@@ -1127,7 +1127,7 @@ seq <- seq.Date(from = as.Date("2017-01-01"),
 ufd <- flood3(x = x, seq = seq)
 ```
 
-## {#hydflood3-references data-background-iframe="http://r.bafg.de/~WeberA/hydflood3/reference/index.html"}
+## {#hydflood-references data-background-iframe="http://r.bafg.de/~WeberA/hydflood/reference/index.html"}
 
 # Produkte {#products data-background="background.png" data-background-size="auto 800px"}
 
@@ -1137,7 +1137,7 @@ ufd <- flood3(x = x, seq = seq)
 
 ## {#product-shiny-waterlevelpegelonline data-background-iframe="http://r.bafg.de/shiny/WeberA/06-waterlevelpegelonline/"}
 
-## {#product-raster data-background="screenshot_hydflood3_products.png"}
+## {#product-raster data-background="screenshot_hydflood_products.png"}
 
 ## {#product-shiny-flood3 data-background-iframe="http://r.bafg.de/shiny/WeberA/07-flood3/"}
 
@@ -1158,7 +1158,7 @@ und [waterLevelPegelonline()](http://r.bafg.de/shiny/WeberA/06-waterlevelpegelon
 > - Einbettung der Shiny-Services in
 [FLYS](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html) 3.3
 
-## hydflood3 {#hydflood3-publication data-background="background.png" data-background-size="auto 800px"}
+## hydflood {#hydflood-publication data-background="background.png" data-background-size="auto 800px"}
 
 > - OpenSource-Package auf [CRAN](https://cran.r-project.org)
 > - Dokumentationswebseite
