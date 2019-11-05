@@ -1161,15 +1161,15 @@ Wasserspiegelinformationen auf Anfrage zu generieren.
 knitr::include_graphics('screenshot_waterLevelPegelonline.png')
 ```
 
-## hydflood3 (Überflutungsflächen und -dauern)
+## hydflood (Überflutungsflächen und -dauern)
 
 Durch Übertragung der Wasserspiegellagen entlang der Gewässerachse auf 
-sogenannte Querprofilflächen lassen sich im GIS mittels des R-Paketes hydflood3
+sogenannte Querprofilflächen lassen sich im GIS mittels des R-Paketes hydflood
 Überflutungsflächen, bzw. bei Betrachtung längerer Zeiträume auch 
 Überflutungsdauern berechnen. Nähere Details zum Berechungsverfahren finden 
-sich auf dem Dokumentationsportal von hydflood3:
+sich auf dem Dokumentationsportal von hydflood:
 
-<p style="text-align: center;"><http://r.bafg.de/~WeberA/hydflood3/></p>
+<p style="text-align: center;"><http://r.bafg.de/~WeberA/hydflood/></p>
 
 <BR>
 
