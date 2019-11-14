@@ -9,7 +9,7 @@ test_that("river", {
                                 station = seq(256, 263, by = 0.1))
     expect_equal(getRiver(wldf), "Elbe")
     expect_error(setRiver(wldf) <- "Rhein", regexp = "must be above km 336.2")
-    expect_error(setRiver(wldf) <- "Rhein", regexp = "must be above 336200 (km", 
+    expect_error(setRiver(wldf) <- "Rhein", regexp = "must be above 336200 (km",
                  fixed = TRUE)
     
     # Rhein
