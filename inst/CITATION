@@ -4,17 +4,17 @@ citEntry(entry = "Article",
   title        = "hyd1d - Algorythms to compute 1D water levels along German federal waterways Elbe and Rhine",
   author       = personList(as.person("Arnd Weber"),
                             as.person("Marcus Hatz")),
-  journal      = "Environmental Modelling & Software",
-  year         = "2019",
+  journal      = "Journal of Ecohydraulics",
+  year         = "2020",
   volume       = "1",
   number       = "1",
   pages        = "1--1",
   url          = "http://r.bafg.de/~WeberA/hyd1d/index.html",
 
   textVersion  =
-  paste0("Weber, A., & Hatz, M. (2019): hyd1d - Algorythms to compute 1D ",
+  paste0("Weber, A., & Hatz, M. (2020): hyd1d - Algorythms to compute 1D ",
          "water levels along German federal waterways Elbe and Rhine. ",
-         "Environmental Modelling & Software, 1(1, 1-1. ",
+         "Journal of Ecohydraulics, 1(1), 1-1. ",
          "URL http://r.bafg.de/~WeberA/hyd1d/index.html.")
 )
 
