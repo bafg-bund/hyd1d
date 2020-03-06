@@ -1,12 +1,16 @@
 # load the necessary packages
 library(shiny)
+library(shinyjs)
+library(shiny.i18n)
 library(leaflet)
 
 # define UI
 fluidPage(
     
+    useShinyjs(),
+    
     # application title
-    titlePanel("Pegeldaten für waterLevel()"),
+    uiOutput("titlepanel"),
     
     # application layout
     fluidRow(
@@ -15,33 +19,17 @@ fluidPage(
         column(
             width = 3,
             
-            h3("Auswahlmenü"),
+            # menu title
+            uiOutput("menu_title"),
             
             # menu item RIVER
-            selectInput(
-                inputId  = "river",
-                label    = "Fluss:",
-                choices  = rivers,
-                selected = "ELBE"
-            ),
+            uiOutput("menu_river"),
             
             # menu item GAUGING_STATION
             uiOutput("menu_gauging_station"),
             
             # menu item DATE_RANGE
-            dateRangeInput(
-                inputId   = "daterange", 
-                label     = paste0("Zeitraum (01.01.1990 - ", 
-                                   strftime(yesterday, format="%d.%m.%Y"),
-                                   "):"),
-                start     = as.character(yesterday - 365),
-                end       = as.character(yesterday),
-                min       = "1990-01-01",
-                max       = as.character(yesterday),
-                format    = "dd.mm.yyyy",
-                language  = "de",
-                separator = " - "
-            ),
+            uiOutput("menu_daterange"),
             style = paste0("background-color:#E8E8E8;border-radius:20px;",
                            "padding:10px 20px 30px 40px;")
         ),
@@ -51,29 +39,27 @@ fluidPage(
             width = 9,
             
             # responsive title
-            h1(textOutput("title"), style="color: darkblue;"),
+            uiOutput("title"),
             
             # responsive table and map
             fluidRow(
                 column(
                     width = 6,
-                    h3("Stammdaten"),
+                    uiOutput("table_title"),
                     tableOutput("table")
                 ),
                 
                 column(
                     width = 6,
-                    h3("Lage des Pegels"),
+                    uiOutput("map_title"),
                     leafletOutput("map")
                 )
             ),
             
             # responsive plot
-            h3("Zeitreihe"),
-            downloadLink("downloadData",
-                         "Download der dargestellten Zeitreihe"),
+            uiOutput("plot_title"),
+            downloadLink("downloadData", "Download"),
             plotOutput("plot"),
-            
             style = "padding: 0px 50px 50px 50px;"
             
         ),

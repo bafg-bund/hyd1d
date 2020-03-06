@@ -1,0 +1,22 @@
+{
+  "languages": ["en", "de"],
+  "translation": [
+      {"en": "Gauging data for waterLevel()", "de": "Pegeldaten für waterLevel()"},
+      {"en": "Menu", "de": "Auswahlmenü"},
+      {"en": "River:", "de": "Fluss:"},
+      {"en": "Gauging station:", "de": "Pegel:"},
+      {"en": "Time period", "de": "Zeitraum"},
+      {"en": "Gauging station", "de": "Pegel"},
+      {"en": "Master data", "de": "Stammdaten"},
+      {"en": "Administrative district", "de": "Amtsbezirk"},
+      {"en": "River station", "de": "Flusskilometer"},
+      {"en": "Gauge zero (height a.s.l. (m))", "de": "Pegelnullpunkt (Höhe über NHN (m))"},
+      {"en": "MW (mean water, m)", "de": "Mittelwasser (MW, m)"},
+      {"en": "Reference period for MW", "de": "Bezugszeitraum des MW"},
+      {"en": "Location", "de": "Lage"},
+      {"en": "Time series", "de": "Zeitreihe"},
+      {"en": "Download of the illustrated time series", "de": "Download der dargestellten Zeitreihe"},
+      {"en": "water level (m)", "de": "Wasserstand (m)"},
+      {"en": "time", "de": "Zeit"}
+    ]
+}
