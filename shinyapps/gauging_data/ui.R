@@ -31,7 +31,9 @@ fluidPage(
             # menu item DATE_RANGE
             dateRangeInput(
                 inputId   = "daterange", 
-                label     = paste0("Zeitraum (01.01.1990 - ", strftime(yesterday, format="%d.%m.%Y"), "):"),
+                label     = paste0("Zeitraum (01.01.1990 - ", 
+                                   strftime(yesterday, format="%d.%m.%Y"),
+                                   "):"),
                 start     = as.character(yesterday - 365),
                 end       = as.character(yesterday),
                 min       = "1990-01-01",
@@ -40,7 +42,8 @@ fluidPage(
                 language  = "de",
                 separator = " - "
             ),
-            style = "background-color:#E8E8E8;border-radius:20px;padding:10px 20px 30px 40px;"
+            style = paste0("background-color:#E8E8E8;border-radius:20px;",
+                           "padding:10px 20px 30px 40px;")
         ),
         
         # main
@@ -67,7 +70,8 @@ fluidPage(
             
             # responsive plot
             h3("Zeitreihe"),
-            downloadLink('downloadData', 'Download der dargestellten Zeitreihe'),
+            downloadLink("downloadData",
+                         "Download der dargestellten Zeitreihe"),
             plotOutput("plot"),
             
             style = "padding: 0px 50px 50px 50px;"
