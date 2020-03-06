@@ -281,16 +281,6 @@ Dessau für den Tag des 21.12.2016 sind dies:
 
 Diese Eingaben der genannten Daten liefern folgendes Ergebnis:
 
-<!-- 
-```{r echo = FALSE, out.width=6}
-knitr::include_graphics('flys_export_1.png')
-```
-
-```{r echo = FALSE, out.width=6}
-knitr::include_graphics('flys_export_2.png')
-```
---->
-
 ```{r figure04, fig.show = 'asis', fig.cap = capFig("FLYS Wasserspiegellage an der Elbe bei Rosslau und Dessau bei einem Wasserstand von 174 cm am Pegel Wittenberg (Tagesmittelwert des 21.12.2016)."), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
 wldf2 <- waterLevelFlys3InterpolateY(wldf, "WITTENBERG", shiny = TRUE)
 wldf3 <- waterLevelFlys3InterpolateY(wldf, "ROSSLAU", shiny = TRUE)
