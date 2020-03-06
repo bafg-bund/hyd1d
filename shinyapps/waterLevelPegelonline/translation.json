@@ -1,0 +1,15 @@
+{
+  "languages": ["en", "de"],
+  "translation": [
+      {"en": "River:", "de": "Fluss:"},
+      {"en": "Kilometer (from - to):", "de": "Kilometer (von - bis):"},
+      {"en": "Date:", "de": "Datum:"},
+      {"en": "FLYS water levels", "de": "FLYS Wasserspiegellagen"},
+      {"en": "Weighting at the gauging stations", "de": "Gewichtung am Pegel"},
+      {"en": "Gauging stations relevant for the computation", "de": "Berechnungsrelevante Pegel"},
+      {"en": "The water level computation is running. Please wait a moment for the results.",
+       "de": "Die Wasserspiegellage wird berechnet. Es dauert noch einen Moment bis das Ergebnis vorliegt."},
+      {"en": "height a.s.l. (m, DHHN92)", "de": "Höhe (m über NHN (DHHN92))"},
+      {"en": "river station (km)", "de": "Flusskilometer (km)"}
+    ]
+}

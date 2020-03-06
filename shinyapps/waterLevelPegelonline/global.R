@@ -1,14 +1,10 @@
 # load the necessary packages
 library(shiny)
+library(shinyjs)
+library(shiny.i18n)
 library(shinyTime)
 library(lubridate)
 library(hyd1d)
-
-# set english locale to produce english plot labels
-Sys.setlocale(category = "LC_MESSAGES", locale = "de_DE.utf8")
-
-#https://stackoverflow.com/questions/47750273/shiny-application-get-browser-language-settings
-#https://github.com/chrislad/multilingualShinyApp
 
 # rivers
 rivers <- c("ELBE", "RHEIN")
@@ -29,3 +25,20 @@ alignRight <- function(el) {
                                    style="margin-left:auto;margin-right:none;"
     )
 }
+
+# translation
+translator <- Translator$new(translation_json_path = "translation.json")
+
+# JavaScript to determine browser language
+jscode <- paste0("var language =  window.navigator.userLanguage || window.navi",
+                 "gator.language;Shiny.onInputChange('lang', language);console",
+                 ".log(language);")
+de <- function(x) {
+    if (is.null(x)) {return(FALSE)}
+    if (startsWith(x, "de")) {
+        return(TRUE)
+    } else {
+        return(FALSE)
+    }
+}
+

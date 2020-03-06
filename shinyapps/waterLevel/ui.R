@@ -1,5 +1,7 @@
 fluidPage(
     
+    useShinyjs(),
+    
     titlePanel("waterLevel()", windowTitle = "hyd1d::waterLevel()"),
     
     column(width = 3,
@@ -9,60 +11,22 @@ fluidPage(
         HTML("<BR>"),
         
         # menu item gauging_station
-        alignRight(
-            selectInput(
-                inputId  = "river",
-                label    = "Fluss:",
-                choices  = rivers,
-                selected = "ELBE"
-            )
-        ),
+        uiOutput("menu_river"),
         
         # menu item from - to
-        alignRight(
-            sliderInput(
-                inputId = "from_to", 
-                label   = "Kilometer (von - bis):",
-                min     = df.from_to$from[1],
-                max     = df.from_to$to[1],
-                value   = c(df.from_to$from_val[1], df.from_to$to_val[1]),
-                step    = 0.1
-            )
-        ),
+        uiOutput("menu_from_to"),
         
         # menu item time
-        alignRight(
-            dateInput(
-                inputId  = "time", 
-                label    = "Datum:",
-                min      = as.POSIXct("1990-01-01"),
-                max      = as.POSIXct(Sys.Date() - 1),
-                value    = as.POSIXct("2016-12-21"),
-                format   = "dd.mm.yyyy",
-                language = "de"
-            )
-        ),
+        uiOutput("menu_time"),
         
-        alignRight(
-            checkboxInput(
-                inputId = "flys",
-                label   = "FLYS Wasserspiegellagen",
-                value = TRUE)
-        ),
+        # menu item flys
+        uiOutput("menu_flys"),
         
-        alignRight(
-            checkboxInput(
-                inputId = "weighting",
-                label   = "Gewichtung am Pegel",
-                value = TRUE)
-        ),
+        # menu item weighting
+        uiOutput("menu_weighting"),
         
-        alignRight(
-            checkboxInput(
-                inputId = "xlim",
-                label   = "Berechnungsrelevante Pegel",
-                value = TRUE)
-        )
+        # menu item xlim
+        uiOutput("menu_xlim")
     ),
     
     column(width = 9,
@@ -81,18 +45,12 @@ fluidPage(
               ".shiny-output-error { visibility: hidden; }",
               ".shiny-output-error:before { visibility: hidden; }"),
            
-           conditionalPanel(condition = "$('html').hasClass('shiny-busy')",
-                            tags$div(
-                                paste0("Die Wasserspiegellage wird berechnet. ",
-                                       "Es dauert noch einen Moment bis das ",
-                                       "Ergebnis vorliegt."),
-                                id = "loadmessage")),
+           uiOutput("loading"),
            
            plotOutput("plot"),
            
            conditionalPanel("output.plot", 
-                            downloadLink("downloadData",
-                                         "Download der Wasserspiegellage"))
+                            downloadLink("downloadData", "Download"))
            
     )
     
