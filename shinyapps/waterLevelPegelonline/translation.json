@@ -4,6 +4,7 @@
       {"en": "River:", "de": "Fluss:"},
       {"en": "Kilometer (from - to):", "de": "Kilometer (von - bis):"},
       {"en": "Date:", "de": "Datum:"},
+      {"en": "Time:", "de": "Uhrzeit:"},
       {"en": "FLYS water levels", "de": "FLYS Wasserspiegellagen"},
       {"en": "Weighting at the gauging stations", "de": "Gewichtung am Pegel"},
       {"en": "Gauging stations relevant for the computation", "de": "Berechnungsrelevante Pegel"},
