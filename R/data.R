@@ -30,7 +30,10 @@
 #'   \item{w}{water level relative to the gauging stations null (cm, type \code{numeric}).} 
 #' }
 #'
-#' @references \insertRef{wsv_pegeldaten_2020}{hyd1d}
+#' @references
+#'    \insertRef{wsv_pegeldaten_2020}{hyd1d}
+#'    
+#'    \insertRef{wsv_pegelonline_2018}{hyd1d}
 #'
 "df.gauging_data"
 
@@ -64,6 +67,9 @@
 #'   \item{river}{the gauging station is located on (type \code{character}).}
 #' }
 #' 
+#' @references
+#'    \insertRef{wsv_pegelonline_2018}{hyd1d}
+#'
 "df.gauging_station_data"
 
 
@@ -141,6 +147,9 @@
 #'   \item{to}{lowermost station of the river section (type \code{numeric}).}
 #'   \item{uuid}{name of the reference gauging station (type \code{character}).}
 #' }
+#' 
+#' @references
+#'    \insertRef{bundesanstalt_fur_gewasserkunde_flys_2016}{hyd1d}
 #' 
 "df.flys_sections"
 
