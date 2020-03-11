@@ -18,7 +18,7 @@ update.packages(lib.loc = .libPaths()[1], ask = FALSE, checkBuilt = TRUE)
 packages <- c("RJSONIO", "RCurl", "plotrix", "Rdpack", "DBI", "ROracle", 
               "RPostgreSQL", "testthat", "knitr", "rmarkdown", "stringr", 
               "devtools", "pkgdown", "roxygen2", "revealjs", "shiny", 
-              "shinyTime", "lubridate", "usethis")
+              "shiny.i18n", "shinyTime", "lubridate", "usethis")
 
 for (a_package in packages) {
     if (! (a_package %in% installed.packages()[, "Package"])) {
