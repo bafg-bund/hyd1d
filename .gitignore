@@ -4,13 +4,18 @@
 .RData
 .Ruserdata
 .Rd2pdf*
+*.aux
+*.bcf
 *.dat
 DB_credentials_*
 *.Rd
+*.lof
 *.log
+*.lot
 *humbs.db
 .Renviron
 .Rprofile
+*.run.xml
 .commit
 
 # ignore directories and files
@@ -36,7 +41,9 @@ public
 shinyapps/waterLevel/www
 vignettes/hyd1d.html
 vignettes/Thumbs.db
-vignettes/vignette_lang_DE.toc
-vignettes/vignette_lang_DE.html
-vignettes/vignette_lang_DE.pdf
-vignettes/vignette_lang_DE.tex
+vignettes/vignette_DE_files/*
+vignettes/vignette_DE.html
+vignettes/vignette_DE.pdf
+vignettes/vignette_DE.R
+vignettes/vignette_DE.tex
+vignettes/vignette_DE.toc

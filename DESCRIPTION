@@ -8,7 +8,7 @@ Authors@R: c(person("Arnd", "Weber", email = "arnd.weber@bafg.de",
                     role = c("aut", "cre"), 
                     comment = c(ORCID = "0000-0002-5973-2770")),
              person("Marcus", "Hatz", email="hatz@bafg.de",
-                    role = c("ctb")),
+                    role = c("aut")),
              person("Wolfgang", "Stürmer", email="stuermer@bafg.de",
                     role = c("ctb")),
              person("Wilfried", "Wiechmann", email="wiechmann@bafg.de",
@@ -30,7 +30,7 @@ RdMacros: Rdpack
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Collate:
     'Class-WaterLevelDataFrame.R'
     'WaterLevelDataFrame-methods.R'

@@ -1,13 +1,44 @@
 ---
 title: "hyd1d - Das Paket"
-author: "Arnd Weber"
-date: "`r Sys.Date()`"
+author: "Arnd Weber, Marcus Hatz"
+date: '`r strftime(Sys.time(), "%d.%m.%Y")`'
+bibliography: ../inst/REFERENCES.bib
+csl: apa_modified.csl
+link-citations: yes
+documentclass: scrreprt
+classoption:
+  - a4paper
+  - twoside
+geometry:
+  - left=3.2cm
+  - right=3.2cm
+  - top=2.8cm
+  - bottom=3cm
+  - marginparwidth=2cm
+  - marginparsep=0.3cm
+lang: de
+linkcolor: blue
+urlcolor: blue
+citecolor: blue
+lof: true
 output:
+  pdf_document:
+    latex_engine: pdflatex
+    keep_tex: true
+    number_sections: true
+    toc: true
+    toc_depth: 3
+    fig_width: 7
+    fig_height: 6
+    fig_caption: true
+    df_print: kable
+    highlight: tango
+    includes:
+      in_header: latex/header.tex
+      before_body: latex/before_body.tex
   html_vignette:
     toc: yes
     toc_depth: 3
-bibliography: ../inst/REFERENCES.bib
-csl: apa_modified.csl
 vignette: |
   %\VignetteIndexEntry{hyd1d - Das Paket} 
   %\VignetteEncoding{UTF-8} 
@@ -48,6 +79,11 @@ require(stringr)
 
 # Determine the output format of the document
 outputFormat <- knitr::opts_knit$get("rmarkdown.pandoc.to")
+if (outputFormat == "html") {
+    is_html <- TRUE
+} else {
+    is_html <- FALSE
+}
 
 # Figure and Table Caption Numbering, for HTML do it manually
 capTabNo <- 1
@@ -61,11 +97,11 @@ capTab <- function(x){
     } else if (outputFormat == 'latex'){
         y <- str_replace_all(x, '(^.*)(\\[.*\\])(\\(.*\\))(.*$)', 
                              '\\1\\\\href{\\3}{\\2}\\4')
-        y <- gsub("{(", "{", y, fixed = TRUE)
-        y <- gsub("{[", "{", y, fixed = TRUE)
-        y <- gsub(")}", "}", y, fixed = TRUE)
-        y <- gsub("]}", "}", y, fixed = TRUE)
-        x <- gsub("_", "\\_", y, fixed = TRUE)
+        y <- gsub("{(", "{", y, fixed = TRUE, useBytes = TRUE)
+        y <- gsub("{[", "{", y, fixed = TRUE, useBytes = TRUE)
+        y <- gsub(")}", "}", y, fixed = TRUE, useBytes = TRUE)
+        y <- gsub("]}", "}", y, fixed = TRUE, useBytes = TRUE)
+        x <- gsub("_", "\\_", y, fixed = TRUE, useBytes = TRUE)
     }
     return(x)
 }
@@ -78,11 +114,29 @@ capFig <- function(x){
     } else if (outputFormat == 'latex'){
         y <- str_replace_all(x, '(^.*)(\\[.*\\])(\\(.*\\))(.*$)', 
                              '\\1\\\\href{\\3}{\\2}\\4')
-        y <- gsub("{(", "{", y, fixed = TRUE)
-        y <- gsub("{[", "{", y, fixed = TRUE)
-        y <- gsub(")}", "}", y, fixed = TRUE)
-        y <- gsub("]}", "}", y, fixed = TRUE)
-        x <- gsub("_", "\\_", y, fixed = TRUE)
+        y <- gsub("{(", "{", y, fixed = TRUE, useBytes = TRUE)
+        y <- gsub("{[", "{", y, fixed = TRUE, useBytes = TRUE)
+        y <- gsub(")}", "}", y, fixed = TRUE, useBytes = TRUE)
+        y <- gsub("]}", "}", y, fixed = TRUE, useBytes = TRUE)
+        x <- gsub("_", "\\_", y, fixed = TRUE, useBytes = TRUE)
+    }
+    return(x)
+}
+
+bf <- function(x) {
+    if (outputFormat == 'html') {
+        x <- paste0("**", x, "**")
+    } else if (outputFormat == 'latex') {
+        x <- paste0("\\textbf{", x, "}")
+    }
+    return(x)
+}
+
+link <- function(x, y) {
+    if (outputFormat == 'html') {
+        x <- paste0("[", y, "](", x, ")")
+    } else if (outputFormat == 'latex') {
+        x <- paste0("\\href{", x, "}{", y, "}")
     }
     return(x)
 }
@@ -105,7 +159,14 @@ alle 15 Minuten, in tidebeinflussten Gewässern sogar alle Minute. Für die
 Öffentlichkeit werden die ungeprüften Messdaten zentral gesammelt und über eine 
 Webseite bis 30 Tage rückwirkend veröffentlicht:
 
-<p style="text-align: center;"><https://pegelonline.wsv.de></p>
+\begin{center}
+\url{https://pegelonline.wsv.de}
+\end{center}
+
+``` {r link_pegelonline, eval = is_html, echo = FALSE, results = 'asis'}
+cat('<p style="text-align: center;"><a href="https://pegelonline.wsv.de" target="_blank">https://pegelonline.wsv.de</a></p>')
+```
+
 
 Durch die manuelle Auswahl entsprechender Pegel von [PEGELONLINE](https://pegelonline.wsv.de) 
 lassen sich näherungsweise, flussabschnittsbezogene Wasserstandsentwicklungen 
@@ -181,7 +242,13 @@ wurde im Jahr 2013 mit FLYS3 ein web-basierter Fachdienst veröffentlicht, der
 es registrierten Nutzern ermöglicht Wasserstände für beliebige Orte und 
 Strecken für ausgewählte Abflüsse, bzw. Wasserstände an Pegeln abzuleiten:
 
-<p style="text-align: center;">[FLYS – Flusshydrologischer Webdienst](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)</p>
+\begin{center}
+\href{https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS – Flusshydrologischer Webdienst}
+\end{center}
+
+``` {r link_flys, eval = is_html, echo = FALSE, results = 'asis'}
+cat('<p style="text-align: center;"><a href="https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html" target="_blank">FLYS – Flusshydrologischer Webdienst</a></p>')
+```
 
 ### Methodik {#problem_flys_methodik}
 
@@ -228,7 +295,7 @@ flys3_water_levels <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ", "c",
 An Beispieldaten eines ausgesuchten Tages, dem 21.12.2016, umgeben drei stationäre FLYS3-Wasserspiegellagen die tagesgemittelten Pegelmesswerte von Rosslau und 
 Dessau und lassen erste visuelle Abschätzungen zu:
 
-```{r figure03, fig.show = 'asis', fig.cap = capFig("Ausgewählte stationäre FLYS3 Wasserspiegellagen (**0.5MQ**, **a** und **0.75MQ**) und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau."), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+```{r figure03, fig.show = 'asis', fig.cap = capFig(paste0("Ausgewählte stationäre FLYS3 Wasserspiegellagen (", bf("0.5MQ"), ", ", bf("a"), " und ", bf("0.75MQ"), ") und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
 mq_0.5 <- waterLevelFlys3(wldf, "0.5MQ")
 a <- waterLevelFlys3(wldf, "a")
 mq_0.75 <- waterLevelFlys3(wldf, "0.75MQ")
@@ -431,7 +498,13 @@ Der Zugriff auf diese Daten innerhalb von **hyd1d** erfolgt online über die
 PEGELONLINE REST-Schnittstelle, die allen Entwicklern offen steht und gut 
 dokumentiert ist:
 
-<p style="text-align: center;"><https://www.pegelonline.wsv.de/webservice/dokuRestapi></p>
+\begin{center}
+\url{https://www.pegelonline.wsv.de/webservice/dokuRestapi}
+\end{center}
+
+``` {r link_pegelonline_restapi, eval = is_html, echo = FALSE, results = 'asis'}
+cat('<p style="text-align: center;"><a href="https://www.pegelonline.wsv.de/webservice/dokuRestapi" target="_blank">https://www.pegelonline.wsv.de/webservice/dokuRestapi</a></p>')
+```
 
 Entsprechend kodierte Abfragen auf die PEGELONLINE REST-Schnittstelle werden mit
 Objekten in JSON-Notation beantwortet, die paketintern weiter verarbeitet 
@@ -611,7 +684,7 @@ wird:
 Anhand des zweiten Abschnitts von Rosslau bis Dessau erklärt sich dann auch die 
 Selektion der einrahmenden FLYS3-Wasserspiegellagen:
 
-```{r figure09, fig.show = 'asis', fig.cap = capFig("Ausgewählte stationäre FLYS3 Wasserspiegellagen (**0.5MQ** und **0.75MQ**) und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau."), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+```{r figure09, fig.show = 'asis', fig.cap = capFig(paste0("Ausgewählte stationäre FLYS3 Wasserspiegellagen (", bf("0.5MQ"), " und ", bf("0.75MQ"), ") und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
 {
     plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
          ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)", 
@@ -672,7 +745,7 @@ HQ500, wird das realtive Gewicht größer als 1. In Situationen, in denen die
 niedrigste FLYS3 Wasserspiegellage 0.5MNQ an einem Pegel unterschritten wird, 
 kann das relative Gewicht auch negativ werden.
 
-```{r figure10, fig.show = 'asis', fig.cap = capFig("Ausgewählte stationäre FLYS3 Wasserspiegellagen (**0.5MQ** und **0.75MQ**) und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau und deren relative Lage zwischen den FLYS3 Wasserspiegellagen."), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+```{r figure10, fig.show = 'asis', fig.cap = capFig(paste0("Ausgewählte stationäre FLYS3 Wasserspiegellagen (", bf("0.5MQ"), " und ", bf("0.75MQ"), ") und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau und deren relative Lage zwischen den FLYS3 Wasserspiegellagen.")), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
 {
     plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
          ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)", 
@@ -724,8 +797,7 @@ kann das relative Gewicht auch negativ werden.
 Diese relativen Gewichte an den Pegeln werden über die Strecke zwischen den 
 Pegeln linear interpoliert.
 
-```{r figure11, fig.show = 'asis', fig.cap = capFig("Relatives Gewicht für die Interpolation der Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau zwischen den FLYS3 Wasserspiegellagen **0.5MQ** und **0.75MQ**."), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
-
+```{r figure11, fig.show = 'asis', fig.cap = capFig(paste0("Relatives Gewicht für die Interpolation der Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau zwischen den FLYS3 Wasserspiegellagen ", bf("0.5MQ"), " und ", bf("0.75MQ"), ".")), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
 {
     plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
          ylim = c(-0.1, 1.1), xlab = "Flusskilometer (km)", 
@@ -752,11 +824,22 @@ Kombiniert man nun die lineare Interpolation des Gewichts zwischen den
 einrahmenden FLYS3-Wasserspiegellagen **0.5MQ** und **0.75MQ** mit den 
 Wasserständen über folgende mathematische Beziehung:
 
-<p style="text-align: center;">$WSL = WSL_{0.5MQ} + Gewicht * (WSL_{0.75MQ} - WSL_{0.5MQ})$</p>
+
+``` {r formula_latex, eval = !is_html, echo = FALSE, results = 'asis'}
+cat('
+\\begin{center}
+$WSL = WSL_{0.5MQ} + Gewicht * (WSL_{0.75MQ} - WSL_{0.5MQ})$
+\\end{center}
+')
+```
+
+``` {r formula_html, eval = is_html, echo = FALSE, results = 'asis'}
+cat('<p style="text-align: center;">$WSL = WSL_{0.5MQ} + Gewicht * (WSL_{0.75MQ} - WSL_{0.5MQ})$</p>')
+```
 
 Dann erhält man für den 2. Abschnitt folgendes Produkt:
 
-```{r figure12, fig.show = 'asis', fig.cap = capFig("Interpolierte Wasserspiegellage, ausgewählte stationäre FLYS3 Wasserspiegellagen (**0.5MQ** und **0.75MQ**) und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau."), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+```{r figure12, fig.show = 'asis', fig.cap = capFig(paste0("Interpolierte Wasserspiegellage, ausgewählte stationäre FLYS3 Wasserspiegellagen (", bf("0.5MQ"), " und ", bf("0.75MQ"), ") und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
 {
     plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
          ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)", 
@@ -808,7 +891,7 @@ Dann erhält man für den 2. Abschnitt folgendes Produkt:
 Nach Kombination der Daten aller drei Berechungsabschnitte erhält man folgendes,
 finales Produkt:
 
-```{r figure13, fig.show = 'asis', fig.cap = capFig("Interpolierte Wasserspiegellage, berechnungsrelevante stationäre FLYS3 Wasserspiegellagen (**0.5MQ**, **a** und **0.75MQ**) und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau."), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+```{r figure13, fig.show = 'asis', fig.cap = capFig(paste0("Interpolierte Wasserspiegellage, berechnungsrelevante stationäre FLYS3 Wasserspiegellagen (", bf("0.5MQ"), ", ", bf("a"), " und ", bf("0.75MQ"), ") und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
 {
     plotShiny(wldf1, TRUE, TRUE, TRUE, xlim = c(xlim_min, xlim_max),
               ylim = c(ylim_min, ylim_max))
@@ -934,7 +1017,7 @@ Soll das Berechnungsergebnis auch noch mittels [`plotShiny`](reference/plotShiny
 visualisiert werden, so sollte zusätzlich noch das Argument `shiny = TRUE` 
 genutzt werden:
 
-```{r figure14, fig.show = 'asis', fig.cap = capFig("Interpolierte Wasserspiegellage, berechnungsrelevante stationäre FLYS3 Wasserspiegellagen (**0.5MQ**, **a** und **0.75MQ**) und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau."), eval = TRUE}
+```{r figure14, fig.show = 'asis', fig.cap = capFig(paste0("Interpolierte Wasserspiegellage, berechnungsrelevante stationäre FLYS3 Wasserspiegellagen (", bf("0.5MQ"), ", ", bf("a"), " und ", bf("0.75MQ"), ") und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), eval = TRUE}
 wldf <- waterLevel(wldf, shiny = TRUE)
 summary(wldf)
 
@@ -1060,7 +1143,7 @@ relative Lage des Wasserstandes zu den zwei einrahmenden FLYS3-
 Wasserspiegellagen an dem ausgewählten Bezugspegel bestimmt und dann für eine 
 Interpolation zwischen diesen beiden Wasserspiegellagen verwendet.
 
-```{r figure17, fig.show = 'asis', fig.cap = capFig("Wasserspiegellage nach FLYS3 mit dem Pezugspegel Rosslau für den 21.12.2016 an der Elbe bei Rosslau und Dessau."), eval = TRUE}
+```{r figure17, fig.show = 'asis', fig.cap = capFig("Wasserspiegellage nach FLYS3 mit dem Bezugspegel Rosslau für den 21.12.2016 an der Elbe bei Rosslau und Dessau."), eval = TRUE}
 wldf <- waterLevelFlys3InterpolateY(wldf, "ROSSLAU", shiny = TRUE)
 summary(wldf)
 
@@ -1116,9 +1199,15 @@ und [`df.gauging_station_data`](reference/df.gauging_station_data.html)
 enthalten, können aber auch über eine ShinyApp im Browser abgefragt, 
 visualisiert und exportiert werden:
 
-<p style="text-align: center;"><http://r.bafg.de/shiny/WeberA/02-gauging_data/></p>
+\begin{center}
+\url{http://r.bafg.de/shiny/WeberA/02-gauging_data/}
+\end{center}
 
-```{r figure19, echo = FALSE, fig.cap = capFig("Screenshot der [gauging_data-ShinyApp](http://r.bafg.de/shiny/WeberA/02-gauging_data/) mit Pegelstammdaten, Karte und Wasserstandszeitreihe für den Zeitraum vom 12.04.2017 bis 12.04.2018 am Pegel Rosslau."), fig.show = 'asis', out.width = "100%"}
+``` {r link_gauging_data, eval = is_html, echo = FALSE, results = 'asis'}
+cat('<p style="text-align: center;"><a href="http://r.bafg.de/shiny/WeberA/02-gauging_data/" target="_blank">http://r.bafg.de/shiny/WeberA/02-gauging_data/</a></p>')
+```
+
+```{r figure19, echo = FALSE, fig.cap = capFig(paste0("Screenshot der ", link("http://r.bafg.de/shiny/WeberA/02-gauging_data/", "gauging_data-ShinyApp"), " mit Pegelstammdaten, Karte und Wasserstandszeitreihe für den Zeitraum vom 12.04.2017 bis 12.04.2018 am Pegel Rosslau.")), fig.show = 'asis', out.width = "100%",results = 'asis'}
 knitr::include_graphics('screenshot_gauging_data.png')
 ```
 
@@ -1131,9 +1220,15 @@ Eingabeparameter, die zur Initialisierung eines
 prädestiniert die Funktion dazu eine interaktive Berechnungsapplikation für die 
 Nutzung im Browser mittels Shiny zu implementieren.
 
-<p style="text-align: center;"><http://r.bafg.de/shiny/WeberA/05-waterlevel/></p>
+\begin{center}
+\url{http://r.bafg.de/shiny/WeberA/05-waterlevel/}
+\end{center}
 
-```{r figure20, echo = FALSE, fig.cap = capFig("Screenshot der [waterLevel-ShinyApp](http://r.bafg.de/shiny/WeberA/05-waterlevel/) mit der interpolierten Wasserspiegellage, berechnungsrelevanten stationären FLYS3 Wasserspiegellagen (**0.5MQ**, **a** und **0.75MQ**) und Wasserständen vom 21.12.2016 an der Elbe bei Rosslau und Dessau."), fig.show = 'asis', out.width = "100%"}
+``` {r link_waterlevel, eval = is_html, echo = FALSE, results = 'asis'}
+cat('<p style="text-align: center;"><a href="http://r.bafg.de/shiny/WeberA/05-waterlevel/" target="_blank">http://r.bafg.de/shiny/WeberA/05-waterlevel/</a></p>')
+```
+
+```{r figure20, echo = FALSE, fig.cap = capFig(paste0("Screenshot der ", link("http://r.bafg.de/shiny/WeberA/05-waterlevel/", "waterLevel-ShinyApp"), " mit der interpolierten Wasserspiegellage, berechnungsrelevanten stationären FLYS3 Wasserspiegellagen (", bf("0.5MQ"), ", ", bf("a"), " und ", bf("0.75MQ"), ") und Wasserständen vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), fig.show = 'asis', out.width = "100%", results = 'asis'}
 knitr::include_graphics('screenshot_waterLevel.png')
 ```
 
@@ -1145,9 +1240,15 @@ die Pegeldaten auch noch über das Internet und nicht aus Paket-internen Daten
 bezieht, ist diese Applikation sehr gut geeignet aktuelle 
 Wasserspiegelinformationen auf Anfrage zu generieren.
 
-<p style="text-align: center;"><http://r.bafg.de/shiny/WeberA/06-waterlevelpegelonline/></p>
+\begin{center}
+\url{http://r.bafg.de/shiny/WeberA/06-waterlevelpegelonline/}
+\end{center}
 
-```{r figure21, echo = FALSE, fig.cap = capFig("Screenshot der [waterLevelPegelonline-ShinyApp](http://r.bafg.de/shiny/WeberA/06-waterlevelpegelonline/) mit der interpolierten Wasserspiegellage, berechnungsrelevanten stationären FLYS3 Wasserspiegellagen (**a**, **0.75MQ** und **b**) und Wasserständen vom 13.04.2018 11:00 Uhr an der Elbe bei Rosslau und Dessau."), fig.show = 'asis', out.width = "100%"}
+``` {r link_waterlevelpegelonline, eval = is_html, echo = FALSE, results = 'asis'}
+cat('<p style="text-align: center;"><a href="http://r.bafg.de/shiny/WeberA/06-waterlevelpegelonline/" target="_blank">http://r.bafg.de/shiny/WeberA/06-waterlevelpegelonline/</a></p>')
+```
+
+```{r figure21, echo = FALSE, fig.cap = capFig(paste0("Screenshot der ", link("http://r.bafg.de/shiny/WeberA/06-waterlevelpegelonline/", "waterLevelPegelonline-ShinyApp"), " mit der interpolierten Wasserspiegellage, berechnungsrelevanten stationären FLYS3 Wasserspiegellagen (", bf("a"), ", ", bf("0.75MQ"), " und ", bf("b"), ") und Wasserständen vom 13.04.2018 11:00 Uhr an der Elbe bei Rosslau und Dessau.")), fig.show = 'asis', out.width = "100%"}
 knitr::include_graphics('screenshot_waterLevelPegelonline.png')
 ```
 
@@ -1159,7 +1260,13 @@ sogenannte Querprofilflächen lassen sich im GIS mittels des R-Paketes hydflood
 Überflutungsdauern berechnen. Nähere Details zum Berechungsverfahren finden 
 sich auf dem Dokumentationsportal von hydflood:
 
-<p style="text-align: center;"><http://r.bafg.de/~WeberA/hydflood/></p>
+\begin{center}
+\url{http://r.bafg.de/~WeberA/hydflood/}
+\end{center}
+
+``` {r link_hydflood, eval = is_html, echo = FALSE, results = 'asis'}
+cat('<p style="text-align: center;"><a href="http://r.bafg.de/~WeberA/hydflood/" target="_blank">http://r.bafg.de/~WeberA/hydflood/</a></p>')
+```
 
 <BR>
 
