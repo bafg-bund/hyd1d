@@ -437,10 +437,12 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
                              df.sections$to_km >= wldf_from &
                              df.sections$from_km <= wldf_to)
         
+        dir <- c(Elbe = "EL_000_586_UFD", Rhein = "RH_336_867_UFD")
+        
         i <- 1
         for (s in id_sections){
-            file <- paste0("/home/WeberA/ShinyApps/05-waterlevel/www/downloads",
-                           "/", tolower(wldf_river), "/",
+            file <- paste0("/home/WeberA/freigaben/U/U3/Auengruppe_INFORM/",
+                           dir[wldf_river], "/data/wl/",
                            df.sections$name[s], "/",
                            strftime(wldf_time, "%Y"), "/",
                            strftime(wldf_time, "%Y%m%d"), ".txt")
