@@ -38,8 +38,8 @@ test_that("readWaterLevelFileDB", {
 
 test_that("readWaterLevelJson", {
     if (Sys.info()["nodename"] == "r.bafg.de") {
-        file <- "/home/WeberA/ShinyApps/05-waterlevel/www/downloads/elbe/e020_DESSAU/2016/20161221.txt"
-        file1 <- "/home/WeberA/ShinyApps/05-waterlevel/www/downloads/elbe/e020_DESSAU/201/20161221.txt"
+        file <- "/home/WeberA/freigaben/U/U3/Auengruppe_INFORM/EL_000_586_UFD/data/wl/e020_DESSAU/2016/20161221.txt"
+        file1 <- "/home/WeberA/freigaben/U/U3/Auengruppe_INFORM/EL_000_586_UFD/data/wl/e020_DESSAU/201/20161221.txt"
         wldf <- readWaterLevelJson(file)
         expect_equal(class(wldf)[1], "WaterLevelDataFrame")
         expect_equal(is.na(getGaugingStationsMissing(wldf)), TRUE)
