@@ -21,7 +21,7 @@
 #'    and supplied by \email{Datenstelle-M1@@bafg.de}. Data after 2019-12-31 are
 #'   continuously collected from \url{https://pegelonline.wsv.de} and are not
 #'   officially validated. Not validated recent data will be replaced anually
-#'   and distributed through package updates.
+#'   and distributed through package and/or dataset updates.
 #' 
 #' @format A \code{data.frame} with 3 variables: 
 #' \describe{
