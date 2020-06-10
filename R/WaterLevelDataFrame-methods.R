@@ -1056,7 +1056,7 @@ summary.WaterLevelDataFrame <- function(object, ...) {
 #'   of class \linkS4class{WaterLevelDataFrame}.
 #' 
 #' @param x object of class \linkS4class{WaterLevelDataFrame}.
-#' @param i,j,\dots elements to extract or replace. For \code{[}, these are 
+#' @param i,j elements to extract or replace. For \code{[}, these are 
 #'   \code{numeric} or \code{character} or empty. Numeric values are coerced to 
 #'   integer as if by \code{\link[base:integer]{as.integer}}. For replacement 
 #'   by \code{[}, a logical matrix is allowed.
