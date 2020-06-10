@@ -15,11 +15,14 @@
 #' @seealso \code{\link{readWaterLevelJson}}
 #' 
 #' @examples
+#' 
 #' wldf <- WaterLevelDataFrame(river   = "Elbe",
 #'                             time    = as.POSIXct("2016-12-21"),
 #'                             station = seq(257, 262, 0.1))
 #' wldf <- waterLevel(wldf)
-#' writeWaterLevelStationInt(wldf, file = "wldf.txt", overwrite = TRUE)
+#' \dontrun{
+#'     writeWaterLevelStationInt(wldf, file = "wldf.txt", overwrite = TRUE)
+#' }
 #' 
 #' @export
 #' 
@@ -172,8 +175,10 @@ writeWaterLevelJson <- function(wldf, file, overwrite = FALSE){
 #'                             time    = as.POSIXct("2016-12-21"),
 #'                             station = seq(257, 262, 0.1))
 #' wldf <- waterLevel(wldf)
-#' writeWaterLevelStationInt(wldf, file = "station_int.txt",
-#'                           overwrite = TRUE, append = FALSE)
+#' \dontrun{
+#'     writeWaterLevelStationInt(wldf, file = "station_int.txt",
+#'                               overwrite = TRUE, append = FALSE)
+#' }
 #' 
 #' @export
 #' 

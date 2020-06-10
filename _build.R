@@ -104,18 +104,20 @@ rm(x, y)
 write("#####", stdout())
 write(" build vignettes", stdout())
 devtools::build_vignettes(".")
+tools::compactPDF(paths = "doc", gs_quality = "ebook")
 
 #####
 # check the package source
 write("#####", stdout())
 write(" check", stdout())
-devtools::check(".", document = FALSE, manual = FALSE)
+devtools::check(".", document = FALSE, manual = FALSE, error_on = "never")
 
 #####
 # build the source package
 write("#####", stdout())
 write(" build", stdout())
-devtools::build(".", path = build, vignettes = FALSE, manual = FALSE)
+devtools::build(".", path = build, vignettes = FALSE, manual = FALSE,
+                args = c("--compact-vignettes=both"))
 
 #####
 # install hyd1d from source
@@ -251,18 +253,26 @@ write(" web", stdout())
 host <- Sys.info()["nodename"]
 user <- Sys.info()["user"]
 if (host == "r.bafg.de" & user == "WeberA" & R_version == "3.6.0") {
+    # copy html output to ~/public_html
     system(paste0("cp -rp public/", R_version, "/* /home/", user, "/public_htm",
                   "l/hyd1d/"))
-    system(paste0("find /home/", user, "/public_html/hyd1d/ -type f -print0 | ",
-                  "xargs -0 chmod 0644"))
-    system(paste0("find /home/", user, "/public_html/hyd1d/ -type d -print0 | ",
-                  "xargs -0 chmod 0755"))
-    # system(paste0("chcon -R -t httpd_user_content_t /home/", user,
-    #               "/public_html/"))
+    system("permissions_html")
+    
+    # copy shinyapps to ~/ShinyApps
+    system(paste0("cp -rp shinyapps/gauging_data/* /home/", user, "/ShinyApps/",
+                  "02-gauging_data"))
+    system(paste0("cp -rp shinyapps/waterLevel/* /home/", user, "/ShinyApps/",
+                  "05-waterlevel"))
+    system(paste0("cp -rp shinyapps/waterLevelPegelonline/* /home/", user,
+                  "/ShinyApps/06-waterlevelpegelonline"))
+    system("permissions_shiny")
+    
+    # copy package source to r.bafg.de
     system(paste0("[ -d /home/", user, "/freigaben_r/_packages/package_sour",
                   "ces ] && cp -rp public/", R_version, "/downloads/hyd1d_*.ta",
                   "r.gz /home/", user, "/freigaben_r/_packages/package_sour",
                   "ces"))
+    
 }
 
 q("no")
