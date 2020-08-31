@@ -19,38 +19,54 @@
     }
     
     # update date_gauging_data 
-    .db_updated <<- FALSE
+    .db_updated <<- list(FALSE)
     if (file.exists(file_date)) {
         # check, when it was updated the last time
         date_gauging_data <- readRDS(file_date)
-        if (date_gauging_data < Sys.Date()) {
+        t <- paste0("'df.gauging_data' was last updated on ",
+                     as.character(date_gauging_data), ".")
+        
+        if (date_gauging_data < Sys.Date() - 29) {
+            t <- paste0(t, "\nIt will be updated now ...")
+            
             # update
             if (updateGaugingData(x = date_gauging_data)) {
+                t <- paste0(t, "\n'df.gauging_data' was updated successfully.")
                 date_gauging_data <- Sys.Date()
                 saveRDS(date_gauging_data, file = file_date)
+            } else {
+                t <- paste0(t, "\n'df.gauging_data' was not updated successful",
+                            "ly.")
             }
         }
+        .db_updated <<- list(TRUE, t)
     } else {
+        t <- "'df.gauging_data' will be downloaded initially."
         # update
         date_gauging_data <- Sys.Date()
         if (updateGaugingData(x = date_gauging_data)) {
+            t <- paste0(t, "\n'df.gauging_data' was downloaded successfully.")
             saveRDS(date_gauging_data, file = file_date)
+        } else {
+            t <- paste0(t, "\n'df.gauging_data' was not downloaded.")
         }
+        
+        .db_updated <<- list(TRUE, t)
     }
     
     # load df.gauging_data into .GlobalEnv
-    df.gd <- readRDS(file_data)
-    df.gd$gauging_station <- asc2utf8(df.gd$gauging_station)
-    .GlobalEnv$.df.gauging_data <- df.gd
+    .GlobalEnv$.df.gauging_data <- readRDS(file_data)
+    .GlobalEnv$.df.gauging_data$gauging_station <- asc2utf8(
+        .GlobalEnv$.df.gauging_data$gauging_station
+    )
     if (exists("df.gauging_data", envir = .GlobalEnv)) {
         rm(df.gauging_data, envir = .GlobalEnv)
     }
 }
 
 .onAttach <- function(libname, pkgname) {
-    if (.db_updated) {
-        packageStartupMessage(paste0("\nThe internal dataset 'df.gaugi",
-                                     "ng_data' has been updated."))
+    if (.db_updated[[1]]) {
+        packageStartupMessage(.db_updated[[2]])
     }
 }
 

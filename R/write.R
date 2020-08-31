@@ -7,8 +7,8 @@
 #'   and Python.
 #' 
 #' @param wldf an object of type \linkS4class{WaterLevelDataFrame}.
-#' @param file either a character string naming a file or a connection open for
-#'   writing.
+#' @param file either a \code{character} string naming a file or a connection
+#'   open for writing.
 #' @param overwrite \code{logical}, whether an existing file should be
 #'   overwritten.
 #' 
@@ -161,8 +161,8 @@ writeWaterLevelJson <- function(wldf, file, overwrite = FALSE){
 #'   Python.
 #'
 #' @param wldf an object of type \linkS4class{WaterLevelDataFrame}.
-#' @param file either a character string naming a file or a connection open for
-#'   writing.
+#' @param file either a \code{character} string naming a file or a connection
+#'   open for writing.
 #' @param overwrite \code{logical}, whether an existing file should be
 #'   overwritten.
 #' @param append \code{logical}, whether station data should be appended to an

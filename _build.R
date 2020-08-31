@@ -36,9 +36,6 @@ require(rmarkdown)
 require(pkgdown)
 require(revealjs)
 
-# source hyd1d-internal to obtain the credentials function
-source("R/hyd1d-internal.R")
-
 #####
 # assemble variables and create output directories
 write("#####", stdout())
@@ -60,6 +57,11 @@ sessionInfo()
 #   sourced scripts
 write("#####", stdout())
 write(" data-raw", stdout())
+
+# source hyd1d-internal to obtain the credentials function
+source("R/hyd1d-internal.R")
+
+# prepare data
 for (a_file in rev(list.files("data-raw", pattern = "data_df.*",
                               full.names = TRUE))) {
     source(a_file)
@@ -69,6 +71,7 @@ rm(a_file)
 # unload superfluous packages
 detach("package:RPostgreSQL", unload = TRUE)
 detach("package:DBI", unload = TRUE)
+rm(list = c("asc2utf8", "credentials", "DBpath", "simpleCap"))
 
 #####
 # minimal devtools workflow
@@ -82,42 +85,26 @@ write("#####", stdout())
 write(" document", stdout())
 devtools::document(".")
 
-##
-# postprocess package documentation
-# df.gauging_station_data
-x <- readLines("man/df.gauging_station_data.Rd")
-y <- gsub('$RDO_NROW_DF.GAUGING_STATION_DATA$',
-          RDO_NROW_DF.GAUGING_STATION_DATA, x, fixed = TRUE)
-cat(y, file = "man/df.gauging_station_data.Rd", sep="\n")
-
-# df.flys
-x <- readLines("man/df.flys.Rd")
-y <- gsub('$RDO_NROW_DF.FLYS$', RDO_NROW_DF.FLYS, x,
-          fixed = TRUE)
-cat(y, file = "man/df.flys.Rd", sep="\n")
-
-# clean up
-rm(x, y)
-
 #####
 # build vignettes
 write("#####", stdout())
 write(" build vignettes", stdout())
-devtools::build_vignettes(".")
+devtools::build_vignettes(".", clean = FALSE)
 tools::compactPDF(paths = "doc", gs_quality = "ebook")
 
 #####
 # check the package source
 write("#####", stdout())
 write(" check", stdout())
-devtools::check(".", document = FALSE, manual = FALSE, error_on = "never")
+devtools::check(".", document = TRUE, manual = TRUE, error_on = "never",
+               build_args = c('--compact-vignettes=both'))
 
 #####
 # build the source package
 write("#####", stdout())
 write(" build", stdout())
-devtools::build(".", path = build, vignettes = FALSE, manual = FALSE,
-                args = c("--compact-vignettes=both"))
+devtools::build(".", path = build, vignettes = TRUE, manual = TRUE,
+               args = c("--compact-vignettes=both"))
 
 #####
 # install hyd1d from source
@@ -129,13 +116,13 @@ pkg_files <- list.files(path = build,
                                          "\\.tar\\.gz"))
 
 for (a_file in pkg_files) {
-    
+
     write(a_file, stdout())
-    
+
     # seperate package name from version string
     package_name <- unlist(strsplit(a_file, "_"))[1]
     package_version <- gsub(".tar.gz", "", unlist(strsplit(a_file, "_"))[2])
-    
+
     # check presently installed local packages
     pkgs <- as.data.frame(installed.packages())
     if (package_name %in% pkgs$Package) {
@@ -252,7 +239,7 @@ write(" web", stdout())
 
 host <- Sys.info()["nodename"]
 user <- Sys.info()["user"]
-if (host == "r.bafg.de" & user == "WeberA" & R_version == "3.6.0") {
+if (host == "r.bafg.de" & user == "WeberA" & R_version == "4.0.2") {
     # copy html output to ~/public_html
     system(paste0("cp -rp public/", R_version, "/* /home/", user, "/public_htm",
                   "l/hyd1d/"))

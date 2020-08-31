@@ -21,8 +21,6 @@
 #'   \linkS4class{WaterLevelDataFrame}s with a \code{time}-slot set to
 #'   appropriate values within the last 31 days before function call.
 #'
-#'   Description of the interpolation ....
-#'
 #' @param wldf an object of class \linkS4class{WaterLevelDataFrame}.
 #' @param shiny \code{logical}, determing wether columns (\code{section},
 #'   \code{weight_x}, \code{weight_y}) relevant for the
@@ -35,6 +33,8 @@
 #'
 #' @references 
 #'   \insertRef{busch_einheitliche_2009}{hyd1d}
+#'   
+#'   \insertRef{hkv_hydrokontor_erstellung_2014}{hyd1d}
 #'   
 #'   \insertRef{bundesanstalt_fur_gewasserkunde_flys_2016}{hyd1d}
 #'   
@@ -286,6 +286,11 @@ waterLevel <- function(wldf, shiny = FALSE) {
     #####
     # loop over the sections
     for (s in 1:(nrow(df.gs)-1)) {
+        
+        if (length(which(df.data$station >= df.gs$km_qps[s] &
+                         df.data$station <= df.gs$km_qps[s + 1])) == 0) {
+            next
+        }
         
         #####
         # catch the exceptions for areas
