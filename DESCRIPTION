@@ -1,6 +1,6 @@
 Package: hyd1d
 Type: Package
-Title: Algorythms to compute 1D water levels along German federal waterways Elbe 
+Title: Algorythms to compute 1D water levels along German federal waterways Elbe
     and Rhine
 Version: 0.1.0
 Date: 2018-05-16
@@ -13,24 +13,24 @@ Authors@R: c(person("Arnd", "Weber", email = "arnd.weber@bafg.de",
                     role = c("ctb")),
              person("Wilfried", "Wiechmann", email="wiechmann@bafg.de",
                     role = c("ctb")))
-Description: hyd1d provides an S4 class, datasets and several functions to 
-    interpolate 1D water levels with gauging data. The S4 class 
-    WaterLevelDataFrame structures the computation and visualisation of 1D 
-    water level information along the German federal waterways Elbe and Rhine. 
-    Based on package internal 1D water level data - provided by the FLYS 
-    database - and gauging data - provided by the hydrological databases HyDaBa 
+Description: hyd1d provides an S4 class, datasets and several functions to
+    interpolate 1D water levels with gauging data. The S4 class
+    WaterLevelDataFrame structures the computation and visualisation of 1D
+    water level information along the German federal waterways Elbe and Rhine.
+    Based on package internal 1D water level data - provided by the FLYS
+    database - and gauging data - provided by the hydrological databases HyDaBa
     and PEGELONLINE - near realtime predictions can be carried out.
 Depends: R (>= 3.5.0)
-Imports: methods, utils, RJSONIO (>= 1.0-0), RCurl (>= 1.95-4.10), 
+Imports: methods, utils, RJSONIO (>= 1.0-0), RCurl (>= 1.95-4.10),
     plotrix (>= 3.0-0), Rdpack
 Suggests: DBI (>= 0.4-9), ROracle (>= 1.1-1), RPostgreSQL (>= 0.6-1), testthat,
     knitr, rmarkdown, stringr, devtools, pkgdown, roxygen2, revealjs, shiny,
-    shiny.i18n, shinyTime, lubridate, usethis
+    shiny.i18n, shinyTime, lubridate, usethis, yaml, desc
 RdMacros: Rdpack
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Collate:
     'Class-WaterLevelDataFrame.R'
     'WaterLevelDataFrame-methods.R'
@@ -54,5 +54,4 @@ Collate:
     'zzz.R'
 VignetteBuilder: knitr
 BugReports: https://apps.bafg.de/gitbucket/webera/hyd1d/issues
-URL: http://r.bafg.de/~WeberA/hyd1d/index.html, 
-    https://apps.bafg.de/gitbucket/webera/hyd1d
+URL: http://r.bafg.de/~WeberA/hyd1d
