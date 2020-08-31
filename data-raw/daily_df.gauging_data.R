@@ -66,9 +66,9 @@ query_string <- paste0("SELECT gauging_station, date, w FROM gauging_data WHER",
 df.gauging_data <- DBI::dbGetQuery(con, query_string)
 
 # replace non-ASCII characters
-df.gauging_data$gauging_station <- iconv(df.gauging_data$gauging_station,
-                                         from = "UTF-8", to = "ASCII", 
-                                         sub = "byte")
+# df.gauging_data$gauging_station <- iconv(df.gauging_data$gauging_station,
+#                                          from = "UTF-8", to = "ASCII", 
+#                                          sub = "byte")
 
 # store df.gauging_data
 saveRDS(df.gauging_data, file = from, version = 3, compress = "bzip2")
