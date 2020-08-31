@@ -1,16 +1,47 @@
 ---
-title: "hyd1d"
+title: "hyd1d - Vignette"
 author: "Arnd Weber"
 date: "`r Sys.Date()`"
 output:
+  pdf_document:
+    latex_engine: pdflatex
+    keep_tex: false
+    number_sections: true
+    toc: true
+    toc_depth: 3
+    fig_width: 7
+    fig_height: 6
+    fig_caption: true
+    df_print: kable
+    highlight: tango
+    includes:
+      in_header: latex/header.tex
+      before_body: latex/before_body.tex
   html_vignette:
     toc: yes
     toc_depth: 3
 bibliography: ../inst/REFERENCES.bib
 csl: apa_modified.csl
+link-citations: yes
+documentclass: scrreprt
+classoption:
+  - a4paper
+  - twoside
+geometry:
+  - left=3.2cm
+  - right=3.2cm
+  - top=2.8cm
+  - bottom=3cm
+  - marginparwidth=2cm
+  - marginparsep=0.3cm
+lang: en
+linkcolor: blue
+urlcolor: blue
+citecolor: blue
+lof: true
 vignette: |
-  %\VignetteIndexEntry{hyd1d} 
-  %\VignetteEngine{knitr::rmarkdown} 
+  %\VignetteIndexEntry{hyd1d - Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -42,10 +73,12 @@ $(document).ready(function() {
 </script>
 
 <!-- numbering for figures and tables-->
-
 ```{r captions, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE, include = FALSE}
-require(hyd1d)
-require(plotrix)
+library(hyd1d)
+library(plotrix)
+library(stringr)
+library(yaml)
+library(desc)
 
 # set english locale to produce english plot labels
 Sys.setlocale(category = "LC_MESSAGES", locale = "en_US.utf8")
@@ -62,6 +95,14 @@ capTab <- function(x){
     if(outputFormat == 'html'){
         x <- paste0("**Tab. ", capTabNo, "**: ", x)
         capTabNo <<- capTabNo + 1
+    } else if (outputFormat == 'latex'){
+        y <- str_replace_all(x, '(^.*)(\\[.*\\])(\\(.*\\))(.*$)', 
+                             '\\1\\\\href{\\3}{\\2}\\4')
+        y <- gsub("{(", "{", y, fixed = TRUE, useBytes = TRUE)
+        y <- gsub("{[", "{", y, fixed = TRUE, useBytes = TRUE)
+        y <- gsub(")}", "}", y, fixed = TRUE, useBytes = TRUE)
+        y <- gsub("]}", "}", y, fixed = TRUE, useBytes = TRUE)
+        x <- gsub("_", "\\_", y, fixed = TRUE, useBytes = TRUE)
     }
     return(x)
 }
@@ -71,8 +112,73 @@ capFig <- function(x){
     if(outputFormat == 'html'){
         x <- paste0("**Fig. ", capFigNo, "**: ", x)
         capFigNo <<- capFigNo + 1
+    } else if (outputFormat == 'latex'){
+        y <- str_replace_all(x, '(^.*)(\\[.*\\])(\\(.*\\))(.*$)', 
+                             '\\1\\\\href{\\3}{\\2}\\4')
+        y <- gsub("{(", "{", y, fixed = TRUE, useBytes = TRUE)
+        y <- gsub("{[", "{", y, fixed = TRUE, useBytes = TRUE)
+        y <- gsub(")}", "}", y, fixed = TRUE, useBytes = TRUE)
+        y <- gsub("]}", "}", y, fixed = TRUE, useBytes = TRUE)
+        x <- gsub("_", "\\_", y, fixed = TRUE, useBytes = TRUE)
     }
     return(x)
+}
+
+# Function to simplify linking to references/rd
+lrd <- function(x, y) {
+    # standard url
+    url <- "http://r.bafg.de/~WeberA/hyd1d"
+    
+    # url from DESCRIPTION file
+    if (file.exists("DESCRIPTION")) {
+        url_desc <- description$new("DESCRIPTION")$get_urls()[1]
+    }
+    
+    # url from pkgdown/_pkgdown.yml
+    pwd <- Sys.getenv("PWD")
+    if (pwd != "") {
+        if (file.exists(paste0(pwd, "/pkgdown/_pkgdown.yml"))) {
+            url_pkgdown <- yaml.load_file(
+                paste0(pwd, "/pkgdown/_pkgdown.yml"))$url
+        }
+    }
+    
+    if (exists("url_desc")) {
+        url <- url_desc
+        if (exists("url_pkgdown")) {
+            url <- url_pkgdown
+        }
+    }
+    
+    # outputformat latex
+    if (knitr::is_latex_output()) {
+        if (missing(y)) {
+            if (endsWith(x, "()")) {
+                x1 <- gsub("()", "", x, fixed = TRUE)
+                str <- paste0("[", x, "](", url, "/reference/", x1, ".html)")
+            } else {
+                str <- paste0("[", x, "](", url, "/reference/", x, ".html)")
+            }
+        } else {
+            str <- paste0("[", x, "](", url, "/reference/", y, ")")
+        }
+        return(str)
+    }
+    
+    # outputformat html
+    if (missing(y)) {
+        if (endsWith(x, "()")) {
+            # x1 <- gsub("()", "", x, fixed = TRUE)
+            str <- paste0("`", x, "`")
+        } else {
+            str <- paste0("<code>[", x, "](", url, "/reference/", x, ".html)</",
+                          "code>")
+        }
+    } else {
+        str <- paste0("<code>[", x, "](", url, "/reference/", y, ")</code>")
+    }
+    
+    return(str)
 }
 ```
 
@@ -109,11 +215,12 @@ library(hyd1d)
 
 ## S4-class WaterLevelDataFrame
 
-Basis of all water level computations with **hyd1d** is the S4-class 
-[`WaterLevelDataFrame`](reference/WaterLevelDataFrame-class.html). To compute 
-water levels with one of the `waterLevel...`-functions, a `WaterLevelDataFrame`
-has to be initialized with the homonymous 
-[`WaterLevelDataFrame()`](reference/WaterLevelDataFrame.html)-function: 
+Basis of all water level computations with **hyd1d** is the S4-class
+`r lrd("WaterLevelDataFrame", "WaterLevelDataFrame-class.html")`. To compute
+water levels with one of the
+`r lrd("waterLevel...()", "index.html#section-waterlevel-functions")`-functions,
+a `r lrd("WaterLevelDataFrame", "WaterLevelDataFrame-class.html")`
+has to be initialized with the homonymous `r lrd("WaterLevelDataFrame()")`-function: 
 
 ```{r wldf, eval = TRUE}
 wldf <- WaterLevelDataFrame(river   = "Elbe",
@@ -121,66 +228,69 @@ wldf <- WaterLevelDataFrame(river   = "Elbe",
                             station = seq(257, 262, 0.1))
 ```
 
-The minimal required information to initialize a `WaterLevelDataFrame` are the 
-the function arguments `river`, `time` and at least one of the two possible 
-station arguments (`station` or `station_int`). With this information an object 
-of class `WaterLevelDataFrame` can be created, which has the following 
-structure:
+The minimal required information to initialize a
+`r lrd("WaterLevelDataFrame", "WaterLevelDataFrame-class.html")` are
+the function arguments `river`, `time` and at least one of the two possible
+station arguments (`station` or `station_int`). With this information an object
+of class `r lrd("WaterLevelDataFrame", "WaterLevelDataFrame-class.html")` can be
+created, which has the following structure:
 
 ```{r structure, eval = TRUE}
 str(wldf)
-
 summary(wldf)
-
 ```
 
-The actual water level information is stored in the S4-slot `.Data`, which is in 
-fact a `data.frame`with the columns `station`, `station_int` and `w`. The 
-columns `station` and `station_int` contain a stationing information, which 
-corresponds to the official stationing of the waterway and navigation agency 
-(Wasserstraßen- und Schifffahrtsverwaltung). The stationing information is 
-duplicated to enable database joins with GIS data through the `integer`-type 
-column `station_int`. The column `w` contains the actual 
-water level in the height reference system DHHN92 (German height reference 
-system 1992), but is usually empty after initialization and gets filled 
-throught the application of one of the `waterLevel...`-functions.
+The actual water level information is stored in the S4-slot `.Data`, which is in
+fact a `data.frame` with the columns `station`, `station_int` and `w`. The
+columns `station` and `station_int` contain a stationing information, which
+corresponds to the official stationing of the waterway and navigation agency
+(Wasserstraßen- und Schifffahrtsverwaltung (WSV)). The stationing information is
+duplicated to enable database joins with GIS data through the `integer`-type
+column `station_int`. The column `w` contains the actual
+water level in the height reference system DHHN92 (German height reference
+system 1992), but is usually empty after initialization and gets filled
+throught the application of one of the
+`r lrd("waterLevel...()", "index.html#section-waterlevel-functions")`-functions.
 
-For the application of `waterLevel...`-functions information stored in the 
-S4-slots `river` and where appropriate `time` is essential. They enable a 
-distinct localization of the stationing along the rivers Elbe and Rhine and a 
-determination of the time of the water level computation. The other slots of an 
-object of class `WaterLevelDataFrame` are filled during the water level 
-computation and contain partial results needed to visualize the results 
-(`gauging_station`) or have an informative character (
+For the application of
+`r lrd("waterLevel...()", "index.html#section-waterlevel-functions")`-functions
+information stored in the S4-slots `river` and where appropriate `time` is
+essential. They enable a distinct localization of the stationing along the
+rivers Elbe and Rhine and a determination of the time of the water level
+computation. The other slots of an object of class
+`r lrd("WaterLevelDataFrame", "WaterLevelDataFrame-class.html")` are filled
+during the water level computation and contain partial results needed to
+visualize the results (`gauging_station`) or have an informative character (
 `gauging_stations_missing`, `comment`).
 
-## Computation of water levels
+# Computation of water levels
 
-### waterLevel
+## waterLevel
 
-The most advanced function to interpolate FLYS3 water levels with local gauging 
-data is implemented in the [`waterLevel`](reference/waterLevel.html)-function. 
-This function uses package-internal gauging data from the dataset 
-[`df.gauging_data`](reference/df.gauging_data.html), which contains daily-
-averaged gauging data since 1990-01-01. Therefore 
-[`waterLevel`](reference/waterLevel.html) can be applied for the time period 
-between 1990-01-01 and yesterday.
+The most advanced function to interpolate 
+[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+water levels [@bundesanstalt_fur_gewasserkunde_flys_2016] with local gauging
+data is implemented in the `r lrd("waterLevel()")`-function. This function uses
+package-internal gauging data from the dataset `r lrd("df.gauging_data")`, which
+contains daily-averaged gauging data since 1990-01-01. Therefore
+`r lrd("waterLevel()")` can be applied for the time period  between 1990-01-01
+and yesterday.
 
-After the [initialization](articles/hyd1d.html#s4-klasse-waterleveldataframe) of 
-a `WaterLevelDataFrame` the application is very simple:
+After the [initialization](hyd1d.html#s4-class-waterleveldataframe) of
+a `r lrd("WaterLevelDataFrame", "WaterLevelDataFrame-class.html")` the
+application is very simple:
 
 ```{r waterlevel, eval = TRUE}
 wldf <- waterLevel(wldf)
 summary(wldf)
-
 ```
 
-And if you want to visualize the results using [`plotShiny`](reference/plotShiny.html)
-the additional argument `shiny = TRUE` has to be used. Thereby the columns 
-`section`, `weight_x` and `weight_y` get created in the `.Data`-Slot, which are 
-required for the visualization.
+And if you want to visualize the results using `r lrd("plotShiny()")` the additional
+argument `shiny = TRUE` has to be used. Thereby the columns `section`,
+`weight_x` and `weight_y` get created in the `.Data`-Slot, which are required
+for the visualization.
 
-```{r figure1, fig.show = 'asis', fig.cap = capFig("Interpolated water level, computation-relevant stationary FLYS3 water levels (**0.5MQ**, **a** and **0.75MQ**) and gauge heigth of 2016-12-21 at River Elbe between Rosslau and Dessau."), eval = TRUE}
+```{r figure1, fig.show = 'asis', fig.cap = capFig("Interpolated water level, computation-relevant stationary [FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html) water levels (**0.5MQ**, **a** and **0.75MQ**) and gauge heigth of 2016-12-21 at River Elbe between Rosslau and Dessau."), eval = TRUE}
 wldf <- waterLevel(wldf, shiny = TRUE)
 summary(wldf)
 
@@ -188,7 +298,8 @@ xlim_min <- 257
 xlim_max <- 263
 {
     plotShiny(wldf, TRUE, TRUE, TRUE, xlim = c(xlim_min, xlim_max),
-              xlab = "river station (km)", ylab = "elevation (m a.s.l. (DHHN92))")
+              xlab = "river station (km)",
+              ylab = "elevation (m a.s.l. (DHHN92))")
     legend("topright", 
            col = c("darkblue", "darkblue", "darkblue", "red", "black"), 
            pch = c(21, 0, NA, NA, NA), 
@@ -203,17 +314,18 @@ xlim_max <- 263
 }
 ```
 
-### waterLevelPegelonline
+## waterLevelPegelonline
 
-The way how the [`waterLevelPegelonline`](reference/waterLevel.html)-function
-computes a water level is equivalent to the [`waterLevel`](reference/waterLevel.html)-
-function. Just the data source for the gauging data is different, since it does 
-not use package-internal data, but online data provided by <https://pegelonline.wsv.de>.
-Because data provided by PEGELONLINE are available for only 30 days backwards, 
-the application of this function is limited to recent time periods, but with a 
-high temporal resolution.
+The way how the `r lrd("waterLevelPegelonline()")`-function
+computes a water level is equivalent to the `r lrd("waterLevel()")`-function.
+Just the data source of the gauging data is different, since it does not use
+package-internal data, but online data provided by <https://pegelonline.wsv.de>
+[@wsv_pegelonline_2018]. Because data provided by 
+[PEGELONLINE](https://pegelonline.wsv.de) are available
+for only 30 days backwards, the application of this function is limited to
+recent time periods, but with a high temporal resolution.
 
-```{r figure2, fig.show = 'asis', fig.cap = capFig(paste0("Interpolated water level, computation-relevant stationary FLYS3 water levels (**0.5MQ**, **a** and **0.75MQ**) and gauge heigth of ", strftime(Sys.time() - 3600, format = "%Y-%m-%d %H:%M")," at River Elbe between Rosslau and Dessau.")), eval = TRUE}
+```{r figure2, fig.show = 'asis', fig.cap = capFig(paste0("Interpolated water level, computation-relevant stationary [FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html) water levels (**0.5MQ**, **a** and **0.75MQ**) and gauge heigth of ", strftime(Sys.time() - 3600, format = "%Y-%m-%d %H:%M")," at River Elbe between Rosslau and Dessau.")), eval = TRUE}
 # one hour ago
 time <- as.POSIXct(Sys.time() - 3600)
 
@@ -229,7 +341,8 @@ summary(wldf)
 # and plot the results
 {
     plotShiny(wldf, TRUE, TRUE, TRUE, xlim = c(xlim_min, xlim_max),
-              xlab = "river station (km)", ylab = "elevation (m a.s.l. (DHHN92))")
+              xlab = "river station (km)",
+              ylab = "elevation (m a.s.l. (DHHN92))")
     legend("topright", 
            col = c("darkblue", "darkblue", "darkblue", "red", "black"), 
            pch = c(21, 0, NA, NA, NA), 
@@ -245,17 +358,17 @@ summary(wldf)
 
 ```
 
-### waterLevelFlood1 & waterLevelFlood2
+## waterLevelFlood1 & waterLevelFlood2
 
-To compare the newly developed functions [`waterLevel`](reference/waterLevel.html) 
-and [`waterLevelPegelonline`](reference/waterLevel.html) to existing computation
-methods, the functions [`waterLevelFlood1`](reference/waterLevelFlood1.html) and
-[`waterLevelFlood2`](reference/waterLevelFlood2.html) have been implemented. 
-These functions compute water levels according to the Flood1- and Flood2-methods
-of the modelling environment [INFORM](http://www.bafg.de/DE/08_Ref/U2/02_analyse/01_INFORM/inform.html) 
+To compare the newly developed functions `r lrd("waterLevel()")` and
+`r lrd("waterLevelPegelonline()")` to existing computation methods,
+the functions `r lrd("waterLevelFlood1()")` and `r lrd("waterLevelFlood2()")`
+have been implemented. These functions compute water levels according to the
+Flood1- and Flood2-methods of the modelling environment
+[INFORM](http://www.bafg.de/DE/08_Ref/U2/02_analyse/01_INFORM/inform.html)
 [@rosenzweig_inform_2011]. They either shift the reference water level **MQ**
 vertically, so that it intersects with the gauge height at a selected reference
-gauging station, or linearily interpolate water levels with neighboring gauging
+gauging station, or linearly interpolate water levels with neighboring gauging
 stations.
 
 ```{r figure3, fig.show = 'asis', fig.cap = capFig("Water levels computed after the Flood1-method with the reference gauges Rosslau (wldf1) and Dessau (wldf2) and the Flood2-method at the 2016-12-21 at River Elbe between Rosslau and Dessau."), eval = TRUE}
@@ -276,7 +389,8 @@ df.gs2 <- getGaugingStations(wldf2)
 
 {
     plotShiny(wldf1, FALSE, FALSE, FALSE, xlim = c(xlim_min, xlim_max),
-              xlab = "river station (km)", ylab = "elevation (m a.s.l. (DHHN92))")
+              xlab = "river station (km)",
+              ylab = "elevation (m a.s.l. (DHHN92))")
     lines(wldf2$station, wldf2$w, col = "darkblue", lty = 2)
     lines(wldf3$station, wldf3$w, col = "red", lty = 2)
     abline(v = df.gs2$km_qps, lty = 3, lwd = 0.5)
@@ -295,25 +409,28 @@ df.gs2 <- getGaugingStations(wldf2)
 }
 ```
 
-### waterLevelFlys3InterpolateY
+## waterLevelFlys3InterpolateY
 
-To compare the newly developed functions [`waterLevel`](reference/waterLevel.html) 
-and [`waterLevelPegelonline`](reference/waterLevel.html) to existing computation
-methods of [FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html),
-the function [`waterLevelFlys3InterpolateY`](reference/waterLevelFlys3InterpolateY.html) 
-has been implemented. This function computes a water level according to the 
-method implemented in the W-INFO-module of FLYS3. This function determines the 
-relative position of the gauge height at a reference gauge to the two 
-surrounding FLYS3 water levels and uses this weight for a longitudinal 
-interpolation between both water levels.
+To compare the newly developed functions `r lrd("waterLevel()")` and
+`r lrd("waterLevelPegelonline", "waterLevel.html")` to existing computation
+methods of
+[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html),
+the function `r lrd("waterLevelFlys3InterpolateY()")` has been implemented. This
+function computes a water level according to the method implemented in the
+W-INFO-module of [FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html).
+This function determines the relative position of the gauge height at a
+reference gauge to the two surrounding [FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+water levels and uses this weight for a longitudinal interpolation between both
+water levels.
 
-```{r figure4, fig.show = 'asis', fig.cap = capFig("Water levels after FLYS3 with the reference gauge Rosslau at the 2016-12-21 at River Elbe between Rosslau and Dessau."), eval = TRUE}
+```{r figure4, fig.show = 'asis', fig.cap = capFig("Water levels after [FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html) with the reference gauge Rosslau at the 2016-12-21 at River Elbe between Rosslau and Dessau."), eval = TRUE}
 wldf <- waterLevelFlys3InterpolateY(wldf, "ROSSLAU", shiny = TRUE)
 summary(wldf)
 
 {
     plotShiny(wldf, TRUE, TRUE, TRUE, xlim = c(xlim_min, xlim_max),
-              xlab = "river station (km)", ylab = "elevation (m a.s.l. (DHHN92))")
+              xlab = "river station (km)",
+              ylab = "elevation (m a.s.l. (DHHN92))")
     abline(v = df.gs2$km_qps, lty = 3, lwd = 0.5)
     points(df.gs2$km_qps, df.gs2$wl, pch=21, col="darkblue", bg="darkblue")
     boxed.labels(df.gs2$km_qps, 55.4, df.gs2$gauging_station, bg="white", 
@@ -332,25 +449,20 @@ summary(wldf)
 }
 ```
 
-### waterLevelFlys3...
+## waterLevelFlys3...
 
-All other `waterLevelFlys3...`-functions (
-[`waterLevelFlys3`](reference/waterLevelFlys3.html), 
-[`waterLevelFlys3Seq`](reference/waterLevelFlys3.html) and [`waterLevelFlys3InterpolateX`](reference/waterLevelFlys3InterpolateX.html)) 
-serve exclusively for the preparation and querying of stationary FLYS3 water 
-levels. They can be used to extract water levels from the dataset 
-[`df.flys_data`](reference/df.flys_data.html) and interpolate the water levels 
-along the x-axis linearily, but without modifying the datasets contents. These
-functionalities are needed for **all**  `waterLevel...`-functions described in 
-this vignette and are mentioned here for completeness.
+All other `waterLevelFlys3...()`-functions (`r lrd("waterLevelFlys3()")`,
+`r lrd("waterLevelFlys3Seq()")` and `r lrd("waterLevelFlys3InterpolateX()")`)
+serve exclusively for the preparation and querying of stationary
+[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+water levels. They can be used to extract water levels from the dataset 
+`r lrd("df.flys")`
+and interpolate the water levels linearly along the x-axis, but without
+modifying the dataset contents. This functionality is needed for **all**
+`r lrd("waterLevel...()", "index.html#section-waterlevel-functions")`-functions
+described in this vignette and are mentioned here for completeness.
 
 <BR>
 
 # References
-
----
-nocite: | 
-  @wsv_pegelonline_2018
-  @bundesanstalt_fur_gewasserkunde_flys_2016
-...
 
