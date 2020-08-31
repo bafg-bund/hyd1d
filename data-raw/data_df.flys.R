@@ -1,5 +1,5 @@
 
-if (Sys.info()["nodename"] %in% c("hpc-service", "r.bafg.de")) {
+if (Sys.info()["nodename"] %in% c("r.bafg.de")) {
     if (!(file.exists("data/df.flys.rda"))){
         
         require(ROracle)
@@ -42,9 +42,6 @@ if (Sys.info()["nodename"] %in% c("hpc-service", "r.bafg.de")) {
         ORDER BY
             FLYS3.WST_COLUMN_VALUES.POSITION ASC, FLYS3.WST_COLUMN_VALUES.W"
         
-        # CAST(FLYS3.WST_COLUMN_VALUES.W * 100 AS INTEGER) AS \"w_int\",
-        # CAST(FLYS3.WST_COLUMN_VALUES.POSITION * 1000 AS INTEGER) AS \"station_int\",
-        
         df.flys_elbe <- dbGetQuery(f3_con, query_string_elbe)
         df.flys_elbe <- cbind(data.frame(river = as.character("Elbe", 
                                                      nrow(df.flys_elbe)),
@@ -72,9 +69,6 @@ if (Sys.info()["nodename"] %in% c("hpc-service", "r.bafg.de")) {
             FLYS3.WST_COLUMN_VALUES.POSITION >= 336.2
         ORDER BY
             FLYS3.WST_COLUMN_VALUES.POSITION ASC, FLYS3.WST_COLUMN_VALUES.W"
-        
-        # CAST(FLYS3.WST_COLUMN_VALUES.W * 100 AS INTEGER) AS \"w_int\",
-        # CAST(FLYS3.WST_COLUMN_VALUES.POSITION * 1000 AS INTEGER) AS \"station_int\",
         
         df.flys_rhein <- dbGetQuery(f3_con, query_string_rhein)
         df.flys_rhein <- cbind(data.frame(river = as.character("Rhein", 
@@ -104,9 +98,6 @@ if (Sys.info()["nodename"] %in% c("hpc-service", "r.bafg.de")) {
         ORDER BY
             FLYS3.WST_COLUMN_VALUES.POSITION ASC, FLYS3.WST_COLUMN_VALUES.W"
         
-        # CAST(FLYS3.WST_COLUMN_VALUES.W * 100 AS INTEGER) AS \"w_int\",
-        # CAST(FLYS3.WST_COLUMN_VALUES.POSITION * 1000 AS INTEGER) AS \"station_int\",
-        
         df.flys_weser <- dbGetQuery(f3_con, query_string_weser)
         df.flys_weser <- cbind(data.frame(river = as.character("Weser", 
                                                                nrow(df.flys_weser)),
@@ -123,9 +114,6 @@ if (Sys.info()["nodename"] %in% c("hpc-service", "r.bafg.de")) {
         # store df.flys as external dataset
         usethis::use_data(df.flys, overwrite = TRUE, compress = "bzip2")
         
-        # variables for RDO
-        RDO_NROW_DF.FLYS <- as.character(nrow(df.flys))
-        
         # clean up
         rm(f3_con, f3_credentials, f3_string, query_string_elbe, 
            query_string_rhein, df.flys_elbe, df.flys_rhein, df.flys)
@@ -135,28 +123,13 @@ if (Sys.info()["nodename"] %in% c("hpc-service", "r.bafg.de")) {
         
     } else {
         write("data/df.flys.rda exists already", stderr())
-        
-        # variables for RDO
-        load("data/df.flys.rda")
-        RDO_NROW_DF.FLYS <- as.character(nrow(df.flys))
-        rm(df.flys)
-        
     }
 } else {
     if (!(file.exists("data/df.flys.rda"))){
         write(paste0("The flys database is not accessible and data/df.flys",
                      ".rda can't be created!"), stderr())
-        # variables for RDO
-        RDO_NROW_DF.FLYS <- "169980"
-        
     } else {
         write("data/df.flys.rda exists already", stderr())
-        
-        # variables for RDO
-        load("data/df.flys.rda")
-        RDO_NROW_DF.FLYS <- as.character(nrow(df.flys))
-        rm(df.flys)
-        
     }
     
 }
