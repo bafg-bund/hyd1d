@@ -1,10 +1,92 @@
+details_waterLevelFlys3 <- function() {
+    
+    if (file.exists("DB_credentials_flys3") &
+        requireNamespace("ROracle") & requireNamespace("DBI")) {
+        
+        # credentials
+        f3_credentials <- credentials("DB_credentials_flys3")
+        
+        # read the data
+        # access the FLYS3 DB
+        f3_string <- paste0("(DESCRIPTION=",
+                            "(ADDRESS=(PROTOCOL=tcp)",
+                            "(HOST=10.140.79.56)(PORT=1521))",
+                            "(CONNECT_DATA=",
+                            "(SERVICE_NAME=FLYS3.DBMSDB.BAFG.DE)))")
+        f3_con <- tryCatch(
+            {
+                ROracle::dbConnect(drv      = DBI::dbDriver("Oracle"),
+                                   username = f3_credentials["user"],
+                                   password = f3_credentials["password"],
+                                   dbname   = f3_string)
+            },
+            error = function(cond) {return(FALSE)},
+            warning = function(cond) {return(FALSE)}
+        )
+        
+        if (is.logical(f3_con)) {
+            wl_elbe <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ",
+                         "c","2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5",
+                         "g", "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50",
+                         "HQ75", "HQ100", "i", "HQ150", "HQ200", "HQ300",
+                         "HQ500")
+            wl_rhein <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
+                          "Ud=120", "Ud=183", "MQ", "Ud=240","Ud=270", "Ud=310",
+                          "Ud=340", "Ud=356", "Ud=360", "MHQ", "HQ2", "HQ5",
+                          "HQ5-10", "HQ10", "HQ10-20", "~HQ20", "HQ20-50",
+                          "HQ50", "HQ50-100", "HQ100", "HQ100-200", "HQ200",
+                          "HQ200-ex", "HQextr.")
+        } else {
+            # retrieve the data
+            # for the Elbe
+            wl_elbe <- names_df.flys(river = "Elbe")
+            
+            # for the Rhein
+            wl_rhein <- names_df.flys(river = "Rhein")
+        }
+    } else {
+        wl_elbe <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ",
+                     "c","2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5",
+                     "g", "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50",
+                     "HQ75", "HQ100", "i", "HQ150", "HQ200", "HQ300",
+                     "HQ500")
+        wl_rhein <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
+                      "Ud=120", "Ud=183", "MQ", "Ud=240","Ud=270", "Ud=310",
+                      "Ud=340", "Ud=356", "Ud=360", "MHQ", "HQ2", "HQ5",
+                      "HQ5-10", "HQ10", "HQ10-20", "~HQ20", "HQ20-50",
+                      "HQ50", "HQ50-100", "HQ100", "HQ100-200", "HQ200",
+                      "HQ200-ex", "HQextr.")
+    }
+    
+    c(paste0("@details Possible \\code{name}s of \\href{https://www.bafg.de/DE",
+             "/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3} water ",
+             "levels and ranges of \\code{from} and \\code{to} are river-speci",
+             "fic:"),
+      "", "\\strong{Elbe:}", "",
+      paste0("'", paste0(wl_elbe, collapse = "', '"), "'"),
+      "",
+      paste0("Possible range of \\code{from} and \\code{to}: type \\code{numer",
+             "ic} (km) 0 - 585.7, type \\code{integer} (m) 0 - 585700."),
+      "",
+      "\\strong{Rhein:}", "",
+      paste0("'", paste0(wl_rhein, collapse = "', '"), "'"),
+      "",
+      paste0("Possible range of \\code{from} and \\code{to}: type \\code{numer",
+             "ic} (km) 336.2 - 865.7, type \\code{integer} (m) 336200 - 865700",
+             "."),
+      "",
+      "Both lists of water levels are ordered from low to high water levels.")
+}
+
 #' @name waterLevelFlys3
 #' @rdname waterLevelFlys3
 #' @aliases waterLevelFlys3
 #' 
 #' @title Obtain 1D water level data from the FLYS3 database
 #' 
-#' @description Obtain 1D water level data from the FLYS3 database using either 
+#' @description Obtain 1D water level data from the
+#'   \href{https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3}
+#'   database using either 
 #'   a predefined \linkS4class{WaterLevelDataFrame} or \code{river}, \code{from} 
 #'   and \code{to} arguments that enable the internal construction of a 
 #'   \linkS4class{WaterLevelDataFrame}. The internally constructed 
@@ -12,51 +94,33 @@
 #'   between the given range of \code{from} and \code{to}.
 #' 
 #' @param wldf an object of class \linkS4class{WaterLevelDataFrame}.
-#' @param river a required argument to fill the \code{WaterLevelDataFrame}-slot
+#' @param river a required argument to fill the \linkS4class{WaterLevelDataFrame}-slot
 #'   \code{river}. It has to be type \code{character}, has to have a length of
 #'   one and can be either \strong{Elbe} or \strong{Rhein}.
-#' @param name a string with the name of a stationary FLYS3 water level. It has 
+#' @param name a string with the name of a stationary 
+#'   \href{https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3}
+#'   water level. It has 
 #'   to be type \code{character}, has to have a length of
 #'   one and has to be an element of the \code{river}-specific names specified 
 #'   in Details.
 #' @param from \code{numeric} or \code{integer} for the upstream station. It
 #'   has to have a length of one and has to be within the \code{river}-specific
 #'   possible station range specified in Details.
-#' @param to \code{numeric} or \code{integer} for the dowstream station. It
+#' @param to \code{numeric} or \code{integer} for the downstream station. It
 #'   has to have the same type as \code{from}, a length of one and has to be 
 #'   within the \code{river}-specific possible station range specified in 
 #'   Details.
 #' 
 #' @return An object of class \linkS4class{WaterLevelDataFrame}.
 #' 
-#' @details Possible \code{name}s of FLYS3 water levels and ranges of 
-#'   \code{from} and \code{to} are \code{river}-specific:
-#'   
-#'   \strong{Elbe:}
-#'    
-#'   \code{name}: "0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ", "c", 
-#'   "2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5", "g", "h", "HQ10", "HQ15",
-#'   "HQ20", "HQ25", "HQ50", "HQ75", "HQ100", "i", "HQ150", "HQ200", "HQ300", 
-#'   "HQ500"
-#'   
-#'   Possible range of \code{from} and \code{to}: type \code{numeric} (km) 0 
-#'   - 585.7, type \code{integer} (m) 0 - 585700
-#'   
-#'   \strong{Rhein:}
-#'   
-#'   \code{name}: "Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100", 
-#'   "Ud=120", "Ud=183", "MQ", "Ud=240","Ud=270", "Ud=310", "Ud=340", "Ud=356", 
-#'   "Ud=360", "MHQ", "HQ2", "HQ5", "HQ5-10", "HQ10", "HQ10-20", "~HQ20",
-#'   "HQ20-50", "HQ50", "HQ50-100", "HQ100", "HQ100-200", "HQ200", "HQ200-ex", 
-#'   "HQextr."
-#'   
-#'   Possible range of \code{from} and \code{to}: type \code{numeric} (km) 
-#'   336.2 - 865.7, type \code{integer} (m) 336200 - 865700.
-#'   
-#' @seealso \code{\link{plotShiny}}
+#' @eval details_waterLevelFlys3()
+#' 
+#' @seealso \code{\link{df.flys}}, \code{\link{plotShiny}}
 #' 
 #' @references
 #'   \insertRef{busch_einheitliche_2009}{hyd1d}
+#'   
+#'   \insertRef{hkv_hydrokontor_erstellung_2014}{hyd1d}
 #'   
 #'   \insertRef{bundesanstalt_fur_gewasserkunde_flys_2016}{hyd1d}
 #' 

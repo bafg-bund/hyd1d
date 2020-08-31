@@ -10,9 +10,11 @@
 #'   the computation process itself becomes visible.
 #' 
 #' @param wldf an object of class \linkS4class{WaterLevelDataFrame}.
-#' @param add_flys \code{logical} determining whether the used FLYS3
+#' @param add_flys \code{logical} determining whether the used 
+#'   \href{http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3}
 #'   water levels should be plotted.
-#' @param add_flys_labels \code{logical} determining whether the used FLYS3
+#' @param add_flys_labels \code{logical} determining whether the used 
+#'   \href{http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3}
 #'   water levels should be labelled.
 #' @param add_weighting \code{logical} determining whether the weighting of
 #'   gauging data at the gauging stations should be labelled.
@@ -20,6 +22,9 @@
 #'   \code{\link[graphics]{plot.default}}.
 #' 
 #' @return A plot of a \linkS4class{WaterLevelDataFrame}.
+#' 
+#' @references 
+#'   \insertRef{bundesanstalt_fur_gewasserkunde_flys_2016}{hyd1d}
 #' 
 #' @examples
 #' wldf <- WaterLevelDataFrame(river   = "Elbe",

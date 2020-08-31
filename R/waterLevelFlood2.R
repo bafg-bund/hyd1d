@@ -11,10 +11,11 @@
 #'   flood duration method Flood2 (Flut2) and stores it as column \code{w} of an
 #'   S4 object of type \linkS4class{WaterLevelDataFrame}. Flood2 is designed to
 #'   enable water level computation between gauging stations along waterways 
-#'   without reference water levels, provided for example by FLYS3. The function
-#'   uses neighboring gauging stations for linear interpolation of gauging 
-#'   station water levels along the selected river stretch. Here it is provided
-#'   mainly for historical reasons and more advanced functions like 
+#'   without reference water levels, provided for example by
+#'   \href{https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3}.
+#'   The function uses neighboring gauging stations for linear interpolation of
+#'   gauging station water levels along the selected river stretch. Here it is
+#'   provided mainly for historical reasons and more advanced functions like 
 #'   \code{\link{waterLevel}} or \code{\link{waterLevelPegelonline}} be used.
 #'   
 #' @param wldf an object of class \linkS4class{WaterLevelDataFrame}.

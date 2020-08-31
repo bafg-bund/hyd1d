@@ -1,12 +1,12 @@
 #' @name updateGaugingData
 #' @rdname updateGaugingData
 #'
-#' @title Update package internal gauging data
+#' @title Update local copy of \code{df.gauging data}
 #'
 #' @description Function to overwrite and update the internal dataset
 #'   \code{\link{df.gauging_data}}. This function is usually called during the
 #'   initial loading of the package. If \code{\link{df.gauging_data}} was
-#'   updated more than 1 day ago, an updated version of
+#'   updated more than 29 days ago, an updated version of
 #'   \code{\link{df.gauging_data}} will be downloaded and used.
 #'
 #' @param x date when \code{\link{df.gauging_data}} was updated the last time

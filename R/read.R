@@ -7,9 +7,9 @@
 #'
 #' @param river has to be type \code{character}, has to have a length of one and
 #'   can be either \strong{Elbe} or \strong{Rhein}.
-#' @param time has to be type \code{c("POSIXct", "POSIXt")}, has to have a
-#'   length of one and must be in the temporal range between \code{1990-01-01
-#'   00:00:00 CET} and now (\code{Sys.time()}).
+#' @param time has to be type \code{\link[base:POSIXct]{c("POSIXct", "POSIXt")}},
+#'   has to have a length of one and must be in the temporal range between
+#'   \code{1990-01-01 00:00:00 CET} and now (\code{Sys.time()}).
 #' @param from specifies the minimum station value and has to be either type
 #'   \code{numeric} or \code{integer} and has to have a length of one.
 #' @param to specifies the maximum station value and has to have the same type
@@ -489,9 +489,9 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
 #'   the file system of the BfG as \linkS4class{WaterLevelDataFrame}.
 #'
 #' @param file the name of the file which the JSON-formated data are to be read
-#'   from. If it does not contain an \emph{absolute path}, the file name is
+#'   from. If it does not contain an \emph{absolute} path, the file name is
 #'   \emph{relative} to the current working directory,
-#'   \code{link[utils]{getwd}()}. Tilde-expansion is performed where supported.
+#'   \code{\link[utils]{getwd}()}. Tilde-expansion is performed where supported.
 #'
 #'   Since precomputed waterlevel data stored in the file system of the BfG are
 #'   stored in certain directory and file structure
@@ -506,8 +506,8 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
 #'   \strong{Elbe} or \strong{Rhein}.
 #' @param time has to be supplied, if the imported \code{file} is stored outside
 #'   the standard directory structure so that \code{time} can't be extracted
-#'   from \code{file}. If supplied, it has to be type \code{c("POSIXct",
-#'   "POSIXt")}, has to have a length of one and has to be in the temporal range
+#'   from \code{file}. If supplied, it has to be type \code{\link[base:POSIXct]{c("POSIXct",
+#'   "POSIXt")}}, has to have a length of one and has to be in the temporal range
 #'   between \code{1990-01-01 00:00:00 CET} and now (\code{Sys.time()})
 #'
 #' @return an object of class \linkS4class{WaterLevelDataFrame}.
@@ -765,7 +765,7 @@ readWaterLevelJson <- function(file, river = NULL, time = NULL){
 #' @param file the name of the file which the integer-formated station values
 #'   are to be read from. If it does not contain an \emph{absolute} path, the
 #'   file name is \emph{relative} to the current working directory,
-#'   \code{link[utils]{getwd}()}. Tilde-expansion is performed where supported.
+#'   \code{\link[utils]{getwd}()}. Tilde-expansion is performed where supported.
 #'
 #'   Since \code{integer} station values stored in the file system of the BfG
 #'   are stored in certain directory and file structure
@@ -779,9 +779,9 @@ readWaterLevelJson <- function(file, river = NULL, time = NULL){
 #'   \strong{Elbe} or \strong{Rhein}.
 #' @param time can be supplied to set the \code{time} slot prior to waterlevel
 #'   computations and save one line of code. If supplied, it has to be type
-#'   \code{c("POSIXct", "POSIXt")}, has to have a length of one and has to be in
-#'   the temporal range between \code{1990-01-01 00:00:00 CET} and now
-#'   (\code{Sys.time()})
+#'   \code{\link[base:POSIXct]{c("POSIXct", "POSIXt")}}, has to have a length of
+#'   one and has to be in the temporal range between
+#'   \code{1990-01-01 00:00:00 CET} and now (\code{Sys.time()}).
 #'
 #' @return an object of class \linkS4class{WaterLevelDataFrame}.
 #'

@@ -8,13 +8,13 @@ NULL
 #' @title Coerce a WaterLevelDataFrame to a data.frame
 #' 
 #' @description  A function to coerce an object of class 
-#'   \linkS4class{WaterLevelDataFrame} to a \code{data.frame}.
+#'   \linkS4class{WaterLevelDataFrame} to a \code{\link[base]{data.frame}}.
 #' 
 #' @param x an object of class \linkS4class{WaterLevelDataFrame}.
 #' @param \dots additional arguments to be passed to the internally used
 #'   \code{\link[base]{as.data.frame}}-function.
 #' 
-#' @return \code{as.data.frame} returns a \code{data.frame}.
+#' @return \code{as.data.frame} returns a \code{\link[base]{data.frame}}.
 #' 
 #' @seealso \code{\linkS4class{WaterLevelDataFrame}}, 
 #'   \code{\link[base]{data.frame}}, \code{\link[base]{as.data.frame}}
@@ -70,11 +70,11 @@ as.data.frame.WaterLevelDataFrame <- function(x, ...) {
 #' @param x an object of class \linkS4class{WaterLevelDataFrame}.
 #' 
 #' @return The function above extracts the slot \code{gauging_stations} and
-#'   returns an object of class \code{data.frame}, which might contain
-#'   gauging station data which has been used for the interpolation of a
+#'   returns an object of class \code{\link[base]{data.frame}}, which might
+#'   contain gauging station data which has been used for the interpolation of a
 #'   water level for the specified date.
 #' 
-#' @seealso \code{\link{setGaugingStations<--method}}
+#' @seealso \code{\link[=setGaugingStations<-]{setGaugingStations<--method}}
 #' 
 #' @examples
 #' wldf <- WaterLevelDataFrame(river   = "Elbe",
@@ -117,7 +117,7 @@ methods::setMethod("getGaugingStations",
 #'   and returns an object of class \code{character}, which might contain a
 #'   vector with gauging stations without gauging data for the specified date.
 #'
-#' @seealso \code{\link{setGaugingStationsMissing<--method}}
+#' @seealso \code{\link[=setGaugingStationsMissing<-]{setGaugingStationsMissing<--method}}
 #'
 #' @examples
 #' wldf <- WaterLevelDataFrame(river   = "Elbe",
@@ -159,7 +159,7 @@ methods::setMethod("getGaugingStationsMissing",
 #' @return The function above extracts the slot \code{river}
 #'   and returns an object of class \code{character}.
 #' 
-#' @seealso \code{\link{setRiver<--method}}
+#' @seealso \code{\link[=setRiver<-]{setRiver<--method}}
 #' 
 #' @examples
 #' wldf <- WaterLevelDataFrame(river   = "Elbe",
@@ -197,9 +197,9 @@ methods::setMethod("getRiver",
 #' @param x an object of class \linkS4class{WaterLevelDataFrame}.
 #' 
 #' @return The function above extracts the slot \code{time} and returns an
-#'   object of type \code{c("POSIXct", "POSIXt")}.
+#'   object of type \code{\link[base:POSIXct]{c("POSIXct", "POSIXt")}}.
 #' 
-#' @seealso \code{\link{setTime<--method}}
+#' @seealso \code{\link[=setTime<-]{setTime<--method}}
 #' 
 #' @examples
 #' wldf <- WaterLevelDataFrame(river   = "Elbe",
@@ -230,7 +230,7 @@ methods::setMethod("getTime",
 #' @name names<-,WaterLevelDataFrame,character-method
 #' @rdname names
 #' @aliases names<-,WaterLevelDataFrame,character-method
-#' @title The Names of an Object
+#' @title Set names of a WaterLevelDataFrame
 #' 
 #' @description Function to get or set the column names of an object of class
 #'   \linkS4class{WaterLevelDataFrame}.
@@ -535,28 +535,28 @@ rbind.WaterLevelDataFrame <- function(...) {
 #'   of class \linkS4class{WaterLevelDataFrame}.
 #' 
 #' @param x an object of class \linkS4class{WaterLevelDataFrame}.
-#' @param value a new value of class \code{data.frame} for the
-#'   \code{gauging_stations} slot. \code{value} has to be a \code{data.frame}
-#'   with the following columns and column types: "id" (\code{integer}),
-#'   "gauging_station" (\code{character}), "uuid" (\code{character}), "km"
-#'   (\code{numeric}), "km_qps" (\code{numeric}), "water_shortname"
-#'   (\code{character}), "longitude" (\code{numeric}), "latitude"
-#'   (\code{numeric}), "mw" (\code{numeric}), "pnp" (\code{numeric}), "w"
-#'   (\code{numeric}), "wl" (\code{numeric}), "n_wls_below_w_do"
-#'   (\code{integer}), "n_wls_above_w_do" (\code{integer}),
-#'   "n_wls_below_w_up" (\code{integer}), "n_wls_above_w_up"
-#'   (\code{integer}), "name_wl_below_w_do" (\code{character}),
-#'   "name_wl_above_w_do" (\code{character}), "name_wl_below_w_up"
-#'   (\code{character}), "name_wl_above_w_up" (\code{character}),
-#'   "w_wl_below_w_do" (\code{numeric}), "w_wl_above_w_do" (\code{numeric}),
-#'   "w_wl_below_w_up" (\code{numeric}), "w_wl_above_w_up" (\code{numeric}),
-#'   "weight_up" (\code{numeric}), "weight_do" (\code{numeric}).
+#' @param value a new value of class \code{\link[base]{data.frame}} for the
+#'   \code{gauging_stations} slot. \code{value} has to be a 
+#'   \code{\link[base]{data.frame}} with the following columns and column types:
+#'   id (\code{integer}), gauging_station (\code{character}),
+#'   uuid (\code{character}), km (\code{numeric}), km_qps (\code{numeric}),
+#'   water_shortname (\code{character}), longitude (\code{numeric}), latitude
+#'   (\code{numeric}), mw (\code{numeric}), pnp (\code{numeric}), w
+#'   (\code{numeric}), wl (\code{numeric}), n_wls_below_w_do (\code{integer}),
+#'   n_wls_above_w_do (\code{integer}), n_wls_below_w_up (\code{integer}),
+#'   n_wls_above_w_up (\code{integer}), name_wl_below_w_do (\code{character}),
+#'   name_wl_above_w_do (\code{character}), name_wl_below_w_up
+#'   (\code{character}), name_wl_above_w_up (\code{character}),
+#'   w_wl_below_w_do (\code{numeric}), w_wl_above_w_do (\code{numeric}),
+#'   w_wl_below_w_up (\code{numeric}), w_wl_above_w_up (\code{numeric}),
+#'   weight_up (\code{numeric}), weight_do (\code{numeric}).
 #' 
-#' @return The function above sets a new \code{value} for the slot
+#' @return The function sets a new \code{value} for the slot
 #'   \code{gauging_stations} and returns an object of class
 #'   \linkS4class{WaterLevelDataFrame}. Since \code{value} is normally generated
-#'   inside the functions \link{waterLevel} or \link{waterLevelPegelonline} this
-#'   function is of very little use outside of these functions.
+#'   inside the functions \code{\link{waterLevel}} or
+#'   \code{\link{waterLevelPegelonline}} this function is of very little use
+#'   outside of these functions.
 #' 
 #' @seealso \code{\link{getGaugingStations-method}}
 #' 
@@ -740,9 +740,9 @@ methods::setMethod("setGaugingStationsMissing<-",
 #' @return The function above sets a new \code{value} for the slot \code{river}
 #'   and returns an object of class \linkS4class{WaterLevelDataFrame}. Since
 #'   \code{river} is a slot relevant for the computation of the
-#'   \code{data.frame} column \code{w}, \code{w} is set to \code{NA} and needs
-#'   to be recomputed by functions like \link{waterLevel} or
-#'   \link{waterLevelPegelonline}.
+#'   \code{\link[base]{data.frame}} column \code{w}, \code{w} is set to
+#'   \code{NA} and needs to be recomputed by functions like
+#'   \code{\link{waterLevel}} or \code{\link{waterLevelPegelonline}}.
 #' 
 #' @seealso \code{\link{getRiver-method}}
 #' 
@@ -791,24 +791,24 @@ methods::setMethod("setRiver<-",
 
 #' @name setTime<-
 #' @rdname setTime
-#' @aliases setTime<-,WaterLevelDataFrame,POSIXct-method
+#' @aliases setTime<-,WaterLevelDataFrame,ANY-method
 #' @title Set a WaterLevelDataFrame's slot time
 #' 
 #' @description A function to set the slot \code{time} of an object of class
 #'   \linkS4class{WaterLevelDataFrame}.
 #' 
 #' @param x an object of class \linkS4class{WaterLevelDataFrame}.
-#' @param value a new value of class \code{c("POSIXct", "POSIXt")} for the
-#'   \code{time} slot. \code{value} has to have a length of one and has to be in
-#'   the temporal range between \code{1990-01-01 00:00:00 CET} and now
-#'   (\code{Sys.time()}) or \code{as.POSIXct(NA)}.
+#' @param value a new value of class \code{\link[base:POSIXct]{c("POSIXct", "POSIXt")}}
+#'   for the \code{time} slot. \code{value} has to have a length of one and has
+#'   to be in the temporal range between \code{1990-01-01 00:00:00 CET} and now
+#'   (\code{Sys.time()} or \code{NA}.
 #' 
 #' @return The function above sets a new \code{value} for the slot \code{time} 
 #'   and returns an object of class \linkS4class{WaterLevelDataFrame}. Since
 #'   \code{time} is a slot relevant for the computation of the
-#'   \code{data.frame} column \code{w}, \code{w} is set to \code{NA} and needs
-#'   to be recomputed by functions like \link{waterLevel} or
-#'   \link{waterLevelPegelonline}.
+#'   \code{\link[base]{data.frame}} column \code{w}, \code{w} is set to
+#'   \code{NA} and needs to be recomputed by functions like
+#'   \code{\link{waterLevel}} or \code{\link{waterLevelPegelonline}}.
 #' 
 #' @seealso \code{\link{getTime-method}}
 #' 
@@ -824,35 +824,34 @@ methods::setGeneric("setTime<-", function(x, value) {
     standardGeneric("setTime<-")
 })
 
-
-#' @name setTime<--method
-#' @rdname setTime
-#' @aliases setTime<-,WaterLevelDataFrame,POSIXct-method
-methods::setMethod("setTime<-",
-                   methods::signature(x = "WaterLevelDataFrame", 
-                                      value = "POSIXct"),
-                   function(x, value) {
-    
+.setTime <- function(x, value) {
     # check basic requirements
     if (class(x) != "WaterLevelDataFrame") {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
-    if (!(all(class(value) == c("POSIXct", "POSIXt")))) {
-        stop("'value' must be type c('POSIXct', 'POSIXt').")
+    if (! class(value)[1] %in% c("POSIXct", "POSIXlt", "Date")) {
+        stop("'value' must be type c('POSIXct', 'POSIXlt') or 'Date'.")
     }
     if (length(value) != 1L) {
         stop("'value' must have a length equal 1.")
     }
     if (!(is.na(value))) {
-        if (value < as.POSIXct("1990-01-01 00:00:00 CET") |
-            value > Sys.time()) {
-            stop(paste0("'time' must be between 1990-01-01 00:00:00 and now ",
-                        "or NA."))
+        if (class(value)[1] %in% c("POSIXct", "POSIXlt")) {
+            if (value < as.POSIXct("1990-01-01 00:00:00 CET") |
+                value > Sys.time()) {
+                stop(paste0("'time' must be between 1990-01-01 00:00:00 and no",
+                            "w or NA."))
+            }
+        } else {
+            if (value < as.Date("1990-01-01") |
+                value > Sys.Date()) {
+                stop("'time' must be between 1990-01-01 and now or NA.")
+            }
         }
     }
     
     # set the value
-    x@time <- value
+    x@time <- as.POSIXct(value)
     
     # reset w
     x$w <- as.numeric(rep(NA, nrow(x)))
@@ -861,9 +860,31 @@ methods::setMethod("setTime<-",
     if(methods::validObject(x)) {
         return(x)
     }
-    
-})
+}
 
+#' @name setTime<--method
+#' @rdname setTime
+#' @aliases setTime<-,WaterLevelDataFrame,POSIXct-method
+methods::setMethod("setTime<-",
+                   methods::signature(x = "WaterLevelDataFrame", 
+                                      value = "POSIXct"),
+                   function(x, value) {.setTime(x, value)})
+
+#' @name setTime<--method
+#' @rdname setTime
+#' @aliases setTime<-,WaterLevelDataFrame,POSIXlt-method
+methods::setMethod("setTime<-",
+                   methods::signature(x = "WaterLevelDataFrame", 
+                                      value = "POSIXlt"),
+                   function(x, value) {.setTime(x, value)})
+
+#' @name setTime<--method
+#' @rdname setTime
+#' @aliases setTime<-,WaterLevelDataFrame,Date-method
+methods::setMethod("setTime<-",
+                   methods::signature(x = "WaterLevelDataFrame", 
+                                      value = "Date"),
+                   function(x, value) {.setTime(x, value)})
 
 #' @name subset.WaterLevelDataFrame
 #' @rdname subset.WaterLevelDataFrame
@@ -871,10 +892,10 @@ methods::setMethod("setTime<-",
 #'
 #' @title Subsetting WaterLevelDataFrames
 #'
-#' @description Returns subsets of \code{WaterLevelDataFrame}s which meet
+#' @description Returns subsets of \linkS4class{WaterLevelDataFrame}s which meet
 #'   conditions.
 #'
-#' @param x object of class \code{WaterLevelDataFrame}.
+#' @param x object of class \linkS4class{WaterLevelDataFrame}.
 #' @param subset logical expression indicating elements or rows to keep: missing
 #'   values are taken as false.
 #' @param select expression, indicating columns to select from a data frame.
@@ -882,7 +903,7 @@ methods::setMethod("setTime<-",
 #' @param \dots further arguments to be passed to or from other methods.
 #'
 #' @return An object similar to x, containing just the selected rows and
-#'   columns. All other slots of the \code{WaterLevelDataFrame} remain 
+#'   columns. All other slots of the \linkS4class{WaterLevelDataFrame} remain 
 #'   unchanged.
 #' 
 #' @seealso \code{\link[base]{subset}}
@@ -943,7 +964,7 @@ subset.WaterLevelDataFrame <- function(x, subset, select, drop = FALSE, ...) {
 #' @title WaterLevelDataFrame summary
 #' 
 #' @description Returns a list of descriptive statistics for an object of class 
-#'   \code{WaterLevelDataFrame}.
+#'   \linkS4class{WaterLevelDataFrame}.
 #' 
 #' @param object an object of class \linkS4class{WaterLevelDataFrame} for which
 #'   a summary is desired.
@@ -1048,13 +1069,13 @@ summary.WaterLevelDataFrame <- function(object, ...) {
 
 #' @name [.WaterLevelDataFrame
 #' @rdname extract.WaterLevelDataFrame
-#' @aliases [,WaterLevelDataFrame-method [,WaterLevelDataFrame,ANY,ANY-method [,WaterLevelDataFrame,ANY,ANY,ANY-method
+#' @aliases [,WaterLevelDataFrame-method [,WaterLevelDataFrame,ANY,ANY-method
 #' 
-#' @title Extract or Replace Parts of a WaterLevelDataFrame
+#' @title Extract or replace parts of a WaterLevelDataFrame
 #' 
 #' @description Extract or replace subsets of the \code{.Data} slot of an object
 #'   of class \linkS4class{WaterLevelDataFrame}.
-#' 
+#' @method [ WaterLevelDataFrame
 #' @param x object of class \linkS4class{WaterLevelDataFrame}.
 #' @param i,j elements to extract or replace. For \code{[}, these are 
 #'   \code{numeric} or \code{character} or empty. Numeric values are coerced to 
@@ -1065,12 +1086,12 @@ summary.WaterLevelDataFrame <- function(object, ...) {
 #'   \code{NULL}, deletes the column if a single column is selected.
 #' 
 #' @return A new object of class \linkS4class{WaterLevelDataFrame} is returned. 
-#'   Since the extraction or replacement acts only on the .Data-slot of the 
-#'   object, all other slots remain unchanged.
+#'   Since the extraction or replacement acts only on the \code{.Data}-slot of 
+#'   the object, all other slots remain unchanged.
 #' 
-#' @details For details see \code{\link[base:Extract.data.frame]{[.data.frame}}.
+#' @details For details see \code{\link[base:[.data.frame]{[.data.frame}}.
 #' 
-#' @seealso \code{\link[base:Extract.data.frame]{[.data.frame}}
+#' @seealso \code{\link[base:[.data.frame]{[.data.frame}}
 #' 
 #' @examples
 #' wldf <- WaterLevelDataFrame(river   = "Elbe",
@@ -1081,7 +1102,8 @@ summary.WaterLevelDataFrame <- function(object, ...) {
 #' @exportMethod [
 #' 
 methods::setMethod("[", 
-                   methods::signature(x = "WaterLevelDataFrame"),
+                   methods::signature(x = "WaterLevelDataFrame",
+                                      i = "ANY", j = "ANY"),
                    function(x, i, j) {
                    # methods::initialize(x, 
                    #                     .Data = as.data.frame(x)[i, j],
@@ -1104,11 +1126,14 @@ methods::setMethod("[",
 })
 
 
-#' @name [<-.WaterLevelDataFrame-method
+#' @name [<-.WaterLevelDataFrame
 #' @rdname extract.WaterLevelDataFrame
-#' @aliases [<-,WaterLevelDataFrame,ANY,ANY,data.frame-method
+#' @aliases [<-,WaterLevelDataFrame-method [<-,WaterLevelDataFrame,ANY,ANY,data.frame-method
+#' @method [<- WaterLevelDataFrame
+#' @exportMethod [<-
 methods::setReplaceMethod("[",
-                 methods::signature(x = "WaterLevelDataFrame", 
+                 methods::signature(x = "WaterLevelDataFrame",
+                                    i = "ANY", j = "ANY",
                                     value = "data.frame"),
                  function(x, i, j, value) {
                      wldf_data <- as.data.frame(x)
