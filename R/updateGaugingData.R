@@ -59,7 +59,7 @@ updateGaugingData <- function(x){
         
         # download the df.gauging_data.RDS
         dir.create(paste0(path.expand('~'), "/.hyd1d"), FALSE, TRUE, "0777")
-        utils::download.file(url, file_data, quiet = TRUE)
+        utils::download.file(url, file_data, quiet = TRUE, method = "curl")
         
         # store todays date
         date_gauging_data <- Sys.Date()
