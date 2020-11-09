@@ -59,7 +59,11 @@ test_that("waterLevelFlood1: Dessau", {
                                 time    = as.POSIXct("2016-12-21"),
                                 station = seq(257, 262, 0.1))
     wldf1 <- waterLevelFlood1(wldf, "ROSSLAU")
+    wldf1.1 <- waterLevelFlood1(wldf,
+                                uuid = "e97116a4-7d30-4671-8ba1-cdce0a153d1d")
     wldf2 <- waterLevelFlood1(wldf, "DESSAU")
+    wldf2.1 <- waterLevelFlood1(wldf,
+                                uuid = "1edc5fa4-88af-47f5-95a4-0e77a06fe8b1")
     
     expect_equal(wldf1$station, wldf2$station)
     expect_equal(wldf1$station_int, wldf2$station_int)
