@@ -491,7 +491,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
 #' @param file the name of the file which the JSON-formated data are to be read
 #'   from. If it does not contain an \emph{absolute} path, the file name is
 #'   \emph{relative} to the current working directory,
-#'   \code{\link[utils]{getwd}()}. Tilde-expansion is performed where supported.
+#'   \code{\link[base]{getwd}()}. Tilde-expansion is performed where supported.
 #'
 #'   Since precomputed waterlevel data stored in the file system of the BfG are
 #'   stored in certain directory and file structure
@@ -765,7 +765,7 @@ readWaterLevelJson <- function(file, river = NULL, time = NULL){
 #' @param file the name of the file which the integer-formated station values
 #'   are to be read from. If it does not contain an \emph{absolute} path, the
 #'   file name is \emph{relative} to the current working directory,
-#'   \code{\link[utils]{getwd}()}. Tilde-expansion is performed where supported.
+#'   \code{\link[base]{getwd}()}. Tilde-expansion is performed where supported.
 #'
 #'   Since \code{integer} station values stored in the file system of the BfG
 #'   are stored in certain directory and file structure
