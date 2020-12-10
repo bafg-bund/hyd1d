@@ -17,6 +17,9 @@ output:
     includes:
       in_header: latex/header.tex
       before_body: latex/before_body.tex
+    pandoc_args: [
+            "--biblatex"
+        ]
   html_vignette:
     toc: yes
     toc_depth: 3
