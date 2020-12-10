@@ -31,6 +31,11 @@ param_gauging_station <- function() {
             "
         
         gauging_stations <- DBI::dbGetQuery(con, query_string)$gauging_station
+		
+		# close DB connection
+		DBI::dbDisconnect(con)
+		rm(con)
+		
     } else {
         gauging_stations <- c('SCH<c3><96>NA', 'PIRNA', 'DRESDEN', 'MEISSEN',
             'RIESA', 'M<c3><9c>HLBERG', 'TORGAU', 'PRETZSCH-MAUKEN', 'ELSTER',
@@ -87,6 +92,11 @@ param_uuid <- function() {
             "
         
         uuids <- DBI::dbGetQuery(con, query_string)$uuid
+		
+		# close DB connection
+		DBI::dbDisconnect(con)
+		rm(con)
+		
     } else {
         uuids <- c('7cb7461b-3530-4c01-8978-7f676b8f71ed',
                    '85d686f1-55b2-4d36-8dba-3207b50901a7',
