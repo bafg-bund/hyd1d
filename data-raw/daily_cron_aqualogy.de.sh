@@ -1,7 +1,7 @@
 #!/bin/bash
 # use R $R_VERSION from the i4 module environment
 source /etc/profile.d/modules.sh
-module add i4/applications/R-OS
+module add R/OS
 
 # download present package repository
 cd $hyd1d
