@@ -425,9 +425,6 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
         
         # replace byte encoded letters
         columns <- c("name", "gs_upper", "gs_lower")
-        for (a in columns){
-            df.sections[, a] <- asc2utf8(df.sections[, a])
-        }
         
         #####
         # import the data

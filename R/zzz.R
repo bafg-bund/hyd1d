@@ -4,7 +4,6 @@
     utils::data("df.flys", "df.flys_sections", "df.gauging_station_data", 
                 "df.sections", "df.gauging_data", package = pkgname, 
                 envir = parent.env(environment()))
-    df.gauging_data$gauging_station <- asc2utf8(df.gauging_data$gauging_station)
     
     # set relevant DB variables
     if (utils::compareVersion(as.character(getRversion()), "3.5.0") < 0) {
@@ -56,9 +55,6 @@
     
     # load df.gauging_data into .GlobalEnv
     .GlobalEnv$.df.gauging_data <- readRDS(file_data)
-    .GlobalEnv$.df.gauging_data$gauging_station <- asc2utf8(
-        .GlobalEnv$.df.gauging_data$gauging_station
-    )
     if (exists("df.gauging_data", envir = .GlobalEnv)) {
         rm(df.gauging_data, envir = .GlobalEnv)
     }

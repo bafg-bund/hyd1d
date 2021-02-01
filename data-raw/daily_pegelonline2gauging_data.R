@@ -31,9 +31,10 @@ postgresqlpqExec(con, "SET client_encoding = 'UTF-8'")
 
 ###
 # get the rivers and gauging_stations to download data from
-df.gs <- dbGetQuery(con, paste0("SELECT gauging_station, water_longname, pnp, ",
-                                "data_present_timespan FROM public.gauging_sta",
-                                "tion_data WHERE data_present IS TRUE"))
+df.gs <- dbGetQuery(con, paste0("SELECT gauging_station, gauging_station_short",
+                                "name, water_longname, pnp, data_present_times",
+                                "pan FROM public.gauging_station_data WHERE da",
+                                "ta_present IS TRUE"))
 
 ###
 # produce a vector of dates to be downloaded
@@ -46,6 +47,21 @@ req_dates <- as.character(seq(Sys.Date() - days_back, Sys.Date() - 1,
 # process the data
 i <- 1
 for(a_gs in df.gs$gauging_station) {
+    
+    b_gs <- df.gs$gauging_station_shortname[i]
+    c_gs <- gsub(" ", "+",
+                 gsub("Ä", "%C4",
+                      gsub("Ö", "%D6",
+                           gsub("Ü", "%DC", b_gs))))
+    d_gs <- simpleCap(b_gs)
+    e_gs <- gsub(" ", "+",
+                 gsub("Ä", "%C4",
+                      gsub("Ö", "%D6",
+                           gsub("Ü", "%DC",
+                                gsub("ä", "%E4",
+                                     gsub("ö", "%F6",
+                                          gsub("ü", "%FC",
+                                               d_gs)))))))
     
     # obtain the present range of available data for a_gs
     date_range_present <- as.Date(unlist(strsplit(
@@ -81,12 +97,8 @@ for(a_gs in df.gs$gauging_station) {
         
         #####
         # assemble the regular url
-        b_gs <- gsub(" ", "+",
-                     gsub("Ä", "%C4",
-                          gsub("Ö", "%D6",
-                               gsub("Ü", "%DC", a_gs))))
         url <- paste0("http://www.pegelonline.wsv.de/webservices/files/Wassers",
-                      "tand+Rohdaten/", df.gs$water_longname[i], "/", b_gs, "/",
+                      "tand+Rohdaten/", df.gs$water_longname[i], "/", c_gs, "/",
                       strftime(a_date, format="%d.%m.%Y"), "/down.csv")
         
         # first check of the regular url
@@ -94,19 +106,9 @@ for(a_gs in df.gs$gauging_station) {
             
         #####
         # assemble the url with umlaut replacements
-            c_gs <- simpleCap(a_gs)
-            d_gs <- gsub(" ", "+",
-                         gsub("Ä", "%C4",
-                              gsub("Ö", "%D6",
-                                   gsub("Ü", "%DC",
-                                        gsub("ä", "%E4",
-                                             gsub("ö", "%F6",
-                                                  gsub("ü", "%FC",
-                                                       c_gs)))))))
-            
             url <- paste0("http://www.pegelonline.wsv.de/webservices/files/Was",
                           "serstand+Rohdaten/", df.gs$water_longname[i], "/",
-                          d_gs, "/", strftime(a_date, format="%d.%m.%Y"),
+                          e_gs, "/", strftime(a_date, format="%d.%m.%Y"),
                           "/down.csv")
             
         # second check of the url

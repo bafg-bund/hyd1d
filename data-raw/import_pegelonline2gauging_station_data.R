@@ -29,13 +29,12 @@ con <- DBI::dbConnect(drv      = DBI::dbDriver("PostgreSQL"),
 
 # function to treat special letters in url's
 stringReplace <- function(x) {
-    x <- gsub(" ", "%20", x)
-    x <- gsub("Ä", "%C3%84", x)
-    x <- gsub("ä", "%C3%A4", x)
-    x <- gsub("Ö", "%C3%96", x)
-    x <- gsub("ö", "%C3%B6", x)
-    x <- gsub("Ü", "%C3%9C", x)
-    x <- gsub("ü", "%C3%BC", x)
+    x <- gsub("Ä", "AE", x)
+    x <- gsub("ä", "ae", x)
+    x <- gsub("Ö", "OE", x)
+    x <- gsub("ö", "oe", x)
+    x <- gsub("Ü", "UE", x)
+    x <- gsub("ü", "ue", x)
     return(x)
 }
 
@@ -95,8 +94,8 @@ for (i in 1:nrow(df.stations)) {
     
     # check existence of a record
     gs <- dbGetQuery(con, paste0("SELECT * FROM gauging_station_data WHERE gau",
-                                 "ging_station = \'", df.stations$shortname[i],
-                                 "\'"))
+                                 "ging_station = \'", 
+                                 umlReplace(df.stations$shortname[i]), "\'"))
     
     if (nrow(gs) == 0) {
         # INSERT
@@ -110,7 +109,8 @@ for (i in 1:nrow(df.stations)) {
                        "n_longname, longitude, latitude, mw, mw_timespan, pnp,",
                        " data_present, data_present_timespan, km_qpf, km_qps) ",
                        "VALUES (DEFAULT, \'",
-                       toupper(df.stations$longname[i]), "\', NULL, NULL, NULL",
+                       stringReplace(toupper(df.stations$longname[i])),
+                       "\', NULL, NULL, NULL",
                        ", ", df.stations$km[i], ", \'WESER\', \'WESER\', \'",
                        toupper(df.stations$shortname[i]), "\', \'",
                        toupper(df.stations$longname[i]), "\', NULL, NULL, NULL",
@@ -154,9 +154,9 @@ for (i in 1:nrow(df.stations)) {
                        "n_longname, longitude, latitude, mw, mw_timespan, pnp,",
                        " data_present, data_present_timespan, km_qpf, km_qps) ",
                        "VALUES (DEFAULT, \'",
-                       toupper(df.stations$longname[i]), "\', \'",
-                       df.stations$uuid[i], "\', \'",
-                       toupper(df.stations$agency[i]), "\', \'",
+                       stringReplace(toupper(df.stations$longname[i])),
+                       "\', \'", df.stations$uuid[i], "\', \'",
+                       stringReplace(toupper(df.stations$agency[i])), "\', \'",
                        df.stations$number[i], "\', ",
                        df.stations$km[i], ", \'",
                        toupper(df.stations$water.shortname[i]), "\', \'",
@@ -199,7 +199,7 @@ for (i in 1:nrow(df.stations)) {
                        "km_qpf = ", df.stations$km[i], ", ",
                        "km_qps = ", df.stations$km[i],
                        " WHERE gauging_station = \'",
-                           toupper(df.stations$longname[i]), "\'"))
+                       stringReplace(toupper(df.stations$longname[i])), "\'"))
         } else {
             write("  UPDATE DATA", stdout())
             
@@ -234,7 +234,8 @@ for (i in 1:nrow(df.stations)) {
             dbSendQuery(con,
                 paste0("UPDATE public.gauging_station_data SET ", 
                        "uuid = \'", df.stations$uuid[i], "\', ",
-                       "agency = \'", toupper(df.stations$agency[i]), "\', ",
+                       "agency = \'",
+                       stringReplace(toupper(df.stations$agency[i])), "\', ",
                        "number = \'", df.stations$number[i], "\', ",
                        "km = ", df.stations$km[i], ", ",
                        "water_shortname = \'WESER\', ",
@@ -251,7 +252,7 @@ for (i in 1:nrow(df.stations)) {
                        "km_qpf = ", df.stations$km[i], ", ",
                        "km_qps = ", df.stations$km[i],
                        " WHERE gauging_station = \'",
-                           toupper(df.stations$longname[i]), "\'"))
+                       stringReplace(toupper(df.stations$longname[i])), "\'"))
         }
     }
 }

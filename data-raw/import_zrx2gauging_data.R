@@ -38,13 +38,25 @@ gauging_stations <- dbGetQuery(con, paste0("SELECT gauging_station FROM public",
                                            ".gauging_station_data WHERE data_p",
                                            "resent"))$gauging_station
 
+# function to treat special letters in files
+stringReplace <- function(x) {
+    x <- gsub(" ", "%20", x)
+    x <- gsub("Ä", "AE", x)
+    x <- gsub("ä", "ae", x)
+    x <- gsub("Ö", "OE", x)
+    x <- gsub("ö", "oe", x)
+    x <- gsub("Ü", "UE", x)
+    x <- gsub("ü", "ue", x)
+    return(x)
+}
+
 # loop through the *.zrx-files
 for(a_file in files){
     
     # get gauging_station name from file name
     path_components <- unlist(strsplit(a_file, "/"))
     gs <- path_components[length(path_components)]
-    gauging_station <- toupper(substr(gs, 1, nchar(gs) - 6))
+    gauging_station <- stringReplace(toupper(substr(gs, 1, nchar(gs) - 6)))
     if (gauging_station %in% gauging_stations) {
         write(gauging_station, stdout())
         
