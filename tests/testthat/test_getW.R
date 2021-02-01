@@ -22,7 +22,7 @@ test_that("getGaugingDataW", {
                  fixed = TRUE)
     expect_error(getGaugingDataW(gauging_station = "Dessau",
                                  time = times), 
-                 "'gauging_station' must be an element of c('SCHÖNA'", 
+                 "'gauging_station' must be an element of c('SCHOENA'", 
                  fixed = TRUE)
     expect_error(getGaugingDataW(uuid = "Dessau",
                                  time = times), 
@@ -38,7 +38,7 @@ test_that("getGaugingDataW", {
                                  time = as.Date("2016-12-21")), 165)
     
     # test for Umlaut in gauging_station
-    expect_equal(getGaugingDataW("SCHÖNA", as.Date("2016-12-21")), 125)
+    expect_equal(getGaugingDataW("SCHOENA", as.Date("2016-12-21")), 125)
 })
 
 
@@ -60,7 +60,7 @@ test_that("getPegelonlineW", {
                  fixed = TRUE)
     expect_error(getPegelonlineW(gauging_station = "Dessau",
                                  time = times), 
-                 "'gauging_station' must be an element of c('SCHÖNA'", 
+                 "'gauging_station' must be an element of c('SCHOENA'", 
                  fixed = TRUE)
     expect_error(getPegelonlineW(uuid = "Dessau",
                                  time = times), 
@@ -80,7 +80,7 @@ test_that("getPegelonlineW", {
                  "which is today or in the future and thereby out")
     
     # test for Umlaut in gauging_station
-    expect_equal(is.na(getPegelonlineW("SCHÖNA", Sys.Date() - 10)), FALSE)
+    expect_equal(is.na(getPegelonlineW("SCHOENA", Sys.Date() - 10)), FALSE)
     
 })
 

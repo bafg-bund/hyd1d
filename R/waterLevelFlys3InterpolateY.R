@@ -89,7 +89,7 @@ waterLevelFlys3InterpolateY <- function(wldf, gauging_station, w, uuid,
         id <- which(df.gauging_station_data$data_present & 
                         df.gauging_station_data$river == RIVER)
         df.gauging_station_data_sel <- df.gauging_station_data[id, ]
-        gs <- asc2utf8(df.gauging_station_data_sel$gauging_station)
+        gs <- df.gauging_station_data_sel$gauging_station
         uuids <- df.gauging_station_data_sel$uuid
         
         if (missing(gauging_station) & missing(uuid)) {
@@ -476,7 +476,6 @@ referenceGaugingStations <- function(wldf){
         which(df.flys_sections$river == RIVER &
              df.flys_sections$to >= start_f &
              df.flys_sections$from <= end_f)]
-    gauging_stations <- asc2utf8(gauging_stations)
     
     return(gauging_stations)
 }
