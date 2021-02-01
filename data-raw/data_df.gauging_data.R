@@ -20,11 +20,6 @@ if (!(file.exists("data/df.gauging_data.rda"))) {
                            "n, date")
     df.gauging_data <- DBI::dbGetQuery(gd_con, query_string)
     
-    # replace non-ASCII characters
-    df.gauging_data$gauging_station <- iconv(df.gauging_data$gauging_station,
-                                             from = "UTF-8", to = "ASCII", 
-                                             sub = "byte")
-    
     # store df.gauging_data as external dataset
     usethis::use_data(df.gauging_data, overwrite = TRUE, compress = "bzip2")
     

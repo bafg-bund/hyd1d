@@ -114,8 +114,8 @@ test_that("gauging_stations_missing", {
     expect_equal(getGaugingStationsMissing(wldf), c("up: GORLEBEN",
                                                     "up: LENZEN",
                                                     "up: SCHNACKENBURG",
-                                                    "up: MÜGGENDORF",
-                                                    "in: DÖMITZ"))
+                                                    "up: MUEGGENDORF",
+                                                    "in: DOEMITZ"))
     expect_error(setGaugingStationsMissing(wldf) <- NA,
                  "unable to find an inherited method for function",
                  fixed = TRUE)

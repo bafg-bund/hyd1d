@@ -56,7 +56,7 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
     #  get the names of all available gauging_stations
     get("df.gauging_station_data", pos = -1)
     id <- which(df.gauging_station_data$data_present)
-    gs <- asc2utf8(df.gauging_station_data$gauging_station[id])
+    gs <- df.gauging_station_data$gauging_station[id]
     uuids <- df.gauging_station_data$uuid[id]
         
     # gauging_station &| uuid

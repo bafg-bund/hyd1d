@@ -21,13 +21,6 @@ if (!(file.exists("data/df.gauging_station_data.rda"))) {
     df.gauging_station_data$river <- df.gauging_station_data$water_shortname
     df.gauging_station_data$water_shortname <- NULL
     
-    # replace non-ASCII characters
-    for (a in c("gauging_station", "river")){
-        df.gauging_station_data[, a] <- iconv(df.gauging_station_data[, a],
-                                              from = "UTF-8", to = "ASCII",
-                                              sub = "byte")
-    }
-    
     # store df.gauging_station_data as external dataset
     usethis::use_data(df.gauging_station_data, overwrite = TRUE,
                       compress = "bzip2")
