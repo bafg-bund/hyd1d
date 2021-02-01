@@ -31,11 +31,11 @@ param_gauging_station <- function() {
             "
         
         gauging_stations <- DBI::dbGetQuery(con, query_string)$gauging_station
-		
-		# close DB connection
-		DBI::dbDisconnect(con)
-		rm(con)
-		
+        
+        # close DB connection
+        DBI::dbDisconnect(con)
+        rm(con)
+        
     } else {
         gauging_stations <- c('SCH<c3><96>NA', 'PIRNA', 'DRESDEN', 'MEISSEN',
             'RIESA', 'M<c3><9c>HLBERG', 'TORGAU', 'PRETZSCH-MAUKEN', 'ELSTER',
@@ -92,11 +92,11 @@ param_uuid <- function() {
             "
         
         uuids <- DBI::dbGetQuery(con, query_string)$uuid
-		
-		# close DB connection
-		DBI::dbDisconnect(con)
-		rm(con)
-		
+        
+        # close DB connection
+        DBI::dbDisconnect(con)
+        rm(con)
+        
     } else {
         uuids <- c('7cb7461b-3530-4c01-8978-7f676b8f71ed',
                    '85d686f1-55b2-4d36-8dba-3207b50901a7',
@@ -206,7 +206,7 @@ getGaugingDataW <- function(gauging_station, time, uuid) {
     #  get the names of all available gauging_stations
     get("df.gauging_station_data", pos = -1)
     id <- which(df.gauging_station_data$data_present)
-    gs <- asc2utf8(df.gauging_station_data$gauging_station[id])
+    gs <- df.gauging_station_data$gauging_station[id]
     uuids <- df.gauging_station_data$uuid[id]
     
     # gauging_station &| uuid

@@ -98,7 +98,7 @@ waterLevelFlood1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
         id <- which(df.gauging_station_data$data_present & 
                     df.gauging_station_data$river == RIVER)
         df.gauging_station_data_sel <- df.gauging_station_data[id, ]
-        gs <- asc2utf8(df.gauging_station_data_sel$gauging_station)
+        gs <- df.gauging_station_data_sel$gauging_station
         uuids <- df.gauging_station_data_sel$uuid
         
         if (missing(gauging_station) & missing(uuid)) {

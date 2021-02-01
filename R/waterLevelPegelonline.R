@@ -67,9 +67,6 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE){
     
     # access the gauging_station_data
     get("df.gauging_station_data", pos = -1)
-    for (a in c("gauging_station", "agency", "river")){
-        df.gauging_station_data[, a] <- asc2utf8(df.gauging_station_data[, a])
-    }
     id <- which(df.gauging_station_data$river == "RHEIN" & 
                 df.gauging_station_data$km_qps < 336.2)
     df.gauging_station_data <- df.gauging_station_data[-id,]
