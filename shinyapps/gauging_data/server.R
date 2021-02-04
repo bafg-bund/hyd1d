@@ -143,10 +143,7 @@ function(input, output, session){
     output$downloadData <- downloadHandler(filename = function(){
         req(input$gauging_station)
         req(input$daterange)
-        paste0('waterlevel_',
-               gsub("Ä", "AE",
-                    gsub("Ö", "OE", gsub("Ü", "UE", input$gauging_station))),
-               '_',
+        paste0('waterlevel_', input$gauging_station, '_',
                strftime(input$daterange[1], format="%Y%m%d"), '-',
                strftime(input$daterange[2], format="%Y%m%d"), '.csv')},
         content = function(file){write.csv(df.data(),
