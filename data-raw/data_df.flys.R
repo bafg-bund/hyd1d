@@ -110,6 +110,7 @@ if (Sys.info()["nodename"] %in% c("r.bafg.de")) {
         # combine both datasets
         df.flys <- rbind.data.frame(df.flys_elbe, df.flys_rhein,
                                     stringsAsFactors = FALSE)
+        df.flys$name[which(df.flys$name == "Q100-200")] <- "HQ100-200"
         
         # store df.flys as external dataset
         usethis::use_data(df.flys, overwrite = TRUE, compress = "bzip2")
