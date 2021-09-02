@@ -4,7 +4,7 @@ cd /srv/cifs-mounts/WeberA_home/WeberA/hyd1d
 # load R-OS
 source /etc/profile.d/modules.sh
 module purge
-module load i4/R/OS
+module load i4/R/latest
 module list
 
 # compare local repository with remote 'origin'
