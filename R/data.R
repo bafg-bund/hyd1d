@@ -25,8 +25,8 @@ nrow_df.gauging_data <- function(){
             ON
                 gauging_data.gauging_station = gauging_station_data.gauging_station
             WHERE
-                gauging_data.date >= '1990-01-01' AND 
-                gauging_data.date <= '2019-12-31' AND
+                gauging_data.date >= '1960-01-01' AND 
+                gauging_data.date <= '2020-12-31' AND
                 (
                     gauging_station_data.water_shortname = 'ELBE' OR
                     gauging_station_data.water_shortname = 'RHEIN'
@@ -54,8 +54,8 @@ nrow_df.gauging_data <- function(){
 #' @description This dataset contains all \strong{daily-averaged} gauging data
 #'   for the gauging stations along \strong{Elbe} and \strong{Rhein} operated by
 #'   the waterway and navigation authorities (Wasserstraßen- und
-#'   Schifffahrtsverwaltung (WSV)) since 1990-01-01. Data from
-#'   the 1990-01-01 until 2020-12-31 are validated and were queried from the
+#'   Schifffahrtsverwaltung (WSV)) since 1960-01-01. Data from
+#'   the 1960-01-01 until 2020-12-31 are validated and were queried from the
 #'   BfG-Wiski
 #'   (\href{http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html}{HyDaBa})
 #'    and supplied by \email{Datenstelle-M1@@bafg.de}. Data after 2020-12-31 are
