@@ -181,7 +181,7 @@ param_uuid <- function() {
 #' @eval param_gauging_station()
 #' @param time has to be type \code{\link[base:POSIXct]{c("POSIXct", "POSIXlt")}}
 #'   or \code{\link[base:Date]{Date}} and must be in the temporal range 
-#'   between 1990-01-01 and now (\code{Sys.time()} or \code{Sys.Date()}).
+#'   between 1960-01-01 and now (\code{Sys.time()} or \code{Sys.Date()}).
 #' @eval param_uuid()
 #' 
 #' @details This functions queries package-internal gauging data 
@@ -268,22 +268,22 @@ getGaugingDataW <- function(gauging_station, time, uuid) {
         stop("'time' must be type c('POSIXct', 'POSIXt') or 'Date'.")
     }
     date <- as.Date(trunc(time, units = "days"))
-    date_min <- as.Date("1990-01-01")
+    date_min <- as.Date("1960-01-01")
     if (any(date < date_min)) {
         stop(paste0("df.gauging_data provides data for the time period between",
-                    " 1990-01-01 and ", strftime(Sys.Date() - 1, "%Y-%m-%d"),
+                    " 1960-01-01 and ", strftime(Sys.Date() - 1, "%Y-%m-%d"),
                     ". You requested earlier data. Please adjust the submi",
                     "tted 'time' and retry."))
     }
     if (any(date > Sys.Date())) {
         stop(paste0("df.gauging_data provides data for the time period between",
-                    " 1990-01-01 and ", strftime(Sys.Date() - 1, "%Y-%m-%d"),
+                    " 1960-01-01 and ", strftime(Sys.Date() - 1, "%Y-%m-%d"),
                     ". You requested data in the future. Please adjust the ",
                     "submitted 'time' and retry."))
     }
     if (any(date == Sys.Date())) {
         stop(paste0("df.gauging_data provides data for the time period ",
-                    "between 1990-01-01\n  and ", 
+                    "between 1960-01-01\n  and ", 
                     strftime(Sys.Date() - 1, "%Y-%m-%d"),
                     ". You requested data of today that are accessible \n  ",
                     "through getPegelonlineW() only."))
