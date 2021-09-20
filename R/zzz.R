@@ -13,7 +13,7 @@
                             "v2.RDS")
     } else {
         file_date <- paste0(path.expand('~'), "/.hyd1d/date_gauging_data.RDS")
-        file_data <- paste0(path.expand('~'), "/.hyd1d/df.gauging_data_latest.",
+        file_data <- paste0(path.expand('~'), "/.hyd1d/df.gauging_data_1960.",
                             "RDS")
     }
     
