@@ -25,9 +25,12 @@ con <- DBI::dbConnect(drv      = DBI::dbDriver("PostgreSQL"),
                       port     = credentials["port"])
 
 # read *.zrx-files into a vector
+# files <- list.files(path = paste0("/home/WeberA/freigaben/U/U3/Auengruppe_IN",
+#                                   "FORM/EL_000_586_UFD/data/w/prep/Pegeldaten_1960_1989"),
+#                       pattern = "*.zrx", full.names = TRUE, recursive = TRUE)
 files <- list.files(path = paste0("/home/WeberA/freigaben/U/U3/Auengruppe_IN",
-                                  "FORM/EL_000_586_UFD/data/w/prep/Pegeldaten_1960_1989"),
-                      pattern = "*.zrx", full.names = TRUE, recursive = TRUE)
+                                  "FORM/RH_336_867_UFD/data/w/prep/Pegeldaten_1960_1989"),
+                    pattern = "*.zrx", full.names = TRUE, recursive = TRUE)
 # files_r <- list.files(path = paste0("/home/WeberA/freigaben/U/U3/Auengruppe_INFO",
 #                                   "RM/RH_336_867_UFD/data/w/prep/2020"),
 #                       pattern = "*.zrx", full.names = TRUE, recursive = TRUE)
