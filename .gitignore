@@ -33,8 +33,10 @@ data-raw/pegelonline2gauging_data.err
 data-raw/pegelonline2gauging_data.out
 data-raw/postgres.sql.gz
 doc
+/doc/
 inst/doc
 Meta
+/Meta/
 presentation/Thumbs.db
 presentation/presentation_DE.html
 public
