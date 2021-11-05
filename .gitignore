@@ -37,6 +37,7 @@ inst/doc
 Meta
 presentation/Thumbs.db
 presentation/presentation_DE.html
+presentation/*.mp4
 public
 shinyapps/waterLevel/www
 vignettes/hyd1d.html
