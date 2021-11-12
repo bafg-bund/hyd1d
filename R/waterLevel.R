@@ -251,6 +251,15 @@ waterLevel <- function(wldf, shiny = FALSE) {
     df.gs <- df.gs[order(df.gs$km_qps),]
     df.gs <- df.gs[!(df.gs$data_present & is.na(df.gs$w)),]
     
+    if (is.na(df.gs_up$w)) {
+        df.gs <- rbind(df.gs_up, df.gs, stringsAsFactors = FALSE)
+    }
+    if (is.na(df.gs_do$w)) {
+        df.gs <- rbind(df.gs, df.gs_do, stringsAsFactors = FALSE)
+    }
+    df.gs <- unique(df.gs)
+    df.gs <- df.gs[order(df.gs$km_qps),]
+    
     # clean up temporary objects
     remove(df.gs_inarea, df.gs_do, df.gs_up)
     
