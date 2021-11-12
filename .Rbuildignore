@@ -16,6 +16,7 @@
 ^_documentation\.R$
 ^\.gitlab-ci\.yml$
 ^_install\.R$
+^makefile$
 ^_pkgdown\.yml$
 ^_pkgdown\.yaml$
 ^pkgdown$
