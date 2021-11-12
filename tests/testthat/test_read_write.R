@@ -16,9 +16,9 @@ test_that("readWaterLevelFileDB", {
                      " 'river' must be an element of c('Elbe', 'Rhein').",
                      fixed = TRUE)
         expect_error(wldf <- readWaterLevelFileDB(river = "Elbe",
-                                                  time = as.POSIXct("1989-12-21"),
+                                                  time = as.POSIXct("1959-12-21"),
                                                   from = 257, to = 262),
-                     "'time' must be between 1990-01-01 00:00:00 and now.",
+                     "'time' must be between 1960-01-01 00:00:00 and now.",
                      fixed = TRUE)
         expect_error(wldf <- readWaterLevelFileDB(river = "Elbe",
                                                   time = as.POSIXct("2016-12-21"),
@@ -78,8 +78,8 @@ test_that("readWaterLevelStationInt", {
                      " 'time' must be type c('POSIXct', 'POSIXt')",
                      fixed = TRUE)
         expect_error(wldf <- readWaterLevelStationInt(file, "Elbe", 
-                                                      as.POSIXct("1989-12-20")),
-                     "'time' must be between 1990-01-01 and now or",
+                                                      as.POSIXct("1959-12-20")),
+                     "'time' must be between 1960-01-01 and now or",
                      fixed = TRUE)
     }
 })
