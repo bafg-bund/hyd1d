@@ -71,7 +71,7 @@ nrow_df.gauging_data <- function(){
 #' @seealso \code{\link{updateGaugingData}}, \href{http://r.bafg.de/shiny/WeberA/02-gauging_data/}{gauging_data-ShinyApp}
 #' 
 #' @references
-#'    \insertRef{wsv_pegeldaten_2020}{hyd1d}
+#'    \insertRef{wsv_pegeldaten_2021}{hyd1d}
 #'    
 #'    \insertRef{wsv_pegelonline_2018}{hyd1d}
 #'
