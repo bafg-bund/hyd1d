@@ -66,8 +66,6 @@ query_string <- paste0("SELECT gauging_station, date, w FROM gauging_data WHER",
 df.gauging_data <- DBI::dbGetQuery(con, query_string)
 
 # store df.gauging_data
-saveRDS(df.gauging_data, file = "~/.hyd1d/df.gauging_data_1960.RDS",
-        version = 3, compress = "bzip2")
 saveRDS(df.gauging_data, file = from, version = 3, compress = "bzip2")
 saveRDS(df.gauging_data, file = from2, version = 2, compress = "bzip2")
 
