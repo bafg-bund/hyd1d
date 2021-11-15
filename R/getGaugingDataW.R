@@ -191,7 +191,7 @@ param_uuid <- function() {
 #'   water level is returned. If no data exist, \code{NA} is returned.
 #' 
 #' @references 
-#'   \insertRef{wsv_pegeldaten_2020}{hyd1d}
+#'   \insertRef{wsv_pegeldaten_2021}{hyd1d}
 #' 
 #' @examples
 #' getGaugingDataW(gauging_station = "DESSAU", time = as.Date("2016-12-21"))
