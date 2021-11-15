@@ -9,7 +9,7 @@
 #' @details \code{waterLevel} interpolates 1D water level along the river axis
 #'   of Elbe and Rhein based on daily averaged, mostly validated gauging data
 #'   stored in the internal dataset \code{\link{df.gauging_data}}. Internally
-#'   stored gauging data are available from 1960-01-01 until 2018-03-14.
+#'   stored gauging data are available from 1960-01-01 until yesterday.
 #'
 #'   \code{waterLevelPegelonline} carries out the interpolation with gauging
 #'   data obtained through a
