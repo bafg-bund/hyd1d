@@ -26,7 +26,7 @@
 #' @slot time is a slot determining the time for which the water level has been
 #'   computed. \code{time} has to be type \code{\link[base:POSIXct]{c("POSIXct",
 #'   "POSIXt")}}, has to have a length of one and be in the range between
-#'   \code{1990-01-01 00:00:00 CET} and now (\code{Sys.time()}) or \code{NA}.
+#'   \code{1960-01-01 00:00:00 CET} and now (\code{Sys.time()}) or \code{NA}.
 #' @slot gauging_stations possibly contains a \code{\link[base]{data.frame}}
 #'   with relevant information about gauging stations within the relevant
 #'   \code{river} stretch and the closer surrounding up- and downstream of the
@@ -153,12 +153,12 @@ methods::setClass(
                 errors <- c(errors, paste0("Error ", l(errors), ": 'time' ",
                                            "must have length 1."))
             }
-            # 1990-01-01 and now
+            # 1960-01-01 and now
             if (!(is.na(object@time))) {
-                if (object@time < as.POSIXct("1990-01-01 00:00:00 CET") |
+                if (object@time < as.POSIXct("1960-01-01 00:00:00 CET") |
                     object@time > Sys.time()) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'time' ",
-                                               "must be 1990-01-01 00:00:00 ",
+                                               "must be 1960-01-01 00:00:00 ",
                                                "and now or NA."))
                 }
             }
@@ -455,7 +455,7 @@ methods::setClass(
 #' @param time a required argument to fill the \linkS4class{WaterLevelDataFrame}-slot
 #'   \code{time}. It has to be type \code{\link[base:POSIXct]{c("POSIXct",
 #'   "POSIXt")}}, has to have a length of one and must be in the temporal range
-#'   between \code{1990-01-01 00:00:00 CET} and now (\code{Sys.time()}) or be
+#'   between \code{1960-01-01 00:00:00 CET} and now (\code{Sys.time()}) or be
 #'   \code{NA}.
 #' @param gauging_stations a slot of class \code{\link[base]{data.frame}}.
 #'   \code{gauging_stations} has to be a \code{\link[base]{data.frame}} with the
@@ -614,12 +614,12 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
             errors <- c(errors, paste0("Error ", l(errors), ": 'time' must ",
                                        "have length 1."))
         }
-        # 1990-01-01
+        # 1960-01-01
         if (!(is.na(time))) {
-            if (time < as.POSIXct("1990-01-01 00:00:00 CET") |
+            if (time < as.POSIXct("1960-01-01 00:00:00 CET") |
                 time > Sys.time()) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'time' ",
-                                           "must be 1990-01-01 00:00:00 and ",
+                                           "must be 1960-01-01 00:00:00 and ",
                                            "now or NA."))
             }
         }

@@ -800,7 +800,7 @@ methods::setMethod("setRiver<-",
 #' @param x an object of class \linkS4class{WaterLevelDataFrame}.
 #' @param value a new value of class \code{\link[base:POSIXct]{c("POSIXct", "POSIXt")}}
 #'   for the \code{time} slot. \code{value} has to have a length of one and has
-#'   to be in the temporal range between \code{1990-01-01 00:00:00 CET} and now
+#'   to be in the temporal range between \code{1960-01-01 00:00:00 CET} and now
 #'   (\code{Sys.time()} or \code{NA}.
 #' 
 #' @return The function above sets a new \code{value} for the slot \code{time} 
@@ -837,15 +837,15 @@ methods::setGeneric("setTime<-", function(x, value) {
     }
     if (!(is.na(value))) {
         if (class(value)[1] %in% c("POSIXct", "POSIXlt")) {
-            if (value < as.POSIXct("1990-01-01 00:00:00 CET") |
+            if (value < as.POSIXct("1960-01-01 00:00:00 CET") |
                 value > Sys.time()) {
-                stop(paste0("'time' must be between 1990-01-01 00:00:00 and no",
+                stop(paste0("'time' must be between 1960-01-01 00:00:00 and no",
                             "w or NA."))
             }
         } else {
-            if (value < as.Date("1990-01-01") |
+            if (value < as.Date("1960-01-01") |
                 value > Sys.Date()) {
-                stop("'time' must be between 1990-01-01 and now or NA.")
+                stop("'time' must be between 1960-01-01 and now or NA.")
             }
         }
     }
