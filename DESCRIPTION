@@ -53,5 +53,7 @@ Collate:
     'write.R'
     'zzz.R'
 VignetteBuilder: knitr
-BugReports: https://apps.bafg.de/gitbucket/webera/hyd1d/issues
-URL: http://r.bafg.de/~WeberA/hyd1d
+BugReports: http://gitlab.lan.bafg.de/auenoekologie/hyd1d/issues
+URL: http://r.bafg.de/~WeberA/hyd1d,
+    http://gitlab.lan.bafg.de/auenoekologie/hyd1d
+
