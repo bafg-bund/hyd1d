@@ -9,7 +9,7 @@
 #'   can be either \strong{Elbe} or \strong{Rhein}.
 #' @param time has to be type \code{\link[base:POSIXct]{c("POSIXct", "POSIXt")}},
 #'   has to have a length of one and must be in the temporal range between
-#'   \code{1990-01-01 00:00:00 CET} and now (\code{Sys.time()}).
+#'   \code{1960-01-01 00:00:00 CET} and now (\code{Sys.time()}).
 #' @param from specifies the minimum station value and has to be either type
 #'   \code{numeric} or \code{integer} and has to have a length of one.
 #' @param to specifies the maximum station value and has to have the same type
@@ -136,13 +136,13 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
         }
         
         ##
-        # 1990-01-01 - now
+        # 1960-01-01 - now
         if (!(is.na(time))){
-            if (time < as.POSIXct("1990-01-01 00:00:00 CET") |
+            if (time < as.POSIXct("1960-01-01 00:00:00 CET") |
                 time > Sys.time()){
                 errors <- c(errors, paste0("Error ", l(errors),
                                            ": 'time' must be between ",
-                                           "1990-01-01 00:00:00 and now."))
+                                           "1960-01-01 00:00:00 and now."))
             }
         } else {
             errors <- c(errors, paste0("Error ", l(errors),
@@ -505,7 +505,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
 #'   the standard directory structure so that \code{time} can't be extracted
 #'   from \code{file}. If supplied, it has to be type \code{\link[base:POSIXct]{c("POSIXct",
 #'   "POSIXt")}}, has to have a length of one and has to be in the temporal range
-#'   between \code{1990-01-01 00:00:00 CET} and now (\code{Sys.time()})
+#'   between \code{1960-01-01 00:00:00 CET} and now (\code{Sys.time()})
 #'
 #' @return an object of class \linkS4class{WaterLevelDataFrame}.
 #'
@@ -650,12 +650,12 @@ readWaterLevelJson <- function(file, river = NULL, time = NULL){
                                        "'POSIXt')."))
         } else {
             ##
-            # 1990-01-01 - now
+            # 1960-01-01 - now
             if (!(is.na(time))){
-                if (time < as.POSIXct("1990-01-01 00:00:00 CET") |
+                if (time < as.POSIXct("1960-01-01 00:00:00 CET") |
                     time > Sys.time()){
                     errors <- c(errors, paste0("Error ", l(errors), ": 'time' must ",
-                                               "be between 1990-01-01 and now ",
+                                               "be between 1960-01-01 and now ",
                                                "or NA."))
                 }
             }
@@ -778,7 +778,7 @@ readWaterLevelJson <- function(file, river = NULL, time = NULL){
 #'   computations and save one line of code. If supplied, it has to be type
 #'   \code{\link[base:POSIXct]{c("POSIXct", "POSIXt")}}, has to have a length of
 #'   one and has to be in the temporal range between
-#'   \code{1990-01-01 00:00:00 CET} and now (\code{Sys.time()}).
+#'   \code{1960-01-01 00:00:00 CET} and now (\code{Sys.time()}).
 #'
 #' @return an object of class \linkS4class{WaterLevelDataFrame}.
 #'
@@ -924,12 +924,12 @@ readWaterLevelStationInt <- function(file, river = NULL, time = NULL){
                                        "'POSIXt')."))
         } else {
             ##
-            # 1990-01-01 - now
+            # 1960-01-01 - now
             if (!(is.na(time))){
-                if (time < as.POSIXct("1990-01-01 00:00:00 CET") |
+                if (time < as.POSIXct("1960-01-01 00:00:00 CET") |
                     time > Sys.time()){
                     errors <- c(errors, paste0("Error ", l(errors), ": 'time' ",
-                                               "must be between 1990-01-01 and",
+                                               "must be between 1960-01-01 and",
                                                " now or NA."))
                 }
             }

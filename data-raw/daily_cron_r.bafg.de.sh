@@ -21,14 +21,14 @@ elif [ $LOCAL = $BASE ]; then
     git pull
     Rscript _install.R
     Rscript _build.R
-    cp build/$R_VERSION/*.tar.gz /home/WeberA/freigaben_r/_packages/package_sources
+    cp -u build/$R_VERSION/*.tar.gz /home/WeberA/freigaben_r/_packages/package_sources
     git rev-parse HEAD > .commit
 elif [ $REMOTE = $BASE ]; then
     echo "Need to push"
     git push
     Rscript _install.R
     Rscript _build.R
-    cp build/$R_VERSION/*.tar.gz /home/WeberA/freigaben_r/_packages/package_sources
+    cp -u build/$R_VERSION/*.tar.gz /home/WeberA/freigaben_r/_packages/package_sources
     git rev-parse HEAD > .commit
 else
     echo "Diverged"

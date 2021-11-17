@@ -275,8 +275,8 @@ The most advanced function to interpolate
 water levels [@bundesanstalt_fur_gewasserkunde_flys_2016] with local gauging
 data is implemented in the `r lrd("waterLevel()")`-function. This function uses
 package-internal gauging data from the dataset `r lrd("df.gauging_data")`, which
-contains daily-averaged gauging data since 1990-01-01. Therefore
-`r lrd("waterLevel()")` can be applied for the time period  between 1990-01-01
+contains daily-averaged gauging data since 1960-01-01. Therefore
+`r lrd("waterLevel()")` can be applied for the time period  between 1960-01-01
 and yesterday.
 
 After the [initialization](hyd1d.html#s4-class-waterleveldataframe) of

@@ -76,8 +76,8 @@ if [ "$USER" == "root" ]; then
     export PUBLIC=/var/www/wordpress/wp-content/uploads/bfg
     export GD=$PUBLIC/df.gauging_data_latest.RDS
     export GD_v2=$PUBLIC/df.gauging_data_latest_v2.RDS
-    cp $hyd1d/public/downloads/df.gauging_data_latest.RDS $GD
-    cp $hyd1d/public/downloads/df.gauging_data_latest_v2.RDS $GD_v2
+    cp -u $hyd1d/public/downloads/df.gauging_data_latest.RDS $GD
+    cp -u $hyd1d/public/downloads/df.gauging_data_latest_v2.RDS $GD_v2
     chown www-data:www-data $GD
     chown www-data:www-data $GD_v2
     chmod 640 $GD

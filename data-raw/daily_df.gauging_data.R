@@ -62,7 +62,7 @@ con <- DBI::dbConnect(drv      = DBI::dbDriver("PostgreSQL"),
 
 # retrieve the data
 query_string <- paste0("SELECT gauging_station, date, w FROM gauging_data WHER",
-                       "E date >= '1990-01-01' ORDER BY gauging_station, date")
+                       "E date >= '1960-01-01' ORDER BY gauging_station, date")
 df.gauging_data <- DBI::dbGetQuery(con, query_string)
 
 # store df.gauging_data

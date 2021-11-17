@@ -9,7 +9,7 @@
 #' @details \code{waterLevel} interpolates 1D water level along the river axis
 #'   of Elbe and Rhein based on daily averaged, mostly validated gauging data
 #'   stored in the internal dataset \code{\link{df.gauging_data}}. Internally
-#'   stored gauging data are available from 1990-01-01 until 2018-03-14.
+#'   stored gauging data are available from 1960-01-01 until yesterday.
 #'
 #'   \code{waterLevelPegelonline} carries out the interpolation with gauging
 #'   data obtained through a
@@ -250,6 +250,15 @@ waterLevel <- function(wldf, shiny = FALSE) {
     df.gs <- unique(df.gs)
     df.gs <- df.gs[order(df.gs$km_qps),]
     df.gs <- df.gs[!(df.gs$data_present & is.na(df.gs$w)),]
+    
+    if (is.na(df.gs_up$w)) {
+        df.gs <- rbind(df.gs_up, df.gs, stringsAsFactors = FALSE)
+    }
+    if (is.na(df.gs_do$w)) {
+        df.gs <- rbind(df.gs, df.gs_do, stringsAsFactors = FALSE)
+    }
+    df.gs <- unique(df.gs)
+    df.gs <- df.gs[order(df.gs$km_qps),]
     
     # clean up temporary objects
     remove(df.gs_inarea, df.gs_do, df.gs_up)
