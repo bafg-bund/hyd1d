@@ -2,7 +2,7 @@ Package: hyd1d
 Type: Package
 Title: Algorythms to compute 1D water levels along German federal waterways Elbe
     and Rhine
-Version: 0.2.0
+Version: 0.2.1
 Date: 2021-02-04
 Authors@R: c(person("Arnd", "Weber", email = "arnd.weber@bafg.de",
                     role = c("aut", "cre"), 
@@ -53,5 +53,7 @@ Collate:
     'write.R'
     'zzz.R'
 VignetteBuilder: knitr
-BugReports: https://apps.bafg.de/gitbucket/webera/hyd1d/issues
-URL: http://r.bafg.de/~WeberA/hyd1d
+BugReports: http://gitlab.lan.bafg.de/auenoekologie/hyd1d/issues
+URL: http://r.bafg.de/~WeberA/hyd1d,
+    http://gitlab.lan.bafg.de/auenoekologie/hyd1d
+
