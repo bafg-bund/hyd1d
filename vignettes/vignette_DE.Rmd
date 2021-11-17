@@ -1025,13 +1025,13 @@ finales Produkt:
 ## Installation und Laden des Paketes
 
 Momentan ist das Paket **hyd1d** noch nicht auf CRAN verfügbar. Daher kann nur 
-die aktuelle Entwicklungsversion vom GitBucket-Server der BfG installiert 
+die aktuelle Entwicklungsversion vom Gitlab-Server der BfG installiert 
 werden:
 
 ```{r install_git, eval = FALSE}
 install.packages("devtools")
 library(devtools)
-devtools::install_git("git://apps.bafg.de/gitbucket/webera/hyd1d.git")
+devtools::install_git("git://gitlab.lan.bafg.de/auenoekologie/hyd1d")
 ```
 
 Dannach kann das Paket **hyd1d** wie jedes andere installierte R-Paket über 
