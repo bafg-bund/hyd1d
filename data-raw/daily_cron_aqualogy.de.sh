@@ -19,15 +19,31 @@ elif [ $LOCAL = $BASE ]; then
     echo "Need to pull"
     git pull
     Rscript _install.R
+    make aq
     Rscript _build.R
-    cp build/$R_VERSION/*.tar.gz /home/arnd/BfG/r.bafg.de/_packages/package_sources
+    git checkout -- DESCRIPTION
+    git checkout -- README.Rmd
+    git checkout -- README.md
+    git checkout -- vignettes/hyd1d.Rmd
+    git checkout -- vignettes/vignette_DE.Rmd
+    git checkout -- pkgdown/_pkgdown.yml
+    git checkout -- inst/CITATION
+    git checkout -- inst/REFERENCES.bib
     git rev-parse HEAD > .commit
 elif [ $REMOTE = $BASE ]; then
     echo "Need to push"
     git push
     Rscript _install.R
+    make aq
     Rscript _build.R
-    cp build/$R_VERSION/*.tar.gz /home/arnd/BfG/r.bafg.de/_packages/package_sources
+    git checkout -- DESCRIPTION
+    git checkout -- README.Rmd
+    git checkout -- README.md
+    git checkout -- vignettes/hyd1d.Rmd
+    git checkout -- vignettes/vignette_DE.Rmd
+    git checkout -- pkgdown/_pkgdown.yml
+    git checkout -- inst/CITATION
+    git checkout -- inst/REFERENCES.bib
     git rev-parse HEAD > .commit
 else
     echo "Diverged"
@@ -44,8 +60,16 @@ export commit_present=$(git rev-parse HEAD)
 if [ "$commit_processed" != "$commit_present" ]; then
     echo "The present commit has not been built!"
     Rscript _install.R
+    make aq
     Rscript _build.R
-    cp build/$R_VERSION/*.tar.gz /home/arnd/BfG/r.bafg.de/_packages/package_sources
+    git checkout -- DESCRIPTION
+    git checkout -- README.Rmd
+    git checkout -- README.md
+    git checkout -- vignettes/hyd1d.Rmd
+    git checkout -- vignettes/vignette_DE.Rmd
+    git checkout -- pkgdown/_pkgdown.yml
+    git checkout -- inst/CITATION
+    git checkout -- inst/REFERENCES.bib
     git rev-parse HEAD > .commit
 fi
 

@@ -68,7 +68,7 @@ nrow_df.gauging_data <- function(){
 #' 
 #' @eval nrow_df.gauging_data()
 #' 
-#' @seealso \code{\link{updateGaugingData}}, \href{http://r.bafg.de/shiny/WeberA/02-gauging_data/}{gauging_data-ShinyApp}
+#' @seealso \code{\link{updateGaugingData}}
 #' 
 #' @references
 #'    \insertRef{wsv_pegeldaten_2021}{hyd1d}
