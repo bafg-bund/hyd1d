@@ -25,7 +25,7 @@
         t <- paste0("'df.gauging_data' was last updated on ",
                      as.character(date_gauging_data), ".")
         
-        if (date_gauging_data < Sys.Date() - 29) {
+        if (date_gauging_data < Sys.Date() - 8) {
             t <- paste0(t, "\nIt will be updated now ...")
             
             # update
