@@ -39,10 +39,16 @@ Meta
 /Meta/
 presentation/Thumbs.db
 presentation/presentation_DE.html
+presentation/presentation_DE_files/*
 presentation/*.mp4
 public
 shinyapps/waterLevel/www
+vignettes/hyd1d_files/*
 vignettes/hyd1d.html
+vignettes/hyd1d.pdf
+vignettes/hyd1d.R
+vignettes/hyd1d.tex
+vignettes/hyd1d.toc
 vignettes/Thumbs.db
 vignettes/vignette_DE_files/*
 vignettes/vignette_DE.html
