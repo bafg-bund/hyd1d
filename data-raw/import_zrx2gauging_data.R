@@ -25,16 +25,13 @@ con <- DBI::dbConnect(drv      = DBI::dbDriver("PostgreSQL"),
                       port     = credentials["port"])
 
 # read *.zrx-files into a vector
-# files <- list.files(path = paste0("/home/WeberA/freigaben/U/U3/Auengruppe_IN",
-#                                   "FORM/EL_000_586_UFD/data/w/prep/Pegeldaten_1960_1989"),
-#                       pattern = "*.zrx", full.names = TRUE, recursive = TRUE)
-files <- list.files(path = paste0("/home/WeberA/freigaben/U/U3/Auengruppe_IN",
-                                  "FORM/RH_336_867_UFD/data/w/prep/Pegeldaten_1960_1989"),
-                    pattern = "*.zrx", full.names = TRUE, recursive = TRUE)
-# files_r <- list.files(path = paste0("/home/WeberA/freigaben/U/U3/Auengruppe_INFO",
-#                                   "RM/RH_336_867_UFD/data/w/prep/2020"),
-#                       pattern = "*.zrx", full.names = TRUE, recursive = TRUE)
-# files <- c(files_e, files_r)
+files_e <- list.files(path = paste0("/home/WeberA/freigaben/U/U3/Auengruppe_IN",
+                                    "FORM/EL_000_586_UFD/data/w/prep/2021"),
+                      pattern = "*.zrx", full.names = TRUE, recursive = TRUE)
+files_r <- list.files(path = paste0("/home/WeberA/freigaben/U/U3/Auengruppe_IN",
+                                    "FORM/RH_336_867_UFD/data/w/prep/2021"),
+                      pattern = "*.zrx", full.names = TRUE, recursive = TRUE)
+files <- c(files_e, files_r)
 
 # gauging_stations present in the DB
 gauging_stations <- dbGetQuery(con, paste0("SELECT gauging_station FROM public",
@@ -64,28 +61,30 @@ for(a_file in files){
         write(gauging_station, stdout())
         
         # read zrx into data.frame
-        df <- read.table(file = a_file, col.names = c("date", "W", "rem"),
-                         colClasses=c("character", "numeric", "character"),
-                         skip = 5, comment.char = "#", sep=" ", 
-                         blank.lines.skip = TRUE, header = FALSE)
-        df$rem <- NULL
+        df_db <- readzrx(a_file)
         
-        # remove all rows with NA values (-777)
-        id_na <- which(df$W == -777)
-        if(length(id_na) > 0){
-            df <- df[-id_na,]
-        }
-        
-        # restructure df
-        df_db <- data.frame(
-            date = as.Date(strptime(df$date, format = "%Y%m%d%H%M%S")),
-            w = df$W, 
-            year = format(strptime(df$date, format = "%Y%m%d%H%M%S"), 
-                          format = "%Y"),
-            month = format(strptime(df$date, format = "%Y%m%d%H%M%S"),
-                           format = "%m"),
-            day = format(strptime(df$date, format = "%Y%m%d%H%M%S"),
-                         format = "%d"))
+        # df <- read.table(file = a_file, col.names = c("date", "W", "rem"),
+        #                  colClasses=c("character", "numeric", "character"),
+        #                  skip = 5, comment.char = "#", sep=" ", 
+        #                  blank.lines.skip = TRUE, header = FALSE)
+        # df$rem <- NULL
+        # 
+        # # remove all rows with NA values (-777)
+        # id_na <- which(df$W == -777)
+        # if(length(id_na) > 0){
+        #     df <- df[-id_na,]
+        # }
+        # 
+        # # restructure df
+        # df_db <- data.frame(
+        #     date = as.Date(strptime(df$date, format = "%Y%m%d%H%M%S")),
+        #     w = df$W, 
+        #     year = format(strptime(df$date, format = "%Y%m%d%H%M%S"), 
+        #                   format = "%Y"),
+        #     month = format(strptime(df$date, format = "%Y%m%d%H%M%S"),
+        #                    format = "%m"),
+        #     day = format(strptime(df$date, format = "%Y%m%d%H%M%S"),
+        #                  format = "%d"))
         
         # insert or update the DB
         for(a_row in 1:nrow(df_db)){
