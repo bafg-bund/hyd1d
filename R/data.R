@@ -55,10 +55,10 @@ nrow_df.gauging_data <- function(){
 #'   for the gauging stations along \strong{Elbe} and \strong{Rhein} operated by
 #'   the waterway and navigation authorities (Wasserstraßen- und
 #'   Schifffahrtsverwaltung (WSV)) since 1960-01-01. Data from
-#'   the 1960-01-01 until 2020-12-31 are validated and were queried from the
+#'   the 1960-01-01 until 2021-12-31 are validated and were queried from the
 #'   BfG-Wiski
 #'   (\href{http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html}{HyDaBa})
-#'    and supplied by \email{Datenstelle-M1@@bafg.de}. Data after 2020-12-31 are
+#'    and supplied by \email{Datenstelle-M1@@bafg.de}. Data after 2021-12-31 are
 #'   continuously collected from \url{https://pegelonline.wsv.de} and are not
 #'   officially validated. Not validated recent data will be replaced anually
 #'   and distributed through package and/or internal dataset updates.
