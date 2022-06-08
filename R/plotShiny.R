@@ -265,6 +265,12 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     gs_missing <- getGaugingStationsMissing(wldf)
     gs_missing <- unlist(strsplit(gs_missing, ": "))[2 * 1:length(gs_missing)]
     
+    if ("srt" %in% names(dots)) {
+        srt <- dots$srt
+    } else {
+        srt <- 90
+    }
+    
     add_flys <- dots$add_flys
     dots$add_flys <- NULL
     
@@ -520,7 +526,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
                                       rep(y_gauging_station_lab_min, 
                                           nrow(df.gs[id1 & id2, ])),
                                       df.gs$gauging_station[id1 & id2], 
-                                      bg="white", srt = 90, border = FALSE, 
+                                      bg="white", srt = srt, border = FALSE, 
                                       xpad = 0.5, ypad = 0.5, cex = 0.7)
             }
         } else {
@@ -531,7 +537,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
                                       rep(y_gauging_station_lab_max, 
                                           nrow(df.gs[id1 & id2, ])),
                                       df.gs$gauging_station[id1 & id2],
-                                      bg = "white", srt = 90, border = FALSE,
+                                      bg = "white", srt = srt, border = FALSE,
                                       xpad = 0.5, ypad = 0.5, cex = 0.7)
             }
         }
@@ -547,7 +553,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
                                       rep(y_gauging_station_lab_min, 
                                           nrow(df.gsm[id3 & id4, ])),
                                       df.gsm$gauging_station[id3 & id4], 
-                                      bg="white", srt = 90, border = FALSE, 
+                                      bg="white", srt = srt, border = FALSE, 
                                       xpad = 0.5, ypad = 0.5, cex = 0.7)
             }
         } else {
@@ -558,7 +564,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
                                       rep(y_gauging_station_lab_max, 
                                           nrow(df.gsm[id3 & id4, ])),
                                       df.gsm$gauging_station[id3 & id4],
-                                      bg = "white", srt = 90, border = FALSE,
+                                      bg = "white", srt = srt, border = FALSE,
                                       xpad = 0.5, ypad = 0.5, cex = 0.7)
             }
         }
