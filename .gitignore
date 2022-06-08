@@ -42,7 +42,9 @@ presentation/presentation_DE.html
 presentation/presentation_DE_files/*
 presentation/*.mp4
 public
+shinyapps/waterLevel/rsconnect/
 shinyapps/waterLevel/www
+shinyapps/waterLevelPegelonline/rsconnect/
 vignettes/hyd1d_files/*
 vignettes/hyd1d.html
 vignettes/hyd1d.pdf
@@ -56,3 +58,4 @@ vignettes/vignette_DE.pdf
 vignettes/vignette_DE.R
 vignettes/vignette_DE.tex
 vignettes/vignette_DE.toc
+vignettes/paper_plot.pdf
