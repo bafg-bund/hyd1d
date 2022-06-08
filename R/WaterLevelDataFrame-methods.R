@@ -30,7 +30,7 @@ NULL
 #####
 # S3 method
 as.data.frame.WaterLevelDataFrame <- function(x, ...) {
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
     df <- as.data.frame(x@.Data, ...)
@@ -50,7 +50,7 @@ as.data.frame.WaterLevelDataFrame <- function(x, ...) {
 #methods::setMethod("as.data.frame", 
 #                   methods::signature(x = "WaterLevelDataFrame"),
 #                   function(x, ...) {
-#    if (class(x) != "WaterLevelDataFrame") {
+#    if (!inherits(x, "WaterLevelDataFrame")) {
 #        stop("'x' must be type 'WaterLevelDataFrame'.")
 #    }
 #    df <- as.data.frame(x@.Data, ...)
@@ -96,7 +96,7 @@ methods::setGeneric("getGaugingStations", function(x) {
 methods::setMethod("getGaugingStations", 
                    methods::signature("WaterLevelDataFrame"),
                    function(x) {
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
     return(x@gauging_stations)
@@ -139,7 +139,7 @@ methods::setGeneric("getGaugingStationsMissing", function(x) {
 methods::setMethod("getGaugingStationsMissing", 
                    methods::signature("WaterLevelDataFrame"),
                    function(x) {
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
     return(x@gauging_stations_missing)
@@ -180,7 +180,7 @@ methods::setGeneric("getRiver", function(x) {
 methods::setMethod("getRiver", 
                    methods::signature("WaterLevelDataFrame"), 
                    function(x) {
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
     return(x@river)
@@ -220,7 +220,7 @@ methods::setGeneric("getTime", function(x) {
 methods::setMethod("getTime", 
                    methods::signature("WaterLevelDataFrame"), 
                    function(x) {
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
     return(x@time)
@@ -267,14 +267,14 @@ methods::setMethod("getTime",
 setReplaceMethod("names",
                  methods::signature(x="WaterLevelDataFrame", value="character"),
                  function(x, value) {
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
-    if (class(value) != "character") {
+    if (!inherits(value, "character")) {
         stop("'value' must be type 'character'.")
     }
     x@names <- value
-    if(methods::validObject(object=x)){
+    if(methods::validObject(object=x)) {
         return(x)
     }
 })
@@ -323,13 +323,13 @@ rbind.WaterLevelDataFrame <- function(...) {
     
     # river
     wldf_river <- do.call(c, lapply(dots, function(x) {getRiver(x)}))
-    if (!(all(wldf_river[1] == wldf_river))){
+    if (!(all(wldf_river[1] == wldf_river))) {
         stop("getRiver(x) has to be equal for all elements.")
     }
     
     # time
     wldf_time <- do.call(c, lapply(dots, function(x) {getTime(x)}))
-    if (!(all(wldf_time[1] == wldf_time))){
+    if (!(all(wldf_time[1] == wldf_time))) {
         stop("getTime(x) has to be equal for all elements.")
     }
     
@@ -449,8 +449,8 @@ rbind.WaterLevelDataFrame <- function(...) {
 #    }
 #    
 #    # time
-#    wldf_time <- do.call(c, lapply(dots, function(x){getTime(x)}))
-#    if (!(all(wldf_time[1] == wldf_time))){
+#    wldf_time <- do.call(c, lapply(dots, function(x) {getTime(x)}))
+#    if (!(all(wldf_time[1] == wldf_time))) {
 #        stop("getTime(x) has to be equal for all elements.")
 #    }
 #    
@@ -509,7 +509,7 @@ rbind.WaterLevelDataFrame <- function(...) {
 #    }
 #    
 #    # comment
-#    wldf_comment <- do.call(c, lapply(dots, function(x){comment(x)}))
+#    wldf_comment <- do.call(c, lapply(dots, function(x) {comment(x)}))
 #    wldf_comment <- c("rbind(wldf's)", wldf_comment)
 #    
 #    # construct the new wldf
@@ -612,10 +612,10 @@ methods::setMethod("setGaugingStations<-",
                    function(x, value) {
     
     # check basic requirements
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
-    if (class(value) != "data.frame") {
+    if (!inherits(value, "data.frame")) {
         stop("'value' must be type 'data.frame'")
     }
     gs_colnames <- c("id", "gauging_station", "uuid", "km",
@@ -636,22 +636,22 @@ methods::setMethod("setGaugingStations<-",
                          "character", "character", "numeric",
                          "numeric", "numeric", "numeric", "numeric",
                          "numeric")
-    if (!(all(names(value) == gs_colnames))){
+    if (!(all(names(value) == gs_colnames))) {
         stop(paste0("names(value) must be c('",
                     paste0(gs_colnames, collapse = "', '"),
                     "')."))
     }
     i <- 1L
     errors <- character()
-    for (a_column in gs_colnames){
-        if (class(value[,a_column]) !=  gs_column_types[i]){
+    for (a_column in gs_colnames) {
+        if (!inherits(value[,a_column], gs_column_types[i])) {
             errors <- c(errors, paste0("'value$", a_column, "' must ",
                                        "be type '",
                                        gs_column_types[i], "'."))
         }
         i <- i + 1L
     }
-    if (length(errors) > 0){
+    if (length(errors) > 0) {
         stop(paste0(errors, collapse="\n  "))
     }
     
@@ -659,7 +659,7 @@ methods::setMethod("setGaugingStations<-",
     x@gauging_stations <- value
     
     # return the validated WaterLevelShinyDataFrame
-    if(methods::validObject(x)){
+    if(methods::validObject(x)) {
         return(x)
     }
     
@@ -706,10 +706,10 @@ methods::setMethod("setGaugingStationsMissing<-",
                    function(x, value) {
     
     # check basic requirements
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
-    if (class(value) != "character") {
+    if (!inherits(value, "character")) {
         stop("'value' must be type 'character'.")
     }
     
@@ -768,7 +768,7 @@ methods::setMethod("setRiver<-",
                    function(x, value) {
   
     # check basic requirements
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
     if (!(value %in% c("Elbe", "Rhein"))) {
@@ -826,17 +826,20 @@ methods::setGeneric("setTime<-", function(x, value) {
 
 .setTime <- function(x, value) {
     # check basic requirements
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
-    if (! class(value)[1] %in% c("POSIXct", "POSIXlt", "Date")) {
+    if (!any(c(inherits(value, "POSIXct"),
+               inherits(value, "POSIXt"),
+               inherits(value, "Date")))) {
         stop("'value' must be type c('POSIXct', 'POSIXlt') or 'Date'.")
     }
     if (length(value) != 1L) {
         stop("'value' must have a length equal 1.")
     }
     if (!(is.na(value))) {
-        if (class(value)[1] %in% c("POSIXct", "POSIXlt")) {
+        if (all(c(inherits(value, "POSIXct"),
+                  inherits(value, "POSIXt")))) {
             if (value < as.POSIXct("1960-01-01 00:00:00 CET") |
                 value > Sys.time()) {
                 stop(paste0("'time' must be between 1960-01-01 00:00:00 and no",
@@ -988,7 +991,7 @@ subset.WaterLevelDataFrame <- function(x, subset, select, drop = FALSE, ...) {
 # S3 method
 summary.WaterLevelDataFrame <- function(object, ...) {
     
-    if (class(object) != "WaterLevelDataFrame") {
+    if (!inherits(object, "WaterLevelDataFrame")) {
         stop("'object' must be type 'WaterLevelDataFrame'.")
     }
     

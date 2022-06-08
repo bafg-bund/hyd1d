@@ -1,4 +1,4 @@
-nrow_df.gauging_data <- function(){
+nrow_df.gauging_data <- function() {
     
     if (file.exists("DB_credentials_gauging_data") &
         requireNamespace("RPostgreSQL") & requireNamespace("DBI")) {
@@ -77,7 +77,7 @@ nrow_df.gauging_data <- function(){
 #'
 "df.gauging_data"
 
-nrow_df.gauging_station_data <- function(){
+nrow_df.gauging_station_data <- function() {
     
     if (file.exists("DB_credentials_gauging_data") &
         requireNamespace("RPostgreSQL") & requireNamespace("DBI")) {
@@ -163,7 +163,7 @@ nrow_df.gauging_station_data <- function(){
 #'
 "df.gauging_station_data"
 
-nrow_df.flys <- function(){
+nrow_df.flys <- function() {
     
     if (file.exists("DB_credentials_flys3") &
         requireNamespace("ROracle") & requireNamespace("DBI")) {

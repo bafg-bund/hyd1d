@@ -53,12 +53,12 @@ waterLevelFlys3InterpolateY <- function(wldf, gauging_station, w, uuid,
     
     ## wldf
     # presence
-    if (missing(wldf)){
+    if (missing(wldf)) {
         errors <- c(errors, paste0("Error ", l(errors),
                                    ": 'wldf' has to be supplied."))
     }
     # WaterLevelDataFrame
-    if (class(wldf) != "WaterLevelDataFrame"){
+    if (!inherits(wldf, "WaterLevelDataFrame")) {
         errors <- c(errors, paste0("Error ", l(errors), ": 'wldf' ",
                                    "must be type 'WaterLevelDataFrame'."))
     } else {
@@ -75,7 +75,7 @@ waterLevelFlys3InterpolateY <- function(wldf, gauging_station, w, uuid,
         end_f = max(wldf$station)
         
         # time
-        if (is.na(time) & missing(w)){
+        if (is.na(time) & missing(w)) {
             errors <- c(errors, paste0("Error ", l(errors), ": The time slot ",
                                        "of 'wldf' must not be NA or 'w' must",
                                        "be specified."))
@@ -97,13 +97,13 @@ waterLevelFlys3InterpolateY <- function(wldf, gauging_station, w, uuid,
                                        "station' or 'uuid' argument has to ",
                                        "be supplied."))
         } else {
-            if (!(missing(gauging_station))){
-                if (class(gauging_station) != "character"){
+            if (!(missing(gauging_station))) {
+                if (!inherits(gauging_station, "character")) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'gaugi",
                                                "ng_station' must be type ",
                                                "'character'."))
                 }
-                if (length(gauging_station) != 1){
+                if (length(gauging_station) != 1) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'gaugi",
                                                "ng_station'  must have length",
                                                " 1."))
@@ -164,12 +164,12 @@ waterLevelFlys3InterpolateY <- function(wldf, gauging_station, w, uuid,
                 }
             }
             
-            if (!(missing(uuid))){
-                if (class(uuid) != "character"){
+            if (!(missing(uuid))) {
+                if (!inherits(uuid, "character")) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'uuid' ",
                                                "must be type 'character'."))
                 }
-                if (length(uuid) != 1){
+                if (length(uuid) != 1) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'uuid' ",
                                                "must have length 1."))
                 }
@@ -186,7 +186,7 @@ waterLevelFlys3InterpolateY <- function(wldf, gauging_station, w, uuid,
                     df.gs <- df.gauging_station_data_sel[
                         which(uuids == uuid_internal),]
                     
-                    if (df.gs$km_qps < start_f | df.gs$km_qps > end_f){
+                    if (df.gs$km_qps < start_f | df.gs$km_qps > end_f) {
                         
                         # identify the uuids along or next to the wldf
                         id <- which(df.gauging_station_data_sel$km_qps > 
@@ -200,7 +200,7 @@ waterLevelFlys3InterpolateY <- function(wldf, gauging_station, w, uuid,
                         uuid_reference <- referenceUUID(wldf)
                         
                         if (!(df.gs$uuid %in% uuid_stretch  ) & 
-                            !(df.gs$uuid %in% uuid_reference)){
+                            !(df.gs$uuid %in% uuid_reference)) {
                             errors <- c(errors, paste0("Error ", l(errors), ":",
                                                        " The selected 'uuid' h",
                                                        "as to be in the river ",
@@ -227,8 +227,8 @@ waterLevelFlys3InterpolateY <- function(wldf, gauging_station, w, uuid,
                 }
             }
             
-            if (!(missing(gauging_station)) & !(missing(uuid))){
-                if (id_gs != id_uu){
+            if (!(missing(gauging_station)) & !(missing(uuid))) {
+                if (id_gs != id_uu) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'gaugin",
                                                "g_station' and 'uuid' must fit",
                                                " to each other.\nThe uuid for ",
@@ -240,7 +240,7 @@ waterLevelFlys3InterpolateY <- function(wldf, gauging_station, w, uuid,
             }
             
             # get the measured water level
-            if (exists("uuid_internal")){
+            if (exists("uuid_internal")) {
                 df.gs$w <- getGaugingDataW(uuid = uuid_internal, 
                                            time = time)
                 df.gs$wl <- round(df.gs$pnp + df.gs$w / 100, 2)
@@ -248,19 +248,19 @@ waterLevelFlys3InterpolateY <- function(wldf, gauging_station, w, uuid,
                 ##
                 # w
                 #
-                if (!(is.na(time))){
+                if (!(is.na(time))) {
                     # get the measured water level
                     df.gs$w <- getGaugingDataW(uuid = uuid_internal, 
                                                time = time)
                     df.gs$wl <- round(df.gs$pnp + df.gs$w / 100, 2)
                     
-                    if (!missing(w)){
+                    if (!missing(w)) {
                         if (length(w) != 1) {
                             errors <- c(errors, paste0("Error ", l(errors), ":",
                                                        " 'w' must have length ",
                                                        "1."))
                         }
-                        if (class(w) != "numeric"){
+                        if (!inherits(w, "numeric")) {
                             errors <- c(errors, paste0("Error ", l(errors), ":",
                                                        " 'w' must be type 'num",
                                                        "eric'."))
@@ -270,7 +270,7 @@ waterLevelFlys3InterpolateY <- function(wldf, gauging_station, w, uuid,
                                                        " 'w' must be in a rang",
                                                        "e between 0 and 1000."))
                         }
-                        if (w != df.gs$w){
+                        if (w != df.gs$w) {
                             warning("The 'w' computed internally through getGa",
                                     "ugingDataW(gauging_station =\n  'gauging_",
                                     "station', time = getTime('wldf')) and the",
@@ -288,7 +288,7 @@ waterLevelFlys3InterpolateY <- function(wldf, gauging_station, w, uuid,
         }
     }
     
-    if (l(errors) != "1"){
+    if (l(errors) != "1") {
         stop(paste0(errors, collapse="\n  "))
     }
     
@@ -331,15 +331,15 @@ waterLevelFlys3InterpolateY <- function(wldf, gauging_station, w, uuid,
     # special situation, that the w is
     # - below the lowest stationary water level of FLYS
     # - above the highest stationary water level of FLYS
-    if (wls_below == 0){
+    if (wls_below == 0) {
         wls_below <- 1
-        if (wls_above == wls_below){
+        if (wls_above == wls_below) {
             wls_above <- wls_above + 1L
         }
     }
-    if (wls_above == 31){
+    if (wls_above == 31) {
         wls_above <- 30
-        if (wls_below == wls_above){
+        if (wls_below == wls_above) {
             wls_below <- wls_below - 1L
         }
     }
@@ -391,18 +391,18 @@ waterLevelFlys3InterpolateY <- function(wldf, gauging_station, w, uuid,
     c_columns <- c("gauging_station", "uuid", "river", "mw_timespan",
                    "name_wl_below_w_do", "name_wl_above_w_do", 
                    "name_wl_below_w_up", "name_wl_above_w_up")
-    for (a_column in c_columns){
+    for (a_column in c_columns) {
         df.gs[ , a_column] <- as.character(df.gs[ , a_column])
     }
     
     # convert type of integer columns
     c_columns <- c("n_wls_below_w_do", "n_wls_above_w_do", 
                    "n_wls_below_w_up", "n_wls_above_w_up")
-    for (a_column in c_columns){
+    for (a_column in c_columns) {
         df.gs[ , a_column] <- as.integer(df.gs[ , a_column])
     }
     
-    if (shiny){
+    if (shiny) {
         wldf_data$section <- rep(1, nrow(wldf_data))
         wldf_data$weight_x <- rep(1, nrow(wldf_data))
         wldf_data$weight_y <- rep(y, nrow(wldf_data))
@@ -436,11 +436,11 @@ waterLevelFlys3InterpolateY <- function(wldf, gauging_station, w, uuid,
 }
 
 
-inFlys3Section <- function(wldf, gauging_station){
+inFlys3Section <- function(wldf, gauging_station) {
     
     gauging_stations <- referenceGaugingStations(wldf)
     
-    if (gauging_station %in% gauging_stations){
+    if (gauging_station %in% gauging_stations) {
         return(TRUE)
     } else {
         return(FALSE)
@@ -448,14 +448,14 @@ inFlys3Section <- function(wldf, gauging_station){
 }
 
 
-referenceGaugingStations <- function(wldf){
+referenceGaugingStations <- function(wldf) {
     
     # make parent environment accessible through the local environment
     e <- environment()
     p_env <- parent.env(e)
     
     #  get the names of all available gauging_stations
-    if (exists("df.flys_sections", where = p_env)){
+    if (exists("df.flys_sections", where = p_env)) {
         get("df.flys_sections", envir = p_env)
     } else {
         utils::data("df.flys_sections", envir = environment())
@@ -481,14 +481,14 @@ referenceGaugingStations <- function(wldf){
 }
 
 
-referenceUUID <- function(wldf){
+referenceUUID <- function(wldf) {
     
     # make parent environment accessible through the local environment
     e <- environment()
     p_env <- parent.env(e)
     
     #  get the names of all available gauging_stations
-    if (exists("df.flys_sections", where = p_env)){
+    if (exists("df.flys_sections", where = p_env)) {
         get("df.flys_sections", envir = p_env)
     } else {
         utils::data("df.flys_sections", envir = environment())

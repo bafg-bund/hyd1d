@@ -64,11 +64,11 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
         stop(paste0("The 'gauging_station' or 'uuid' argument has to ",
                     "be supplied."))
     } else {
-        if (!(missing(gauging_station))){
-            if (class(gauging_station) != "character"){
+        if (!(missing(gauging_station))) {
+            if (!inherits(gauging_station, "character")) {
                 stop("'gauging_station' must be type 'character'.")
             }
-            if (length(gauging_station) != 1){
+            if (length(gauging_station) != 1) {
                 stop("'gauging_station' must have length 1.")
             }
             
@@ -80,11 +80,11 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
             uuid_internal <- uuids[id_gs]
         }
         
-        if (!(missing(uuid))){
-            if (class(uuid) != "character"){
+        if (!(missing(uuid))) {
+            if (!inherits(uuid, "character")) {
                 stop("'uuid' must be type 'character'.")
             }
-            if (length(uuid) != 1){
+            if (length(uuid) != 1) {
                 stop("'uuid' must have length 1.")
             }
             
@@ -96,8 +96,8 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
             uuid_internal <- uuids[id_uu]
         }
         
-        if (!(missing(gauging_station)) & !(missing(uuid))){
-            if (id_gs != id_uu){
+        if (!(missing(gauging_station)) & !(missing(uuid))) {
+            if (id_gs != id_uu) {
                 stop("'gauging_station' and 'uuid' must fit to each ",
                      "other.\nThe uuid for the supplied 'gauging_station' ",
                      "is ", uuids[id_gs], ".\nThe gauging station for the ",
@@ -111,12 +111,14 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
     if (missing(time)) {
         stop("The 'time' argument has to be supplied.")
     }
-    if (any(class(time) != c("POSIXct", "POSIXt")) & 
-        any(class(time) != "Date")){
+    if (!any(c(inherits(time, "POSIXct"), 
+               inherits(time, "POSIXt"),
+               inherits(time, "Date")))) {
         stop("'time' must be type c('POSIXct', 'POSIXt') or 'Date'.")
     }
     
-    if (any(class(time) == c("POSIXct", "POSIXt"))){
+    if (all(c(inherits(time, "POSIXct"), 
+              inherits(time, "POSIXt")))) {
         time_min <- trunc(Sys.time() - as.difftime(31, units = "days"),
                           units = "days")
         if (any(time_min > time)) {
@@ -161,7 +163,7 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
         w_list <- RJSONIO::fromJSON(w_string)
         df.w <- data.frame(time = as.POSIXct(rep(NA, length(w_list))),
                            w    = as.numeric(rep(NA, length(w_list))))
-        for(i in 1:length(w_list)){
+        for(i in 1:length(w_list)) {
             df.w$time[i] <- strptime(w_list[[i]]$timestamp, 
                                      format = "%Y-%m-%dT%H:%M:%S")
             df.w$w[i] <- as.numeric(w_list[[i]]$value)
@@ -219,13 +221,13 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
         w_list <- RJSONIO::fromJSON(w_string)
         df.w <- data.frame(time = as.POSIXct(rep(NA, length(w_list))),
                            w    = as.numeric(rep(NA, length(w_list))))
-        for(i in 1:length(w_list)){
+        for(i in 1:length(w_list)) {
             df.w$time[i] <- strptime(w_list[[i]]$timestamp, 
                                      format = "%Y-%m-%dT%H:%M:%S")
             df.w$w[i] <- as.numeric(w_list[[i]]$value)
         }
         w <- numeric()
-        for (a_day in time){
+        for (a_day in time) {
             a_time <- as.POSIXct(time) - as.difftime(60, units = "mins")
             b_time <- as.POSIXct(time) + as.difftime(23 * 60, units = "mins")
             id <- which(df.w$time >= a_time & df.w$time < b_time)

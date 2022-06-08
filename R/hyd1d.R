@@ -42,6 +42,3 @@
 #'
 NULL
 
-
-##@importFrom methods setClass prototype signature setClass setGeneric setMethod setReplaceMethod initialize validObject new loadMethod
-

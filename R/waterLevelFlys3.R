@@ -134,7 +134,7 @@ details_waterLevelFlys3 <- function() {
 #' 
 #' @export
 #' 
-waterLevelFlys3 <- function(wldf, name){
+waterLevelFlys3 <- function(wldf, name) {
     
     ##########
     # check arguments
@@ -145,33 +145,33 @@ waterLevelFlys3 <- function(wldf, name){
     
     ## wldf
     # presence
-    if (missing(wldf)){
+    if (missing(wldf)) {
         errors <- c(errors, paste0("Error ", l(errors),
                                    ": 'wldf' has to be supplied."))
     }
     # WaterLevelDataFrame
-    if (class(wldf) != "WaterLevelDataFrame"){
+    if (!inherits(wldf, "WaterLevelDataFrame")) {
         errors <- c(errors, paste0("Error ", l(errors), ": 'wldf' ",
                                    "must be type 'WaterLevelDataFrame'."))
     } else {
         ## name
         # presence
-        if (missing(name)){
+        if (missing(name)) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'name' has to be supplied."))
         } else {
             # character
-            if (class(name) != "character"){
+            if (!inherits(name, "character")) {
                 errors <- c(errors, paste0("Error ", l(errors),
-                                           ": 'name' must be type 'character'."))
+                                          ": 'name' must be type 'character'."))
             }
             # length
-            if (length(name) != 1L){
+            if (length(name) != 1L) {
                 errors <- c(errors, paste0("Error ", l(errors),
                                            ": 'name' must have length 1."))
             }
             # %in% flys3_water_levels
-            if (getRiver(wldf) == "Elbe"){
+            if (getRiver(wldf) == "Elbe") {
                 flys3_water_levels <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ",
                                         "b", "MQ", "c", "2MQ", "3MQ", "d", "e",
                                         "MHQ", "HQ2", "f", "HQ5", "g", "h",
@@ -179,7 +179,7 @@ waterLevelFlys3 <- function(wldf, name){
                                         "HQ75", "HQ100", "i", "HQ150", "HQ200",
                                         "HQ300", "HQ500")
             }
-            if (getRiver(wldf) == "Rhein"){
+            if (getRiver(wldf) == "Rhein") {
                 flys3_water_levels <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50",
                                         "Ud=80", "Ud=100", "Ud=120", "Ud=183",
                                         "MQ", "Ud=240","Ud=270", "Ud=310",
@@ -189,7 +189,7 @@ waterLevelFlys3 <- function(wldf, name){
                                         "HQ50-100", "HQ100", "HQ100-200",
                                         "HQ200", "HQ200-ex", "HQextr.")
             }
-            if (!(name %in% flys3_water_levels)){
+            if (!(name %in% flys3_water_levels)) {
                 errors <- c(errors, paste0("Error ", l(errors),
                                            ": 'name' must be an element ",
                                            "of c('",
@@ -201,7 +201,7 @@ waterLevelFlys3 <- function(wldf, name){
         }
     }
     
-    if (l(errors) != "1"){
+    if (l(errors) != "1") {
         stop(paste0(errors, collapse="\n  "))
     }
     

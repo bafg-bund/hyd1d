@@ -22,7 +22,7 @@
 #'
 #' @export
 #' 
-updateGaugingData <- function(x){
+updateGaugingData <- function(x) {
     
     #####
     # assemble internal variables and check the existence of required data
@@ -30,10 +30,10 @@ updateGaugingData <- function(x){
     if (missing(x)) {
         stop("The 'x' argument has to be supplied.")
     }
-    if (class(x) != "Date"){
+    if (!inherits(x, "Date")) {
         stop("'x' must be type 'Date'.")
     }
-    if (length(x) != 1){
+    if (length(x) != 1) {
         stop("'x' must have length 1.")
     }
     
@@ -55,7 +55,7 @@ updateGaugingData <- function(x){
     
     if((x < Sys.Date() & 
         Sys.time() > trunc.POSIXt(Sys.time(), units = "days") + 60 * 60 * 6.5) | 
-       (!file.exists(file_date) & !file.exists(file_data))){
+       (!file.exists(file_date) & !file.exists(file_data))) {
         
         # download the df.gauging_data.RDS
         dir.create(paste0(path.expand('~'), "/.hyd1d"), FALSE, TRUE, "0777")
@@ -67,7 +67,7 @@ updateGaugingData <- function(x){
         .db_updated <<- TRUE
         
         if (file.exists(file_data) & file.exists(file_date) & 
-            (file.info(file_date)$mtime > Sys.time() - 5)){
+            (file.info(file_date)$mtime > Sys.time() - 5)) {
             return(TRUE)
         } else {
             return(FALSE)
