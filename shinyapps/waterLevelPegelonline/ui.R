@@ -1,5 +1,16 @@
 fluidPage(
     
+    tags$head(
+        tags$style(HTML("#footer {
+            position: fixed;
+            width: 97%;
+            bottom: 1%;
+            border-top-width: 1px;
+            border-top-style: solid;
+            border-top-color: #7f7f7f;
+        }"))
+    ),
+    
     useShinyjs(),
     
     titlePanel("waterLevelPegelonline()",
@@ -54,6 +65,8 @@ fluidPage(
            conditionalPanel("output.plot", 
                             downloadLink("downloadData", "Download"))
            
-    )
+    ),
+    
+    uiOutput("footer")
     
 )
