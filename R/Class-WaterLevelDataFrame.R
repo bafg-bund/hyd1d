@@ -102,7 +102,7 @@ methods::setClass(
             ## slot: river
             error_river <- FALSE
             # character
-            if (class(object@river) != "character") {
+            if (!inherits(object@river, "character")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'river' ",
                                            "must be type 'character'."))
                 error_river <- TRUE
@@ -143,7 +143,8 @@ methods::setClass(
             
             ## slot: time
             # POSIXct
-            if (!(all(class(object@time) == c("POSIXct", "POSIXt")))) {
+            if (!all(c(inherits(object@time, "POSIXct"),
+                       inherits(object@time, "POSIXt")))) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'time' ",
                                            "must be type c('POSIXct', ",
                                            "'POSIXt')."))
@@ -165,8 +166,8 @@ methods::setClass(
             
             ## slot: gauging_stations
             # data.frame
-            if (class(object@gauging_stations) != "data.frame" & 
-                class(object@gauging_stations) != "list"){
+            if (!inherits(object@gauging_stations, "data.frame") & 
+                !inherits(object@gauging_stations, "list")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'gauging_",
                                            "stations' must be type ",
                                            "'data.frame'."))
@@ -182,7 +183,7 @@ methods::setClass(
                              "w_wl_below_w_do", "w_wl_above_w_do", 
                              "w_wl_below_w_up", "w_wl_above_w_up", "weight_up",
                              "weight_do")
-            if (!(all(names(object@gauging_stations) == gs_colnames))){
+            if (!(all(names(object@gauging_stations) == gs_colnames))) {
                 errors <- c(errors, paste0("Error ", l(errors), ": names(",
                                            "gauging_stations) must be c('",
                                            paste0(gs_colnames,
@@ -198,9 +199,9 @@ methods::setClass(
                                  "character", "character", "numeric", "numeric",
                                  "numeric", "numeric", "numeric", "numeric")
             i <- 1L
-            for (a_column in gs_colnames){
-                if (class(object@gauging_stations[, a_column]) !=
-                    gs_column_types[i]){
+            for (a_column in gs_colnames) {
+                if (!inherits(object@gauging_stations[, a_column],
+                              gs_column_types[i])) {
                     errors <- c(errors, paste0("Error ", l(errors),
                                                ": 'gauging_stations' column '",
                                                a_column, "' must be type '",
@@ -211,7 +212,7 @@ methods::setClass(
             
             ## slot: gauging_stations_missing 
             # character
-            if (class(object@gauging_stations_missing) != "character") {
+            if (!inherits(object@gauging_stations_missing, "character")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": ",
                                            "'gauging_stations_missing' must ",
                                            "be type 'character'."))
@@ -219,7 +220,7 @@ methods::setClass(
             
             ## slot: comment
             # character
-            if (class(object@comment) != "character") {
+            if (!inherits(object@comment, "character")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'comment' ",
                                            "must be type 'character'."))
             }
@@ -231,8 +232,8 @@ methods::setClass(
             
             ## slot: .Data
             # data.frame
-            if (class(object@.Data) != "data.frame" & 
-                class(object@.Data) != "list") {
+            if (!inherits(object@.Data, "data.frame") & 
+                !inherits(object@.Data, "list")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": '.Data' ",
                                            "must be type 'data.frame'."))
             }
@@ -246,7 +247,7 @@ methods::setClass(
             
             ## .Data$station
             # numeric
-            if (class(object$station) != "numeric") {
+            if (!inherits(object$station, "numeric")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": ",
                                            "'station' must be type ",
                                            "'numeric'."))
@@ -302,7 +303,7 @@ methods::setClass(
             
             ## .Data$station_int
             # integer
-            if (class(object$station_int) != "integer") {
+            if (!inherits(object$station_int, "integer")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": ",
                                            "'station_int' must be type ",
                                            "'integer'."))
@@ -365,7 +366,7 @@ methods::setClass(
             }
             
             ## .Data$station == .Data$station_int / 1000
-            if (!(all(object$station == object$station_int / 1000))){
+            if (!(all(object$station == object$station_int / 1000))) {
                 errors <- c(errors, paste0("Error ", l(errors), ": ",
                                            "'station_int' must be equal ",
                                            "to as.integer(station * 1000)."))
@@ -373,7 +374,7 @@ methods::setClass(
             
             ## .Data$w
             # numeric
-            if (class(object$w) != "numeric") {
+            if (!inherits(object$w, "numeric")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'w' must ",
                                            "be type 'numeric'."))
             }
@@ -542,7 +543,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
                                 id                       = NULL,
                                 station                  = NULL,
                                 station_int              = NULL,
-                                w                        = NULL){
+                                w                        = NULL) {
     
     ## vector and function to catch error messages
     errors <- character()
@@ -558,7 +559,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
         error_river <- TRUE
     } else {
         # character
-        if (class(river) != "character") {
+        if (!inherits(river, "character")) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'river' must ",
                                        "be type 'character'."))
             error_river <- TRUE
@@ -605,7 +606,8 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
                                    "argument has to be supplied."))
     } else {
         # POSIXct
-        if (!(all(class(time) == c("POSIXct", "POSIXt")))) {
+        if (!all(c(inherits(time, "POSIXct"),
+                   inherits(time, "POSIXt")))) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'time' must ",
                                        "be type c('POSIXct', 'POSIXt')."))
         }
@@ -659,7 +661,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
                               stringsAsFactors = FALSE)
     } else {
         # data.frame
-        if (class(gauging_stations) != "data.frame"){
+        if (!inherits(gauging_stations, "data.frame")) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'gauging_stat",
                                        "ions' must be type 'data.frame'."))
         }
@@ -675,7 +677,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
                                      "w_wl_above_w_do", "w_wl_below_w_up", 
                                      "w_wl_above_w_up", "weight_up", 
                                      "weight_do")
-        if (!(all(names(gauging_stations) == gauging_stations_colnames))){
+        if (!(all(names(gauging_stations) == gauging_stations_colnames))) {
             errors <- c(errors, paste0("Error ", l(errors), ": The columns of ",
                                        "'gauging_stations' must be '",
                                        paste(sep = "', '",
@@ -692,7 +694,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
         wldf_gsm <- as.character(NA)
     } else {
         # character
-        if (class(gauging_stations_missing) != "character") {
+        if (!inherits(gauging_stations_missing, "character")) {
             errors <- c(errors, paste0("Error ", l(errors), ": ",
                                        "'gauging_stations_missing' must be ",
                                        "type 'character'."))
@@ -706,12 +708,12 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
         wldf_comment <- paste0("Initialised by WaterLevelDataFrame().")
     } else {
         # character
-        if (class(comment) != "character") {
+        if (!inherits(comment, "character")) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'comment' must ",
                                        "be type 'character'."))
         }
         # length 
-        # if (length(comment) != 1L){
+        # if (length(comment) != 1L) {
         #     errors <- c(errors, paste0("Error ", l(errors), ": 'comment' ",
         #                                "must have length 1."))
         # }
@@ -722,7 +724,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
     # presence
     if (!missing(id)) {
         # integer
-        if (class(id) != "integer") {
+        if (!inherits(id, "integer")) {
             errors <- c(errors, paste0("Error: ", l(errors), ": 'id' must be ",
                                        "type 'integer'."))
         }
@@ -755,7 +757,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
     # station_int & w | station & w
     if (!(missing(station_int))) {
         # station_int: integer
-        if (class(station_int) != "integer") {
+        if (!inherits(station_int, "integer")) {
             errors <- c(errors, paste0("Error: ", l(errors), ": 'station_int' ",
                                        "must be type 'integer'."))
         }
@@ -824,7 +826,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
         wldf_s <- wldf_si / 1000
         if (!(missing(w))) {
             # w: numeric
-            if (class(w) != "numeric") {
+            if (!inherits(w, "numeric")) {
                 errors <- c(errors, paste0("Error: ", l(errors),
                                            ": 'w' ", "must be type 'numeric'."))
             }
@@ -875,7 +877,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
         }
     } else {
         # station: numeric
-        if (class(station) != "numeric") {
+        if (!inherits(station, "numeric")) {
             errors <- c(errors, paste0("Error: ", l(errors), ": 'station' ",
                                        "must be type 'numeric'."))
         }
@@ -936,7 +938,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
         wldf_si <- as.integer(round(wldf_s * 1000, 0))
         if (!(missing(w))) {
             # w: numeric
-            if (class(w) != "numeric") {
+            if (!inherits(w, "numeric")) {
                 errors <- c(errors, paste0("Error: ", l(errors), ": 'w' ",
                                            "must be type 'numeric'."))
             }

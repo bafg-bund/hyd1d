@@ -27,7 +27,7 @@
 #'   \code{\link{plotShiny}()}-function are appended to the resulting
 #'   \linkS4class{WaterLevelDataFrame}.
 #'
-#' @return An object of class \code{WaterLevelDataFrame}.
+#' @return An object of class \linkS4class{WaterLevelDataFrame}.
 #'
 #' @seealso \code{\link{plotShiny}}
 #'
@@ -60,7 +60,7 @@ waterLevel <- function(wldf, shiny = FALSE) {
     # assemble internal variables and check the existence of required data
     ##
     # wldf
-    if (class(wldf) != "WaterLevelDataFrame") {
+    if (!inherits(wldf, "WaterLevelDataFrame")) {
         stop("'wldf' has to be of type 'WaterLevelDataFrame'.")
     }
     df.data <- data.frame(id = row.names(wldf), station = wldf$station, 
@@ -77,8 +77,8 @@ waterLevel <- function(wldf, shiny = FALSE) {
     
     ##
     # shiny
-    if (class(shiny) != "logical") {
-        stop("'shiny' has to be of type 'logical'.")
+    if (!inherits(shiny, "logical")) {
+        stop("'shiny' has to be type 'logical'.")
     }
     if (length(shiny) != 1L) {
         stop("'shiny' must have length 1.")

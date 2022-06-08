@@ -82,7 +82,7 @@ readzrx <- function(x) {
     
     # remove all rows with NA values (-777)
     id_na <- which(df$value == -777)
-    if(length(id_na) > 0){
+    if(length(id_na) > 0) {
         df <- df[-id_na,]
     }
     

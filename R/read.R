@@ -46,7 +46,7 @@
 #' 
 #' @export
 #' 
-readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
+readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to) {
     
     ## vector and function to catch error messages
     errors <- character()
@@ -59,7 +59,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
     error_river <- FALSE
     ##
     # presence
-    if (missing(river)){
+    if (missing(river)) {
         errors <- c(errors, paste0("Error ", l(errors), ": The 'river' ",
                                    "argument has to be supplied."))
         error_river <- TRUE
@@ -67,7 +67,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
         
         ##
         # character
-        if (class(river) != "character"){
+        if (!inherits(river, "character")) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'river' must be type 'character'."))
             error_river <- TRUE
@@ -75,7 +75,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
         
         ##
         # length
-        if (length(river) != 1L){
+        if (length(river) != 1L) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'river' must have a length ",
                                        "equal 1."))
@@ -84,7 +84,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
         
         ##
         # %in% c("Elbe", "Rhein")
-        if (!(river %in% c("Elbe", "Rhein"))){
+        if (!(river %in% c("Elbe", "Rhein"))) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'river' must be an element ",
                                        "of c('Elbe', 'Rhein')."))
@@ -93,12 +93,12 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
         
         ##
         # set 'river'-specific limits of station_int
-        if (!(error_river)){
-            if (river == "Elbe"){
+        if (!(error_river)) {
+            if (river == "Elbe") {
                 station_int_min <- 0
                 station_int_max <- 585700
             }
-            if (river == "Rhein"){
+            if (river == "Rhein") {
                 station_int_min <- 336200
                 station_int_max <- 865700
             }
@@ -115,13 +115,14 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
     # time
     ##
     # presence
-    if (missing(time)){
+    if (missing(time)) {
         errors <- c(errors, paste0("Error ", l(errors),
                                    ": The 'time' argument has to be supplied."))
     } else {
         ##
         # POISXct
-        if (!(all(class(time) == c("POSIXct", "POSIXt")))){
+        if (!(all(c(inherits(time ,"POSIXct"),
+                    inherits(time ,"POSIXt"))))) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'time' must be type c('POSIXct', ",
                                        "'POSIXt')."))
@@ -129,7 +130,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
         
         ##
         # length
-        if (length(time) != 1L){
+        if (length(time) != 1L) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'time' must have a length ",
                                        "equal 1."))
@@ -137,9 +138,9 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
         
         ##
         # 1960-01-01 - now
-        if (!(is.na(time))){
+        if (!(is.na(time))) {
             if (time < as.POSIXct("1960-01-01 00:00:00 CET") |
-                time > Sys.time()){
+                time > Sys.time()) {
                 errors <- c(errors, paste0("Error ", l(errors),
                                            ": 'time' must be between ",
                                            "1960-01-01 00:00:00 and now."))
@@ -158,14 +159,14 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
     error_from <- FALSE
     ##
     # presence
-    if (missing(from)){
+    if (missing(from)) {
         errors <- c(errors, paste0("Error ", l(errors),
                                    ": The 'from' argument has to be supplied."))
         error_from <- TRUE
     } else {
         ##
         # integer | numeric
-        if (!(class(from) %in% c("integer", "numeric"))){
+        if (!(inherits(from, "integer") | inherits(from, "numeric"))) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'from' must be ",
                                        "type 'integer' or 'numeric'."))
             error_from <- TRUE
@@ -173,7 +174,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
         
         ##
         # length
-        if (length(from) != 1L){
+        if (length(from) != 1L) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'from' must have a length equal 1."))
             error_from <- TRUE
@@ -183,9 +184,9 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
         # range
         # Elbe 0 - 585700
         # Rhein 336200 - 865700
-        if (!(error_river)){
-            if (class(from) == "integer"){
-                if (from < station_int_min){
+        if (!(error_river)) {
+            if (inherits(from, "integer")) {
+                if (from < station_int_min) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'from' ",
                                                "must be above ",
                                                as.character(station_int_min),
@@ -196,7 +197,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
                                                ") for river '", river, "'."))
                     error_from <- TRUE
                 }
-                if (from > station_int_max){
+                if (from > station_int_max) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'from' ",
                                                "must be below ",
                                                as.character(station_int_max),
@@ -210,8 +211,8 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
                 
                 wldf_from <- as.numeric(from) / 1000
             }
-            if (class(from) == "numeric"){
-                if (from < station_int_min / 1000){
+            if (inherits(from, "numeric")) {
+                if (from < station_int_min / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'from' ",
                                                "must be above km ",
                                                as.character(
@@ -220,7 +221,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
                                                " for river '", river, "'."))
                     error_from <- TRUE
                 }
-                if (from > station_int_max / 1000){
+                if (from > station_int_max / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'from' ",
                                                "must be below km ",
                                                as.character(
@@ -233,8 +234,8 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
                 wldf_from <- from
             }
         } else {
-            if (class(from) == "integer"){
-                if (from < station_int_min){
+            if (inherits(from, "integer")) {
+                if (from < station_int_min) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'from' ",
                                                "must be above ",
                                                as.character(station_int_min),
@@ -245,7 +246,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
                                                ")."))
                     error_from <- TRUE
                 }
-                if (from > station_int_max){
+                if (from > station_int_max) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'from' ",
                                                "must be below ",
                                                as.character(station_int_max),
@@ -257,8 +258,8 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
                     error_from <- TRUE
                 }
             }
-            if (class(from) == "numeric"){
-                if (from < station_int_min / 1000){
+            if (inherits(from, "numeric")) {
+                if (from < station_int_min / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'from' ",
                                                "must be above km ",
                                                as.character(
@@ -267,7 +268,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
                                                "."))
                     error_from <- TRUE
                 }
-                if (from > station_int_max / 1000){
+                if (from > station_int_max / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'from' ",
                                                "must be below km ",
                                                as.character(
@@ -284,20 +285,20 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
     # to
     ##
     # presence
-    if (missing(to)){
+    if (missing(to)) {
         errors <- c(errors, paste0("Error ", l(errors),
                                    ": The 'to' argument has to be supplied."))
     } else {
         ##
         # integer | numeric
-        if (!(class(to) %in% c("integer", "numeric"))){
+        if (!(inherits(to, "integer") | inherits(to, "numeric"))) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'to' must be ",
                                        "type 'integer' or 'numeric'."))
         }
         
         ##
         # length
-        if (length(to) != 1L){
+        if (length(to) != 1L) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'to' must have a length equal 1."))
         }
@@ -306,9 +307,9 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
         # range
         # Elbe 0 - 585700
         # Rhein 336200 - 865700
-        if (!(error_river)){
-            if (class(to) == "integer"){
-                if (to < station_int_min){
+        if (!(error_river)) {
+            if (inherits(to, "integer")) {
+                if (to < station_int_min) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'to' ",
                                                "must be above ",
                                                as.character(station_int_min),
@@ -318,7 +319,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
                                                        station_int_min/1000)),
                                                ") for river '", river, "'."))
                 }
-                if (to > station_int_max){
+                if (to > station_int_max) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'to' ",
                                                "must be below ",
                                                as.character(station_int_max),
@@ -331,8 +332,8 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
                 
                 wldf_to <- as.numeric(to) / 1000
             }
-            if (class(to) == "numeric"){
-                if (to < station_int_min / 1000){
+            if (inherits(to, "numeric")) {
+                if (to < station_int_min / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'to' ",
                                                "must be above km ",
                                                as.character(
@@ -340,7 +341,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
                                                        station_int_min/1000)),
                                                " for river '", river, "'."))
                 }
-                if (to > station_int_max / 1000){
+                if (to > station_int_max / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'to' ",
                                                "must be below km ",
                                                as.character(
@@ -352,8 +353,8 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
                 wldf_to <- to
             }
         } else {
-            if (class(to) == "integer"){
-                if (to < station_int_min){
+            if (inherits(to, "integer")) {
+                if (to < station_int_min) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'to' ",
                                                "must be above ",
                                                as.character(station_int_min),
@@ -363,7 +364,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
                                                        station_int_min/1000)),
                                                ")."))
                 }
-                if (to > station_int_max){
+                if (to > station_int_max) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'to' ",
                                                "must be below ",
                                                as.character(station_int_max),
@@ -374,8 +375,8 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
                                                ")."))
                 }
             }
-            if (class(to) == "numeric"){
-                if (to < station_int_min / 1000){
+            if (inherits(to, "numeric")) {
+                if (to < station_int_min / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'to' ",
                                                "must be above km ",
                                                as.character(
@@ -383,7 +384,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
                                                        station_int_min/1000)),
                                                "."))
                 }
-                if (to > station_int_max / 1000){
+                if (to > station_int_max / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'to' ",
                                                "must be below km ",
                                                as.character(
@@ -394,17 +395,17 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
             }
         }
         
-        if (!(missing(from)) & !(error_from)){
+        if (!(missing(from)) & !(error_from)) {
             ##
             # class(from) != class(to)
-            if (class(from) != class(to)){
+            if (class(from) != class(to)) {
                 errors <- c(errors, paste0("Error ", l(errors), ": class(from",
                                            ") must be equal to class(to)."))
             }
             
             ##
             # from < to
-            if (from >= to){
+            if (from >= to) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'to' must ",
                                            "be above 'from', since stationing ",
                                            "increases downstream and these ",
@@ -416,7 +417,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
     
     #####
     # return
-    if (l(errors) == "1"){
+    if (l(errors) == "1") {
         #####
         # sections
         ##
@@ -437,14 +438,14 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
         dir <- c(Elbe = "EL_000_586_UFD", Rhein = "RH_336_867_UFD")
         
         i <- 1
-        for (s in id_sections){
+        for (s in id_sections) {
             file <- paste0("/home/WeberA/freigaben/U/U3/Auengruppe_INFORM/",
                            dir[wldf_river], "/data/wl/",
                            df.sections$name[s], "/",
                            strftime(wldf_time, "%Y"), "/",
                            strftime(wldf_time, "%Y%m%d"), ".txt")
             wldf_temp <- readWaterLevelJson(file)
-            if (i == 1){
+            if (i == 1) {
                 wldf <- wldf_temp
             } else {
                 wldf <- rbind.WaterLevelDataFrame(wldf, wldf_temp)
@@ -453,7 +454,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
         }
         
         # subset the data with from and to
-        if (class(from) == "numeric"){
+        if (inherits(from, "numeric")) {
             wldf <- subset.WaterLevelDataFrame(wldf, 
                                                wldf$station >= from & 
                                                    wldf$station <= to)
@@ -518,7 +519,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to){
 #'
 #' @export
 #' 
-readWaterLevelJson <- function(file, river = NULL, time = NULL){
+readWaterLevelJson <- function(file, river = NULL, time = NULL) {
     
     ## vector and function to catch error messages
     errors <- character()
@@ -531,22 +532,22 @@ readWaterLevelJson <- function(file, river = NULL, time = NULL){
     # file
     ##
     # character
-    if (class(file) != "character"){
+    if (!inherits(file, "character")) {
         errors <- c(errors, paste0("Error ", l(errors),
                                    ": 'file' must be type 'character'."))
     }
     
     ##
     # length
-    if (length(file) != 1L){
+    if (length(file) != 1L) {
         errors <- c(errors, paste0("Error ", l(errors),
                                    ": 'file' must have a length equal 1."))
     }
     
     ##
     # check, if file exists
-    if (!(file.exists(file))){
-        if (!(file.exists(paste(sep = .Platform$file.sep, getwd(), file)))){
+    if (!(file.exists(file))) {
+        if (!(file.exists(paste(sep = .Platform$file.sep, getwd(), file)))) {
             errors <- c(errors, paste0("Error ", l(errors), ": The file does ",
                                        "not exist. Please supply an ",
                                        "existing file."))
@@ -560,16 +561,16 @@ readWaterLevelJson <- function(file, river = NULL, time = NULL){
     ##
     # river(file) ...
     if(grepl("ELBE", file) | grepl("Elbe", file) |
-       grepl("elbe", file) | grepl(paste0(.Platform$file.sep, "EL_"), file)){
+       grepl("elbe", file) | grepl(paste0(.Platform$file.sep, "EL_"), file)) {
         wldf_river <- "Elbe"
         wldf_comment[2] <- "'river' (Elbe) was determined from 'file'."
     } else if (grepl("RHEIN", file) | grepl("Rhein", file) |
                grepl("rhein", file) | grepl(paste0(.Platform$file.sep, "RH_"),
-                                            file)){
+                                            file)) {
         wldf_river <- "Rhein"
         wldf_comment[2] <- "'river' (Rhein) was determined from 'file'."
     } else {
-        if (missing(river)){
+        if (missing(river)) {
             errors <- c(errors, paste0("Error ", l(errors), ": The 'river' ",
                                        "can not be extracted from 'file'.\n   ",
                                        "        Please supply it by the ",
@@ -580,25 +581,25 @@ readWaterLevelJson <- function(file, river = NULL, time = NULL){
         
     }
     
-    if (!(missing(river))){
+    if (!(missing(river))) {
         
         ##
         # length
-        if (length(river) != 1L){
+        if (length(river) != 1L) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'river' must have a length equal 1."))
         }
         
         ##
         # character
-        if (class(river) != "character"){
+        if (!inherits(river, "character")) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'river' must be type 'character'."))
         }
         
         ##
         # %in% c("Elbe", "Rhein")
-        if (!(river %in% c("Elbe", "Rhein"))){
+        if (!(river %in% c("Elbe", "Rhein"))) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'river' ",
                                        "must be an element of c('Elbe', ",
                                        "'Rhein')."))
@@ -607,7 +608,7 @@ readWaterLevelJson <- function(file, river = NULL, time = NULL){
         ##
         # river != river(file)
         if (wldf_river != "") {
-            if (river != wldf_river){
+            if (river != wldf_river) {
                 errors <- c(errors, paste0("Error ", l(errors), ": The river ",
                                            "name extracted from 'file' (",
                                            as.character(wldf_river), ") and ",
@@ -633,27 +634,28 @@ readWaterLevelJson <- function(file, river = NULL, time = NULL){
     wldf_comment[3] <- paste0("'time' (", wldf_time,
                               ") was determined from 'file'.")
     
-    if (!(missing(time))){
+    if (!(missing(time))) {
         
         ##
         # length
-        if (length(time) != 1L){
+        if (length(time) != 1L) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'time' must have a length equal 1."))
         }
         
         ##
         # POSIXct
-        if ((any(class(time) != c("POSIXct", "POSIXt")))){
+        if (any(c(!inherits(time, "POSIXct"),
+                  !inherits(time, "POSIXt")))) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'time' must be type c('POSIXct', ",
                                        "'POSIXt')."))
         } else {
             ##
             # 1960-01-01 - now
-            if (!(is.na(time))){
+            if (!(is.na(time))) {
                 if (time < as.POSIXct("1960-01-01 00:00:00 CET") |
-                    time > Sys.time()){
+                    time > Sys.time()) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'time' must ",
                                                "be between 1960-01-01 and now ",
                                                "or NA."))
@@ -662,7 +664,7 @@ readWaterLevelJson <- function(file, river = NULL, time = NULL){
             
             ##
             # time != time(file)
-            if (time != wldf_time & (!(is.na(wldf_time)))){
+            if (time != wldf_time & (!(is.na(wldf_time)))) {
                 errors <- c(errors, paste0("Error ", l(errors),
                                            ": The time extracted from 'file' (",
                                            as.character(wldf_time), ") and ",
@@ -694,7 +696,7 @@ readWaterLevelJson <- function(file, river = NULL, time = NULL){
                      station     = as.numeric(rep(NA, len)),
                      station_int = as.integer(rep(NA, len)),
                      w           = round(as.numeric(rep(NA, len)), 2))
-    for(i in 1:len){
+    for(i in 1:len) {
         df$id[i] <- as.integer(list_wl[[i]][1])
         df$station[i] <- as.numeric(list_wl[[i]][2] / 1000)
         df$station_int[i] <- as.integer(list_wl[[i]][2])
@@ -791,7 +793,7 @@ readWaterLevelJson <- function(file, river = NULL, time = NULL){
 #'
 #' @export
 #' 
-readWaterLevelStationInt <- function(file, river = NULL, time = NULL){
+readWaterLevelStationInt <- function(file, river = NULL, time = NULL) {
     
     ## vector and function to catch error messages
     errors <- character()
@@ -804,28 +806,28 @@ readWaterLevelStationInt <- function(file, river = NULL, time = NULL){
     # file
     ##
     # presence
-    if (missing(file)){
+    if (missing(file)) {
         errors <- c(errors, paste0("Error ", l(errors),
                                    ": The 'file' argument has to be supplied."))
     } else {
         ##
         # character
-        if (class(file) != "character"){
+        if (!inherits(file, "character")) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'file' must be type 'character'."))
         }
         
         ##
         # length
-        if (length(file) != 1L){
+        if (length(file) != 1L) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'file' must have a length equal 1."))
         }
         
         ##
         # check, if file exists
-        if (!(file.exists(file))){
-            if (!(file.exists(paste(sep = .Platform$file.sep, getwd(), file)))){
+        if (!(file.exists(file))) {
+            if (!(file.exists(paste(sep = .Platform$file.sep, getwd(), file)))) {
                 errors <- c(errors, paste0("Error ", l(errors), ": The file ",
                                            "does not exist. Please supply an ",
                                            "existing file."))
@@ -841,16 +843,16 @@ readWaterLevelStationInt <- function(file, river = NULL, time = NULL){
     ##
     # river(file) ...
     if(grepl("ELBE", file) | grepl("Elbe", file) |
-       grepl("elbe", file) | grepl(paste0(.Platform$file.sep, "EL_"), file)){
+       grepl("elbe", file) | grepl(paste0(.Platform$file.sep, "EL_"), file)) {
         wldf_river <- "Elbe"
         wldf_comment[2] <- "'river' (Elbe) was determined from 'file'."
     } else if (grepl("RHEIN", file) | grepl("Rhein", file) |
                grepl("rhein", file) | grepl(paste0(.Platform$file.sep, "RH_"),
-                                            file)){
+                                            file)) {
         wldf_river <- "Rhein"
         wldf_comment[2] <- "'river' (Rhein) was determined from 'file'."
     } else {
-        if (missing(river)){
+        if (missing(river)) {
             errors <- c(errors, paste0("Error ", l(errors), ": The 'river' can",
                                        " not be extracted from 'file'. Please ",
                                        "supply it by the 'river' argument."))
@@ -862,25 +864,25 @@ readWaterLevelStationInt <- function(file, river = NULL, time = NULL){
     
     ##
     # river(argument)
-    if (!(missing(river))){
+    if (!(missing(river))) {
         
         ##
         # character
-        if (class(river) != "character"){
+        if (!inherits(river, "character")) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'river' must be type 'character'."))
         }
         
         ##
         # length
-        if (length(river) != 1L){
+        if (length(river) != 1L) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'river' must ",
                                        "have a length equal 1."))
         }
         
         ##
         # %in% c("Elbe", "Rhein")
-        if (!(river %in% c("Elbe", "Rhein"))){
+        if (!(river %in% c("Elbe", "Rhein"))) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'river' must ",
                                        "be an element of c('Elbe', 'Rhein')."))
         }
@@ -888,7 +890,7 @@ readWaterLevelStationInt <- function(file, river = NULL, time = NULL){
         ##
         # river != river(file)
         if (wldf_river != "") {
-            if (river != wldf_river){
+            if (river != wldf_river) {
                 errors <- c(errors, paste0("Error ", l(errors), ": The river ",
                                            "name extracted from 'file' (",
                                            as.character(wldf_river), ") and ",
@@ -907,27 +909,28 @@ readWaterLevelStationInt <- function(file, river = NULL, time = NULL){
     
     #####
     # time
-    if (!(missing(time))){
+    if (!(missing(time))) {
         
         ##
         # length
-        if (length(time) != 1L){
+        if (length(time) != 1L) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'time' must have a length equal 1."))
         }
         
         ##
         # POSIXct
-        if (!(all(class(time) == c("POSIXct", "POSIXt")))) {
+        if (!(all(c(inherits(time,"POSIXct"),
+                    inherits(time, "POSIXt"))))) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'time' must be type c('POSIXct', ",
                                        "'POSIXt')."))
         } else {
             ##
             # 1960-01-01 - now
-            if (!(is.na(time))){
+            if (!(is.na(time))) {
                 if (time < as.POSIXct("1960-01-01 00:00:00 CET") |
-                    time > Sys.time()){
+                    time > Sys.time()) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'time' ",
                                                "must be between 1960-01-01 and",
                                                " now or NA."))

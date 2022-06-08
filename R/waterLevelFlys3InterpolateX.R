@@ -77,7 +77,7 @@ waterLevelFlys3InterpolateX <- function(river = c("Elbe", "Rhein"),
         error_river <- TRUE
     } else {
         # character
-        if (class(river) != "character") {
+        if (!inherits(river, "character")) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'river' must ",
                                        "be type 'character'."))
             error_river <- TRUE
@@ -141,9 +141,9 @@ waterLevelFlys3InterpolateX <- function(river = c("Elbe", "Rhein"),
             }
         }
         
-        if (!(missing(station))){
+        if (!(missing(station))) {
             # station: numeric
-            if (class(station) != "numeric") {
+            if (!inherits(station, "numeric")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'station' ",
                                            "must be type 'numeric'."))
             }
@@ -196,7 +196,7 @@ waterLevelFlys3InterpolateX <- function(river = c("Elbe", "Rhein"),
         
         if (!(missing(station_int))) {
             # station_int: integer
-            if (class(station_int) != "integer") {
+            if (!inherits(station_int, "integer")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'station_",
                                            "int' must be type 'integer'."))
             }

@@ -36,17 +36,17 @@
 #' @export
 #' 
 plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
-                      add_weighting = TRUE, ...){
+                      add_weighting = TRUE, ...) {
     
     #####
     # check basic requirements
     ##
     # wldf
-    if (class(wldf) != "WaterLevelDataFrame"){
+    if (class(wldf) != "WaterLevelDataFrame") {
         stop("'wldf' must be type 'WaterLevelDataFrame'.")
     }
     if (!(all(names(wldf) == c("station", "station_int", "w", 
-                                "section", "weight_x", "weight_y")))){
+                                "section", "weight_x", "weight_y")))) {
         stop(paste0("'wldf' needs to be computed by waterLevel() or",
                     " waterLevelPegelonline()\n  with parameter shiny = TRUE.",
                     " Since column wldf$section is missing,\n  it needs to ",
@@ -58,33 +58,33 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     
     ##
     # add_flys
-    if (!(missing(add_flys))){
-        if (class(add_flys) != "logical"){
+    if (!(missing(add_flys))) {
+        if (class(add_flys) != "logical") {
             stop("'add_flys' must be type 'logical'.")
         }
-        if (length(add_flys) != 1){
+        if (length(add_flys) != 1) {
             stop("'add_flys' must have a length equal 1.")
         }
     }
     
     ##
     # add_flys_labels
-    if (!(missing(add_flys_labels))){
-        if (class(add_flys_labels) != "logical"){
+    if (!(missing(add_flys_labels))) {
+        if (class(add_flys_labels) != "logical") {
             stop("'add_flys_labels' must be type 'logical'.")
         }
-        if (length(add_flys_labels) != 1){
+        if (length(add_flys_labels) != 1) {
             stop("'add_flys_labels' must have a length equal 1.")
         }
     }
     
     ##
     # add_weighting
-    if (!(missing(add_weighting))){
-        if (class(add_weighting) != "logical"){
+    if (!(missing(add_weighting))) {
+        if (class(add_weighting) != "logical") {
             stop("'add_weighting' must be type 'logical'.")
         }
-        if (length(add_weighting) != 1){
+        if (length(add_weighting) != 1) {
             stop("'add_weighting' must have a length equal 1.")
         }
     }
@@ -96,7 +96,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     ###
     # modify known plot.default variables
     # xlim
-    if (!("xlim" %in% names(dots))){
+    if (!("xlim" %in% names(dots))) {
         dots$xlim <- c(min(df.gs$km_qps), max(df.gs$km_qps))
         ylim_set_x <- FALSE
     } else {
@@ -145,7 +145,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     flys_wls <- flys_wls[!(is.na(flys_wls))]
     flys_wl <- ifelse(length(flys_wls > 1), TRUE, FALSE)
     if (flys_wl) {
-        for (a_wls in flys_wls){
+        for (a_wls in flys_wls) {
             # query the FLYS data from the DB
             wldf_flys <- waterLevelFlys3(wldf, a_wls)
             # bind the w column to df.flys
@@ -170,7 +170,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
                 4:ncol(df.flys_total)]
         }
         
-        if (add_flys){
+        if (add_flys) {
             if (ylim_set_x) {
                 ylim_max <- max(df.flys_total_s)
                 ylim_min <- min(df.flys_total_s)
@@ -198,7 +198,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     }
     
     # ylim, y_gaugingstations_lab
-    if (!("ylim" %in% names(dots))){
+    if (!("ylim" %in% names(dots))) {
         y_gauging_station_lab_max <- ylim_max - (ylim_max - ylim_min) * 0.1
         y_gauging_station_lab_min <- ylim_min + (ylim_max - ylim_min) * 0.1
         ylim_max <- ylim_max + (ylim_max - ylim_min) * 0.2
@@ -212,8 +212,8 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     }
     
     # xlab
-    if (!("xlab" %in% names(dots))){
-        if (startsWith(Sys.getlocale(category = "LC_MESSAGES"), "de_DE")){
+    if (!("xlab" %in% names(dots))) {
+        if (startsWith(Sys.getlocale(category = "LC_MESSAGES"), "de_DE")) {
             dots$xlab <- "Flusskilometer (km)"
         } else {
             dots$xlab <- "river station (km)"
@@ -222,7 +222,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     
     # ylab
     if (!("ylab" %in% names(dots))) {
-        if (startsWith(Sys.getlocale(category = "LC_MESSAGES"), "de_DE")){
+        if (startsWith(Sys.getlocale(category = "LC_MESSAGES"), "de_DE")) {
             dots$ylab <- "H\u00f6he (m \u00fcber NHN (DHHN92))"
         } else {
             dots$ylab <- "elevation (m a.s.l. (DHHN92))"
@@ -230,7 +230,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     }
     
     # type
-    if ("type" %in% names(dots)){
+    if ("type" %in% names(dots)) {
         warning("'type' can not be set.")
         dots$type <- NULL
     }
@@ -253,7 +253,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
 }
 
 
-.plotShiny <- function(...){
+.plotShiny <- function(...) {
     
     dots <- list(...)
     
@@ -305,14 +305,14 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     
     #####
     # add the flys waterlevels
-    if (add_flys){
-        for (a_wls in flys_wls){
+    if (add_flys) {
+        for (a_wls in flys_wls) {
             graphics::lines(df.flys_total$station, df.flys_total[, a_wls],
                             lty = 1, lwd = 0.3, col = "grey60")
         }
         sections <- unique(wldf$section)
-        if (length(sections) > 1){
-            for (s in sections){
+        if (length(sections) > 1) {
+            for (s in sections) {
                 # subset df.flys and df.flys_total
                 df.flys_temp <- df.flys[which(df.flys$section == s), ]
                 df.flys_total_temp <- df.flys_total[
@@ -402,7 +402,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
                 
                 # add letters
                 if (add_flys_labels) {
-                    if (s == max(sections)){
+                    if (s == max(sections)) {
                         # recalculate coordinates for the last section
                         station_below <- df.gs$km_qps[s]
                         w_below <- df.gs$w_wl_below_w_up[s]
@@ -500,16 +500,16 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     
     # lines
     df.gs <- df.gs[df.gs$km_qps >= dots$xlim[1] & df.gs$km_qps <= dots$xlim[2],]
-    if (nrow(df.gs) > 0){
-        for (i in 1:nrow(df.gs)){
+    if (nrow(df.gs) > 0) {
+        for (i in 1:nrow(df.gs)) {
             graphics::lines(rep(df.gs$km_qps[i], 2), dots$ylim, lty = 3, 
                             lwd = 0.5)
         }
     }
     df.gsm <- df.gsm[df.gsm$km_qps >= dots$xlim[1] & 
                      df.gsm$km_qps <= dots$xlim[2],]
-    if (nrow(df.gsm) > 0){
-        for (i in 1:nrow(df.gsm)){
+    if (nrow(df.gsm) > 0) {
+        for (i in 1:nrow(df.gsm)) {
             graphics::lines(rep(df.gsm$km_qps[i], 2), dots$ylim, lty = 3, 
                             lwd = 0.5)
         }
@@ -517,11 +517,11 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     
     # labels
     id1 <- df.gs$km_qps >= min(dots$xlim) & df.gs$km_qps <= max(dots$xlim)
-    for (i in 1:2){
-        if (i == 1){
+    for (i in 1:2) {
+        if (i == 1) {
             id2 <- df.gs$km_qps <= (dots$xlim[1] + 
                                         (dots$xlim[2] - dots$xlim[1]) / 2)
-            if (any(id1 & id2)){
+            if (any(id1 & id2)) {
                 plotrix::boxed.labels(df.gs$km_qps[id1 & id2],
                                       rep(y_gauging_station_lab_min, 
                                           nrow(df.gs[id1 & id2, ])),
@@ -532,7 +532,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
         } else {
             id2 <- df.gs$km_qps > (dots$xlim[1] + 
                                        (dots$xlim[2] - dots$xlim[1]) / 2)
-            if (any(id1 & id2)){
+            if (any(id1 & id2)) {
                 plotrix::boxed.labels(df.gs$km_qps[id1 & id2],
                                       rep(y_gauging_station_lab_max, 
                                           nrow(df.gs[id1 & id2, ])),
@@ -544,11 +544,11 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     }
     
     id3 <- df.gsm$km_qps >= min(dots$xlim) & df.gsm$km_qps <= max(dots$xlim)
-    for (i in 1:2){
-        if (i == 1){
+    for (i in 1:2) {
+        if (i == 1) {
             id4 <- df.gsm$km_qps <= (dots$xlim[1] + 
                                          (dots$xlim[2] - dots$xlim[1]) / 2)
-            if (any(id3 & id4)){
+            if (any(id3 & id4)) {
                 plotrix::boxed.labels(df.gsm$km_qps[id3 & id4],
                                       rep(y_gauging_station_lab_min, 
                                           nrow(df.gsm[id3 & id4, ])),
@@ -559,7 +559,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
         } else {
             id4 <- df.gsm$km_qps > (dots$xlim[1] + 
                                         (dots$xlim[2] - dots$xlim[1]) / 2)
-            if (any(id3 & id4)){
+            if (any(id3 & id4)) {
                 plotrix::boxed.labels(df.gsm$km_qps[id3 & id4],
                                       rep(y_gauging_station_lab_max, 
                                           nrow(df.gsm[id3 & id4, ])),
@@ -581,13 +581,13 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     
     #####
     # weighting
-    if (add_weighting){
+    if (add_weighting) {
         df.gs <- df.gs[id1, ]
         if (nrow(df.gs) == 1) {
             graphics::text(x = df.gs$km_qps, y = df.gs$wl,
                            labels = round(df.gs$weight_up, 2), pos = 4, 
                            offset = 0.5, cex = 0.6, col = "darkblue")
-        } else if (nrow(df.gs) > 1){
+        } else if (nrow(df.gs) > 1) {
             for (i in 1:nrow(df.gs)) {
                 graphics::text(x = df.gs$km_qps[i], y = df.gs$wl[i],
                                labels = round(df.gs$weight_do[i], 2),
@@ -604,7 +604,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     graphics::box()
 }
 
-.plot <- function(...){
+.plot <- function(...) {
     graphics::plot(...)
 }
 

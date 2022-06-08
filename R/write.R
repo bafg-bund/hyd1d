@@ -26,7 +26,7 @@
 #' 
 #' @export
 #' 
-writeWaterLevelJson <- function(wldf, file, overwrite = FALSE){
+writeWaterLevelJson <- function(wldf, file, overwrite = FALSE) {
     
     ## vector and function to catch error messages
     errors <- character()
@@ -35,16 +35,16 @@ writeWaterLevelJson <- function(wldf, file, overwrite = FALSE){
     ##### check arguments
     ## wldf
     # presence
-    if (missing(wldf)){
+    if (missing(wldf)) {
         errors <- c(errors, paste0("Error ", l(errors), ": The 'wldf' argument",
                                    "must be supplied."))
     } else {
-        if (class(wldf) != "WaterLevelDataFrame"){
+        if (!inherits(wldf, "WaterLevelDataFrame")) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'wldf' must be ",
                                        "type 'WaterLevelDataFrame'."))
         } else {
             # nrow
-            if (nrow(wldf) == 0){
+            if (nrow(wldf) == 0) {
                 errors <- c(errors, paste0("Error ", l(errors), ": nrow(wldf)",
                                            " must be above 0."))
             }
@@ -53,24 +53,24 @@ writeWaterLevelJson <- function(wldf, file, overwrite = FALSE){
     
     ## file
     # presence
-    if (missing(file)){
+    if (missing(file)) {
         errors <- c(errors, paste0("Error ", l(errors), ": The 'file' argument",
                                    " must be supplied."))
     } else {
         # character
-        if (class(file) != "character"){
+        if (!inherits(file, "character")) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'file' must be type 'character'."))
         }
         # length
-        if (length(file) != 1L){
+        if (length(file) != 1L) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'file' must have a length equal 1."))
         }
         # check, if directory exists
         dir <- dirname(file)
-        if (!(file.exists(dir))){
-            if (!(file.exists(paste(sep = .Platform$file.sep, getwd(), dir)))){
+        if (!(file.exists(dir))) {
+            if (!(file.exists(paste(sep = .Platform$file.sep, getwd(), dir)))) {
                 errors <- c(errors, paste0("Error ", l(errors), ": The direct",
                                            "ory (", dir, ") does not exist. ",
                                            "Please supply an existing ",
@@ -78,39 +78,39 @@ writeWaterLevelJson <- function(wldf, file, overwrite = FALSE){
             }
         }
         # check, if the file already exists
-        if (file.exists(file) & overwrite == FALSE){
+        if (file.exists(file) & overwrite == FALSE) {
             errors <- c(errors, paste0("Error ", l(errors), ": The 'file' ",
                                        "already exists and is not supposed to ",
                                        "be overwritten."))
         }
         expand_file <- FALSE
         if (file.exists(paste(sep = .Platform$file.sep, getwd(), file)) &
-            overwrite == FALSE){
+            overwrite == FALSE) {
             errors <- c(errors, paste0("Error ", l(errors), ": The 'file' ",
                                        "already exists and is not supposed to ",
                                        "be overwritten."))
         }
         if (file.exists(paste(sep = .Platform$file.sep, getwd(), file)) &
-            overwrite){
+            overwrite) {
             expand_file <- TRUE
         }
     }
     
     ## overwrite
     # logical
-    if (class(overwrite) != "logical"){
+    if (!inherits(overwrite, "logical")) {
         errors <- c(errors, paste0("Error ", l(errors),
                                    ": 'overwrite' must be type 'logical'."))
     }
     # length
-    if (length(overwrite) != 1L){
+    if (length(overwrite) != 1L) {
         errors <- c(errors, paste0("Error ", l(errors), ": 'overwrite' must ",
                                    "have a length equal 1."))
     }
     
     #####
     # return
-    if (l(errors) == "1"){
+    if (l(errors) == "1") {
         # convert wldf to df
         df <- data.frame(id = as.character(as.numeric(row.names(wldf)) - 1), 
                          as.data.frame(wldf), stringsAsFactors = FALSE)
@@ -120,14 +120,14 @@ writeWaterLevelJson <- function(wldf, file, overwrite = FALSE){
         # convert the df to character vector with length 1
         string <- character()
         id_col <- c("id", "station_int", "w")
-        for (a_row in 1:nrow(df)){
-            if (a_row == 1){
+        for (a_row in 1:nrow(df)) {
+            if (a_row == 1) {
                 string <- c(string, paste0("[",
                                            paste0("[",
                                                   paste0(df[a_row, id_col],
                                                          collapse = ", "),
                                                   "],")))
-            } else if (a_row == nrow(df)){
+            } else if (a_row == nrow(df)) {
                 string <- c(string, paste0(paste0("[",
                                                   paste0(df[a_row, id_col],
                                                          collapse = ", "),
@@ -142,7 +142,7 @@ writeWaterLevelJson <- function(wldf, file, overwrite = FALSE){
         string <- paste0(string, collapse=" ")
         
         # write the converted df
-        if (expand_file){
+        if (expand_file) {
             write(string, file = paste(sep = .Platform$file.sep, getwd(), file))
         } else {
             write(string, file = file)
@@ -183,7 +183,7 @@ writeWaterLevelJson <- function(wldf, file, overwrite = FALSE){
 #' @export
 #' 
 writeWaterLevelStationInt <- function(wldf, file, overwrite = FALSE, 
-                                      append = FALSE){
+                                      append = FALSE) {
     
     ## vector and function to catch error messages
     errors <- character()
@@ -197,12 +197,12 @@ writeWaterLevelStationInt <- function(wldf, file, overwrite = FALSE,
                                    "must be supplied."))
     } else {
         # WaterLevelDataFrame
-        if (class(wldf) != "WaterLevelDataFrame"){
+        if (!inherits(wldf, "WaterLevelDataFrame")) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'wldf' must be ",
                                        "type 'WaterLevelDataFrame'."))
         }
         # nrow
-        if (nrow(wldf) == 0){
+        if (nrow(wldf) == 0) {
             errors <- c(errors, paste0("Error ", l(errors), ": nrow(wldf) must",
                                        " be above 0."))
         }
@@ -211,74 +211,75 @@ writeWaterLevelStationInt <- function(wldf, file, overwrite = FALSE,
     
     ## file
     # presence
-    if (missing(file)){
+    if (missing(file)) {
         errors <- c(errors, paste0("Error ", l(errors), ": The 'file' argument",
                                    "must be supplied."))
     } else {
         # character
-        if (class(file) != "character"){
+        if (!inherits(file, "character")) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'file' must be type 'character'."))
         }
         # length
-        if (length(file) != 1L){
+        if (length(file) != 1L) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'file' must have a length equal 1."))
         }
         # check, if directory exists
         dir <- dirname(file)
-        if (!(file.exists(dir))){
-            if (!(file.exists(paste(sep = .Platform$file.sep, getwd(), dir)))){
-                errors <- c(errors, paste0("Error ", l(errors), ": The directory (",
-                                           dir, ") does not exist. Please supply ",
+        if (!(file.exists(dir))) {
+            if (!(file.exists(paste(sep = .Platform$file.sep, getwd(), dir)))) {
+                errors <- c(errors, paste0("Error ", l(errors),
+                                           ": The directory (", dir,
+                                           ") does not exist. Please supply ",
                                            "an existing directory."))
             }
         }
         # check, if the file already exists
-        if (file.exists(file) & overwrite == FALSE & append == FALSE){
-            errors <- c(errors, paste0("Error ", l(errors), ": The 'file' already ",
-                                       "exists and is not supposed to be ",
+        if (file.exists(file) & overwrite == FALSE & append == FALSE) {
+            errors <- c(errors, paste0("Error ", l(errors), ": The 'file' alre",
+                                       "ady exists and is not supposed to be ",
                                        "overwritten."))
         }
         expand_file <- FALSE
         if (file.exists(paste(sep = .Platform$file.sep, getwd(), file)) &
-            overwrite == FALSE & append == FALSE){
-            errors <- c(errors, paste0("Error ", l(errors), ": The 'file' already ",
-                                       "exists and is not supposed to be ",
+            overwrite == FALSE & append == FALSE) {
+            errors <- c(errors, paste0("Error ", l(errors), ": The 'file' alre",
+                                       "ady exists and is not supposed to be ",
                                        "overwritten."))
         }
         if (file.exists(paste(sep = .Platform$file.sep, getwd(), file)) &
-            (overwrite | append )){
+            (overwrite | append )) {
             expand_file <- TRUE
         }
     }
     
     ## overwrite
     # logical
-    if (class(overwrite) != "logical"){
+    if (!inherits(overwrite, "logical")) {
         errors <- c(errors, paste0("Error ", l(errors),
                                    ": 'overwrite' must be type 'logical'."))
     }
     # length
-    if (length(overwrite) != 1L){
+    if (length(overwrite) != 1L) {
         errors <- c(errors, paste0("Error ", l(errors), ": 'overwrite' must ",
                                    "have a length equal 1."))
     }
     
     ## append
     # logical
-    if (class(append) != "logical"){
+    if (!inherits(append, "logical")) {
         errors <- c(errors, paste0("Error ", l(errors),
                                    ": 'append' must be type 'logical'."))
     }
     # length
-    if (length(append) != 1L){
+    if (length(append) != 1L) {
         errors <- c(errors, paste0("Error ", l(errors),
                                    ": 'append' must have a length equal 1."))
     }
     
     ## overwrite & append
-    if (overwrite & append){
+    if (overwrite & append) {
         errors <- c(errors, paste0("Error ", l(errors),
                                    ": 'overwrite' and 'append' are TRUE. ",
                                    "Only one of them can be TRUE, since they ",
@@ -287,9 +288,9 @@ writeWaterLevelStationInt <- function(wldf, file, overwrite = FALSE,
     
     #####
     # return
-    if (l(errors) == "1"){
-        if (overwrite){
-            if (expand_file){
+    if (l(errors) == "1") {
+        if (overwrite) {
+            if (expand_file) {
                 write(wldf$station_int,
                       file = paste(sep = .Platform$file.sep, getwd(), file),
                       ncolumns = 1,
@@ -301,8 +302,8 @@ writeWaterLevelStationInt <- function(wldf, file, overwrite = FALSE,
                       append = FALSE)
             }
         } else {
-            if (append){
-                if (expand_file){
+            if (append) {
+                if (expand_file) {
                     write(wldf$station_int,
                           file = paste(sep = .Platform$file.sep, getwd(), file),
                           ncolumns = 1,
@@ -314,7 +315,7 @@ writeWaterLevelStationInt <- function(wldf, file, overwrite = FALSE,
                           append = TRUE)
                 }
             } else {
-                if (expand_file){
+                if (expand_file) {
                     write(wldf$station_int,
                           file = paste(sep = .Platform$file.sep, getwd(), file),
                           ncolumns = 1,
@@ -329,7 +330,7 @@ writeWaterLevelStationInt <- function(wldf, file, overwrite = FALSE,
         }
         
         # add a trailing \n
-        if (expand_file){
+        if (expand_file) {
             write("",
                   file = paste(sep = .Platform$file.sep, getwd(), file),
                   ncolumns = 1,

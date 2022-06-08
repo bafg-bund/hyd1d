@@ -54,7 +54,7 @@ waterLevelFlood2 <- function(wldf) {
     
     ## wldf
     # WaterLevelDataFrame
-    if (class(wldf) != "WaterLevelDataFrame"){
+    if (!inherits(wldf, "WaterLevelDataFrame")) {
         errors <- c(errors, paste0("Error ", l(errors), ": 'wldf' ",
                                    "must be type 'WaterLevelDataFrame'."))
     } else {
@@ -73,13 +73,13 @@ waterLevelFlood2 <- function(wldf) {
         
         # time
         time    <- as.Date(trunc(getTime(wldf), units = "days"))
-        if (is.na(time)){
+        if (is.na(time)) {
             errors <- c(errors, paste0("Error ", l(errors), ": The time slot ",
                                        "of 'wldf' must not be NA."))
         }
     }
     
-    if (l(errors) != "1"){
+    if (l(errors) != "1") {
         stop(paste0(errors, collapse="\n  "))
     }
     

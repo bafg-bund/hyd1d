@@ -68,7 +68,7 @@ waterLevelFlood1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
     
     ## wldf
     # WaterLevelDataFrame
-    if (class(wldf) != "WaterLevelDataFrame"){
+    if (!inherits(wldf, "WaterLevelDataFrame")) {
         errors <- c(errors, paste0("Error ", l(errors), ": 'wldf' ",
                                    "must be type 'WaterLevelDataFrame'."))
     } else {
@@ -85,7 +85,7 @@ waterLevelFlood1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
         end_f = max(wldf$station)
         
         # time
-        if (is.na(time) & missing(w)){
+        if (is.na(time) & missing(w)) {
             errors <- c(errors, paste0("Error ", l(errors), ": The time slot ",
                                        "of 'wldf' must not be NA or 'w' must ",
                                        "be specified."))
@@ -106,13 +106,13 @@ waterLevelFlood1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
                                        "station' or 'uuid' argument has to ",
                                        "be supplied."))
         } else {
-            if (!(missing(gauging_station))){
-                if (class(gauging_station) != "character"){
+            if (!(missing(gauging_station))) {
+                if (!inherits(gauging_station, "character")) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'gaugi",
                                                "ng_station' must be type ",
                                                "'character'."))
                 }
-                if (length(gauging_station) != 1){
+                if (length(gauging_station) != 1) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'gaugi",
                                                "ng_station' must have length ",
                                                "1."))
@@ -139,7 +139,7 @@ waterLevelFlood1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
                         id <- c(min(id) - 1, id, max(id) + 1)
                         gs_possible <- stats::na.omit(
                             df.gauging_station_data_sel$gauging_station[id])
-                        if (!(df.gs$gauging_station %in% gs_possible)){
+                        if (!(df.gs$gauging_station %in% gs_possible)) {
                             errors <- c(errors, paste0("Error ", l(errors), ":",
                                                        " The selected 'gauging",
                                                        "_station' has to be in",
@@ -159,12 +159,12 @@ waterLevelFlood1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
                 }
             }
             
-            if (!(missing(uuid))){
-                if (class(uuid) != "character"){
+            if (!(missing(uuid))) {
+                if (!inherits(uuid, "character")) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'uuid' ",
                                                "must be type 'character'."))
                 }
-                if (length(uuid) != 1){
+                if (length(uuid) != 1) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'uuid' ",
                                                "must have length 1."))
                     stop(paste0(errors, collapse="\n  "))
@@ -182,14 +182,14 @@ waterLevelFlood1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
                     df.gs <- df.gauging_station_data_sel[
                         which(uuids == uuid_internal),]
                     
-                    if (df.gs$km_qps < start_f | df.gs$km_qps > end_f){
+                    if (df.gs$km_qps < start_f | df.gs$km_qps > end_f) {
                         id <- which(df.gauging_station_data_sel$km_qps > 
                                         start_f & 
                                     df.gauging_station_data_sel$km_qps < end_f)
                         id <- c(min(id) - 1, id, max(id) + 1)
                         uuid_possible <- stats::na.omit(
                             df.gauging_station_data_sel$uuid[id])
-                        if (!(df.gs$uuid %in% uuid_possible)){
+                        if (!(df.gs$uuid %in% uuid_possible)) {
                             errors <- c(errors, paste0("Error ", l(errors), ":",
                                                        " The selected 'uuid' h",
                                                        "as to be in the river ",
@@ -208,8 +208,8 @@ waterLevelFlood1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
                 }
             }
             
-            if (!(missing(gauging_station)) & !(missing(uuid))){
-                if (id_gs != id_uu){
+            if (!(missing(gauging_station)) & !(missing(uuid))) {
+                if (id_gs != id_uu) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'gaugin",
                                                "g_station' and 'uuid' must fit",
                                                " to each other.\nThe uuid for ",
@@ -221,22 +221,22 @@ waterLevelFlood1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
             }
             
             # get the measured water level
-            if (exists("uuid_internal")){
+            if (exists("uuid_internal")) {
                 df.gs$w <- getGaugingDataW(uuid = uuid_internal, 
                                            time = time)
                 df.gs$wl <- round(df.gs$pnp + df.gs$w / 100, 2)
                 
                 ##
                 # w
-                if (!(is.na(time))){
-                    if (!missing(w)){
+                if (!(is.na(time))) {
+                    if (!missing(w)) {
                         if (length(w) != 1) {
                             errors <- c(errors, paste0("Error ", l(errors), ":",
                                                        " 'w' must have length ",
                                                        "1."))
                             stop(paste0(errors, collapse="\n  "))
                         }
-                        if (class(w) != "numeric"){
+                        if (!inherits(w, "numeric")) {
                             errors <- c(errors, paste0("Error ", l(errors), ":",
                                                        " 'w' must be type 'num",
                                                        "eric'."))
@@ -248,7 +248,7 @@ waterLevelFlood1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
                                                        "e between 0 and 1000."))
                             stop(paste0(errors, collapse="\n  "))
                         }
-                        if (w != df.gs$w){
+                        if (w != df.gs$w) {
                             warning("The 'w' computed internally through getGa",
                                     "ugingDataW(gauging_station =\n  'gauging_",
                                     "station', time = getTime('wldf')) and the",
@@ -266,7 +266,7 @@ waterLevelFlood1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
         }
     }
     
-    if (l(errors) != "1"){
+    if (l(errors) != "1") {
         stop(paste0(errors, collapse="\n  "))
     }
     
@@ -323,19 +323,19 @@ waterLevelFlood1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
     c_columns <- c("gauging_station", "uuid", "river", "mw_timespan",
                    "name_wl_below_w_do", "name_wl_above_w_do", 
                    "name_wl_below_w_up", "name_wl_above_w_up")
-    for (a_column in c_columns){
+    for (a_column in c_columns) {
         df.gs[ , a_column] <- as.character(df.gs[ , a_column])
     }
     
     # convert type of integer columns
     c_columns <- c("n_wls_below_w_do", "n_wls_above_w_do", 
                    "n_wls_below_w_up", "n_wls_above_w_up")
-    for (a_column in c_columns){
+    for (a_column in c_columns) {
         df.gs[ , a_column] <- as.integer(df.gs[ , a_column])
     }
     
     # shiny
-    if (shiny){
+    if (shiny) {
         wldf_data$section <- rep(1, nrow(wldf_data))
         wldf_data$weight_x <- rep(1, nrow(wldf_data))
         wldf_data$weight_y <- rep(df.gs$wl - wl_mq, nrow(wldf_data))
