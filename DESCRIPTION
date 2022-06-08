@@ -2,15 +2,14 @@ Package: hyd1d
 Type: Package
 Title: Algorythms to compute 1D water levels along German federal waterways Elbe
     and Rhine
-Version: 0.2.1
-Date: 2021-11-18
+Version: 0.2.2
+Date: 2022-06-08
 Authors@R: c(person("Arnd", "Weber", email = "arnd.weber@bafg.de",
                     role = c("aut", "cre"), 
                     comment = c(ORCID = "0000-0002-5973-2770")),
              person("Marcus", "Hatz", email="hatz@bafg.de",
                     role = c("aut")),
-             person("Wolfgang", "Stürmer", email="stuermer@bafg.de",
-                    role = c("ctb")),
+             person("Wolfgang", "Stürmer", role = c("ctb")),
              person("Wilfried", "Wiechmann", email="wiechmann@bafg.de",
                     role = c("ctb")))
 Description: hyd1d provides an S4 class, datasets and several functions to
@@ -27,10 +26,10 @@ Suggests: DBI (>= 0.4-9), ROracle (>= 1.1-1), RPostgreSQL (>= 0.6-1), testthat,
     knitr, rmarkdown, stringr, devtools, pkgdown, roxygen2, revealjs, shiny,
     shiny.i18n, shinyTime, lubridate, usethis, yaml, desc
 RdMacros: Rdpack
-License: GPL-2
+License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Collate:
     'Class-WaterLevelDataFrame.R'
     'WaterLevelDataFrame-methods.R'
@@ -56,4 +55,3 @@ VignetteBuilder: knitr
 BugReports: http://gitlab.lan.bafg.de/auenoekologie/hyd1d/issues
 URL: http://r.bafg.de/~WeberA/hyd1d,
     http://gitlab.lan.bafg.de/auenoekologie/hyd1d
-
