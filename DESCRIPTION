@@ -1,7 +1,7 @@
 Package: hyd1d
 Type: Package
-Title: Algorythms to compute 1D water levels along German federal waterways Elbe
-    and Rhine
+Title: Algorithms to compute 1D water levels along the German federal waterways
+    Elbe and Rhine
 Version: 0.2.2
 Date: 2022-06-08
 Authors@R: c(person("Arnd", "Weber", email = "arnd.weber@bafg.de",
@@ -16,9 +16,10 @@ Description: hyd1d provides an S4 class, datasets and several functions to
     interpolate 1D water levels with gauging data. The S4 class
     WaterLevelDataFrame structures the computation and visualisation of 1D
     water level information along the German federal waterways Elbe and Rhine.
-    Based on package internal 1D water level data - provided by the FLYS
-    database - and gauging data - provided by the hydrological databases HyDaBa
-    and PEGELONLINE - near realtime predictions can be carried out.
+    hyd1d delivers 1D water level data - provided by the FLYS database - and 
+    validated gauging data - provided by the hydrological database HyDaBa -
+    package-internally. For computations near realtime data are queried
+    externally from PEGELONLINE.
 Depends: R (>= 3.5.0)
 Imports: methods, utils, RJSONIO (>= 1.0-0), RCurl (>= 1.95-4.10),
     plotrix (>= 3.0-0), Rdpack

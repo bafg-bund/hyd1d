@@ -16,7 +16,8 @@
 #'   The function uses neighboring gauging stations for linear interpolation of
 #'   gauging station water levels along the selected river stretch. Here it is
 #'   provided mainly for historical reasons and more advanced functions like 
-#'   \code{\link{waterLevel}} or \code{\link{waterLevelPegelonline}} be used.
+#'   \code{\link{waterLevel}} or \code{\link{waterLevelPegelonline}} should be
+#'   used.
 #'   
 #' @param wldf an object of class \linkS4class{WaterLevelDataFrame}.
 #'

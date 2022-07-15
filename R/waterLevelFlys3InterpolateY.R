@@ -16,7 +16,7 @@
 #'   parameter. Otherwise \code{\link{getGaugingDataW}} or 
 #'   \code{\link{getPegelonlineW}} provide gauging data internally.
 #' @eval param_uuid()
-#' @param shiny \code{logical}, determing wether columns (\code{section},
+#' @param shiny \code{logical} determing whether columns (\code{section},
 #'   \code{weight_x}, \code{weight_y}) relevant for the
 #'   \code{\link{plotShiny}()}-function are appended to the resulting
 #'   \linkS4class{WaterLevelDataFrame}.

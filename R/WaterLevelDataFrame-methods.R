@@ -71,7 +71,7 @@ as.data.frame.WaterLevelDataFrame <- function(x, ...) {
 #' 
 #' @return The function above extracts the slot \code{gauging_stations} and
 #'   returns an object of class \code{\link[base]{data.frame}}, which might
-#'   contain gauging station data which has been used for the interpolation of a
+#'   contain gauging station data that have been used for the interpolation of a
 #'   water level for the specified date.
 #' 
 #' @seealso \code{\link[=setGaugingStations<-]{setGaugingStations<--method}}
@@ -556,7 +556,7 @@ rbind.WaterLevelDataFrame <- function(...) {
 #'   \linkS4class{WaterLevelDataFrame}. Since \code{value} is normally generated
 #'   inside the functions \code{\link{waterLevel}} or
 #'   \code{\link{waterLevelPegelonline}} this function is of very little use
-#'   outside of these functions.
+#'   outside these functions.
 #' 
 #' @seealso \code{\link{getGaugingStations-method}}
 #' 

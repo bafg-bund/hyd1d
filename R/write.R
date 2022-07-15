@@ -3,14 +3,14 @@
 #' 
 #' @title Export a WaterLevelDataFrame to a JSON-formated ascii file
 #' 
-#' @description Store waterlevel data in a file format exchangeable between \R 
+#' @description Store water level data in an exchange format compatible with \R
 #'   and Python.
 #' 
 #' @param wldf an object of type \linkS4class{WaterLevelDataFrame}.
 #' @param file either a \code{character} string naming a file or a connection
 #'   open for writing.
-#' @param overwrite \code{logical}, whether an existing file should be
-#'   overwritten.
+#' @param overwrite \code{logical} to determine whether an existing file should
+#'   be overwritten.
 #' 
 #' @seealso \code{\link{readWaterLevelJson}}
 #' 
@@ -163,10 +163,10 @@ writeWaterLevelJson <- function(wldf, file, overwrite = FALSE) {
 #' @param wldf an object of type \linkS4class{WaterLevelDataFrame}.
 #' @param file either a \code{character} string naming a file or a connection
 #'   open for writing.
-#' @param overwrite \code{logical}, whether an existing file should be
-#'   overwritten.
-#' @param append \code{logical}, whether station data should be appended to an
-#'   existing file.
+#' @param overwrite \code{logical} to determine whether an existing file should
+#'   be overwritten.
+#' @param append \code{logical} to determine whether station data should be
+#'   appended to an existing file.
 #'
 #' @seealso \code{\link{readWaterLevelStationInt}}
 #'

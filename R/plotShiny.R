@@ -2,7 +2,7 @@
 #' @rdname plotShiny
 #' @title Plot a WaterLevelDataFrame in Shiny
 #' 
-#' @description This convinience function enables the easy visualisation of 
+#' @description This convenience function enables the easy visualisation of 
 #'   interpolated water levels stored as \linkS4class{WaterLevelDataFrame} using
 #'   the \R package \href{https://CRAN.R-project.org/package=shiny}{shiny}. The 
 #'   results of functions like \code{\link{waterLevel}} and
@@ -42,7 +42,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     # check basic requirements
     ##
     # wldf
-    if (class(wldf) != "WaterLevelDataFrame") {
+    if (!inherits(wldf, "WaterLevelDataFrame")) {
         stop("'wldf' must be type 'WaterLevelDataFrame'.")
     }
     if (!(all(names(wldf) == c("station", "station_int", "w", 
@@ -59,7 +59,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     ##
     # add_flys
     if (!(missing(add_flys))) {
-        if (class(add_flys) != "logical") {
+        if (!inherits(add_flys, "logical")) {
             stop("'add_flys' must be type 'logical'.")
         }
         if (length(add_flys) != 1) {
@@ -70,7 +70,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     ##
     # add_flys_labels
     if (!(missing(add_flys_labels))) {
-        if (class(add_flys_labels) != "logical") {
+        if (!inherits(add_flys_labels, "logical")) {
             stop("'add_flys_labels' must be type 'logical'.")
         }
         if (length(add_flys_labels) != 1) {
@@ -81,7 +81,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     ##
     # add_weighting
     if (!(missing(add_weighting))) {
-        if (class(add_weighting) != "logical") {
+        if (!inherits(add_weighting, "logical")) {
             stop("'add_weighting' must be type 'logical'.")
         }
         if (length(add_weighting) != 1) {

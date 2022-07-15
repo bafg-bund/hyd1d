@@ -37,11 +37,11 @@ nrow_df.gauging_data <- function() {
         n <- 733449
     }
     
-    c(paste0("@format A \\code{data.frame} with ", n, " (", "rows and 3 variables:"),
+    c(paste0("@format A \\code{data.frame} with ", n, " (", "rows and 3 variables):"),
       "\\describe{",
       "\\item{gauging_station}{name of the gauging station (type \\code{character}).  It is used as JOIN field for dataset \\code{\\link{df.gauging_station_data}}.}",
       "\\item{date}{of the measurement (type \\code{Date}).}",
-      "\\item{w}{water level relative to the gauging stations null (cm, type \\code{numeric}).}",
+      "\\item{w}{water level relative to the gauge zero (cm, type \\code{numeric}).}",
       "}"
     )
 }
@@ -53,17 +53,17 @@ nrow_df.gauging_data <- function() {
 #' 
 #' @description This dataset contains all \strong{daily-averaged} gauging data
 #'   for the gauging stations along \strong{Elbe} and \strong{Rhein} operated by
-#'   the waterway and navigation authorities (Wasserstraßen- und
+#'   the waterway and shipping administration (Wasserstraßen- und
 #'   Schifffahrtsverwaltung (WSV)) since 1960-01-01. Data from
-#'   the 1960-01-01 until 2021-12-31 are validated and were queried from the
+#'   1960-01-01 until 2021-12-31 are validated and were queried from the
 #'   BfG-Wiski
 #'   (\href{http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html}{HyDaBa})
 #'    and supplied by \email{Datenstelle-M1@@bafg.de}. Data after 2021-12-31 are
 #'   continuously collected from \url{https://pegelonline.wsv.de} and are not
-#'   officially validated. Not validated recent data will be replaced anually
-#'   and distributed through package and/or internal dataset updates.
+#'   officially validated. Unvalidated recent data will be replaced anually and
+#'   distributed through package and/or internal dataset updates.
 #'   
-#'   The most recent version is stored locally under
+#'   The latest version is stored locally under
 #'   \code{~/.hyd1d/df.gauging_data_latest.RDS}.
 #' 
 #' @eval nrow_df.gauging_data()
@@ -119,8 +119,8 @@ nrow_df.gauging_station_data <- function() {
                  "e{\\link{df.gauging_data}}.}"),
           paste0("\\item{uuid}{of the gauging station in the PEGELONLINE syste",
                  "m (type \\code{character}).}"),
-          paste0("\\item{agency}{of the waterway and navigation authority resp",
-                 "onsible for the respective gauging station (type \\code{char",
+          paste0("\\item{agency}{of the waterway and shipping administration i",
+                 "n charge of the respective gauging station (type \\code{char",
                  "acter}).}"),
           paste0("\\item{km}{official stationing of the gauging station (type ",
                  "\\code{numeric}).}"),
@@ -129,11 +129,11 @@ nrow_df.gauging_station_data <- function() {
           paste0("\\item{latitude}{of the gauging stations location (WGS1984, ",
                  "type \\code{numeric}).}"),
           paste0("\\item{mw}{mean water level of the gauging station (m relati",
-                 "ve to the gauging stations null, type \\code{numeric}).}"),
+                 "ve to the gauge zero, type \\code{numeric}).}"),
           paste0("\\item{mw_timespan}{timespan used to derive the gauging stat",
                  "ions mean water level (type \\code{character}).}"),
-          paste0("\\item{pnp}{the gauging stations null relative to sea level ",
-                 "(NHN (DHHN92), type \\code{numeric}).}"),
+          paste0("\\item{pnp}{the gauge zero relative to sea level (NHN (DHHN9",
+                 "2), type \\code{numeric}).}"),
           paste0("\\item{data_present}{\\code{logical} to separate TRUE (real)",
                  " from section structuring FALSE gauging stations.}"),
           paste0("\\item{km_qps}{corrected stationing used for the water level",
@@ -152,7 +152,7 @@ nrow_df.gauging_station_data <- function() {
 #'
 #' @description This dataset contains gauging station data for the gauging
 #'   stations along \strong{Elbe} and \strong{Rhein} operated by the waterway 
-#'   and navigation authorities (Wasserstraßen- und Schifffahrtsverwaltung 
+#'   and shipping administration (Wasserstraßen- und Schifffahrtsverwaltung 
 #'   (WSV)). The data were originally obtained from 
 #'   \url{https://pegelonline.wsv.de} and are updated anually.
 #' 
@@ -267,8 +267,8 @@ nrow_df.flys <- function() {
           paste0("\\item{name}{of the FLYS 3 water level (type \\code{characte",
                  "r}). See details for more information.}"),
           "\\item{station}{rivers stationing (type \\code{numeric}).}",
-          paste0("\\item{w}{water level (cm above gauging station null, type ",
-                 "\\code{numeric}).}"),
+          paste0("\\item{w}{water level (cm above gauge zero, type \\code{nume",
+                 "ric}).}"),
       "}")
 }
 
@@ -433,7 +433,7 @@ details_df.flys <- function() {
 #'   For both rivers 30 stationary water levels have been computed by means of 
 #'   the 1D hydraulic model \href{https://www.deltares.nl/en/software/sobek}{SOBEK}.
 #'   The water levels cover the full length of the free flowing river sections 
-#'   with a spacial resolution of 200 m river stretch along the official 
+#'   with a spatial resolution of 200 m river stretch along the official 
 #'   river stationing. They range from extremely low to extremely high flow 
 #'   conditions and are usually separated vertically by 0.2 - 0.6 m.
 #'   
@@ -485,13 +485,13 @@ details_df.flys <- function() {
 #' @title Sections with precomputed water level data along Elbe and Rhein
 #'
 #' @description A dataset containing all precomputed sections and relevant 
-#'   descriptive data to locate and import JSON-formated water level data within 
-#'   the \code{\link{readWaterLevelFileDB}()}-function.
+#'   descriptive data to locate and import JSON-formatted water level data 
+#'   within the \code{\link{readWaterLevelFileDB}()}-function.
 #'
 #' @format A \code{data.frame} with 89 rows and 8 variables:
 #' \describe{
 #'   \item{id}{continuous numbering (type \code{integer}).}
-#'   \item{river}{a sections belongs to (type \code{character}).}
+#'   \item{river}{a section belongs to (type \code{character}).}
 #'   \item{name}{of the section (type \code{character}).}
 #'   \item{name_km}{consisting of 0-padded upper and lower km (type \code{character}).}
 #'   \item{from_km}{upper km of the section (type \code{numeric}).}
