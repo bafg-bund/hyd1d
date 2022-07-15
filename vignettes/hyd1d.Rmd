@@ -130,7 +130,7 @@ capFig <- function(x){
 # Function to simplify linking to references/rd
 lrd <- function(x, y) {
     # standard url
-    url <- "http://r.bafg.de/~WeberA/hyd1d"
+    url <- "https://hyd1d.bafg.de/"
     
     # url from DESCRIPTION file
     if (file.exists("DESCRIPTION")) {
