@@ -1,6 +1,6 @@
 title: hyd1d
 url: http://r.bafg.de/~WeberA/hyd1d
-destination: public
+destination: docs
 template:
   params:
     bootswatch: cosmo
