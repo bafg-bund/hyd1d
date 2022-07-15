@@ -20,7 +20,7 @@ R_version <- as.character(getRversion())
 # output paths
 build <- paste0("build/", R_version)
 dir.create(build, FALSE, TRUE)
-public <- paste0("public/", R_version)
+public <- paste0("docs/")
 dir.create(public, FALSE, TRUE)
 
 #####
@@ -150,54 +150,52 @@ if (!(file.exists("README.md"))) {
 }
 
 # render the package website 
-pkgdown::clean_site(".")
-pkgdown::build_site(".", examples = TRUE, preview = FALSE, new_process = TRUE,
-                    override = list(destination = public))
+#pkgdown::clean_site(".")
+pkgdown::build_site(".", examples = TRUE, preview = FALSE, new_process = TRUE)
 
 # insert the BfG logo into the header
 files <- list.files(path = public, pattern = "*[.]html",
                     all.files = TRUE, full.names = FALSE, recursive = TRUE,
                     ignore.case = FALSE, include.dirs = TRUE, no.. = FALSE)
 for (a_file in files){
-    x <- readLines(paste0(public, "/", a_file))
+    x <- readLines(paste0(public, a_file))
     if (grepl("/", a_file, fixed = TRUE)){
         write(a_file, stdout())
-        y <- gsub('<a href="http://www.bafg.de">BfG</a>',
-                  paste0('<a href="http://www.bafg.de"><img border="0" src="..',
+        y <- gsub('href="https://www.bafg.de">BfG</a>',
+                  paste0('href="https://www.bafg.de"><img border="0" src="..',
                          '/bfg_logo.jpg" height="50px" width="114px"></a>'), x)
     } else {
-        y <- gsub('<a href="http://www.bafg.de">BfG</a>',
-                  paste0('<a href="http://www.bafg.de"><img border="0" src="bf',
+        y <- gsub('href="https://www.bafg.de">BfG</a>',
+                  paste0('href="https://www.bafg.de"><img border="0" src="bf',
                          'g_logo.jpg" height="50px" width="114px"></a>'), x)
     }
+    # edit footer
+    y <- gsub('Developed by Arnd Weber, Marcus Hatz.',
+              paste0('Developed by Arnd Weber, Marcus Hatz. <a href="https',
+                     '://www.bafg.de/EN/Service/Imprint/imprint_node.html"',
+                     '>Imprint</a>.'),
+              y)
     # remove the prefix "technical report" in references
     z <- gsub('Technical Report ', '', y)
-    cat(z, file = paste0(public, "/", a_file), sep="\n")
+    cat(z, file = paste0(public, a_file), sep="\n")
 }
 
 # clean up
 rm(a_file, files, x, y)
 
 # copy logo
-if (!(file.exists(paste0(public, "/bfg_logo.jpg")))){
+if (!(file.exists(paste0(public, "bfg_logo.jpg")))){
     file.copy("pkgdown/bfg_logo.jpg", public)
 }
 
 # copy README_files into public
-dir.create(paste0(public, "/README_files/figure-gfm"), FALSE, TRUE)
+dir.create(paste0(public, "README_files/figure-gfm"), FALSE, TRUE)
 file.copy("README_files/figure-gfm/usage-1.png", 
-          paste0(public, "/README_files/figure-gfm"))
-
-# modify js code in public/pkgdown.js
-# remove bug introduced through JS (https://github.com/r-lib/pkgdown/issues/326)
-js  <- readLines(paste0(public, "/pkgdown.js"))
-js  <- gsub("menu_anchor.parent().addClass(\"active\");",
-            "menu_anchor.parent();", x = js, fixed = TRUE)
-writeLines(js, con = paste0(public, "/pkgdown.js"))
+          paste0(public, "README_files/figure-gfm"))
 
 #####
 # create public/downloads directory and copy hyd1d_*.tar.gz-files into it
-downloads <- paste0("public/", R_version, "/downloads")
+downloads <- paste0(public, "downloads")
 dir.create(downloads, FALSE, TRUE)
 from <- list.files(path = build,
                    pattern = "hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]\\.tar\\.gz",
@@ -228,7 +226,8 @@ from <- append(from, list.files(path = "presentation", pattern = "*\\.css",
                                 full.names = TRUE))
 from <- append(from, list.files(path = "presentation", pattern = "*\\.mp4",
                                 full.names = TRUE))
-file.copy(from = from, to = paste0("public/", R_version, "/articles"), 
+file.copy(from = from,
+          to = gsub("presentation/", paste0(public, "articles/"), from),
           overwrite = TRUE, copy.date = TRUE)
 
 #####
@@ -239,10 +238,9 @@ write(" web", stdout())
 
 host <- Sys.info()["nodename"]
 user <- Sys.info()["user"]
-if (host == "r.bafg.de" & user == "WeberA" & R_version == "4.1.2") {
+if (host == "r.bafg.de" & user == "WeberA" & R_version == "4.2.1") {
     # copy html output to ~/public_html
-    system(paste0("cp -rp public/", R_version, "/* /home/", user, "/public_htm",
-                  "l/hyd1d/"))
+    system(paste0("cp -rp ", public, "* /home/", user, "/public_html/hyd1d/"))
     system("permissions_html")
     
     # copy shinyapps to ~/ShinyApps
@@ -255,10 +253,9 @@ if (host == "r.bafg.de" & user == "WeberA" & R_version == "4.1.2") {
     system("permissions_shiny")
     
     # copy package source to r.bafg.de
-    system(paste0("[ -d /home/", user, "/freigaben_r/_packages/package_sour",
-                  "ces ] && cp -rp public/", R_version, "/downloads/hyd1d_*.ta",
-                  "r.gz /home/", user, "/freigaben_r/_packages/package_sour",
-                  "ces"))
+    system(paste0("[ -d /home/", user, "/freigaben_r/_packages/package_sources",
+                  " ] && cp -rp ", public, "downloads/hyd1d_*.tar.gz /home/",
+                  user, "/freigaben_r/_packages/package_sources"))
     
 }
 

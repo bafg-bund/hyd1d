@@ -10,7 +10,7 @@
 ##################################################
 
 # output paths
-downloads <- "public/downloads"
+downloads <- "docs/downloads"
 dir.create(downloads, FALSE, TRUE)
 
 write(paste0(downloads, "/df.gauging_data_latest.RDS will be produced"), 

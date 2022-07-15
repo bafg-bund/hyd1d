@@ -34,6 +34,7 @@ data-raw/pegelonline2gauging_data.out
 data-raw/postgres.sql.gz
 doc
 /doc/
+docs
 inst/doc
 Meta
 /Meta/
@@ -41,7 +42,6 @@ presentation/Thumbs.db
 presentation/presentation_DE.html
 presentation/presentation_DE_files/*
 presentation/*.mp4
-public
 shinyapps/waterLevel/rsconnect/
 shinyapps/waterLevel/www
 shinyapps/waterLevelPegelonline/rsconnect/

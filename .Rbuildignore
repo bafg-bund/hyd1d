@@ -21,7 +21,6 @@
 ^_pkgdown\.yaml$
 ^pkgdown$
 ^presentation$
-^public$
 ^README\.Rmd$
 ^README_files$
 ^screenshot_flys_export_1\.png$
