@@ -449,6 +449,8 @@ details_df.flys <- function() {
 #'   
 #'   \insertRef{hkv_hydrokontor_erstellung_2014}{hyd1d}
 #'   
+#'   \insertRef{bundesanstalt_fur_gewasserkunde_flys_2013}{hyd1d}
+#'   
 #'   \insertRef{bundesanstalt_fur_gewasserkunde_flys_2016}{hyd1d}
 #'   
 #'   \insertRef{deltares_sobek_2018}{hyd1d}

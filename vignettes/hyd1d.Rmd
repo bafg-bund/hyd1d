@@ -272,7 +272,7 @@ visualize the results (`gauging_station`) or serve information purposes (
 
 The most advanced function to interpolate 
 [FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
-water levels [@bundesanstalt_fur_gewasserkunde_flys_2016] with local gauging
+water levels [@bundesanstalt_fur_gewasserkunde_flys_2013; @bundesanstalt_fur_gewasserkunde_flys_2016] with local gauging
 data is implemented in the `r lrd("waterLevel()")`-function. This function uses
 package-internal gauging data from the dataset `r lrd("df.gauging_data")`, which
 contains daily-averaged gauging data since 1960-01-01. Therefore
