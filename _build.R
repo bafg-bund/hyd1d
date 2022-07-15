@@ -97,14 +97,14 @@ tools::compactPDF(paths = "doc", gs_quality = "ebook")
 write("#####", stdout())
 write(" check", stdout())
 devtools::check(".", document = TRUE, manual = TRUE, error_on = "never",
-               build_args = c('--compact-vignettes=both'))
+                build_args = c('--compact-vignettes=both'))
 
 #####
 # build the source package
 write("#####", stdout())
 write(" build", stdout())
 devtools::build(".", path = build, vignettes = TRUE, manual = TRUE,
-               args = c("--compact-vignettes=both"))
+                args = c("--compact-vignettes=both"))
 
 #####
 # install hyd1d from source
