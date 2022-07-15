@@ -53,5 +53,5 @@ Collate:
     'zzz.R'
 VignetteBuilder: knitr
 BugReports: http://gitlab.lan.bafg.de/auenoekologie/hyd1d/issues
-URL: http://r.bafg.de/~WeberA/hyd1d,
+URL: https://hyd1d.bafg.de,
     http://gitlab.lan.bafg.de/auenoekologie/hyd1d
