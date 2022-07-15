@@ -22,7 +22,7 @@
 #'   appropriate values within the last 31 days before function call.
 #'
 #' @param wldf an object of class \linkS4class{WaterLevelDataFrame}.
-#' @param shiny \code{logical}, determing wether columns (\code{section},
+#' @param shiny \code{logical} determing whether columns (\code{section},
 #'   \code{weight_x}, \code{weight_y}) relevant for the
 #'   \code{\link{plotShiny}()}-function are appended to the resulting
 #'   \linkS4class{WaterLevelDataFrame}.

@@ -14,7 +14,7 @@
 #'   water and the FLYS3 water level for MQ at the specified gauging station.
 #'   Here it is provided mainly for historical reasons and more advanced 
 #'   functions like \code{\link{waterLevel}} or 
-#'   \code{\link{waterLevelPegelonline}} be used.
+#'   \code{\link{waterLevelPegelonline}} should be used.
 #' 
 #' @param wldf an object of class \linkS4class{WaterLevelDataFrame}.
 #' @eval param_gauging_station()
@@ -23,7 +23,7 @@
 #'   parameter. Otherwise \code{\link{getGaugingDataW}} or
 #'   \code{\link{getPegelonlineW}} provide gauging data internally.
 #' @eval param_uuid()
-#' @param shiny \code{logical}, determing wether columns (\code{section},
+#' @param shiny \code{logical} determing whether columns (\code{section},
 #'   \code{weight_x}, \code{weight_y}) relevant for the
 #'   \code{\link{plotShiny}()}-function are appended to the resulting
 #'   \linkS4class{WaterLevelDataFrame}.
@@ -32,7 +32,7 @@
 #' 
 #' @details This function computes a water level based on the reference water
 #'   level MQ from \code{\link{df.flys}}. Since the function only shifts this
-#'   single reference water level so that it fits to the measured water level,
+#'   single reference water level to make it fit to the measured water level,
 #'   no interpolation is needed. Therefore the \code{shiny} columns have
 #'   constant values of \code{section <- 1}, \code{weight_x <- 1} and
 #'   \code{weight_y <- shift}.

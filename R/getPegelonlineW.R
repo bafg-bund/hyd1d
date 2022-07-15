@@ -7,8 +7,8 @@
 #'   from \url{https://pegelonline.wsv.de}.
 #' 
 #' @eval param_gauging_station()
-#' @param time has to be type \code{c("POSIXct", "POSIXt")} or \code{Date} and
-#'   must be in the  temporal range between 31 days ago
+#' @param time must be type \code{c("POSIXct", "POSIXt")} or \code{Date} and
+#'   be in the  temporal range between 31 days ago
 #'   \code{\link[base:Sys.time]{Sys.time()} - 2678400} or
 #'   \code{\link[base:Sys.time]{Sys.Date()} - 31} and now
 #'   (\code{\link[base:Sys.time]{Sys.time()}}) or yesterday

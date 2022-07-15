@@ -5,9 +5,9 @@
 #'
 #' @description Function to overwrite and update the internal dataset
 #'   \code{\link{df.gauging_data}}. This function is usually called during the
-#'   initial loading of the package. If \code{\link{df.gauging_data}} was
-#'   updated more than 29 days ago, an updated version of
-#'   \code{\link{df.gauging_data}} will be downloaded and used.
+#'   initial loading of the package. If an update of 
+#'   \code{\link{df.gauging_data}} took place more than 29 days ago, an updated
+#'   version of \code{\link{df.gauging_data}} will be downloaded and used.
 #'
 #' @param x date when \code{\link{df.gauging_data}} was updated the last time
 #'   (type \code{Date}).
@@ -43,14 +43,14 @@ updateGaugingData <- function(x) {
                             "S")
         file_data <- paste0(path.expand('~'), "/.hyd1d/df.gauging_data_latest_",
                             "v2.RDS")
-        url <- paste0("https://www.aqualogy.de/wp-content/uploads/bfg/df.gaugi",
-                      "ng_data_latest_v2.RDS")
+        url <- paste0("https://hyd1d.bafg.de/downloads/df.gauging_data_latest_",
+                      "v2.RDS")
     } else {
         file_date <- paste0(path.expand('~'), "/.hyd1d/date_gauging_data.RDS")
         file_data <- paste0(path.expand('~'), "/.hyd1d/df.gauging_data_latest.",
                             "RDS")
-        url <- paste0("https://www.aqualogy.de/wp-content/uploads/bfg/df.gaugi",
-                      "ng_data_latest.RDS")
+        url <- paste0("https://hyd1d.bafg.de/downloads/df.gauging_data_latest.",
+                      "RDS")
     }
     
     if((x < Sys.Date() & 

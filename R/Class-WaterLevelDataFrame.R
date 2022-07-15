@@ -4,7 +4,7 @@
 #'
 #' @description The S4 class \linkS4class{WaterLevelDataFrame} is inherited from
 #'   the S3 class \code{\link[base]{data.frame}} and stores 1D water level
-#'   information together with the official stationing along German federal
+#'   information together with the official stationing along the German federal
 #'   waterways Elbe and Rhein.
 #' 
 #' @details In addition to the 1D water level data stored in the 
@@ -18,7 +18,7 @@
 #'   since \code{station <- \link[base:numeric]{as.numeric}(station_int / 1000)}
 #'   and \code{station_int <- \link[base:integer]{as.integer}(station * 1000)}.
 #'   The column \code{w} represents the height of the water level relative to
-#'   normal height null (DHHN92). These first three columns are required, but
+#'   standard elevation zero (DHHN92). These first three columns are required, but
 #'   further columns can be added.
 #' @slot river is a required slot clearly determining the location of a station.
 #'   Possible values of \code{river} have to be type \code{character}, have to
@@ -37,7 +37,7 @@
 #'   existed for the requested \code{time}. It is automatically filled by the
 #'   functions \code{\link{waterLevel}}, \code{\link{waterLevelPegelonline}},
 #'   \code{\link{waterLevelFlys3}} and \code{\link{waterLevelFlys3Seq}}.
-#' @slot comment contains information which function has been used to create
+#' @slot comment contains information on which function has been used to create
 #'   (\code{\link{WaterLevelDataFrame}}, \code{\link{readWaterLevelFileDB}},
 #'   \code{\link{readWaterLevelJson}}, \code{\link{readWaterLevelStationInt}})
 #'   or compute (\code{\link{waterLevel}}, \code{\link{waterLevelPegelonline}},
@@ -474,44 +474,44 @@ methods::setClass(
 #'   (\code{numeric}), w_wl_above_w_do (\code{numeric}), w_wl_below_w_up
 #'   (\code{numeric}), w_wl_above_w_up (\code{numeric}), weight_up
 #'   (\code{numeric}), weight_do (\code{numeric}).
-#' @param gauging_stations_missing a possible argument to fill the
+#' @param gauging_stations_missing an optional argument to fill the
 #'   \linkS4class{WaterLevelDataFrame}-slot \code{gauging_stations_missing}. It
 #'   has to be type \code{character} and usually contains a vector with names of
 #'   gauging stations for which no water level information was available for the
 #'   specified \code{time}. This argument is used by the functions
 #'   \code{\link{waterLevel}}, \code{\link{waterLevelPegelonline}},
 #'   \code{\link{waterLevelFlys3}} and \code{\link{waterLevelFlys3Seq}}.
-#' @param comment a possible argument to fill the
+#' @param comment an optional argument to fill the
 #'   \linkS4class{WaterLevelDataFrame}-slot \code{comment}. It has to be type
 #'   \code{character} and is used by the functions
 #'   \code{\link{WaterLevelDataFrame}}, \code{\link{readWaterLevelFileDB}},
 #'   \code{\link{readWaterLevelJson}}, \code{\link{readWaterLevelStationInt}},
 #'   \code{\link{waterLevel}}, \code{\link{waterLevelPegelonline}},
 #'   \code{\link{waterLevelFlys3}} and \code{\link{waterLevelFlys3Seq}}.
-#' @param id a possible argument to hand over the \code{row.names(wldf)}.
+#' @param id an optional argument to hand over the \code{row.names(wldf)}.
 #'   \code{id} has to be type \code{integer} and has to have the same length
 #'   as other optional arguments (\code{station}, \code{station_int} and
 #'   \code{w}) forming the \code{\link[base]{data.frame}}-component of a
 #'   \linkS4class{WaterLevelDataFrame}.
-#' @param station a possible argument to hand over the stationing along the
+#' @param station an optional argument to hand over the stationing along the
 #'   specified \code{river}. If specified, it has to be type \code{numeric}
 #'   and has to have the same length as other optional arguments (\code{id},
 #'   \code{station_int} and \code{w}) forming the \code{\link[base]{data.frame}}-component
 #'   of a \linkS4class{WaterLevelDataFrame}. If both stationing arguments
 #'   (\code{station} and \code{station_int}) are specified, all elements of
 #'   \code{station} have to be equal to \code{as.numeric(station_int / 1000)}.
-#'   Minimal and maximal allowed values of \code{station} are
+#'   Minimum and maximum allowed values of \code{station} are
 #'   \code{river}-specific: Elbe (km 0 - 585.7), Rhein (km 336.2 - 865.7).
-#' @param station_int a possible argument to hand over the stationing along the
+#' @param station_int an optional argument to hand over the stationing along the
 #'   specified \code{river}. If specified, it has to be type \code{integer}
 #'   and has to have the same length as other optional arguments (\code{id},
 #'   \code{station} and \code{w}) forming the \code{\link[base]{data.frame}}-component
 #'   of a \linkS4class{WaterLevelDataFrame}. If both stationing arguments
 #'   (\code{station} and \code{station_int}) are specified, all elements of
 #'   \code{station_int} have to be equal to \code{as.integer(station * 1000)}.
-#'   Minimal and maximal allowed values of \code{station_int} are \code{river}-specific:
+#'   Minimum and maximum allowed values of \code{station_int} are \code{river}-specific:
 #'   Elbe (m 0 - 585700), Rhein (m 336200 - 865700).
-#' @param w a possible argument to hand over the water level information along
+#' @param w an optional argument to hand over the water level information along
 #'   the stationing of the specified \code{river} for a given \code{time}. If
 #'   specified, it has to be type \code{numeric} and has to have the same
 #'   length as other optional arguments (\code{id}, \code{station} and
@@ -519,8 +519,8 @@ methods::setClass(
 #'   a \linkS4class{WaterLevelDataFrame}. If not specified, the respective
 #'   \linkS4class{WaterLevelDataFrame}-column \code{w} can be computed by the
 #'   functions \code{\link{waterLevel}}, \code{\link{waterLevelPegelonline}},
-#'   \code{\link{waterLevelFlys3}} and \code{\link{waterLevelFlys3Seq}}. Minimal
-#'   and maximal allowed values of \code{w} are river-specific: Elbe (m a.s.l. 0
+#'   \code{\link{waterLevelFlys3}} and \code{\link{waterLevelFlys3Seq}}. Minimum
+#'   and maximum allowed values of \code{w} are river-specific: Elbe (m a.s.l. 0
 #'   - 130), Rhein (m a.s.l. 5 - 120).
 #' 
 #' @return The function produces an object of class

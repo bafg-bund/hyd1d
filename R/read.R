@@ -2,18 +2,18 @@
 #' @rdname readWaterLevelFileDB
 #' @title Read precomputed WaterLevelDataFrames from a file database on Z:
 #'
-#' @description Take already computed water level data stored in the file system
-#'   of the BfG and import them as \linkS4class{WaterLevelDataFrame}.
+#' @description Take water level data stored in file system and import them as
+#'   \linkS4class{WaterLevelDataFrame}.
 #'
-#' @param river has to be type \code{character}, has to have a length of one and
-#'   can be either \strong{Elbe} or \strong{Rhein}.
+#' @param river has to be type \code{character} with a length of one and can be
+#'   either \strong{Elbe} or \strong{Rhein}.
 #' @param time has to be type \code{\link[base:POSIXct]{c("POSIXct", "POSIXt")}},
 #'   has to have a length of one and must be in the temporal range between
 #'   \code{1960-01-01 00:00:00 CET} and now (\code{Sys.time()}).
 #' @param from specifies the minimum station value and has to be either type
-#'   \code{numeric} or \code{integer} and has to have a length of one.
+#'   \code{numeric} or \code{integer} with a length of one.
 #' @param to specifies the maximum station value and has to have the same type
-#'   like \code{from} and a length of one.
+#'   like \code{from} with a length of one.
 #'
 #' @return a precomputed object of class \linkS4class{WaterLevelDataFrame}.
 #'
@@ -26,9 +26,9 @@
 #'
 #'   Internally \code{readWaterLevelFileDB} uses the dataset
 #'   \code{\link{df.sections}} to locate the individual sections,
-#'   \code{\link{readWaterLevelJson}} to import the individual section's
-#'   waterlevel data, \code{\link{rbind.WaterLevelDataFrame}} to combine them to
-#'   one \linkS4class{WaterLevelDataFrame} and
+#'   \code{\link{readWaterLevelJson}} to import the individual sections'
+#'   water level data, \code{\link{rbind.WaterLevelDataFrame}} to combine them
+#'   to one \linkS4class{WaterLevelDataFrame} and
 #'   \code{\link{subset.WaterLevelDataFrame}} to subset the resulting
 #'   \linkS4class{WaterLevelDataFrame} and limit it with \code{from} and
 #'   \code{to}.
@@ -483,27 +483,27 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to) {
 #' @rdname readWaterLevelJson
 #' @title Import a WaterLevelDataFrame from JSON
 #'
-#' @description Import already computed waterlevel data stored as JSON object in
-#'   the file system of the BfG as \linkS4class{WaterLevelDataFrame}.
+#' @description Import water level data stored as JSON object in
+#'   file system as \linkS4class{WaterLevelDataFrame}.
 #'
-#' @param file the name of the file which the JSON-formated data are to be read
+#' @param file name of the file the JSON-formatted data are to be read
 #'   from. If it does not contain an \emph{absolute} path, the file name is
 #'   \emph{relative} to the current working directory,
 #'   \code{\link[base]{getwd}()}. Tilde-expansion is performed where supported.
 #'
-#'   Since precomputed waterlevel data stored in the file system of the BfG are
-#'   stored in certain directory and file structure
+#'   Since precomputed water level data held in file system are stored in a
+#'   certain directory and file structure
 #'   (Z:/../\code{river}/section/\code{year}/\code{date}.txt) parameters
 #'   \code{river} and \code{time} are derived from \code{file}. For \code{file}s
 #'   stored elsewhere \code{river} and \code{time} have to supplied
 #'   additionally.
 #' @param river has to be supplied, if the imported \code{file} is stored
-#'   outside the standard directory structure so that \code{river} can't be
+#'   outside the standard directory structure so that \code{river} cannot be
 #'   extracted from \code{file}. If supplied, it has to be type
 #'   \code{character}, has to have a length of one and can be either
 #'   \strong{Elbe} or \strong{Rhein}.
 #' @param time has to be supplied, if the imported \code{file} is stored outside
-#'   the standard directory structure so that \code{time} can't be extracted
+#'   the standard directory structure so that \code{time} cannot be extracted
 #'   from \code{file}. If supplied, it has to be type \code{\link[base:POSIXct]{c("POSIXct",
 #'   "POSIXt")}}, has to have a length of one and has to be in the temporal range
 #'   between \code{1960-01-01 00:00:00 CET} and now (\code{Sys.time()})
@@ -757,28 +757,27 @@ readWaterLevelJson <- function(file, river = NULL, time = NULL) {
 #' @rdname readWaterLevelStationInt
 #' @title Import integer station values to construct a WaterLevelDataFrame
 #'
-#' @description Import station values stored as ascii file in the file system of
-#'   the BfG and construct and empty \linkS4class{WaterLevelDataFrame} from
-#'   them.
+#' @description Import station values stored as ascii file in file system and
+#'   construct and empty \linkS4class{WaterLevelDataFrame} from them.
 #'
-#' @param file the name of the file which the integer-formated station values
+#' @param file name of the file the integer-formatted station values
 #'   are to be read from. If it does not contain an \emph{absolute} path, the
 #'   file name is \emph{relative} to the current working directory,
 #'   \code{\link[base]{getwd}()}. Tilde-expansion is performed where supported.
 #'
-#'   Since \code{integer} station values stored in the file system of the BfG
-#'   are stored in certain directory and file structure
+#'   Since \code{integer} station values in file system are stored in certain
+#'   directory and file structure
 #'   (Z:/../\code{river}/Abschnitt/km_values.txt) parameter \code{river} can be
-#'   derived derived from \code{file}. For \code{file}s stored elsewhere
+#'   derived from \code{file}. For \code{file}s stored elsewhere
 #'   \code{river} has to supplied additionally.
 #' @param river has to be supplied, if the imported \code{file} is stored
-#'   outside the standard directory structure so that \code{river} can't be
+#'   outside the standard directory structure so that \code{river} cannot be
 #'   extracted from \code{file}. If supplied, it has to be type
-#'   \code{character}, has to have a length of one and can be either
+#'   \code{character} with a length of one and can be either
 #'   \strong{Elbe} or \strong{Rhein}.
-#' @param time can be supplied to set the \code{time} slot prior to waterlevel
+#' @param time can be supplied to set the \code{time} slot prior to water level
 #'   computations and save one line of code. If supplied, it has to be type
-#'   \code{\link[base:POSIXct]{c("POSIXct", "POSIXt")}}, has to have a length of
+#'   \code{\link[base:POSIXct]{c("POSIXct", "POSIXt")}} with a length of
 #'   one and has to be in the temporal range between
 #'   \code{1960-01-01 00:00:00 CET} and now (\code{Sys.time()}).
 #'

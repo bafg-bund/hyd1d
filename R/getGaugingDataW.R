@@ -54,8 +54,8 @@ param_gauging_station <- function() {
             'WESEL', 'REES', 'EMMERICH')
     }
     
-    return(paste0("@param gauging_station has to be type \\code{character} and",
-                  " has to have a length of one. Permitted values are: '",
+    return(paste0("@param gauging_station must be type \\code{character} with ",
+                  "a length of one. Permitted values are: '",
                   paste0(gauging_stations, collapse = "', '"), "'."))
 }
 
@@ -165,8 +165,8 @@ param_uuid <- function() {
                    '9598e4cb-0849-401e-bba0-689234b27644')
     }
     
-    return(paste0("@param uuid has to be type \\code{character} and has to hav",
-                  "e a length of one. Permitted values are: '",
+    return(paste0("@param uuid must be type \\code{character} with a length of",
+                  " one. Permitted values are: '",
                   paste0(uuids, collapse = "', '"), "'."))
 }
 
@@ -179,9 +179,9 @@ param_uuid <- function() {
 #'   \code{\link{df.gauging_data}} for specific gauging station and date.
 #' 
 #' @eval param_gauging_station()
-#' @param time has to be type \code{\link[base:POSIXct]{c("POSIXct", "POSIXlt")}}
-#'   or \code{\link[base:Date]{Date}} and must be in the temporal range 
-#'   between 1960-01-01 and now (\code{Sys.time()} or \code{Sys.Date()}).
+#' @param time must be type \code{\link[base:POSIXct]{c("POSIXct", "POSIXlt")}}
+#'   or \code{\link[base:Date]{Date}} and in the temporal range between
+#'   1960-01-01 and now (\code{Sys.time()} or \code{Sys.Date()}).
 #' @eval param_uuid()
 #' 
 #' @details This functions queries package-internal gauging data 
