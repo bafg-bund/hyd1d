@@ -13,7 +13,7 @@ test_that("readWaterLevelFileDB", {
         expect_error(wldf <- readWaterLevelFileDB(river = "ELBE",
                                                   time = as.POSIXct("2016-12-21"),
                                                   from = 257, to = 262),
-                     " 'river' must be an element of c('Elbe', 'Rhein').",
+                     " 'river' must be an element of c('Elbe', 'Rhine').",
                      fixed = TRUE)
         expect_error(wldf <- readWaterLevelFileDB(river = "Elbe",
                                                   time = as.POSIXct("1959-12-21"),
@@ -46,8 +46,8 @@ test_that("readWaterLevelJson", {
         expect_error(wldf <- readWaterLevelJson(file1),
                      "The file does not exist. Please supply an existing file.",
                      fixed = TRUE)
-        expect_error(wldf <- readWaterLevelJson(file, "Rhein"),
-                     "from 'file' (Elbe) and the 'river' argument (Rhein)",
+        expect_error(wldf <- readWaterLevelJson(file, "Rhine"),
+                     "from 'file' (Elbe) and the 'river' argument (Rhine)",
                      fixed = TRUE)
         expect_error(wldf <- readWaterLevelJson(file, "Elbe", 
                                                 as.POSIXct("2016-12-20")),
@@ -70,8 +70,8 @@ test_that("readWaterLevelStationInt", {
         expect_error(wldf <- readWaterLevelStationInt(file1),
                      "The file does not exist. Please supply an existing file.",
                      fixed = TRUE)
-        expect_error(wldf <- readWaterLevelStationInt(file, "Rhein"),
-                     "from 'file' (Elbe) and the 'river' argument (Rhein)",
+        expect_error(wldf <- readWaterLevelStationInt(file, "Rhine"),
+                     "from 'file' (Elbe) and the 'river' argument (Rhine)",
                      fixed = TRUE)
         expect_error(wldf <- readWaterLevelStationInt(file, "Elbe", 
                                                       as.Date("2016-12-21")),

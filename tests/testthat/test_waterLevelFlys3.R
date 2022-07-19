@@ -23,7 +23,7 @@ test_that("waterLevelFlys3: Dessau", {
     
     # errors waterLevelFlys3Seq
     expect_error(wldf1 <- waterLevelFlys3Seq("wldf", "MQ"), 
-                 "ver' must be an element of c('Elbe', 'Rhei", fixed = TRUE)
+                 "ver' must be an element of c('Elbe', 'Rhine')", fixed = TRUE)
     expect_error(wldf1 <- waterLevelFlys3Seq("wldf", "MQ"), 
                  "e 'from' argument has to be su", fixed = TRUE)
     expect_error(wldf1 <- waterLevelFlys3Seq("wldf", "MQ"), 
@@ -46,10 +46,10 @@ test_that("waterLevelFlys3InterpolateX", {
     expect_equal(names(df.flys), 
                  names(waterLevelFlys3InterpolateX("Elbe", 261.1)))
     expect_error(waterLevelFlys3InterpolateX("ELBE", 261.1),
-                 "'river' must be an element of c('Elbe', 'Rhein')", 
+                 "'river' must be an element of c('Elbe', 'Rhine')", 
                  fixed = TRUE)
     expect_error(waterLevelFlys3InterpolateX(261.1),
-                 "'river' must be an element of c('Elbe', 'Rhein')", 
+                 "'river' must be an element of c('Elbe', 'Rhine')", 
                  fixed = TRUE)
     expect_error(waterLevelFlys3InterpolateX(261.1),
                  "ne station argument ('station_int' or 'station') must be", 

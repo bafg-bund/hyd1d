@@ -7,7 +7,7 @@
 #'   column \code{w} of an S4 object of type \linkS4class{WaterLevelDataFrame}.
 #'
 #' @details \code{waterLevel} interpolates 1D water level along the river axis
-#'   of Elbe and Rhein based on daily averaged, mostly validated gauging data
+#'   of Elbe and Rhine based on daily averaged, mostly validated gauging data
 #'   stored in the internal dataset \code{\link{df.gauging_data}}. Internally
 #'   stored gauging data are available from 1960-01-01 until yesterday.
 #'
@@ -96,7 +96,7 @@ waterLevel <- function(wldf, shiny = FALSE) {
     
     # access the gauging_station_data
     get("df.gauging_station_data", pos = -1)
-    id <- which(df.gauging_station_data$river == "RHEIN" & 
+    id <- which(df.gauging_station_data$river == "RHINE" & 
                 df.gauging_station_data$km_qps < 336.2)
     df.gauging_station_data <- df.gauging_station_data[-id,]
     

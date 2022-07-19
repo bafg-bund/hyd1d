@@ -22,6 +22,9 @@ urlcolor: blue
 citecolor: blue
 lof: true
 output:
+  html_vignette:
+    toc: yes
+    toc_depth: 3
   pdf_document:
     latex_engine: pdflatex
     keep_tex: false
@@ -39,11 +42,8 @@ output:
     pandoc_args: [
             "--biblatex"
         ]
-  html_vignette:
-    toc: yes
-    toc_depth: 3
 vignette: |
-  %\VignetteIndexEntry{hyd1d - Das Paket} 
+  %\VignetteIndexEntry{hyd1d - Vignette (DE)} 
   %\VignetteEncoding{UTF-8} 
   %\VignetteEngine{knitr::rmarkdown} 
 ---

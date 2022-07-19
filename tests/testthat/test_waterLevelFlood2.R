@@ -52,26 +52,26 @@ test_that("waterLevelFlood2: Geesthacht", {
 })
 
 test_that("waterLevelFlood2: Iffezheim", {
-    wldf1 <- WaterLevelDataFrame(river       = "Rhein",
+    wldf1 <- WaterLevelDataFrame(river       = "Rhine",
                                  time        = as.POSIXct("2016-12-21"),
                                  station_int = as.integer(seq(336200, 340000, 100)))
     expect_silent(wldf1 <- waterLevelFlood2(wldf1))
 })
 
 test_that("waterLevelFlood2: Koblenz", {
-    wldf1 <- WaterLevelDataFrame(river       = "Rhein",
+    wldf1 <- WaterLevelDataFrame(river       = "Rhine",
                                  time        = as.POSIXct("2016-12-21"),
                                  station_int = as.integer(seq(590000, 600000, 100)))
     expect_silent(wldf1 <- waterLevelFlood2(wldf1))
 })
 
 test_that("waterLevelFlood2: Grenze NL", {
-    wldf1 <- WaterLevelDataFrame(river       = "Rhein",
+    wldf1 <- WaterLevelDataFrame(river       = "Rhine",
                                  time        = as.POSIXct("2016-12-21"),
                                  station_int = as.integer(seq(865000, 865700, 100)))
     expect_silent(wldf1 <- waterLevelFlood2(wldf1))
     
-    wldf2 <- WaterLevelDataFrame(river       = "Rhein",
+    wldf2 <- WaterLevelDataFrame(river       = "Rhine",
                                  time        = as.POSIXct("2016-12-21"),
                                  station_int = as.integer(seq(860000, 865700, 100)))
     expect_silent(wldf2 <- waterLevelFlood2(wldf2))

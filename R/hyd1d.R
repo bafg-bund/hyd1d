@@ -6,7 +6,7 @@
 #' 
 #' @description The hyd1d package provides an S4 class, data import and export 
 #' functions, relevant datasets and functions to compute 1D water levels along 
-#' the German federal waterways Elbe and Rhein.
+#' the German federal waterways Elbe and Rhine.
 #' 
 #' \strong{S4 class WaterLevelDataFrame}
 #' 

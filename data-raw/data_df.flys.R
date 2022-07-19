@@ -48,8 +48,8 @@ if (Sys.info()["nodename"] %in% c("r.bafg.de")) {
                                          stringsAsFactors = FALSE),
                               df.flys_elbe)
         
-        # for the Rhein
-        query_string_rhein <- "
+        # for the Rhine
+        query_string_rhine <- "
         SELECT
             FLYS3.WST_COLUMNS.NAME AS \"name\",
             FLYS3.WST_COLUMN_VALUES.POSITION AS \"station\",
@@ -70,11 +70,11 @@ if (Sys.info()["nodename"] %in% c("r.bafg.de")) {
         ORDER BY
             FLYS3.WST_COLUMN_VALUES.POSITION ASC, FLYS3.WST_COLUMN_VALUES.W"
         
-        df.flys_rhein <- dbGetQuery(f3_con, query_string_rhein)
-        df.flys_rhein <- cbind(data.frame(river = as.character("Rhein", 
-                                                      nrow(df.flys_rhein)),
+        df.flys_rhine <- dbGetQuery(f3_con, query_string_rhine)
+        df.flys_rhine <- cbind(data.frame(river = as.character("Rhine", 
+                                                      nrow(df.flys_rhine)),
                                           stringsAsFactors = FALSE),
-                               df.flys_rhein)
+                               df.flys_rhine)
         
         # for the Weser
         query_string_weser <- "
@@ -108,7 +108,7 @@ if (Sys.info()["nodename"] %in% c("r.bafg.de")) {
         # paste(collapse = '", "', df.flys_sel$name)
         
         # combine both datasets
-        df.flys <- rbind.data.frame(df.flys_elbe, df.flys_rhein,
+        df.flys <- rbind.data.frame(df.flys_elbe, df.flys_rhine,
                                     stringsAsFactors = FALSE)
         df.flys$name[which(df.flys$name == "Q100-200")] <- "HQ100-200"
         
@@ -117,7 +117,7 @@ if (Sys.info()["nodename"] %in% c("r.bafg.de")) {
         
         # clean up
         rm(f3_con, f3_credentials, f3_string, query_string_elbe, 
-           query_string_rhein, df.flys_elbe, df.flys_rhein, df.flys)
+           query_string_rhine, df.flys_elbe, df.flys_rhine, df.flys)
         
         # detach ROracle
         detach("package:ROracle", unload = TRUE)

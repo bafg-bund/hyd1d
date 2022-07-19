@@ -49,10 +49,10 @@ nrow_df.gauging_data <- function() {
 #' @name df.gauging_data
 #' @rdname df.gauging_data
 #' 
-#' @title Gauging data for all WSV-run gauging stations along Elbe and Rhein
+#' @title Gauging data for all WSV-run gauging stations along Elbe and Rhine
 #' 
 #' @description This dataset contains all \strong{daily-averaged} gauging data
-#'   for the gauging stations along \strong{Elbe} and \strong{Rhein} operated by
+#'   for the gauging stations along \strong{Elbe} and \strong{Rhine} operated by
 #'   the waterway and shipping administration (Wasserstraßen- und
 #'   Schifffahrtsverwaltung (WSV)) since 1960-01-01. Data from
 #'   1960-01-01 until 2021-12-31 are validated and were queried from the
@@ -148,10 +148,10 @@ nrow_df.gauging_station_data <- function() {
 #' @name df.gauging_station_data
 #' @rdname df.gauging_station_data
 #' 
-#' @title Gauging station data for all WSV-run gauging stations along Elbe and Rhein
+#' @title Gauging station data for all WSV-run gauging stations along Elbe and Rhine
 #'
 #' @description This dataset contains gauging station data for the gauging
-#'   stations along \strong{Elbe} and \strong{Rhein} operated by the waterway 
+#'   stations along \strong{Elbe} and \strong{Rhine} operated by the waterway 
 #'   and shipping administration (Wasserstraßen- und Schifffahrtsverwaltung 
 #'   (WSV)). The data were originally obtained from 
 #'   \url{https://pegelonline.wsv.de} and are updated anually.
@@ -221,8 +221,8 @@ nrow_df.flys <- function() {
                                              stringsAsFactors = FALSE),
                                   df.flys_elbe)
             
-            # for the Rhein
-            query_string_rhein <- "
+            # for the Rhine
+            query_string_rhine <- "
             SELECT
                 FLYS3.WST_COLUMNS.NAME AS \"name\",
                 FLYS3.WST_COLUMN_VALUES.POSITION AS \"station\",
@@ -243,14 +243,14 @@ nrow_df.flys <- function() {
             ORDER BY
                 FLYS3.WST_COLUMN_VALUES.POSITION ASC, FLYS3.WST_COLUMN_VALUES.W"
             
-            df.flys_rhein <- DBI::dbGetQuery(f3_con, query_string_rhein)
-            df.flys_rhein <- cbind(data.frame(river = as.character("Rhein", 
-                                                                   nrow(df.flys_rhein)),
+            df.flys_rhine <- DBI::dbGetQuery(f3_con, query_string_rhine)
+            df.flys_rhine <- cbind(data.frame(river = as.character("Rhine", 
+                                                                   nrow(df.flys_rhine)),
                                               stringsAsFactors = FALSE),
-                                   df.flys_rhein)
+                                   df.flys_rhine)
             
             # combine both datasets
-            df.flys <- rbind.data.frame(df.flys_elbe, df.flys_rhein,
+            df.flys <- rbind.data.frame(df.flys_elbe, df.flys_rhine,
                                         stringsAsFactors = FALSE)
             
             n <- nrow(df.flys)
@@ -272,7 +272,7 @@ nrow_df.flys <- function() {
       "}")
 }
 
-names_df.flys <- function(river = c("Elbe", "Rhein")) {
+names_df.flys <- function(river = c("Elbe", "Rhine")) {
     if (file.exists("DB_credentials_flys3") &
         requireNamespace("ROracle") & requireNamespace("DBI")) {
         
@@ -383,7 +383,7 @@ details_df.flys <- function() {
                          "g", "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50",
                          "HQ75", "HQ100", "i", "HQ150", "HQ200", "HQ300",
                          "HQ500")
-            wl_rhein <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
+            wl_rhine <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
                           "Ud=120", "Ud=183", "MQ", "Ud=240","Ud=270", "Ud=310",
                           "Ud=340", "Ud=356", "Ud=360", "MHQ", "HQ2", "HQ5",
                           "HQ5-10", "HQ10", "HQ10-20", "~HQ20", "HQ20-50",
@@ -394,8 +394,8 @@ details_df.flys <- function() {
             # for the Elbe
             wl_elbe <- names_df.flys(river = "Elbe")
             
-            # for the Rhein
-            wl_rhein <- names_df.flys(river = "Rhein")
+            # for the Rhine
+            wl_rhine <- names_df.flys(river = "Rhine")
         }
     } else {
         wl_elbe <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ",
@@ -403,7 +403,7 @@ details_df.flys <- function() {
                      "g", "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50",
                      "HQ75", "HQ100", "i", "HQ150", "HQ200", "HQ300",
                      "HQ500")
-        wl_rhein <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
+        wl_rhine <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
                       "Ud=120", "Ud=183", "MQ", "Ud=240","Ud=270", "Ud=310",
                       "Ud=340", "Ud=356", "Ud=360", "MHQ", "HQ2", "HQ5",
                       "HQ5-10", "HQ10", "HQ10-20", "~HQ20", "HQ20-50",
@@ -415,8 +415,8 @@ details_df.flys <- function() {
              "}-specific:"),
       "", "\\strong{Elbe:}", "",
       paste0("'", paste0(wl_elbe, collapse = "', '"), "'"),
-      "", "\\strong{Rhein:}", "",
-      paste0("'", paste0(wl_rhein, collapse = "', '"), "'"),
+      "", "\\strong{Rhine:}", "",
+      paste0("'", paste0(wl_rhine, collapse = "', '"), "'"),
       "",
       "Both lists of water levels are ordered from low to high water levels.")
 }
@@ -427,7 +427,7 @@ details_df.flys <- function() {
 #' @title Stationary water levels from the FLYS 3-database
 #' 
 #' @description This dataset contains the 30 stationary 1D water levels for the
-#'   rivers \strong{Elbe} and \strong{Rhein} originally stored in the 
+#'   rivers \strong{Elbe} and \strong{Rhine} originally stored in the 
 #'   \href{https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3}-database.
 #'   
 #'   For both rivers 30 stationary water levels have been computed by means of 
@@ -484,7 +484,7 @@ details_df.flys <- function() {
 #' @name df.sections
 #' @rdname df.sections
 #' 
-#' @title Sections with precomputed water level data along Elbe and Rhein
+#' @title Sections with precomputed water level data along Elbe and Rhine
 #'
 #' @description A dataset containing all precomputed sections and relevant 
 #'   descriptive data to locate and import JSON-formatted water level data 

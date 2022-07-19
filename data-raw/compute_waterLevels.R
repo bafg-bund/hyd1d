@@ -34,7 +34,7 @@ for (a_day in seq(as.Date("2017-01-01"), as.Date("2017-12-31"), by = "days")) {
         time <- as.POSIXct(as.Date(a_day, origin = "1970-01-01"))
         if (river == "Elbe") {
             dir <- "EL_000_586_UFD"
-        } else if (river == "Rhein") {
+        } else if (river == "Rhine") {
             dir <- "RH_336_867_UFD"
         } else {
             write(paste0("The river '", river, "' does not exist."), stderr())

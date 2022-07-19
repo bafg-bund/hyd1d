@@ -8,28 +8,28 @@ test_that("river", {
     wldf <- WaterLevelDataFrame(river = "Elbe", time = as.POSIXct("2016-12-21"),
                                 station = seq(256, 263, by = 0.1))
     expect_equal(getRiver(wldf), "Elbe")
-    expect_error(setRiver(wldf) <- "Rhein", regexp = "must be above km 336.2")
-    expect_error(setRiver(wldf) <- "Rhein", regexp = "must be above 336200 (km",
+    expect_error(setRiver(wldf) <- "Rhine", regexp = "must be above km 336.2")
+    expect_error(setRiver(wldf) <- "Rhine", regexp = "must be above 336200 (km",
                  fixed = TRUE)
     
-    # Rhein
-    wldf <- WaterLevelDataFrame(river = "Rhein", time = as.POSIXct("2016-12-21"),
+    # Rhine
+    wldf <- WaterLevelDataFrame(river = "Rhine", time = as.POSIXct("2016-12-21"),
                                 station = seq(666, 777, by = 0.1))
-    expect_equal(getRiver(wldf), "Rhein")
+    expect_equal(getRiver(wldf), "Rhine")
     expect_error(setRiver(wldf) <- "Elbe", regexp = "must be below km 585.7")
     expect_error(setRiver(wldf) <- "Elbe", regexp = "must be below 585700 (km", 
                  fixed = TRUE)
     
     # both directions
-    wldf <- WaterLevelDataFrame(river = "Rhein", time = as.POSIXct("2016-12-21"),
+    wldf <- WaterLevelDataFrame(river = "Rhine", time = as.POSIXct("2016-12-21"),
                                 station = seq(554, 555, by = 0.1))
-    expect_equal(getRiver(wldf), "Rhein")
+    expect_equal(getRiver(wldf), "Rhine")
     setRiver(wldf) <- "Elbe"
     expect_equal(getRiver(wldf), "Elbe")
     wldf <- waterLevel(wldf)
     # expect_equal(wldf$w, c(5.99, 5.97, 5.96, 5.95, 5.94, 5.93, 5.92, 5.90,
     #                        5.88, 5.87, 5.85))
-    setRiver(wldf) <- "Rhein"
+    setRiver(wldf) <- "Rhine"
     expect_equal(all(is.na(wldf$w)), TRUE)
     wldf <- waterLevel(wldf)
     expect_equal(wldf$w, c(66.12, 66.12, 66.13, 66.12, 66.11, 66.06, 65.99,
