@@ -6,7 +6,7 @@
 #'   \linkS4class{WaterLevelDataFrame}.
 #'
 #' @param river has to be type \code{character} with a length of one and can be
-#'   either \strong{Elbe} or \strong{Rhein}.
+#'   either \strong{Elbe} or \strong{Rhine}.
 #' @param time has to be type \code{\link[base:POSIXct]{c("POSIXct", "POSIXt")}},
 #'   has to have a length of one and must be in the temporal range between
 #'   \code{1960-01-01 00:00:00 CET} and now (\code{Sys.time()}).
@@ -21,7 +21,7 @@
 #'   and \code{to} are \code{river}- and type-specific. If the \code{river} is
 #'   the \strong{Elbe} the allowed range is 0 - 585.7 km for type
 #'   \code{numeric}, respectively 0 - 585700 m for type \code{integer}. For the
-#'   river \strong{Rhein} the allowed range is 336.2 - 865.7 km for type
+#'   river \strong{Rhine} the allowed range is 336.2 - 865.7 km for type
 #'   \code{numeric}, respectively 336200 - 865700 m for type \code{integer}.
 #'
 #'   Internally \code{readWaterLevelFileDB} uses the dataset
@@ -46,7 +46,7 @@
 #' 
 #' @export
 #' 
-readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to) {
+readWaterLevelFileDB <- function(river = c("Elbe", "Rhine"), time, from, to) {
     
     ## vector and function to catch error messages
     errors <- character()
@@ -83,11 +83,11 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to) {
         }
         
         ##
-        # %in% c("Elbe", "Rhein")
-        if (!(river %in% c("Elbe", "Rhein"))) {
+        # %in% c("Elbe", "Rhine")
+        if (!(river %in% c("Elbe", "Rhine"))) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'river' must be an element ",
-                                       "of c('Elbe', 'Rhein')."))
+                                       "of c('Elbe', 'Rhine')."))
             error_river <- TRUE
         }
         
@@ -98,7 +98,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to) {
                 station_int_min <- 0
                 station_int_max <- 585700
             }
-            if (river == "Rhein") {
+            if (river == "Rhine") {
                 station_int_min <- 336200
                 station_int_max <- 865700
             }
@@ -183,7 +183,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to) {
         ##
         # range
         # Elbe 0 - 585700
-        # Rhein 336200 - 865700
+        # Rhine 336200 - 865700
         if (!(error_river)) {
             if (inherits(from, "integer")) {
                 if (from < station_int_min) {
@@ -306,7 +306,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to) {
         ##
         # range
         # Elbe 0 - 585700
-        # Rhein 336200 - 865700
+        # Rhine 336200 - 865700
         if (!(error_river)) {
             if (inherits(to, "integer")) {
                 if (to < station_int_min) {
@@ -435,7 +435,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to) {
                              df.sections$to_km >= wldf_from &
                              df.sections$from_km <= wldf_to)
         
-        dir <- c(Elbe = "EL_000_586_UFD", Rhein = "RH_336_867_UFD")
+        dir <- c(Elbe = "EL_000_586_UFD", Rhine = "RH_336_867_UFD")
         
         i <- 1
         for (s in id_sections) {
@@ -501,7 +501,7 @@ readWaterLevelFileDB <- function(river = c("Elbe", "Rhein"), time, from, to) {
 #'   outside the standard directory structure so that \code{river} cannot be
 #'   extracted from \code{file}. If supplied, it has to be type
 #'   \code{character}, has to have a length of one and can be either
-#'   \strong{Elbe} or \strong{Rhein}.
+#'   \strong{Elbe} or \strong{Rhine}.
 #' @param time has to be supplied, if the imported \code{file} is stored outside
 #'   the standard directory structure so that \code{time} cannot be extracted
 #'   from \code{file}. If supplied, it has to be type \code{\link[base:POSIXct]{c("POSIXct",
@@ -565,10 +565,12 @@ readWaterLevelJson <- function(file, river = NULL, time = NULL) {
         wldf_river <- "Elbe"
         wldf_comment[2] <- "'river' (Elbe) was determined from 'file'."
     } else if (grepl("RHEIN", file) | grepl("Rhein", file) |
-               grepl("rhein", file) | grepl(paste0(.Platform$file.sep, "RH_"),
+               grepl("rhein", file) | grepl("RHINE", file) |
+               grepl("Rhine", file) | grepl("rhine", file) |
+               grepl(paste0(.Platform$file.sep, "RH_"),
                                             file)) {
-        wldf_river <- "Rhein"
-        wldf_comment[2] <- "'river' (Rhein) was determined from 'file'."
+        wldf_river <- "Rhine"
+        wldf_comment[2] <- "'river' (Rhine) was determined from 'file'."
     } else {
         if (missing(river)) {
             errors <- c(errors, paste0("Error ", l(errors), ": The 'river' ",
@@ -598,11 +600,11 @@ readWaterLevelJson <- function(file, river = NULL, time = NULL) {
         }
         
         ##
-        # %in% c("Elbe", "Rhein")
-        if (!(river %in% c("Elbe", "Rhein"))) {
+        # %in% c("Elbe", "Rhine")
+        if (!(river %in% c("Elbe", "Rhine"))) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'river' ",
                                        "must be an element of c('Elbe', ",
-                                       "'Rhein')."))
+                                       "'Rhine')."))
         }
         
         ##
@@ -774,7 +776,7 @@ readWaterLevelJson <- function(file, river = NULL, time = NULL) {
 #'   outside the standard directory structure so that \code{river} cannot be
 #'   extracted from \code{file}. If supplied, it has to be type
 #'   \code{character} with a length of one and can be either
-#'   \strong{Elbe} or \strong{Rhein}.
+#'   \strong{Elbe} or \strong{Rhine}.
 #' @param time can be supplied to set the \code{time} slot prior to water level
 #'   computations and save one line of code. If supplied, it has to be type
 #'   \code{\link[base:POSIXct]{c("POSIXct", "POSIXt")}} with a length of
@@ -845,11 +847,11 @@ readWaterLevelStationInt <- function(file, river = NULL, time = NULL) {
        grepl("elbe", file) | grepl(paste0(.Platform$file.sep, "EL_"), file)) {
         wldf_river <- "Elbe"
         wldf_comment[2] <- "'river' (Elbe) was determined from 'file'."
-    } else if (grepl("RHEIN", file) | grepl("Rhein", file) |
-               grepl("rhein", file) | grepl(paste0(.Platform$file.sep, "RH_"),
+    } else if (grepl("RHINE", file) | grepl("Rhine", file) |
+               grepl("rhine", file) | grepl(paste0(.Platform$file.sep, "RH_"),
                                             file)) {
-        wldf_river <- "Rhein"
-        wldf_comment[2] <- "'river' (Rhein) was determined from 'file'."
+        wldf_river <- "Rhine"
+        wldf_comment[2] <- "'river' (Rhine) was determined from 'file'."
     } else {
         if (missing(river)) {
             errors <- c(errors, paste0("Error ", l(errors), ": The 'river' can",
@@ -880,10 +882,10 @@ readWaterLevelStationInt <- function(file, river = NULL, time = NULL) {
         }
         
         ##
-        # %in% c("Elbe", "Rhein")
-        if (!(river %in% c("Elbe", "Rhein"))) {
+        # %in% c("Elbe", "Rhine")
+        if (!(river %in% c("Elbe", "Rhine"))) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'river' must ",
-                                       "be an element of c('Elbe', 'Rhein')."))
+                                       "be an element of c('Elbe', 'Rhine')."))
         }
         
         ##

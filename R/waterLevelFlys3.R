@@ -30,7 +30,7 @@ details_waterLevelFlys3 <- function() {
                          "g", "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50",
                          "HQ75", "HQ100", "i", "HQ150", "HQ200", "HQ300",
                          "HQ500")
-            wl_rhein <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
+            wl_rhine <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
                           "Ud=120", "Ud=183", "MQ", "Ud=240","Ud=270", "Ud=310",
                           "Ud=340", "Ud=356", "Ud=360", "MHQ", "HQ2", "HQ5",
                           "HQ5-10", "HQ10", "HQ10-20", "~HQ20", "HQ20-50",
@@ -41,8 +41,8 @@ details_waterLevelFlys3 <- function() {
             # for the Elbe
             wl_elbe <- names_df.flys(river = "Elbe")
             
-            # for the Rhein
-            wl_rhein <- names_df.flys(river = "Rhein")
+            # for the Rhine
+            wl_rhine <- names_df.flys(river = "Rhine")
         }
     } else {
         wl_elbe <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ",
@@ -50,7 +50,7 @@ details_waterLevelFlys3 <- function() {
                      "g", "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50",
                      "HQ75", "HQ100", "i", "HQ150", "HQ200", "HQ300",
                      "HQ500")
-        wl_rhein <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
+        wl_rhine <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
                       "Ud=120", "Ud=183", "MQ", "Ud=240","Ud=270", "Ud=310",
                       "Ud=340", "Ud=356", "Ud=360", "MHQ", "HQ2", "HQ5",
                       "HQ5-10", "HQ10", "HQ10-20", "~HQ20", "HQ20-50",
@@ -68,8 +68,8 @@ details_waterLevelFlys3 <- function() {
       paste0("Possible range of \\code{from} and \\code{to}: type \\code{numer",
              "ic} (km) 0 - 585.7, type \\code{integer} (m) 0 - 585700."),
       "",
-      "\\strong{Rhein:}", "",
-      paste0("'", paste0(wl_rhein, collapse = "', '"), "'"),
+      "\\strong{Rhine:}", "",
+      paste0("'", paste0(wl_rhine, collapse = "', '"), "'"),
       "",
       paste0("Possible range of \\code{from} and \\code{to}: type \\code{numer",
              "ic} (km) 336.2 - 865.7, type \\code{integer} (m) 336200 - 865700",
@@ -96,7 +96,7 @@ details_waterLevelFlys3 <- function() {
 #' @param wldf an object of class \linkS4class{WaterLevelDataFrame}.
 #' @param river a required argument to fill the \linkS4class{WaterLevelDataFrame}-slot
 #'   \code{river}. It has to be type \code{character}, has to have a length of
-#'   one and can be either \strong{Elbe} or \strong{Rhein}.
+#'   one and can be either \strong{Elbe} or \strong{Rhine}.
 #' @param name a string with the name of a stationary 
 #'   \href{https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3}
 #'   water level. It has 
@@ -181,7 +181,7 @@ waterLevelFlys3 <- function(wldf, name) {
                                         "HQ75", "HQ100", "i", "HQ150", "HQ200",
                                         "HQ300", "HQ500")
             }
-            if (getRiver(wldf) == "Rhein") {
+            if (getRiver(wldf) == "Rhine") {
                 flys3_water_levels <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50",
                                         "Ud=80", "Ud=100", "Ud=120", "Ud=183",
                                         "MQ", "Ud=240","Ud=270", "Ud=310",

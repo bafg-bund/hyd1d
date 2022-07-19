@@ -735,7 +735,7 @@ methods::setMethod("setGaugingStationsMissing<-",
 #' @param x an object of class \linkS4class{WaterLevelDataFrame}.
 #' @param value a new value of class \code{character} for the \code{river}
 #'   slot. \code{value} has to have a length of one and has to be \strong{Elbe}
-#'   or \strong{Rhein}.
+#'   or \strong{Rhine}.
 #' 
 #' @return The function above sets a new \code{value} for the slot \code{river}
 #'   and returns an object of class \linkS4class{WaterLevelDataFrame}. Since
@@ -750,7 +750,7 @@ methods::setMethod("setGaugingStationsMissing<-",
 #' wldf <- WaterLevelDataFrame(river   = "Elbe",
 #'                             time    = as.POSIXct("2016-12-21"),
 #'                             station = seq(500, 501, 0.1))
-#' setRiver(wldf) <- as.character("Rhein")
+#' setRiver(wldf) <- as.character("Rhine")
 #' 
 #' @exportMethod setRiver<-
 #' 
@@ -771,8 +771,8 @@ methods::setMethod("setRiver<-",
     if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
-    if (!(value %in% c("Elbe", "Rhein"))) {
-        stop("'value' has to be either 'Elbe' or 'Rhein'.")
+    if (!(value %in% c("Elbe", "Rhine"))) {
+        stop("'value' has to be either 'Elbe' or 'Rhine'.")
     }
     
     # set the value

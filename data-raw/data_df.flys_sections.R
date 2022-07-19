@@ -4,9 +4,9 @@ if (!(file.exists("data/df.flys_sections.rda"))){
     # define the dataset
     df.flys_sections <- data.frame(
         river = c("ELBE", "ELBE", "ELBE", "ELBE", "ELBE", "ELBE", "ELBE", 
-                  "ELBE", "ELBE", "ELBE", "RHEIN", "RHEIN", "RHEIN", "RHEIN", 
-                  "RHEIN", "RHEIN", "RHEIN", "RHEIN", "RHEIN", "RHEIN", "RHEIN",
-                  "RHEIN", "RHEIN", "RHEIN"),
+                  "ELBE", "ELBE", "ELBE", "RHINE", "RHINE", "RHINE", "RHINE", 
+                  "RHINE", "RHINE", "RHINE", "RHINE", "RHINE", "RHINE", "RHINE",
+                  "RHINE", "RHINE", "RHINE"),
         gauging_station = c("SCHOENA", "DRESDEN", "TORGAU", "WITTENBERG", "AKEN",
                             "BARBY", "MAGDEBURG-STROMBRUECKE", "TANGERMUENDE", 
                             "WITTENBERGE", "NEU DARCHAU", "MAXAU", "SPEYER", 

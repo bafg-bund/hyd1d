@@ -481,7 +481,7 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     ##
     # access the gauging_station_data
     get("df.gauging_station_data", pos = -1)
-    id <- which(df.gauging_station_data$river == "RHEIN" & 
+    id <- which(df.gauging_station_data$river == "RHINE" & 
                 df.gauging_station_data$km_qps < 336.2)
     df.gauging_station_data <- df.gauging_station_data[-id,]
     id <- which(df.gauging_station_data$river == toupper(getRiver(wldf)))
