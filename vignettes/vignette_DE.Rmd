@@ -301,7 +301,7 @@ nocite: |
 
 ### Entwicklung {#problem_flys_entwicklung}
 
-Um diese Informationslücke zu schliessen und Wasserstandsinformationen für 
+Um diese Informationslücke zu schließen und Wasserstandsinformationen für 
 beliebige Orte entlang eines Gewässers zu generieren, wird an der 
 [Bundesanstalt für Gewässerkunde (BfG)](https://www.bafg.de) seit 1998 an der 
 Flusshydrologische Software FLYS gearbeitet. Nach 15 Jahren Entwicklungsarbeit 
