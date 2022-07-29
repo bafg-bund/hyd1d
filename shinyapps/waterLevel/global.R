@@ -5,7 +5,7 @@ library(shiny.i18n)
 library(hyd1d)
 
 # rivers
-rivers <- c("ELBE", "RHEIN")
+rivers <- c("ELBE", "RHINE")
 df.from_to <- data.frame(river    = rivers, 
                          from     = c(0, 336.2),
                          to       = c(585.7, 865.7),

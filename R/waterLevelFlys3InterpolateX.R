@@ -16,8 +16,8 @@
 #' 
 #' @param river a required argument to fill the \linkS4class{WaterLevelDataFrame}-slot
 #'   \code{river}. It has to be type \code{character}, has to have a length of
-#'   one and can be either \strong{Elbe} or \strong{Rhein}.
-#' @param station a possible argument to hand over the stationing along the
+#'   one and can be either \strong{Elbe} or \strong{Rhine}.
+#' @param station an optional argument to hand over the stationing along the
 #'   specified \code{river}. If specified, it has to be type \code{numeric}
 #'   and has to have the same length as other optional arguments (\code{id},
 #'   \code{station_int} and \code{w}) forming the \code{\link[base]{data.frame}}-component
@@ -25,17 +25,17 @@
 #'   (\code{station} and \code{station_int}) are specified, all elements of
 #'   \code{station} have to be equal to
 #'   \code{\link[base:numeric]{as.numeric}(station_int / 1000)}.
-#'   Minimal and maximal allowed values of \code{station} are
-#'   \code{river}-specific: Elbe (km 0 - 585.7), Rhein (km 336.2 - 865.7).
-#' @param station_int a possible argument to hand over the stationing along the
+#'   Minimum and maximum allowed values of \code{station} are
+#'   \code{river}-specific: Elbe (km 0 - 585.7), Rhine (km 336.2 - 865.7).
+#' @param station_int an optional argument to hand over the stationing along the
 #'   specified \code{river}. If specified, it has to be type \code{integer}
 #'   and has to have the same length as other optional arguments (\code{id},
 #'   \code{station} and \code{w}) forming the \code{\link[base]{data.frame}}-component of a
 #'   \linkS4class{WaterLevelDataFrame}. If both stationing arguments (\code{station}
 #'   and \code{station_int}) are specified, all elements of \code{station_int}
 #'   have to be equal to \code{\link[base:integer]{as.integer}(station * 1000)}.
-#'   Minimal and maximal allowed values of \code{station_int} are \code{river}-specific:
-#'   Elbe (m 0 - 585700), Rhein (m 336200 - 865700).
+#'   Minimum and maximum allowed values of \code{station_int} are \code{river}-specific:
+#'   Elbe (m 0 - 585700), Rhine (m 336200 - 865700).
 #' 
 #' @return An object of class \code{\link[base]{data.frame}} with the structure of
 #'   \code{\link{df.flys}}.
@@ -54,7 +54,7 @@
 #'
 #' @export
 #' 
-waterLevelFlys3InterpolateX <- function(river = c("Elbe", "Rhein"), 
+waterLevelFlys3InterpolateX <- function(river = c("Elbe", "Rhine"), 
                                         station = NULL,
                                         station_int = NULL) {
     
@@ -77,7 +77,7 @@ waterLevelFlys3InterpolateX <- function(river = c("Elbe", "Rhein"),
         error_river <- TRUE
     } else {
         # character
-        if (class(river) != "character") {
+        if (!inherits(river, "character")) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'river' must ",
                                        "be type 'character'."))
             error_river <- TRUE
@@ -88,10 +88,10 @@ waterLevelFlys3InterpolateX <- function(river = c("Elbe", "Rhein"),
                                        "have length 1."))
             error_river <- TRUE
         }
-        # %in% c('Elbe', 'Rhein')
-        if (!(river %in% c("Elbe", "Rhein"))) {
+        # %in% c('Elbe', 'Rhine')
+        if (!(river %in% c("Elbe", "Rhine"))) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'river' must ",
-                                       "be an element of c('Elbe', 'Rhein')."))
+                                       "be an element of c('Elbe', 'Rhine')."))
             error_river <- TRUE
         }
         # set 'river'-specific limits of station_int
@@ -102,7 +102,7 @@ waterLevelFlys3InterpolateX <- function(river = c("Elbe", "Rhein"),
                 w_min <- 0
                 w_max <- 130
             }
-            if (river == "Rhein") {
+            if (river == "Rhine") {
                 station_int_min <- 336200
                 station_int_max <- 865700
                 w_min <- 5
@@ -141,9 +141,9 @@ waterLevelFlys3InterpolateX <- function(river = c("Elbe", "Rhein"),
             }
         }
         
-        if (!(missing(station))){
+        if (!(missing(station))) {
             # station: numeric
-            if (class(station) != "numeric") {
+            if (!inherits(station, "numeric")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'station' ",
                                            "must be type 'numeric'."))
             }
@@ -196,7 +196,7 @@ waterLevelFlys3InterpolateX <- function(river = c("Elbe", "Rhein"),
         
         if (!(missing(station_int))) {
             # station_int: integer
-            if (class(station_int) != "integer") {
+            if (!inherits(station_int, "integer")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'station_",
                                            "int' must be type 'integer'."))
             }

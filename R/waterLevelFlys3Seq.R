@@ -4,7 +4,7 @@
 #' 
 #' @export
 #' 
-waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
+waterLevelFlys3Seq <- function(river = c("Elbe", "Rhine"), name, from, to) {
     
     ##########
     # check arguments
@@ -19,7 +19,7 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
     
     ##
     # presence
-    if (missing(river)){
+    if (missing(river)) {
         errors <- c(errors, paste0("Error ", l(errors), ": The 'river' ",
                                    "argument has to be supplied."))
         error_river <- TRUE
@@ -27,7 +27,7 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
         
         ##
         # character
-        if (class(river) != "character"){
+        if (!inherits(river, "character")) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'river' must be type 'character'."))
             error_river <- TRUE
@@ -35,7 +35,7 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
         
         ##
         # length
-        if (length(river) != 1L){
+        if (length(river) != 1L) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'river' must have a length ",
                                        "equal 1."))
@@ -44,22 +44,22 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
         
         ##
         # set 'river'-specific limits of station_int
-        if (!(error_river)){
+        if (!(error_river)) {
             
             ##
-            # %in% c("Elbe", "Rhein")
-            if (!(river %in% c("Elbe", "Rhein"))){
+            # %in% c("Elbe", "Rhine")
+            if (!(river %in% c("Elbe", "Rhine"))) {
                 errors <- c(errors, paste0("Error ", l(errors),
                                            ": 'river' must be an element ",
-                                           "of c('Elbe', 'Rhein')."))
+                                           "of c('Elbe', 'Rhine')."))
                 error_river <- TRUE
             } else {
                 
-                if (river == "Elbe"){
+                if (river == "Elbe") {
                     station_int_min <- 0
                     station_int_max <- 585700
                 }
-                if (river == "Rhein"){
+                if (river == "Rhine") {
                     station_int_min <- 336200
                     station_int_max <- 865700
                 }
@@ -77,20 +77,20 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
     # name
     ##
     # presence
-    if (missing(name)){
+    if (missing(name)) {
         errors <- c(errors, paste0("Error ", l(errors),
                                    ": The 'name' argument has to be supplied."))
     } else {
         ##
         # character
-        if (class(name) != "character"){
+        if (!inherits(name, "character")) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'name' must be type 'character'."))
         }
         
         ##
         # length
-        if (length(name) != 1L){
+        if (length(name) != 1L) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'name' must have a length ",
                                        "equal 1."))
@@ -98,8 +98,8 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
         
         ##
         # %in% flys3_water_levels
-        if (!(error_river)){
-            if (river == "Elbe"){
+        if (!(error_river)) {
+            if (river == "Elbe") {
                 flys3_water_levels <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ",
                                         "b", "MQ", "c", "2MQ", "3MQ", "d", "e",
                                         "MHQ", "HQ2", "f", "HQ5", "g", "h",
@@ -107,7 +107,7 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
                                         "HQ75", "HQ100", "i", "HQ150", "HQ200",
                                         "HQ300", "HQ500")
             }
-            if (river == "Rhein"){
+            if (river == "Rhine") {
                 flys3_water_levels <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50",
                                         "Ud=80", "Ud=100", "Ud=120", "Ud=183",
                                         "MQ", "Ud=240","Ud=270", "Ud=310",
@@ -118,7 +118,7 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
                                         "HQ200", "HQ200-ex", "HQextr.")
             }
             
-            if (!(name %in% flys3_water_levels)){
+            if (!(name %in% flys3_water_levels)) {
                 errors <- c(errors, paste0("Error ", l(errors),
                                            ": 'name' must be an element ",
                                            "of c('",
@@ -135,14 +135,14 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
     
     ##
     # presence
-    if (missing(from)){
+    if (missing(from)) {
         errors <- c(errors, paste0("Error ", l(errors),
                                    ": The 'from' argument has to be supplied."))
         error_from <- TRUE
     } else {
         ##
         # integer | numeric
-        if (!(class(from) %in% c("integer", "numeric"))){
+        if (!inherits(from, "integer") & !inherits(from, "numeric")) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'from' must be ",
                                        "type 'integer' or 'numeric'."))
             error_from <- TRUE
@@ -150,7 +150,7 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
         
         ##
         # length
-        if (length(from) != 1L){
+        if (length(from) != 1L) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'from' must have a length equal 1."))
             error_from <- TRUE
@@ -159,10 +159,10 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
         ##
         # range
         # Elbe 0 - 585700
-        # Rhein 336200 - 865700
-        if (!(error_river)){
-            if (class(from) == "integer"){
-                if (from < station_int_min){
+        # Rhine 336200 - 865700
+        if (!(error_river)) {
+            if (inherits(from, "integer")) {
+                if (from < station_int_min) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'from' ",
                                                "must be above ",
                                                as.character(station_int_min),
@@ -173,7 +173,7 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
                                                ") for river '", river, "'."))
                     error_from <- TRUE
                 }
-                if (from > station_int_max){
+                if (from > station_int_max) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'from' ",
                                                "must be below ",
                                                as.character(station_int_max),
@@ -187,8 +187,8 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
                 
                 wldf_from <- as.numeric(from / 1000)
             }
-            if (class(from) == "numeric"){
-                if (from < station_int_min / 1000){
+            if (inherits(from, "numeric")) {
+                if (from < station_int_min / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'from' ",
                                                "must be above km ",
                                                as.character(
@@ -197,7 +197,7 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
                                                " for river '", river, "'."))
                     error_from <- TRUE
                 }
-                if (from > station_int_max / 1000){
+                if (from > station_int_max / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'from' ",
                                                "must be below km ",
                                                as.character(
@@ -210,8 +210,8 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
                 wldf_from <- from
             }
         } else {
-            if (class(from) == "integer"){
-                if (from < station_int_min){
+            if (inherits(from, "integer")) {
+                if (from < station_int_min) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'from' ",
                                                "must be above ",
                                                as.character(station_int_min),
@@ -222,7 +222,7 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
                                                ")."))
                     error_from <- TRUE
                 }
-                if (from > station_int_max){
+                if (from > station_int_max) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'from' ",
                                                "must be below ",
                                                as.character(station_int_max),
@@ -234,8 +234,8 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
                     error_from <- TRUE
                 }
             }
-            if (class(from) == "numeric"){
-                if (from < station_int_min / 1000){
+            if (inherits(from, "numeric")) {
+                if (from < station_int_min / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'from' ",
                                                "must be above km ",
                                                as.character(
@@ -244,7 +244,7 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
                                                "."))
                     error_from <- TRUE
                 }
-                if (from > station_int_max / 1000){
+                if (from > station_int_max / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'from' ",
                                                "must be below km ",
                                                as.character(
@@ -261,20 +261,20 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
     # to
     ##
     # presence
-    if (missing(to)){
+    if (missing(to)) {
         errors <- c(errors, paste0("Error ", l(errors),
                                    ": The 'to' argument has to be supplied."))
     } else {
         ##
         # integer | numeric
-        if (!(class(to) %in% c("integer", "numeric"))){
+        if (!inherits(from, "integer") & !inherits(from, "numeric")) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'to' must be ",
                                        "type 'integer' or 'numeric'."))
         }
         
         ##
         # length
-        if (length(to) != 1L){
+        if (length(to) != 1L) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'to' must have a length equal 1."))
         }
@@ -282,10 +282,10 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
         ##
         # range
         # Elbe 0 - 585700
-        # Rhein 336200 - 865700
-        if (!(error_river)){
-            if (class(to) == "integer"){
-                if (to < station_int_min){
+        # Rhine 336200 - 865700
+        if (!(error_river)) {
+            if (inherits(to, "integer")) {
+                if (to < station_int_min) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'to' ",
                                                "must be above ",
                                                as.character(station_int_min),
@@ -295,7 +295,7 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
                                                        station_int_min/1000)),
                                                ") for river '", river, "'."))
                 }
-                if (to > station_int_max){
+                if (to > station_int_max) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'to' ",
                                                "must be below ",
                                                as.character(station_int_max),
@@ -308,8 +308,8 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
                 
                 wldf_to <- as.numeric(to / 1000)
             }
-            if (class(to) == "numeric"){
-                if (to < station_int_min / 1000){
+            if (inherits(to, "numeric")) {
+                if (to < station_int_min / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'to' ",
                                                "must be above km ",
                                                as.character(
@@ -317,7 +317,7 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
                                                        station_int_min/1000)),
                                                " for river '", river, "'."))
                 }
-                if (to > station_int_max / 1000){
+                if (to > station_int_max / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'to' ",
                                                "must be below km ",
                                                as.character(
@@ -329,8 +329,8 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
                 wldf_to <- to
             }
         } else {
-            if (class(to) == "integer"){
-                if (to < station_int_min){
+            if (inherits(to, "integer")) {
+                if (to < station_int_min) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'to' ",
                                                "must be above ",
                                                as.character(station_int_min),
@@ -340,7 +340,7 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
                                                        station_int_min/1000)),
                                                ")."))
                 }
-                if (to > station_int_max){
+                if (to > station_int_max) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'to' ",
                                                "must be below ",
                                                as.character(station_int_max),
@@ -351,8 +351,8 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
                                                ")."))
                 }
             }
-            if (class(to) == "numeric"){
-                if (to < station_int_min / 1000){
+            if (inherits(to, "numeric")) {
+                if (to < station_int_min / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'to' ",
                                                "must be above km ",
                                                as.character(
@@ -360,7 +360,7 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
                                                        station_int_min/1000)),
                                                "."))
                 }
-                if (to > station_int_max / 1000){
+                if (to > station_int_max / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'to' ",
                                                "must be below km ",
                                                as.character(
@@ -371,17 +371,17 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
             }
         }
         
-        if (!(missing(from)) & !(error_from)){
+        if (!(missing(from)) & !(error_from)) {
             ##
             # class(from) != class(to)
-            if (class(from) != class(to)){
+            if (class(from) != class(to)) {
                 errors <- c(errors, paste0("Error ", l(errors), ": class(fro",
                                            "m) must be equal to class(to)."))
             }
             
             ##
             # from < to
-            if (from >= to){
+            if (from >= to) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'to' must ",
                                            "be above 'from', since stationing ",
                                            "increases downstream and these ",
@@ -391,7 +391,7 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhein"), name, from, to){
         }
     }
     
-    if (l(errors) != "1"){
+    if (l(errors) != "1") {
         stop(paste0(errors, collapse="\n  "))
     }
     

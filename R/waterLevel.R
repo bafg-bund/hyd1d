@@ -7,9 +7,9 @@
 #'   column \code{w} of an S4 object of type \linkS4class{WaterLevelDataFrame}.
 #'
 #' @details \code{waterLevel} interpolates 1D water level along the river axis
-#'   of Elbe and Rhein based on daily averaged, mostly validated gauging data
+#'   of Elbe and Rhine based on daily averaged, mostly validated gauging data
 #'   stored in the internal dataset \code{\link{df.gauging_data}}. Internally
-#'   stored gauging data are available from 1990-01-01 until 2018-03-14.
+#'   stored gauging data are available from 1960-01-01 until yesterday.
 #'
 #'   \code{waterLevelPegelonline} carries out the interpolation with gauging
 #'   data obtained through a
@@ -22,12 +22,12 @@
 #'   appropriate values within the last 31 days before function call.
 #'
 #' @param wldf an object of class \linkS4class{WaterLevelDataFrame}.
-#' @param shiny \code{logical}, determing wether columns (\code{section},
+#' @param shiny \code{logical} determing whether columns (\code{section},
 #'   \code{weight_x}, \code{weight_y}) relevant for the
 #'   \code{\link{plotShiny}()}-function are appended to the resulting
 #'   \linkS4class{WaterLevelDataFrame}.
 #'
-#' @return An object of class \code{WaterLevelDataFrame}.
+#' @return An object of class \linkS4class{WaterLevelDataFrame}.
 #'
 #' @seealso \code{\link{plotShiny}}
 #'
@@ -60,7 +60,7 @@ waterLevel <- function(wldf, shiny = FALSE) {
     # assemble internal variables and check the existence of required data
     ##
     # wldf
-    if (class(wldf) != "WaterLevelDataFrame") {
+    if (!inherits(wldf, "WaterLevelDataFrame")) {
         stop("'wldf' has to be of type 'WaterLevelDataFrame'.")
     }
     df.data <- data.frame(id = row.names(wldf), station = wldf$station, 
@@ -77,8 +77,8 @@ waterLevel <- function(wldf, shiny = FALSE) {
     
     ##
     # shiny
-    if (class(shiny) != "logical") {
-        stop("'shiny' has to be of type 'logical'.")
+    if (!inherits(shiny, "logical")) {
+        stop("'shiny' has to be type 'logical'.")
     }
     if (length(shiny) != 1L) {
         stop("'shiny' must have length 1.")
@@ -96,7 +96,7 @@ waterLevel <- function(wldf, shiny = FALSE) {
     
     # access the gauging_station_data
     get("df.gauging_station_data", pos = -1)
-    id <- which(df.gauging_station_data$river == "RHEIN" & 
+    id <- which(df.gauging_station_data$river == "RHINE" & 
                 df.gauging_station_data$km_qps < 336.2)
     df.gauging_station_data <- df.gauging_station_data[-id,]
     
@@ -250,6 +250,15 @@ waterLevel <- function(wldf, shiny = FALSE) {
     df.gs <- unique(df.gs)
     df.gs <- df.gs[order(df.gs$km_qps),]
     df.gs <- df.gs[!(df.gs$data_present & is.na(df.gs$w)),]
+    
+    if (is.na(df.gs_up$w)) {
+        df.gs <- rbind(df.gs_up, df.gs, stringsAsFactors = FALSE)
+    }
+    if (is.na(df.gs_do$w)) {
+        df.gs <- rbind(df.gs, df.gs_do, stringsAsFactors = FALSE)
+    }
+    df.gs <- unique(df.gs)
+    df.gs <- df.gs[order(df.gs$km_qps),]
     
     # clean up temporary objects
     remove(df.gs_inarea, df.gs_do, df.gs_up)

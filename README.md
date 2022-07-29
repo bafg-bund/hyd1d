@@ -3,21 +3,18 @@
 
 # hyd1d
 
-[![pipeline
-status](https://git.aqualogy.de/arnd/hyd1d/badges/master/pipeline.svg)](https://git.aqualogy.de/arnd/hyd1d/commits/master)
-
 The R package **hyd1d** is designed to compute 1-dimensional water level
-information along German federal waterways Elbe and Rhine.
+information along the German federal waterways Elbe and Rhine.
 
 ## Installation
 
-**hyd1d** is not currently available from CRAN, but you can install the
-development version from BfG’s gitbucket server with:
+**hyd1d** is currently not available from CRAN, but you can install the
+development version from BfG’s gitlab server with:
 
 ``` r
 install.packages("devtools")
 library(devtools)
-devtools::install_git("git://apps.bafg.de/gitbucket/webera/hyd1d.git")
+devtools::install_git("git://gitlab.lan.bafg.de/auenoekologie/hyd1d.git")
 ```
 
 ## Usage

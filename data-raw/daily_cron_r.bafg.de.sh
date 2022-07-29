@@ -1,10 +1,10 @@
 #!/usr/bin/bash
 cd /srv/cifs-mounts/WeberA_home/WeberA/hyd1d
 
-# load R-OS
+# load latest R
 source /etc/profile.d/modules.sh
 module purge
-module load i4/R/OS
+module load i4/R/latest
 module list
 
 # compare local repository with remote 'origin'
@@ -21,14 +21,14 @@ elif [ $LOCAL = $BASE ]; then
     git pull
     Rscript _install.R
     Rscript _build.R
-    cp build/$R_VERSION/*.tar.gz /home/WeberA/freigaben_r/_packages/package_sources
+    cp -u build/$R_VERSION/*.tar.gz /home/WeberA/freigaben_r/_packages/package_sources
     git rev-parse HEAD > .commit
 elif [ $REMOTE = $BASE ]; then
     echo "Need to push"
     git push
     Rscript _install.R
     Rscript _build.R
-    cp build/$R_VERSION/*.tar.gz /home/WeberA/freigaben_r/_packages/package_sources
+    cp -u build/$R_VERSION/*.tar.gz /home/WeberA/freigaben_r/_packages/package_sources
     git rev-parse HEAD > .commit
 else
     echo "Diverged"
@@ -57,14 +57,18 @@ chown -R WeberA:users /srv/cifs-mounts/WeberA_home/WeberA/hyd1d
 
 # sync hyd1d website
 #export OPTS="-v --recursive --delete --times --no-implied-dirs --iconv=utf8"
-#rsync $OPTS /srv/cifs-mounts/WeberA_home/WeberA/hyd1d/public/$R_VERSION/ /home/WeberA/public_html/hyd1d
+#rsync $OPTS /srv/cifs-mounts/WeberA_home/WeberA/hyd1d/docs/ /home/WeberA/public_html/hyd1d
 #chown -R WeberA:users /home/WeberA/public_html/hyd1d
 #find /home/WeberA/public_html/hyd1d/ -type f -print0 | xargs -0 chmod 0644
 #find /home/WeberA/public_html/hyd1d/ -type d -print0 | xargs -0 chmod 0755
 
 # copy data
-cp -u /srv/cifs-mounts/WeberA_home/WeberA/hyd1d/public/downloads/*.RDS /home/WeberA/public_html/hyd1d/downloads/
+cp -u /srv/cifs-mounts/WeberA_home/WeberA/hyd1d/docs/downloads/*.RDS /home/WeberA/public_html/hyd1d/downloads/
+cp -u /srv/cifs-mounts/WeberA_home/WeberA/hyd1d/docs/downloads/df.gauging_data_latest.RDS /srv/cifs-mounts/WeberA/U/U3/Auengruppe_INFORM/Weber_etal_2022_hyd1d_hydflood/www/hyd1d/downloads/
+cp -u /srv/cifs-mounts/WeberA_home/WeberA/hyd1d/docs/downloads/df.gauging_data_latest.RDS /home/WeberA/.hyd1d/
 chmod 644 /home/WeberA/public_html/hyd1d/downloads/*.RDS
+chmod 644 /srv/cifs-mounts/WeberA/U/U3/Auengruppe_INFORM/Weber_etal_2022_hyd1d_hydflood/www/hyd1d/downloads/*.RDS
+chmod 644 /home/WeberA/.hyd1d/df.gauging_data_latest.RDS
 
 # exit
 exit 0

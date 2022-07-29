@@ -49,19 +49,16 @@ i <- 1
 for(a_gs in df.gs$gauging_station) {
     
     b_gs <- df.gs$gauging_station_shortname[i]
-    c_gs <- gsub(" ", "+",
-                 gsub("Ä", "%C4",
-                      gsub("Ö", "%D6",
-                           gsub("Ü", "%DC", b_gs))))
-    d_gs <- simpleCap(b_gs)
-    e_gs <- gsub(" ", "+",
-                 gsub("Ä", "%C4",
-                      gsub("Ö", "%D6",
-                           gsub("Ü", "%DC",
-                                gsub("ä", "%E4",
-                                     gsub("ö", "%F6",
-                                          gsub("ü", "%FC",
-                                               d_gs)))))))
+    c_gs <- gsub(" ", "+", b_gs)
+    # d_gs <- simpleCap(b_gs)
+    # e_gs <- gsub(" ", "+",
+    #              gsub("Ä", "%C4",
+    #                   gsub("Ö", "%D6",
+    #                        gsub("Ü", "%DC",
+    #                             gsub("ä", "%E4",
+    #                                  gsub("ö", "%F6",
+    #                                       gsub("ü", "%FC",
+    #                                            d_gs)))))))
     
     # obtain the present range of available data for a_gs
     date_range_present <- as.Date(unlist(strsplit(
@@ -108,7 +105,7 @@ for(a_gs in df.gs$gauging_station) {
         # assemble the url with umlaut replacements
             url <- paste0("http://www.pegelonline.wsv.de/webservices/files/Was",
                           "serstand+Rohdaten/", df.gs$water_longname[i], "/",
-                          e_gs, "/", strftime(a_date, format="%d.%m.%Y"),
+                          c_gs, "/", strftime(a_date, format="%d.%m.%Y"),
                           "/down.csv")
             
         # second check of the url

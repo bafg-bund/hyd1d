@@ -48,7 +48,7 @@ function(input, output, session) {
             dateInput(
                 inputId  = "time", 
                 label    = i18n()$t("Date:"),
-                min      = as.POSIXct("1990-01-01"),
+                min      = as.POSIXct("1960-01-01"),
                 max      = as.POSIXct(Sys.Date() - 1),
                 value    = as.POSIXct("2016-12-21"),
                 format   = ifelse(german(), "dd.mm.yyyy", "yyyy-mm-dd"),
@@ -151,4 +151,10 @@ function(input, output, session) {
         contentType = "text/csv"
     )
     
+    # footer for the imprint
+    output$footer <- renderUI({
+        tagList(a(i18n()$t("Imprint"), 
+                  href = i18n()$t("https://www.bafg.de/EN/Service/Imprint/imprint_node.html")))
+        
+    })
 }
