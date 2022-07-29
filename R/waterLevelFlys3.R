@@ -30,7 +30,7 @@ details_waterLevelFlys3 <- function() {
                          "g", "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50",
                          "HQ75", "HQ100", "i", "HQ150", "HQ200", "HQ300",
                          "HQ500")
-            wl_rhein <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
+            wl_rhine <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
                           "Ud=120", "Ud=183", "MQ", "Ud=240","Ud=270", "Ud=310",
                           "Ud=340", "Ud=356", "Ud=360", "MHQ", "HQ2", "HQ5",
                           "HQ5-10", "HQ10", "HQ10-20", "~HQ20", "HQ20-50",
@@ -41,8 +41,8 @@ details_waterLevelFlys3 <- function() {
             # for the Elbe
             wl_elbe <- names_df.flys(river = "Elbe")
             
-            # for the Rhein
-            wl_rhein <- names_df.flys(river = "Rhein")
+            # for the Rhine
+            wl_rhine <- names_df.flys(river = "Rhine")
         }
     } else {
         wl_elbe <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ",
@@ -50,7 +50,7 @@ details_waterLevelFlys3 <- function() {
                      "g", "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50",
                      "HQ75", "HQ100", "i", "HQ150", "HQ200", "HQ300",
                      "HQ500")
-        wl_rhein <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
+        wl_rhine <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
                       "Ud=120", "Ud=183", "MQ", "Ud=240","Ud=270", "Ud=310",
                       "Ud=340", "Ud=356", "Ud=360", "MHQ", "HQ2", "HQ5",
                       "HQ5-10", "HQ10", "HQ10-20", "~HQ20", "HQ20-50",
@@ -68,8 +68,8 @@ details_waterLevelFlys3 <- function() {
       paste0("Possible range of \\code{from} and \\code{to}: type \\code{numer",
              "ic} (km) 0 - 585.7, type \\code{integer} (m) 0 - 585700."),
       "",
-      "\\strong{Rhein:}", "",
-      paste0("'", paste0(wl_rhein, collapse = "', '"), "'"),
+      "\\strong{Rhine:}", "",
+      paste0("'", paste0(wl_rhine, collapse = "', '"), "'"),
       "",
       paste0("Possible range of \\code{from} and \\code{to}: type \\code{numer",
              "ic} (km) 336.2 - 865.7, type \\code{integer} (m) 336200 - 865700",
@@ -96,7 +96,7 @@ details_waterLevelFlys3 <- function() {
 #' @param wldf an object of class \linkS4class{WaterLevelDataFrame}.
 #' @param river a required argument to fill the \linkS4class{WaterLevelDataFrame}-slot
 #'   \code{river}. It has to be type \code{character}, has to have a length of
-#'   one and can be either \strong{Elbe} or \strong{Rhein}.
+#'   one and can be either \strong{Elbe} or \strong{Rhine}.
 #' @param name a string with the name of a stationary 
 #'   \href{https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3}
 #'   water level. It has 
@@ -122,6 +122,8 @@ details_waterLevelFlys3 <- function() {
 #'   
 #'   \insertRef{hkv_hydrokontor_erstellung_2014}{hyd1d}
 #'   
+#'   \insertRef{bundesanstalt_fur_gewasserkunde_flys_2013}{hyd1d}
+#'   
 #'   \insertRef{bundesanstalt_fur_gewasserkunde_flys_2016}{hyd1d}
 #' 
 #' @examples 
@@ -134,7 +136,7 @@ details_waterLevelFlys3 <- function() {
 #' 
 #' @export
 #' 
-waterLevelFlys3 <- function(wldf, name){
+waterLevelFlys3 <- function(wldf, name) {
     
     ##########
     # check arguments
@@ -145,33 +147,33 @@ waterLevelFlys3 <- function(wldf, name){
     
     ## wldf
     # presence
-    if (missing(wldf)){
+    if (missing(wldf)) {
         errors <- c(errors, paste0("Error ", l(errors),
                                    ": 'wldf' has to be supplied."))
     }
     # WaterLevelDataFrame
-    if (class(wldf) != "WaterLevelDataFrame"){
+    if (!inherits(wldf, "WaterLevelDataFrame")) {
         errors <- c(errors, paste0("Error ", l(errors), ": 'wldf' ",
                                    "must be type 'WaterLevelDataFrame'."))
     } else {
         ## name
         # presence
-        if (missing(name)){
+        if (missing(name)) {
             errors <- c(errors, paste0("Error ", l(errors),
                                        ": 'name' has to be supplied."))
         } else {
             # character
-            if (class(name) != "character"){
+            if (!inherits(name, "character")) {
                 errors <- c(errors, paste0("Error ", l(errors),
-                                           ": 'name' must be type 'character'."))
+                                          ": 'name' must be type 'character'."))
             }
             # length
-            if (length(name) != 1L){
+            if (length(name) != 1L) {
                 errors <- c(errors, paste0("Error ", l(errors),
                                            ": 'name' must have length 1."))
             }
             # %in% flys3_water_levels
-            if (getRiver(wldf) == "Elbe"){
+            if (getRiver(wldf) == "Elbe") {
                 flys3_water_levels <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ",
                                         "b", "MQ", "c", "2MQ", "3MQ", "d", "e",
                                         "MHQ", "HQ2", "f", "HQ5", "g", "h",
@@ -179,7 +181,7 @@ waterLevelFlys3 <- function(wldf, name){
                                         "HQ75", "HQ100", "i", "HQ150", "HQ200",
                                         "HQ300", "HQ500")
             }
-            if (getRiver(wldf) == "Rhein"){
+            if (getRiver(wldf) == "Rhine") {
                 flys3_water_levels <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50",
                                         "Ud=80", "Ud=100", "Ud=120", "Ud=183",
                                         "MQ", "Ud=240","Ud=270", "Ud=310",
@@ -189,7 +191,7 @@ waterLevelFlys3 <- function(wldf, name){
                                         "HQ50-100", "HQ100", "HQ100-200",
                                         "HQ200", "HQ200-ex", "HQextr.")
             }
-            if (!(name %in% flys3_water_levels)){
+            if (!(name %in% flys3_water_levels)) {
                 errors <- c(errors, paste0("Error ", l(errors),
                                            ": 'name' must be an element ",
                                            "of c('",
@@ -201,7 +203,7 @@ waterLevelFlys3 <- function(wldf, name){
         }
     }
     
-    if (l(errors) != "1"){
+    if (l(errors) != "1") {
         stop(paste0(errors, collapse="\n  "))
     }
     
@@ -218,18 +220,27 @@ waterLevelFlys3 <- function(wldf, name){
     # identify the relevant river stretch
     id <- which(df.flys_sel$station >= min(wldf$station) &
                 df.flys_sel$station <= max(wldf$station))
+    
     if (length(id) == 0) {
-        id_min <- min(which(df.flys_sel$station >= min(wldf$station)))
-        id_max <- max(which(df.flys_sel$station <= max(wldf$station)))
-        df.wl_left <- df.flys_sel[id_min, ]
-        df.wl_right <- df.flys_sel[id_max, ]
-        id <- c(id_min, id_max)
+        id_min <- which(df.flys_sel$station >= min(wldf$station))
+        id_max <- which(df.flys_sel$station <= max(wldf$station))
+        
+        if (length(id_min) == 0 & length(id_max) > 0) {
+            id <- id_max[order(id_max)][c(length(id_max) - 1, length(id_max))]
+        } else {
+            id <- id_min[order(id_min)][c(1, 2)]
+        }
+        
+        df.wl_left <- df.flys_sel[id[1], ]
+        df.wl_right <- df.flys_sel[id[2], ]
     } else {
         df.wl_left <- df.flys_sel[min(id), ]
         df.wl_right <- df.flys_sel[max(id), ]
         id <- c(min(id) - 1, id, max(id) + 1)
     }
     df.wl <- stats::na.omit(df.flys_sel[id, ])
+    
+    # needs fixing for station > 585.3 in river elbe
     
     #####
     # interpolate

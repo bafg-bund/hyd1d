@@ -29,7 +29,7 @@ for (i in 1:nrow(df.sections)) {
     
     if (river == "Elbe") {
         dir <- "EL_000_586_UFD"
-    } else if (river == "Rhein") {
+    } else if (river == "Rhine") {
         dir <- "RH_336_867_UFD"
     } else {
         write(paste0("The river '", river, "' does not exist."), stderr())

@@ -1,20 +1,15 @@
 citHeader("To cite hyd1d in publications, please use:")
 
-citEntry(entry = "Article",
-  title        = "hyd1d - Algorythms to compute 1D water levels along German federal waterways Elbe and Rhine",
+citEntry(entry = "Manual",
+  title        = "hyd1d - Algorythms to compute 1D water levels along the German federal waterways Elbe and Rhine",
   author       = personList(as.person("Arnd Weber"),
                             as.person("Marcus Hatz")),
-  journal      = "Journal of Ecohydraulics",
-  year         = "2020",
-  volume       = "1",
-  number       = "1",
-  pages        = "1--1",
-  url          = "http://r.bafg.de/~WeberA/hyd1d/index.html",
+  year         = "2022",
+  url          = "https://hyd1d.bafg.de/index.html",
 
   textVersion  =
-  paste0("Weber, A., & Hatz, M. (2020): hyd1d - Algorythms to compute 1D ",
-         "water levels along German federal waterways Elbe and Rhine. ",
-         "Journal of Ecohydraulics, 1(1), 1-1. ",
-         "URL http://r.bafg.de/~WeberA/hyd1d/index.html.")
+  paste0("Weber, A., & Hatz, M. (2022): hyd1d - Algorythms to compute 1D ",
+         "water levels along the German federal waterways Elbe and Rhine. ",
+         "URL https://hyd1d.bafg.de/index.html.")
 )
 

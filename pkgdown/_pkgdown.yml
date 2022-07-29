@@ -1,10 +1,13 @@
 title: hyd1d
-url: http://r.bafg.de/~WeberA/hyd1d
-destination: public
+url: https://hyd1d.bafg.de
+destination: docs
 template:
-  params:
-    bootswatch: cosmo
+  bootstrap: 5
+  bootswatch: cosmo
 reference:
+  - title: internal
+    contents:
+      - "`hyd1d`"
   - title: S4 class WaterLevelDataFrame and methods
     desc: Class definition and functions to initialize or modify a WaterLevelDataFrame
     contents:
@@ -72,13 +75,20 @@ navbar:
       href: reference/index.html
     - text: "ShinyApps"
       menu:
-      - text: "gauging_data"
-        href: http://r.bafg.de/shiny/WeberA/02-gauging_data/
-      - text: "waterLevel()"
-        href: http://r.bafg.de/shiny/WeberA/05-waterlevel/
-      - text: "waterLevelPegelonline()"
-        href: http://r.bafg.de/shiny/WeberA/06-waterlevelpegelonline/
+      - text: "waterLevel"
+        href: https://shiny.bafg.de/waterlevel
+      - text: "waterLevelPegelonline"
+        href: https://shiny.bafg.de/waterlevelpegelonline
   right:
     - text: BfG
-      href: http://www.bafg.de
-
+      href: https://www.bafg.de
+footer:
+  structure: 
+    left: built_with
+    right: developed_by
+repo:
+  url:
+    home: https://gitlab.lan.bafg.de/auenoekologie/hyd1d/
+    source: https://gitlab.lan.bafg.de/auenoekologie/hyd1d/-/blob/main/
+    issue: https://gitlab.lan.bafg.de/auenoekologie/hyd1d/issues/
+    user: https://gitlab.lan.bafg.de/auenoekologie/

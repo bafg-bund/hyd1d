@@ -4,13 +4,13 @@
 #' 
 #' @export
 #' 
-waterLevelPegelonline <- function(wldf, shiny = FALSE){
+waterLevelPegelonline <- function(wldf, shiny = FALSE) {
     
     #####
     # assemble internal variables and check the existence of required data
     ##
     # wldf
-    if (class(wldf) != "WaterLevelDataFrame"){
+    if (!inherits(wldf, "WaterLevelDataFrame")) {
         stop("'wldf' has to be of type 'WaterLevelDataFrame'.")
     }
     df.data <- data.frame(id = row.names(wldf), station = wldf$station, 
@@ -44,10 +44,10 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE){
     
     ##
     # shiny
-    if (class(shiny) != "logical"){
-        stop("'shiny' has to be of type 'logical'.")
+    if (!inherits(shiny, "logical")) {
+        stop("'shiny' has to be type 'logical'.")
     }
-    if (length(shiny) != 1L){
+    if (length(shiny) != 1L) {
         stop("'shiny' must have length 1.")
     }
     
@@ -67,7 +67,7 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE){
     
     # access the gauging_station_data
     get("df.gauging_station_data", pos = -1)
-    id <- which(df.gauging_station_data$river == "RHEIN" & 
+    id <- which(df.gauging_station_data$river == "RHINE" & 
                 df.gauging_station_data$km_qps < 336.2)
     df.gauging_station_data <- df.gauging_station_data[-id,]
     
@@ -84,11 +84,11 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE){
                 df.gauging_station_data$km_qps < start_f)
     
     # catch exception for the areas upstream of SCHÖNA or IFFEZHEIM
-    if (length(id > 0)){
+    if (length(id > 0)) {
         id_gs <- max(id)
         df.gs_up <- df.gauging_station_data[id_gs, ]
     } else {
-        if(nrow(df.gs_inarea) > 1){
+        if(nrow(df.gs_inarea) > 1) {
             df.gs_up <- df.gs_inarea[1, ]
         } else {
             df.gs_up <- df.gs_inarea
@@ -100,11 +100,11 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE){
                 df.gauging_station_data$km_qps > end_f)
     
     # catch exception for the areas downstream of GEESTHACHT or EMMERICH
-    if (length(id) > 0){
+    if (length(id) > 0) {
         id_gs <- min(id)
         df.gs_do <- df.gauging_station_data[id_gs,]
     } else {
-        if(nrow(df.gs_inarea) > 1){
+        if(nrow(df.gs_inarea) > 1) {
             df.gs_do <- df.gs_inarea[nrow(df.gs_inarea), ]
         } else {
             df.gs_do <- df.gs_inarea
@@ -120,15 +120,15 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE){
     ###
     # add the df.gs_up to this data.frame, if w is available for the df.gs_up 
     # on the specified date
-    if (df.gs_up$gauging_station %in% c("GRENZE_CZ", "KEHL-KRONENHOF")){
+    if (df.gs_up$gauging_station %in% c("GRENZE_CZ", "KEHL-KRONENHOF")) {
         df.gs_up$w <- NA_real_
         gs_up_missing <- character()
     } else {
         gs_up_missing <- character()
         w <- tryCatch({getPegelonlineW(uuid = df.gs_up$uuid, time = time)},
-                      warning = function(w){return(NA)}, 
-                      error = function(e){return(NA)})
-        if (is.na(w)){
+                      warning = function(w) {return(NA)}, 
+                      error = function(e) {return(NA)})
+        if (is.na(w)) {
             gs_up_missing <- df.gs_up$gauging_station
         }
         df.gs_up$w <- w
@@ -136,13 +136,13 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE){
     
     # replace df.gs_up with the next gs further upstream, if w is
     # available for the df.gs_up further upstream on the specified date
-    while (length(gs_up_missing) > 0){
+    while (length(gs_up_missing) > 0) {
         gauging_stations_missing <- append(gauging_stations_missing,
                                            paste0('up: ', gs_up_missing))
         id <- which(df.gauging_station_data$river == RIVER &
                     df.gauging_station_data$km_qps < df.gs_up$km_qps &
                     df.gauging_station_data$data_present)
-        if (length(id) > 0){
+        if (length(id) > 0) {
             id_gs <- max(id)
             df.gs_up <- df.gauging_station_data[id_gs, ]
         } else {
@@ -150,9 +150,9 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE){
         }
         gs_up_missing <- character()
         w <- tryCatch({getPegelonlineW(uuid = df.gs_up$uuid, time = time)},
-                      warning = function(w){return(NA)}, 
-                      error = function(e){return(NA)})
-        if (is.na(w)){
+                      warning = function(w) {return(NA)}, 
+                      error = function(e) {return(NA)})
+        if (is.na(w)) {
             gs_up_missing <- df.gs_up$gauging_station
         }
         df.gs_up$w <- w
@@ -163,7 +163,7 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE){
     # the specified date
     df.gs_inarea$w <- rep(NA_real_, nrow(df.gs_inarea))
     i <- 1
-    for (a_gs in df.gs_inarea$gauging_station){
+    for (a_gs in df.gs_inarea$gauging_station) {
         if (a_gs %in% df.gauging_station_data$gauging_station[!
                           df.gauging_station_data$data_present]) {
             no_limit <- FALSE
@@ -172,10 +172,10 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE){
             no_limit <- TRUE
             w <- tryCatch({getPegelonlineW(uuid = df.gs_inarea$uuid[i], 
                                            time = time)},
-                          warning = function(w){return(NA)}, 
-                          error = function(e){return(NA)})
+                          warning = function(w) {return(NA)}, 
+                          error = function(e) {return(NA)})
         }
-        if (is.na(w) & no_limit){
+        if (is.na(w) & no_limit) {
             gauging_stations_missing <- append(gauging_stations_missing,
                                                paste0('in: ', a_gs))
         }
@@ -187,15 +187,15 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE){
     ###
     # append the df.gs_do to this list, if w is available for the df.gs_do on 
     # the specified date
-    if (df.gs_do$gauging_station %in% c("GEESTHACHT_WEHR", "GRENZE_NL")){
+    if (df.gs_do$gauging_station %in% c("GEESTHACHT_WEHR", "GRENZE_NL")) {
         gs_do_missing <- character()
         df.gs_do$w <- NA_real_
     } else {
         gs_do_missing <- character()
         w <- tryCatch({getPegelonlineW(uuid = df.gs_do$uuid, time = time)}, 
-                      warning = function(w){return(NA)}, 
-                      error = function(e){return(NA)})
-        if (is.na(w)){
+                      warning = function(w) {return(NA)}, 
+                      error = function(e) {return(NA)})
+        if (is.na(w)) {
             gs_do_missing <- df.gs_do$gauging_station
         }
         df.gs_do$w <- w
@@ -203,13 +203,13 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE){
     
     # replace df.gs_do with the next gs further downstream, if w is
     # available for the df.gs_do further downstream on the specified date
-    while (length(gs_do_missing) > 0){
+    while (length(gs_do_missing) > 0) {
         gauging_stations_missing <- append(gauging_stations_missing,
                                            paste0('do: ', gs_do_missing))
         id <- which(df.gauging_station_data$river == RIVER &
                     df.gauging_station_data$km_qps > df.gs_do$km_qps &
                     df.gauging_station_data$data_present)
-        if (length(id) > 0){
+        if (length(id) > 0) {
             id_gs <- min(id)
             df.gs_do <- df.gauging_station_data[id_gs,]
         } else {
@@ -217,9 +217,9 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE){
         }
         gs_do_missing <- character()
         w <- tryCatch(getPegelonlineW(uuid = df.gs_do$uuid, time = time), 
-                      warning = function(w){return(NA)}, 
-                      error = function(e){return(NA)})
-        if (is.na(w)){
+                      warning = function(w) {return(NA)}, 
+                      error = function(e) {return(NA)})
+        if (is.na(w)) {
             gs_do_missing <- df.gs_do$gauging_station
         }
         df.gs_do$w <- w
@@ -295,15 +295,15 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE){
             # special situation, that the w is
             # - below the lowest stationary water level of FLYS
             # - above the highest stationary water level of FLYS
-            if (wls_below == 0){
+            if (wls_below == 0) {
                 wls_below <- 1
-                if (wls_above == wls_below){
+                if (wls_above == wls_below) {
                     wls_above <- wls_above + 1L
                 }
             }
-            if (wls_above == 31){
+            if (wls_above == 31) {
                 wls_above <- 30
-                if (wls_below == wls_above){
+                if (wls_below == wls_above) {
                     wls_below <- wls_below - 1L
                 }
             }
@@ -378,15 +378,15 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE){
             # special situation, that at least one w is
             # - below the lowest stationary water level of FLYS
             # - above the highest stationary water level of FLYS
-            if (wls_below == 0){
+            if (wls_below == 0) {
                 wls_below <- 1
-                if (wls_above == wls_below){
+                if (wls_above == wls_below) {
                     wls_above <- wls_above + 1L
                 }
             }
-            if (wls_above == 31){
+            if (wls_above == 31) {
                 wls_above <- 30
-                if (wls_below == wls_above){
+                if (wls_below == wls_above) {
                     wls_below <- wls_below - 1L
                 }
             }
@@ -465,11 +465,11 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE){
     c_columns <- c("gauging_station", "uuid", "river",
                    "name_wl_below_w_do", "name_wl_above_w_do", 
                    "name_wl_below_w_up", "name_wl_above_w_up")
-    for (a_column in c_columns){
+    for (a_column in c_columns) {
         df.gs[ , a_column] <- as.character(df.gs[ , a_column])
     }
     
-    if (shiny){
+    if (shiny) {
         wldf_data <- cbind(wldf_data, df.data_shiny)
         wldf <- methods::new("WaterLevelDataFrame",
                     wldf_data,

@@ -53,10 +53,10 @@ function(input, output, session){
     # responsive menu
     output$menu_daterange <- renderUI({
         if (german()) {
-            label <- paste0(" (01.01.1990 - ",
+            label <- paste0(" (01.01.1960 - ",
                             strftime(yesterday, format="%d.%m.%Y"), "):")
         } else {
-            label <- paste0(" (1990-01-01 - ",
+            label <- paste0(" (1960-01-01 - ",
                             strftime(yesterday, format="%Y-%m-%d"), "):")
         }
         
@@ -65,7 +65,7 @@ function(input, output, session){
             label     = paste0(i18n()$t("Time period"), label),
             start     = as.character(yesterday - 365),
             end       = as.character(yesterday),
-            min       = "1990-01-01",
+            min       = "1960-01-01",
             max       = as.character(yesterday),
             format    = ifelse(german(), "dd.mm.yyyy", "yyyy-mm-dd"),
             language  = ifelse(german(), "de", "en"),
@@ -143,10 +143,7 @@ function(input, output, session){
     output$downloadData <- downloadHandler(filename = function(){
         req(input$gauging_station)
         req(input$daterange)
-        paste0('waterlevel_',
-               gsub("Ä", "AE",
-                    gsub("Ö", "OE", gsub("Ü", "UE", input$gauging_station))),
-               '_',
+        paste0('waterlevel_', input$gauging_station, '_',
                strftime(input$daterange[1], format="%Y%m%d"), '-',
                strftime(input$daterange[2], format="%Y%m%d"), '.csv')},
         content = function(file){write.csv(df.data(),

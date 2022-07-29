@@ -11,6 +11,9 @@
       {"en": "The water level computation is running. Please wait a moment for the results.",
        "de": "Die Wasserspiegellage wird berechnet. Es dauert noch einen Moment bis das Ergebnis vorliegt."},
       {"en": "height a.s.l. (m, DHHN92)", "de": "Höhe (m über NHN (DHHN92))"},
-      {"en": "river station (km)", "de": "Flusskilometer (km)"}
+      {"en": "river station (km)", "de": "Flusskilometer (km)"},
+      {"en": "Imprint", "de": "Impressum"},
+      {"en": "https://www.bafg.de/EN/Service/Imprint/imprint_node.html",
+       "de": "https://www.bafg.de/DE/Service/Impressum/impressum_node.html"}
     ]
 }

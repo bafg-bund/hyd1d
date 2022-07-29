@@ -54,8 +54,8 @@ param_gauging_station <- function() {
             'WESEL', 'REES', 'EMMERICH')
     }
     
-    return(paste0("@param gauging_station has to be type \\code{character} and",
-                  " has to have a length of one. Permitted values are: '",
+    return(paste0("@param gauging_station must be type \\code{character} with ",
+                  "a length of one. Permitted values are: '",
                   paste0(gauging_stations, collapse = "', '"), "'."))
 }
 
@@ -165,8 +165,8 @@ param_uuid <- function() {
                    '9598e4cb-0849-401e-bba0-689234b27644')
     }
     
-    return(paste0("@param uuid has to be type \\code{character} and has to hav",
-                  "e a length of one. Permitted values are: '",
+    return(paste0("@param uuid must be type \\code{character} with a length of",
+                  " one. Permitted values are: '",
                   paste0(uuids, collapse = "', '"), "'."))
 }
 
@@ -179,9 +179,9 @@ param_uuid <- function() {
 #'   \code{\link{df.gauging_data}} for specific gauging station and date.
 #' 
 #' @eval param_gauging_station()
-#' @param time has to be type \code{\link[base:POSIXct]{c("POSIXct", "POSIXlt")}}
-#'   or \code{\link[base:Date]{Date}} and must be in the temporal range 
-#'   between 1990-01-01 and now (\code{Sys.time()} or \code{Sys.Date()}).
+#' @param time must be type \code{\link[base:POSIXct]{c("POSIXct", "POSIXlt")}}
+#'   or \code{\link[base:Date]{Date}} and in the temporal range between
+#'   1960-01-01 and now (\code{Sys.time()} or \code{Sys.Date()}).
 #' @eval param_uuid()
 #' 
 #' @details This functions queries package-internal gauging data 
@@ -191,7 +191,7 @@ param_uuid <- function() {
 #'   water level is returned. If no data exist, \code{NA} is returned.
 #' 
 #' @references 
-#'   \insertRef{wsv_pegeldaten_2020}{hyd1d}
+#'   \insertRef{wsv_pegeldaten_2021}{hyd1d}
 #' 
 #' @examples
 #' getGaugingDataW(gauging_station = "DESSAU", time = as.Date("2016-12-21"))
@@ -214,11 +214,11 @@ getGaugingDataW <- function(gauging_station, time, uuid) {
         stop(paste0("The 'gauging_station' or 'uuid' argument has to ",
                     "be supplied."))
     } else {
-        if (!(missing(gauging_station))){
-            if (class(gauging_station) != "character"){
+        if (!(missing(gauging_station))) {
+            if (!inherits(gauging_station, "character")) {
                 stop("'gauging_station' must be type 'character'.")
             }
-            if (length(gauging_station) != 1){
+            if (length(gauging_station) != 1) {
                 stop("'gauging_station' must have length 1.")
             }
             if (!(gauging_station %in% gs)) {
@@ -231,11 +231,11 @@ getGaugingDataW <- function(gauging_station, time, uuid) {
                                      sub="byte")
         }
         
-        if (!(missing(uuid))){
-            if (class(uuid) != "character"){
+        if (!(missing(uuid))) {
+            if (!inherits(uuid, "character")) {
                 stop("'uuid' must be type 'character'.")
             }
-            if (length(uuid) != 1){
+            if (length(uuid) != 1) {
                 stop("'uuid' must have length 1.")
             }
             if (!(uuid %in% uuids)) {
@@ -248,8 +248,8 @@ getGaugingDataW <- function(gauging_station, time, uuid) {
                                      sub="byte")
         }
         
-        if (!(missing(gauging_station)) & !(missing(uuid))){
-            if (id_gs != id_uu){
+        if (!(missing(gauging_station)) & !(missing(uuid))) {
+            if (id_gs != id_uu) {
                 stop("'gauging_station' and 'uuid' must fit to each ",
                      "other.\nThe uuid for the supplied 'gauging_station' ",
                      "is ", uuids[id_gs], ".\nThe gauging station for the ",
@@ -263,27 +263,28 @@ getGaugingDataW <- function(gauging_station, time, uuid) {
     if (missing(time)) {
         stop("The 'time' argument has to be supplied.")
     }
-    if (any(class(time) != c("POSIXct", "POSIXt")) & 
-        any(class(time) != "Date")){
+    if (!any(c(inherits(time, "POSIXct"), 
+               inherits(time, "POSIXt"),
+               inherits(time, "Date")))) {
         stop("'time' must be type c('POSIXct', 'POSIXt') or 'Date'.")
     }
     date <- as.Date(trunc(time, units = "days"))
-    date_min <- as.Date("1990-01-01")
+    date_min <- as.Date("1960-01-01")
     if (any(date < date_min)) {
         stop(paste0("df.gauging_data provides data for the time period between",
-                    " 1990-01-01 and ", strftime(Sys.Date() - 1, "%Y-%m-%d"),
+                    " 1960-01-01 and ", strftime(Sys.Date() - 1, "%Y-%m-%d"),
                     ". You requested earlier data. Please adjust the submi",
                     "tted 'time' and retry."))
     }
     if (any(date > Sys.Date())) {
         stop(paste0("df.gauging_data provides data for the time period between",
-                    " 1990-01-01 and ", strftime(Sys.Date() - 1, "%Y-%m-%d"),
+                    " 1960-01-01 and ", strftime(Sys.Date() - 1, "%Y-%m-%d"),
                     ". You requested data in the future. Please adjust the ",
                     "submitted 'time' and retry."))
     }
     if (any(date == Sys.Date())) {
         stop(paste0("df.gauging_data provides data for the time period ",
-                    "between 1990-01-01\n  and ", 
+                    "between 1960-01-01\n  and ", 
                     strftime(Sys.Date() - 1, "%Y-%m-%d"),
                     ". You requested data of today that are accessible \n  ",
                     "through getPegelonlineW() only."))
@@ -293,21 +294,21 @@ getGaugingDataW <- function(gauging_station, time, uuid) {
         # date_subset1 <- date[id_subset]
         # w_subset1 <- tryCatch({getPegelonlineW(gauging_station = gs_internal, 
         #                                        time = date_subset1)},
-        #                       warning = function(w){return(NA)}, 
-        #                       error = function(e){return(NA)})
+        #                       warning = function(w) {return(NA)}, 
+        #                       error = function(e) {return(NA)})
         # 
         # # get all remaining data
         # date_subset2 <- date[-id_subset]
         # 
         # # access and subset the gauging_data
-        # if (exists("df.gauging_data", where = p_env)){
+        # if (exists("df.gauging_data", where = p_env)) {
         #     get("df.gauging_data", envir = p_env)
         # } else {
         #     utils::data("df.gauging_data")
         # }
         # 
         # w_subset2 <- numeric()
-        # for (a_date in date_subset2){
+        # for (a_date in date_subset2) {
         #     b_date <- as.Date(a_date, origin = as.Date("1970-01-01"))
         #     id <- which(df.gauging_data$gauging_station == gs_internal_asc & 
         #                 df.gauging_data$date == b_date)
@@ -320,7 +321,7 @@ getGaugingDataW <- function(gauging_station, time, uuid) {
         # w[-id_subset] <- w_subset2
         # w <- round(w, 0)
         # 
-        # if (length(w) == 0){
+        # if (length(w) == 0) {
         #     return(NA)
         # } else {
         #     return(w)
@@ -331,26 +332,26 @@ getGaugingDataW <- function(gauging_station, time, uuid) {
     # query df.gauging_data or .df.gauging_data
     w <- numeric()
     if (exists(".df.gauging_data", envir = .GlobalEnv)) {
-        for (a_date in date){
+        for (a_date in date) {
             b_date <- as.Date(a_date, origin = as.Date("1970-01-01"))
             id <- which(.df.gauging_data$gauging_station == gs_internal & 
                             .df.gauging_data$date == b_date)
-            if (length(id) == 1){
+            if (length(id) == 1) {
                 w <- append(w, round(.df.gauging_data$w[id], 0))
             }
         }
     } else {
-        for (a_date in date){
+        for (a_date in date) {
             b_date <- as.Date(a_date, origin = as.Date("1970-01-01"))
             id <- which(df.gauging_data$gauging_station == gs_internal_asc & 
                             df.gauging_data$date == b_date)
-            if (length(id) == 1){
+            if (length(id) == 1) {
                 w <- append(w, round(df.gauging_data$w[id], 0))
             }
         }
     }
     
-    if (length(w) == 0){
+    if (length(w) == 0) {
         return(NA)
     } else {
         return(w)

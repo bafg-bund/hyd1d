@@ -30,7 +30,7 @@ NULL
 #####
 # S3 method
 as.data.frame.WaterLevelDataFrame <- function(x, ...) {
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
     df <- as.data.frame(x@.Data, ...)
@@ -50,7 +50,7 @@ as.data.frame.WaterLevelDataFrame <- function(x, ...) {
 #methods::setMethod("as.data.frame", 
 #                   methods::signature(x = "WaterLevelDataFrame"),
 #                   function(x, ...) {
-#    if (class(x) != "WaterLevelDataFrame") {
+#    if (!inherits(x, "WaterLevelDataFrame")) {
 #        stop("'x' must be type 'WaterLevelDataFrame'.")
 #    }
 #    df <- as.data.frame(x@.Data, ...)
@@ -71,7 +71,7 @@ as.data.frame.WaterLevelDataFrame <- function(x, ...) {
 #' 
 #' @return The function above extracts the slot \code{gauging_stations} and
 #'   returns an object of class \code{\link[base]{data.frame}}, which might
-#'   contain gauging station data which has been used for the interpolation of a
+#'   contain gauging station data that have been used for the interpolation of a
 #'   water level for the specified date.
 #' 
 #' @seealso \code{\link[=setGaugingStations<-]{setGaugingStations<--method}}
@@ -96,7 +96,7 @@ methods::setGeneric("getGaugingStations", function(x) {
 methods::setMethod("getGaugingStations", 
                    methods::signature("WaterLevelDataFrame"),
                    function(x) {
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
     return(x@gauging_stations)
@@ -139,7 +139,7 @@ methods::setGeneric("getGaugingStationsMissing", function(x) {
 methods::setMethod("getGaugingStationsMissing", 
                    methods::signature("WaterLevelDataFrame"),
                    function(x) {
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
     return(x@gauging_stations_missing)
@@ -180,7 +180,7 @@ methods::setGeneric("getRiver", function(x) {
 methods::setMethod("getRiver", 
                    methods::signature("WaterLevelDataFrame"), 
                    function(x) {
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
     return(x@river)
@@ -220,7 +220,7 @@ methods::setGeneric("getTime", function(x) {
 methods::setMethod("getTime", 
                    methods::signature("WaterLevelDataFrame"), 
                    function(x) {
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
     return(x@time)
@@ -267,14 +267,14 @@ methods::setMethod("getTime",
 setReplaceMethod("names",
                  methods::signature(x="WaterLevelDataFrame", value="character"),
                  function(x, value) {
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
-    if (class(value) != "character") {
+    if (!inherits(value, "character")) {
         stop("'value' must be type 'character'.")
     }
     x@names <- value
-    if(methods::validObject(object=x)){
+    if(methods::validObject(object=x)) {
         return(x)
     }
 })
@@ -323,13 +323,13 @@ rbind.WaterLevelDataFrame <- function(...) {
     
     # river
     wldf_river <- do.call(c, lapply(dots, function(x) {getRiver(x)}))
-    if (!(all(wldf_river[1] == wldf_river))){
+    if (!(all(wldf_river[1] == wldf_river))) {
         stop("getRiver(x) has to be equal for all elements.")
     }
     
     # time
     wldf_time <- do.call(c, lapply(dots, function(x) {getTime(x)}))
-    if (!(all(wldf_time[1] == wldf_time))){
+    if (!(all(wldf_time[1] == wldf_time))) {
         stop("getTime(x) has to be equal for all elements.")
     }
     
@@ -449,8 +449,8 @@ rbind.WaterLevelDataFrame <- function(...) {
 #    }
 #    
 #    # time
-#    wldf_time <- do.call(c, lapply(dots, function(x){getTime(x)}))
-#    if (!(all(wldf_time[1] == wldf_time))){
+#    wldf_time <- do.call(c, lapply(dots, function(x) {getTime(x)}))
+#    if (!(all(wldf_time[1] == wldf_time))) {
 #        stop("getTime(x) has to be equal for all elements.")
 #    }
 #    
@@ -509,7 +509,7 @@ rbind.WaterLevelDataFrame <- function(...) {
 #    }
 #    
 #    # comment
-#    wldf_comment <- do.call(c, lapply(dots, function(x){comment(x)}))
+#    wldf_comment <- do.call(c, lapply(dots, function(x) {comment(x)}))
 #    wldf_comment <- c("rbind(wldf's)", wldf_comment)
 #    
 #    # construct the new wldf
@@ -556,7 +556,7 @@ rbind.WaterLevelDataFrame <- function(...) {
 #'   \linkS4class{WaterLevelDataFrame}. Since \code{value} is normally generated
 #'   inside the functions \code{\link{waterLevel}} or
 #'   \code{\link{waterLevelPegelonline}} this function is of very little use
-#'   outside of these functions.
+#'   outside these functions.
 #' 
 #' @seealso \code{\link{getGaugingStations-method}}
 #' 
@@ -612,10 +612,10 @@ methods::setMethod("setGaugingStations<-",
                    function(x, value) {
     
     # check basic requirements
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
-    if (class(value) != "data.frame") {
+    if (!inherits(value, "data.frame")) {
         stop("'value' must be type 'data.frame'")
     }
     gs_colnames <- c("id", "gauging_station", "uuid", "km",
@@ -636,22 +636,22 @@ methods::setMethod("setGaugingStations<-",
                          "character", "character", "numeric",
                          "numeric", "numeric", "numeric", "numeric",
                          "numeric")
-    if (!(all(names(value) == gs_colnames))){
+    if (!(all(names(value) == gs_colnames))) {
         stop(paste0("names(value) must be c('",
                     paste0(gs_colnames, collapse = "', '"),
                     "')."))
     }
     i <- 1L
     errors <- character()
-    for (a_column in gs_colnames){
-        if (class(value[,a_column]) !=  gs_column_types[i]){
+    for (a_column in gs_colnames) {
+        if (!inherits(value[,a_column], gs_column_types[i])) {
             errors <- c(errors, paste0("'value$", a_column, "' must ",
                                        "be type '",
                                        gs_column_types[i], "'."))
         }
         i <- i + 1L
     }
-    if (length(errors) > 0){
+    if (length(errors) > 0) {
         stop(paste0(errors, collapse="\n  "))
     }
     
@@ -659,7 +659,7 @@ methods::setMethod("setGaugingStations<-",
     x@gauging_stations <- value
     
     # return the validated WaterLevelShinyDataFrame
-    if(methods::validObject(x)){
+    if(methods::validObject(x)) {
         return(x)
     }
     
@@ -706,10 +706,10 @@ methods::setMethod("setGaugingStationsMissing<-",
                    function(x, value) {
     
     # check basic requirements
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
-    if (class(value) != "character") {
+    if (!inherits(value, "character")) {
         stop("'value' must be type 'character'.")
     }
     
@@ -735,7 +735,7 @@ methods::setMethod("setGaugingStationsMissing<-",
 #' @param x an object of class \linkS4class{WaterLevelDataFrame}.
 #' @param value a new value of class \code{character} for the \code{river}
 #'   slot. \code{value} has to have a length of one and has to be \strong{Elbe}
-#'   or \strong{Rhein}.
+#'   or \strong{Rhine}.
 #' 
 #' @return The function above sets a new \code{value} for the slot \code{river}
 #'   and returns an object of class \linkS4class{WaterLevelDataFrame}. Since
@@ -750,7 +750,7 @@ methods::setMethod("setGaugingStationsMissing<-",
 #' wldf <- WaterLevelDataFrame(river   = "Elbe",
 #'                             time    = as.POSIXct("2016-12-21"),
 #'                             station = seq(500, 501, 0.1))
-#' setRiver(wldf) <- as.character("Rhein")
+#' setRiver(wldf) <- as.character("Rhine")
 #' 
 #' @exportMethod setRiver<-
 #' 
@@ -768,11 +768,11 @@ methods::setMethod("setRiver<-",
                    function(x, value) {
   
     # check basic requirements
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
-    if (!(value %in% c("Elbe", "Rhein"))) {
-        stop("'value' has to be either 'Elbe' or 'Rhein'.")
+    if (!(value %in% c("Elbe", "Rhine"))) {
+        stop("'value' has to be either 'Elbe' or 'Rhine'.")
     }
     
     # set the value
@@ -800,7 +800,7 @@ methods::setMethod("setRiver<-",
 #' @param x an object of class \linkS4class{WaterLevelDataFrame}.
 #' @param value a new value of class \code{\link[base:POSIXct]{c("POSIXct", "POSIXt")}}
 #'   for the \code{time} slot. \code{value} has to have a length of one and has
-#'   to be in the temporal range between \code{1990-01-01 00:00:00 CET} and now
+#'   to be in the temporal range between \code{1960-01-01 00:00:00 CET} and now
 #'   (\code{Sys.time()} or \code{NA}.
 #' 
 #' @return The function above sets a new \code{value} for the slot \code{time} 
@@ -826,26 +826,29 @@ methods::setGeneric("setTime<-", function(x, value) {
 
 .setTime <- function(x, value) {
     # check basic requirements
-    if (class(x) != "WaterLevelDataFrame") {
+    if (!inherits(x, "WaterLevelDataFrame")) {
         stop("'x' must be type 'WaterLevelDataFrame'.")
     }
-    if (! class(value)[1] %in% c("POSIXct", "POSIXlt", "Date")) {
+    if (!any(c(inherits(value, "POSIXct"),
+               inherits(value, "POSIXt"),
+               inherits(value, "Date")))) {
         stop("'value' must be type c('POSIXct', 'POSIXlt') or 'Date'.")
     }
     if (length(value) != 1L) {
         stop("'value' must have a length equal 1.")
     }
     if (!(is.na(value))) {
-        if (class(value)[1] %in% c("POSIXct", "POSIXlt")) {
-            if (value < as.POSIXct("1990-01-01 00:00:00 CET") |
+        if (all(c(inherits(value, "POSIXct"),
+                  inherits(value, "POSIXt")))) {
+            if (value < as.POSIXct("1960-01-01 00:00:00 CET") |
                 value > Sys.time()) {
-                stop(paste0("'time' must be between 1990-01-01 00:00:00 and no",
+                stop(paste0("'time' must be between 1960-01-01 00:00:00 and no",
                             "w or NA."))
             }
         } else {
-            if (value < as.Date("1990-01-01") |
+            if (value < as.Date("1960-01-01") |
                 value > Sys.Date()) {
-                stop("'time' must be between 1990-01-01 and now or NA.")
+                stop("'time' must be between 1960-01-01 and now or NA.")
             }
         }
     }
@@ -988,7 +991,7 @@ subset.WaterLevelDataFrame <- function(x, subset, select, drop = FALSE, ...) {
 # S3 method
 summary.WaterLevelDataFrame <- function(object, ...) {
     
-    if (class(object) != "WaterLevelDataFrame") {
+    if (!inherits(object, "WaterLevelDataFrame")) {
         stop("'object' must be type 'WaterLevelDataFrame'.")
     }
     

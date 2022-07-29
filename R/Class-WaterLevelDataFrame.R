@@ -4,8 +4,8 @@
 #'
 #' @description The S4 class \linkS4class{WaterLevelDataFrame} is inherited from
 #'   the S3 class \code{\link[base]{data.frame}} and stores 1D water level
-#'   information together with the official stationing along German federal
-#'   waterways Elbe and Rhein.
+#'   information together with the official stationing along the German federal
+#'   waterways Elbe and Rhine.
 #' 
 #' @details In addition to the 1D water level data stored in the 
 #'   \code{\link[base]{data.frame}} further slots contain necessary information
@@ -18,15 +18,15 @@
 #'   since \code{station <- \link[base:numeric]{as.numeric}(station_int / 1000)}
 #'   and \code{station_int <- \link[base:integer]{as.integer}(station * 1000)}.
 #'   The column \code{w} represents the height of the water level relative to
-#'   normal height null (DHHN92). These first three columns are required, but
+#'   standard elevation zero (DHHN92). These first three columns are required, but
 #'   further columns can be added.
 #' @slot river is a required slot clearly determining the location of a station.
 #'   Possible values of \code{river} have to be type \code{character}, have to
-#'   have a length of one and are either \strong{Elbe} or \strong{Rhein}.
+#'   have a length of one and are either \strong{Elbe} or \strong{Rhine}.
 #' @slot time is a slot determining the time for which the water level has been
 #'   computed. \code{time} has to be type \code{\link[base:POSIXct]{c("POSIXct",
 #'   "POSIXt")}}, has to have a length of one and be in the range between
-#'   \code{1990-01-01 00:00:00 CET} and now (\code{Sys.time()}) or \code{NA}.
+#'   \code{1960-01-01 00:00:00 CET} and now (\code{Sys.time()}) or \code{NA}.
 #' @slot gauging_stations possibly contains a \code{\link[base]{data.frame}}
 #'   with relevant information about gauging stations within the relevant
 #'   \code{river} stretch and the closer surrounding up- and downstream of the
@@ -37,7 +37,7 @@
 #'   existed for the requested \code{time}. It is automatically filled by the
 #'   functions \code{\link{waterLevel}}, \code{\link{waterLevelPegelonline}},
 #'   \code{\link{waterLevelFlys3}} and \code{\link{waterLevelFlys3Seq}}.
-#' @slot comment contains information which function has been used to create
+#' @slot comment contains information on which function has been used to create
 #'   (\code{\link{WaterLevelDataFrame}}, \code{\link{readWaterLevelFileDB}},
 #'   \code{\link{readWaterLevelJson}}, \code{\link{readWaterLevelStationInt}})
 #'   or compute (\code{\link{waterLevel}}, \code{\link{waterLevelPegelonline}},
@@ -102,7 +102,7 @@ methods::setClass(
             ## slot: river
             error_river <- FALSE
             # character
-            if (class(object@river) != "character") {
+            if (!inherits(object@river, "character")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'river' ",
                                            "must be type 'character'."))
                 error_river <- TRUE
@@ -113,11 +113,11 @@ methods::setClass(
                                            "must have length 1."))
                 error_river <- TRUE
             }
-            # %in% c('Elbe', 'Rhein')
-            if (!(object@river %in% c("Elbe", "Rhein"))) {
+            # %in% c('Elbe', 'Rhine')
+            if (!(object@river %in% c("Elbe", "Rhine"))) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'river' ",
                                            "must be an element of ",
-                                           "c('Elbe', 'Rhein')."))
+                                           "c('Elbe', 'Rhine')."))
                 error_river <- TRUE
             }
             # set 'river'-specific limits of station_int and w
@@ -128,7 +128,7 @@ methods::setClass(
                     w_min <- 0
                     w_max <- 130
                 }
-                if (object@river == "Rhein") {
+                if (object@river == "Rhine") {
                     station_int_min <- 336200
                     station_int_max <- 865700
                     w_min <- 5
@@ -143,7 +143,8 @@ methods::setClass(
             
             ## slot: time
             # POSIXct
-            if (!(all(class(object@time) == c("POSIXct", "POSIXt")))) {
+            if (!all(c(inherits(object@time, "POSIXct"),
+                       inherits(object@time, "POSIXt")))) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'time' ",
                                            "must be type c('POSIXct', ",
                                            "'POSIXt')."))
@@ -153,20 +154,20 @@ methods::setClass(
                 errors <- c(errors, paste0("Error ", l(errors), ": 'time' ",
                                            "must have length 1."))
             }
-            # 1990-01-01 and now
+            # 1960-01-01 and now
             if (!(is.na(object@time))) {
-                if (object@time < as.POSIXct("1990-01-01 00:00:00 CET") |
+                if (object@time < as.POSIXct("1960-01-01 00:00:00 CET") |
                     object@time > Sys.time()) {
                     errors <- c(errors, paste0("Error ", l(errors), ": 'time' ",
-                                               "must be 1990-01-01 00:00:00 ",
+                                               "must be 1960-01-01 00:00:00 ",
                                                "and now or NA."))
                 }
             }
             
             ## slot: gauging_stations
             # data.frame
-            if (class(object@gauging_stations) != "data.frame" & 
-                class(object@gauging_stations) != "list"){
+            if (!inherits(object@gauging_stations, "data.frame") & 
+                !inherits(object@gauging_stations, "list")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'gauging_",
                                            "stations' must be type ",
                                            "'data.frame'."))
@@ -182,7 +183,7 @@ methods::setClass(
                              "w_wl_below_w_do", "w_wl_above_w_do", 
                              "w_wl_below_w_up", "w_wl_above_w_up", "weight_up",
                              "weight_do")
-            if (!(all(names(object@gauging_stations) == gs_colnames))){
+            if (!(all(names(object@gauging_stations) == gs_colnames))) {
                 errors <- c(errors, paste0("Error ", l(errors), ": names(",
                                            "gauging_stations) must be c('",
                                            paste0(gs_colnames,
@@ -198,9 +199,9 @@ methods::setClass(
                                  "character", "character", "numeric", "numeric",
                                  "numeric", "numeric", "numeric", "numeric")
             i <- 1L
-            for (a_column in gs_colnames){
-                if (class(object@gauging_stations[, a_column]) !=
-                    gs_column_types[i]){
+            for (a_column in gs_colnames) {
+                if (!inherits(object@gauging_stations[, a_column],
+                              gs_column_types[i])) {
                     errors <- c(errors, paste0("Error ", l(errors),
                                                ": 'gauging_stations' column '",
                                                a_column, "' must be type '",
@@ -211,7 +212,7 @@ methods::setClass(
             
             ## slot: gauging_stations_missing 
             # character
-            if (class(object@gauging_stations_missing) != "character") {
+            if (!inherits(object@gauging_stations_missing, "character")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": ",
                                            "'gauging_stations_missing' must ",
                                            "be type 'character'."))
@@ -219,7 +220,7 @@ methods::setClass(
             
             ## slot: comment
             # character
-            if (class(object@comment) != "character") {
+            if (!inherits(object@comment, "character")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'comment' ",
                                            "must be type 'character'."))
             }
@@ -231,8 +232,8 @@ methods::setClass(
             
             ## slot: .Data
             # data.frame
-            if (class(object@.Data) != "data.frame" & 
-                class(object@.Data) != "list") {
+            if (!inherits(object@.Data, "data.frame") & 
+                !inherits(object@.Data, "list")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": '.Data' ",
                                            "must be type 'data.frame'."))
             }
@@ -246,7 +247,7 @@ methods::setClass(
             
             ## .Data$station
             # numeric
-            if (class(object$station) != "numeric") {
+            if (!inherits(object$station, "numeric")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": ",
                                            "'station' must be type ",
                                            "'numeric'."))
@@ -257,7 +258,7 @@ methods::setClass(
                                            "'station' must not contain ",
                                            "NA's."))
             }
-            # range (Elbe: 0 - 585700; Rhein: 336200 - 865700)
+            # range (Elbe: 0 - 585700; Rhine: 336200 - 865700)
             if (!(error_river)) {
                 if (min(object$station) < station_int_min / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": ",
@@ -302,7 +303,7 @@ methods::setClass(
             
             ## .Data$station_int
             # integer
-            if (class(object$station_int) != "integer") {
+            if (!inherits(object$station_int, "integer")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": ",
                                            "'station_int' must be type ",
                                            "'integer'."))
@@ -313,7 +314,7 @@ methods::setClass(
                                            "'station_int' must not contain ",
                                            "NA's."))
             }
-            # range (Elbe: 0 - 585700; Rhein: 336200 - 865700)
+            # range (Elbe: 0 - 585700; Rhine: 336200 - 865700)
             if (!(error_river)) {
                 if (min(object$station_int) < station_int_min) {
                     errors <- c(errors, paste0("Error ", l(errors), ": ",
@@ -365,7 +366,7 @@ methods::setClass(
             }
             
             ## .Data$station == .Data$station_int / 1000
-            if (!(all(object$station == object$station_int / 1000))){
+            if (!(all(object$station == object$station_int / 1000))) {
                 errors <- c(errors, paste0("Error ", l(errors), ": ",
                                            "'station_int' must be equal ",
                                            "to as.integer(station * 1000)."))
@@ -373,11 +374,11 @@ methods::setClass(
             
             ## .Data$w
             # numeric
-            if (class(object$w) != "numeric") {
+            if (!inherits(object$w, "numeric")) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'w' must ",
                                            "be type 'numeric'."))
             }
-            # range (Elbe: 130 - 0; Rhein: 120 - 5)
+            # range (Elbe: 130 - 0; Rhine: 120 - 5)
             if (!(error_river)) {
                 if (!(all(is.na(object$w)))) {
                     if (min(object$w, na.rm = TRUE) < w_min) {
@@ -451,11 +452,11 @@ methods::setClass(
 #' 
 #' @param river a required argument to fill the \linkS4class{WaterLevelDataFrame}-slot
 #'   \code{river}. It has to be type \code{character}, has to have a length of
-#'   one and can be either \strong{Elbe} or \strong{Rhein}.
+#'   one and can be either \strong{Elbe} or \strong{Rhine}.
 #' @param time a required argument to fill the \linkS4class{WaterLevelDataFrame}-slot
 #'   \code{time}. It has to be type \code{\link[base:POSIXct]{c("POSIXct",
 #'   "POSIXt")}}, has to have a length of one and must be in the temporal range
-#'   between \code{1990-01-01 00:00:00 CET} and now (\code{Sys.time()}) or be
+#'   between \code{1960-01-01 00:00:00 CET} and now (\code{Sys.time()}) or be
 #'   \code{NA}.
 #' @param gauging_stations a slot of class \code{\link[base]{data.frame}}.
 #'   \code{gauging_stations} has to be a \code{\link[base]{data.frame}} with the
@@ -473,44 +474,44 @@ methods::setClass(
 #'   (\code{numeric}), w_wl_above_w_do (\code{numeric}), w_wl_below_w_up
 #'   (\code{numeric}), w_wl_above_w_up (\code{numeric}), weight_up
 #'   (\code{numeric}), weight_do (\code{numeric}).
-#' @param gauging_stations_missing a possible argument to fill the
+#' @param gauging_stations_missing an optional argument to fill the
 #'   \linkS4class{WaterLevelDataFrame}-slot \code{gauging_stations_missing}. It
 #'   has to be type \code{character} and usually contains a vector with names of
 #'   gauging stations for which no water level information was available for the
 #'   specified \code{time}. This argument is used by the functions
 #'   \code{\link{waterLevel}}, \code{\link{waterLevelPegelonline}},
 #'   \code{\link{waterLevelFlys3}} and \code{\link{waterLevelFlys3Seq}}.
-#' @param comment a possible argument to fill the
+#' @param comment an optional argument to fill the
 #'   \linkS4class{WaterLevelDataFrame}-slot \code{comment}. It has to be type
 #'   \code{character} and is used by the functions
 #'   \code{\link{WaterLevelDataFrame}}, \code{\link{readWaterLevelFileDB}},
 #'   \code{\link{readWaterLevelJson}}, \code{\link{readWaterLevelStationInt}},
 #'   \code{\link{waterLevel}}, \code{\link{waterLevelPegelonline}},
 #'   \code{\link{waterLevelFlys3}} and \code{\link{waterLevelFlys3Seq}}.
-#' @param id a possible argument to hand over the \code{row.names(wldf)}.
+#' @param id an optional argument to hand over the \code{row.names(wldf)}.
 #'   \code{id} has to be type \code{integer} and has to have the same length
 #'   as other optional arguments (\code{station}, \code{station_int} and
 #'   \code{w}) forming the \code{\link[base]{data.frame}}-component of a
 #'   \linkS4class{WaterLevelDataFrame}.
-#' @param station a possible argument to hand over the stationing along the
+#' @param station an optional argument to hand over the stationing along the
 #'   specified \code{river}. If specified, it has to be type \code{numeric}
 #'   and has to have the same length as other optional arguments (\code{id},
 #'   \code{station_int} and \code{w}) forming the \code{\link[base]{data.frame}}-component
 #'   of a \linkS4class{WaterLevelDataFrame}. If both stationing arguments
 #'   (\code{station} and \code{station_int}) are specified, all elements of
 #'   \code{station} have to be equal to \code{as.numeric(station_int / 1000)}.
-#'   Minimal and maximal allowed values of \code{station} are
-#'   \code{river}-specific: Elbe (km 0 - 585.7), Rhein (km 336.2 - 865.7).
-#' @param station_int a possible argument to hand over the stationing along the
+#'   Minimum and maximum allowed values of \code{station} are
+#'   \code{river}-specific: Elbe (km 0 - 585.7), Rhine (km 336.2 - 865.7).
+#' @param station_int an optional argument to hand over the stationing along the
 #'   specified \code{river}. If specified, it has to be type \code{integer}
 #'   and has to have the same length as other optional arguments (\code{id},
 #'   \code{station} and \code{w}) forming the \code{\link[base]{data.frame}}-component
 #'   of a \linkS4class{WaterLevelDataFrame}. If both stationing arguments
 #'   (\code{station} and \code{station_int}) are specified, all elements of
 #'   \code{station_int} have to be equal to \code{as.integer(station * 1000)}.
-#'   Minimal and maximal allowed values of \code{station_int} are \code{river}-specific:
-#'   Elbe (m 0 - 585700), Rhein (m 336200 - 865700).
-#' @param w a possible argument to hand over the water level information along
+#'   Minimum and maximum allowed values of \code{station_int} are \code{river}-specific:
+#'   Elbe (m 0 - 585700), Rhine (m 336200 - 865700).
+#' @param w an optional argument to hand over the water level information along
 #'   the stationing of the specified \code{river} for a given \code{time}. If
 #'   specified, it has to be type \code{numeric} and has to have the same
 #'   length as other optional arguments (\code{id}, \code{station} and
@@ -518,9 +519,9 @@ methods::setClass(
 #'   a \linkS4class{WaterLevelDataFrame}. If not specified, the respective
 #'   \linkS4class{WaterLevelDataFrame}-column \code{w} can be computed by the
 #'   functions \code{\link{waterLevel}}, \code{\link{waterLevelPegelonline}},
-#'   \code{\link{waterLevelFlys3}} and \code{\link{waterLevelFlys3Seq}}. Minimal
-#'   and maximal allowed values of \code{w} are river-specific: Elbe (m a.s.l. 0
-#'   - 130), Rhein (m a.s.l. 5 - 120).
+#'   \code{\link{waterLevelFlys3}} and \code{\link{waterLevelFlys3Seq}}. Minimum
+#'   and maximum allowed values of \code{w} are river-specific: Elbe (m a.s.l. 0
+#'   - 130), Rhine (m a.s.l. 5 - 120).
 #' 
 #' @return The function produces an object of class
 #'   \linkS4class{WaterLevelDataFrame} which might contain 1D water level data
@@ -534,7 +535,7 @@ methods::setClass(
 #' 
 #' @export
 #' 
-WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
+WaterLevelDataFrame <- function(river = c("Elbe", "Rhine"),
                                 time,
                                 gauging_stations         = NULL,
                                 gauging_stations_missing = NULL,
@@ -542,7 +543,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
                                 id                       = NULL,
                                 station                  = NULL,
                                 station_int              = NULL,
-                                w                        = NULL){
+                                w                        = NULL) {
     
     ## vector and function to catch error messages
     errors <- character()
@@ -558,7 +559,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
         error_river <- TRUE
     } else {
         # character
-        if (class(river) != "character") {
+        if (!inherits(river, "character")) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'river' must ",
                                        "be type 'character'."))
             error_river <- TRUE
@@ -569,10 +570,10 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
                                        "have length 1."))
             error_river <- TRUE
         }
-        # %in% c('Elbe', 'Rhein')
-        if (!(river %in% c("Elbe", "Rhein"))) {
+        # %in% c('Elbe', 'Rhine')
+        if (!(river %in% c("Elbe", "Rhine"))) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'river' must ",
-                                       "be an element of c('Elbe', 'Rhein')."))
+                                       "be an element of c('Elbe', 'Rhine')."))
             error_river <- TRUE
         }
         # set 'river'-specific limits of station_int
@@ -583,7 +584,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
                 w_min <- 0
                 w_max <- 130
             }
-            if (river == "Rhein") {
+            if (river == "Rhine") {
                 station_int_min <- 336200
                 station_int_max <- 865700
                 w_min <- 5
@@ -605,7 +606,8 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
                                    "argument has to be supplied."))
     } else {
         # POSIXct
-        if (!(all(class(time) == c("POSIXct", "POSIXt")))) {
+        if (!all(c(inherits(time, "POSIXct"),
+                   inherits(time, "POSIXt")))) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'time' must ",
                                        "be type c('POSIXct', 'POSIXt')."))
         }
@@ -614,12 +616,12 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
             errors <- c(errors, paste0("Error ", l(errors), ": 'time' must ",
                                        "have length 1."))
         }
-        # 1990-01-01
+        # 1960-01-01
         if (!(is.na(time))) {
-            if (time < as.POSIXct("1990-01-01 00:00:00 CET") |
+            if (time < as.POSIXct("1960-01-01 00:00:00 CET") |
                 time > Sys.time()) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'time' ",
-                                           "must be 1990-01-01 00:00:00 and ",
+                                           "must be 1960-01-01 00:00:00 and ",
                                            "now or NA."))
             }
         }
@@ -659,7 +661,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
                               stringsAsFactors = FALSE)
     } else {
         # data.frame
-        if (class(gauging_stations) != "data.frame"){
+        if (!inherits(gauging_stations, "data.frame")) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'gauging_stat",
                                        "ions' must be type 'data.frame'."))
         }
@@ -675,7 +677,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
                                      "w_wl_above_w_do", "w_wl_below_w_up", 
                                      "w_wl_above_w_up", "weight_up", 
                                      "weight_do")
-        if (!(all(names(gauging_stations) == gauging_stations_colnames))){
+        if (!(all(names(gauging_stations) == gauging_stations_colnames))) {
             errors <- c(errors, paste0("Error ", l(errors), ": The columns of ",
                                        "'gauging_stations' must be '",
                                        paste(sep = "', '",
@@ -692,7 +694,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
         wldf_gsm <- as.character(NA)
     } else {
         # character
-        if (class(gauging_stations_missing) != "character") {
+        if (!inherits(gauging_stations_missing, "character")) {
             errors <- c(errors, paste0("Error ", l(errors), ": ",
                                        "'gauging_stations_missing' must be ",
                                        "type 'character'."))
@@ -706,12 +708,12 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
         wldf_comment <- paste0("Initialised by WaterLevelDataFrame().")
     } else {
         # character
-        if (class(comment) != "character") {
+        if (!inherits(comment, "character")) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'comment' must ",
                                        "be type 'character'."))
         }
         # length 
-        # if (length(comment) != 1L){
+        # if (length(comment) != 1L) {
         #     errors <- c(errors, paste0("Error ", l(errors), ": 'comment' ",
         #                                "must have length 1."))
         # }
@@ -722,7 +724,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
     # presence
     if (!missing(id)) {
         # integer
-        if (class(id) != "integer") {
+        if (!inherits(id, "integer")) {
             errors <- c(errors, paste0("Error: ", l(errors), ": 'id' must be ",
                                        "type 'integer'."))
         }
@@ -755,7 +757,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
     # station_int & w | station & w
     if (!(missing(station_int))) {
         # station_int: integer
-        if (class(station_int) != "integer") {
+        if (!inherits(station_int, "integer")) {
             errors <- c(errors, paste0("Error: ", l(errors), ": 'station_int' ",
                                        "must be type 'integer'."))
         }
@@ -824,7 +826,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
         wldf_s <- wldf_si / 1000
         if (!(missing(w))) {
             # w: numeric
-            if (class(w) != "numeric") {
+            if (!inherits(w, "numeric")) {
                 errors <- c(errors, paste0("Error: ", l(errors),
                                            ": 'w' ", "must be type 'numeric'."))
             }
@@ -875,7 +877,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
         }
     } else {
         # station: numeric
-        if (class(station) != "numeric") {
+        if (!inherits(station, "numeric")) {
             errors <- c(errors, paste0("Error: ", l(errors), ": 'station' ",
                                        "must be type 'numeric'."))
         }
@@ -936,7 +938,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhein"),
         wldf_si <- as.integer(round(wldf_s * 1000, 0))
         if (!(missing(w))) {
             # w: numeric
-            if (class(w) != "numeric") {
+            if (!inherits(w, "numeric")) {
                 errors <- c(errors, paste0("Error: ", l(errors), ": 'w' ",
                                            "must be type 'numeric'."))
             }

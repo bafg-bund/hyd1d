@@ -29,7 +29,7 @@ test_that("getGaugingDataW", {
                  "'uuid' must be an element of c('7cb7461b-3530-4c01-8978-", 
                  fixed = TRUE)
     expect_error(getGaugingDataW(gauging_station = "DESSAU",
-                                 time = as.Date("1989-12-31")), 
+                                 time = as.Date("1959-12-31")), 
                  "You requested earlier data. Please ")
     expect_error(getGaugingDataW(gauging_station = "DESSAU",
                                  time = Sys.time() + 10), 

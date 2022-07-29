@@ -22,6 +22,9 @@ urlcolor: blue
 citecolor: blue
 lof: true
 output:
+  html_vignette:
+    toc: yes
+    toc_depth: 3
   pdf_document:
     latex_engine: pdflatex
     keep_tex: false
@@ -39,11 +42,8 @@ output:
     pandoc_args: [
             "--biblatex"
         ]
-  html_vignette:
-    toc: yes
-    toc_depth: 3
 vignette: |
-  %\VignetteIndexEntry{hyd1d - Das Paket} 
+  %\VignetteIndexEntry{hyd1d - Vignette (DE)} 
   %\VignetteEncoding{UTF-8} 
   %\VignetteEngine{knitr::rmarkdown} 
 ---
@@ -154,7 +154,7 @@ href <- function(x, y) {
 # Function to simplify linking to references/rd
 lrd <- function(x, y) {
     # standard url
-    url <- "http://r.bafg.de/~WeberA/hyd1d"
+    url <- "https://hyd1d.bafg.de"
     
     # url from DESCRIPTION file
     if (file.exists("DESCRIPTION")) {
@@ -301,7 +301,7 @@ nocite: |
 
 ### Entwicklung {#problem_flys_entwicklung}
 
-Um diese Informationslücke zu schliessen und Wasserstandsinformationen für 
+Um diese Informationslücke zu schließen und Wasserstandsinformationen für 
 beliebige Orte entlang eines Gewässers zu generieren, wird an der 
 [Bundesanstalt für Gewässerkunde (BfG)](https://www.bafg.de) seit 1998 an der 
 Flusshydrologische Software FLYS gearbeitet. Nach 15 Jahren Entwicklungsarbeit 
@@ -548,7 +548,7 @@ notwendig, welche im Folgenden präsentiert werden.
 
 ---
 nocite: | 
-  @bundesanstalt_fur_gewasserkunde_flys_2016
+  @bundesanstalt_fur_gewasserkunde_flys_2013; @bundesanstalt_fur_gewasserkunde_flys_2016
 ...
 
 <BR>
@@ -615,7 +615,7 @@ mitgeliefert.
 
 Konkret handelt es sich dabei um tagesgemittelte Wasserstandswerte 
 für die Pegel entlang des Rheins und der deutschen Binnenelbe seit dem 
-01.01.1990. Diese Pegeldaten sind innerhalb des Paketes als `data.frame`-Objekt 
+01.01.1960. Diese Pegeldaten sind innerhalb des Paketes als `data.frame`-Objekt 
 `r lrd("df.gauging_data")` eingebettet und werden paket-intern regelmäßig 
 automatisiert aktualisiert (`r lrd("updateGaugingData()")`).
 
@@ -1025,13 +1025,13 @@ finales Produkt:
 ## Installation und Laden des Paketes
 
 Momentan ist das Paket **hyd1d** noch nicht auf CRAN verfügbar. Daher kann nur 
-die aktuelle Entwicklungsversion vom GitBucket-Server der BfG installiert 
+die aktuelle Entwicklungsversion vom Gitlab-Server der BfG installiert 
 werden:
 
 ```{r install_git, eval = FALSE}
 install.packages("devtools")
 library(devtools)
-devtools::install_git("git://apps.bafg.de/gitbucket/webera/hyd1d.git")
+devtools::install_git("git://gitlab.lan.bafg.de/auenoekologie/hyd1d")
 ```
 
 Dannach kann das Paket **hyd1d** wie jedes andere installierte R-Paket über 
@@ -1105,8 +1105,8 @@ Die zuvor detailliert beschriebene Interpolation von
 anhand von Pegeldaten ist in der Funktion `r lrd("waterLevel()")`
 implementiert. Diese Funktion nutzt für die Interpolation die Paket-internen
 Pegeldaten aus dem Datensatz `r lrd("df.gauging_data")`,
-welcher tages-gemittelte Pegeldaten seit dem 01.01.1990 enthält. Daher sind 
-Berechungen für den Zeitraum vom 01.01.1990 bis gestern möglich.
+welcher tages-gemittelte Pegeldaten seit dem 01.01.1960 enthält. Daher sind 
+Berechungen für den Zeitraum vom 01.01.1960 bis gestern möglich.
 
 Nach der [Initialisierung](articles/hyd1d.html#s4-klasse-waterleveldataframe) 
 eines Objektes der Klasse `r lrd("WaterLevelDataFrame", "WaterLevelDataFrame-class.html")`
@@ -1191,7 +1191,7 @@ Berechnungsmethoden vergleichen zu können, wurde auch die Funktionen
 `r lrd("waterLevelFlood1()")` und `r lrd("waterLevelFlood2()")` implementiert.
 Diese Funktionen berechnen Wasserspiegellagen analog zur Flut1- und
 Flut2-Methoden der Modellierungsumgebung 
-[INFORM](http://www.bafg.de/DE/08_Ref/U2/02_analyse/01_INFORM/inform.html) 
+[INFORM](http://www.bafg.de/DE/08_Ref/U3/02_analyse/01_INFORM/inform.html) 
 [@rosenzweig_inform_2011]. Dazu wird mittels der Flut1-Methode die
 Referenzwasserspiegellage **MQ** vertikal so verschoben, dass sie den
 Wasserstandswert am ausgewählten Bezugspegel schneidet, bei der Flut2-Methode 
@@ -1298,26 +1298,6 @@ Werkzeuge besser genutzt werden. Im Folgenden findet sich Produkte, die den
 Zugriff auf die den Berechnungsverfahren zu Grunde liegenden Daten vereinfachen 
 oder schon berechnete Ergebnisse für die Allgemeinheit verfügbar machen.
 
-## Pegeldatenbank
-
-Um die Pegeldaten zentral aufzubereiten, wurde die Projekt-eigene Pegeldatenbank 
-**gauging_data** aufgebaut. Alle Daten dieser intermediären Datenhaltung sind 
-in den beiden Datensätzen `r lrd("df.gauging_data")` und
-`r lrd("df.gauging_station_data")` enthalten, können aber auch über eine
-ShinyApp im Browser abgefragt, visualisiert und exportiert werden:
-
-\begin{center}
-\url{http://r.bafg.de/shiny/WeberA/02-gauging_data/}
-\end{center}
-
-``` {r link_gauging_data, eval = is_html, echo = FALSE, results = 'asis'}
-cat('<p style="text-align: center;"><a href="http://r.bafg.de/shiny/WeberA/02-gauging_data/" target="_blank">http://r.bafg.de/shiny/WeberA/02-gauging_data/</a></p>')
-```
-
-```{r figure19, echo = FALSE, fig.cap = capFig(paste0("Screenshot der ", href("gauging_data-ShinyApp", "http://r.bafg.de/shiny/WeberA/02-gauging_data/"), " mit Pegelstammdaten, Karte und Wasserstandszeitreihe für den Zeitraum vom 12.04.2017 bis 12.04.2018 am Pegel Rosslau.")), fig.show = 'asis', out.width = "100%",results = 'asis'}
-knitr::include_graphics('screenshot_gauging_data.png')
-```
-
 ## waterLevel
 
 Die `r lrd("waterLevel()")`-Funktion, welche die zentrale 
@@ -1328,14 +1308,14 @@ Das prädestiniert die Funktion dazu eine interaktive Berechnungsapplikation fü
 die Nutzung im Browser mittels Shiny zu implementieren.
 
 \begin{center}
-\url{http://r.bafg.de/shiny/WeberA/05-waterlevel/}
+\url{https://shiny.bafg.de/waterlevel/}
 \end{center}
 
 ``` {r link_waterlevel, eval = is_html, echo = FALSE, results = 'asis'}
-cat('<p style="text-align: center;"><a href="http://r.bafg.de/shiny/WeberA/05-waterlevel/" target="_blank">http://r.bafg.de/shiny/WeberA/05-waterlevel/</a></p>')
+cat('<p style="text-align: center;"><a href="https://shiny.bafg.de/waterlevel/" target="_blank">https://shiny.bafg.de/waterlevel/</a></p>')
 ```
 
-```{r figure20, echo = FALSE, fig.cap = capFig(paste0("Screenshot der ", href("waterLevel-ShinyApp", "http://r.bafg.de/shiny/WeberA/05-waterlevel/"), " mit der interpolierten Wasserspiegellage, berechnungsrelevanten stationären ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("0.5MQ"), ", ", bf("a"), " und ", bf("0.75MQ"), ") und Wasserständen vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), fig.show = 'asis', out.width = "100%", results = 'asis'}
+```{r figure20, echo = FALSE, fig.cap = capFig(paste0("Screenshot der ", href("waterLevel-ShinyApp", "https://shiny.bafg.de/waterlevel/"), " mit der interpolierten Wasserspiegellage, berechnungsrelevanten stationären ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("0.5MQ"), ", ", bf("a"), " und ", bf("0.75MQ"), ") und Wasserständen vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), fig.show = 'asis', out.width = "100%", results = 'asis'}
 knitr::include_graphics('screenshot_waterLevel.png')
 ```
 
@@ -1348,14 +1328,14 @@ bezieht, ist diese Applikation sehr gut geeignet aktuelle
 Wasserspiegelinformationen auf Anfrage zu generieren.
 
 \begin{center}
-\url{http://r.bafg.de/shiny/WeberA/06-waterlevelpegelonline/}
+\url{https://shiny.bafg.de/waterlevelpegelonline/}
 \end{center}
 
 ``` {r link_waterlevelpegelonline, eval = is_html, echo = FALSE, results = 'asis'}
-cat('<p style="text-align: center;"><a href="http://r.bafg.de/shiny/WeberA/06-waterlevelpegelonline/" target="_blank">http://r.bafg.de/shiny/WeberA/06-waterlevelpegelonline/</a></p>')
+cat('<p style="text-align: center;"><a href="https://shiny.bafg.de/waterlevelpegelonline/" target="_blank">https://shiny.bafg.de/waterlevelpegelonline/</a></p>')
 ```
 
-```{r figure21, echo = FALSE, fig.cap = capFig(paste0("Screenshot der ", href("waterLevelPegelonline-ShinyApp", "http://r.bafg.de/shiny/WeberA/06-waterlevelpegelonline/"), " mit der interpolierten Wasserspiegellage und den berechnungsrelevanten stationären ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("a"), ", ", bf("0.75MQ"), " und ", bf("b"), ") und Wasserständen vom 13.04.2018 11:00 Uhr an der Elbe bei Rosslau und Dessau.")), fig.show = 'asis', out.width = "100%"}
+```{r figure21, echo = FALSE, fig.cap = capFig(paste0("Screenshot der ", href("waterLevelPegelonline-ShinyApp", "https://shiny.bafg.de/waterlevelpegelonline/"), " mit der interpolierten Wasserspiegellage und den berechnungsrelevanten stationären ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("a"), ", ", bf("0.75MQ"), " and ", bf("0.5MQ"), ") und Wasserständen vom 13.04.2018 11:00 Uhr an der Elbe bei Rosslau und Dessau.")), fig.show = 'asis', out.width = "100%"}
 knitr::include_graphics('screenshot_waterLevelPegelonline.png')
 ```
 
@@ -1368,11 +1348,11 @@ sogenannte Querprofilflächen lassen sich im GIS mittels des R-Paketes hydflood
 sich auf dem Dokumentationsportal von hydflood:
 
 \begin{center}
-\url{http://r.bafg.de/~WeberA/hydflood/}
+\url{https://hydflood.bafg.de}
 \end{center}
 
 ``` {r link_hydflood, eval = is_html, echo = FALSE, results = 'asis'}
-cat('<p style="text-align: center;"><a href="http://r.bafg.de/~WeberA/hydflood/" target="_blank">http://r.bafg.de/~WeberA/hydflood/</a></p>')
+cat('<p style="text-align: center;"><a href="https://hydflood.bafg.de" target="_blank">https://hydflood.bafg.de</a></p>')
 ```
 
 <BR>
