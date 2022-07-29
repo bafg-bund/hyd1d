@@ -90,6 +90,11 @@ Sys.setlocale(category = "LC_MESSAGES", locale = "en_US.utf8")
 
 # Determine the output format of the document
 outputFormat <- knitr::opts_knit$get("rmarkdown.pandoc.to")
+if (outputFormat == "html") {
+    is_html <- TRUE
+} else {
+    is_html <- FALSE
+}
 
 # Figure and Table Caption Numbering, for HTML do it manually
 capTabNo <- 1
@@ -129,10 +134,27 @@ capFig <- function(x){
     return(x)
 }
 
+href <- function(x, y) {
+    if (outputFormat == 'html') {
+        x <- paste0("[", x, "](", y, ")")
+    } else if (outputFormat == 'latex') {
+        x <- paste0("\\href{", y, "}{", x, "}")
+    }
+    return(x)
+}
+
+bf <- function(x) {
+    if (outputFormat == 'html') {
+        x <- paste0("**", x, "**")
+    } else if (outputFormat == 'latex') {
+        x <- paste0("\\textbf{", x, "}")
+    }
+    return(x)
+}
 # Function to simplify linking to references/rd
 lrd <- function(x, y) {
     # standard url
-    url <- "https://hyd1d.bafg.de/"
+    url <- "https://hyd1d.bafg.de"
     
     # url from DESCRIPTION file
     if (file.exists("DESCRIPTION")) {
@@ -466,6 +488,67 @@ and interpolate the water levels linearly along the x-axis, but without
 modifying the dataset contents. These functionalities are needed for **all**
 `r lrd("waterLevel...()", "index.html#section-waterlevel-functions")`-functions
 described in this vignette and are mentioned here for completeness.
+
+<BR>
+
+# Products
+
+## waterLevel
+
+The `r lrd("waterLevel()")` function is the central function of the package
+**hyd1d**. To apply it only three input parameters, that are needed to
+initialize a `r lrd("WaterLevelDataFrame", "WaterLevelDataFrame-class.html")`,
+are required. That predestines this function to embed it into an interactive
+Shiny Application:
+
+\begin{center}
+\url{https://shiny.bafg.de/waterlevel/}
+\end{center}
+
+``` {r link_waterlevel, eval = is_html, echo = FALSE, results = 'asis'}
+cat('<p style="text-align: center;"><a href="https://shiny.bafg.de/waterlevel/" target="_blank">https://shiny.bafg.de/waterlevel/</a></p>')
+```
+
+```{r figure20, echo = FALSE, fig.cap = capFig(paste0("Screenshot of the ", href("waterLevel-ShinyApp", "https://shiny.bafg.de/waterlevel/"), " with the interpolated water level, caomputationrevelvant stationary ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-waterlevels (", bf("0.5MQ"), ", ", bf("a"), " and ", bf("0.75MQ"), ") and gauge heights at 2016-12-21 at the River Elbe between Rosslau and Dessau, Germany.")), fig.show = 'asis', out.width = "100%", results = 'asis'}
+knitr::include_graphics('screenshot_waterLevel.png')
+```
+
+## waterLevelPegelonline
+
+The same is true for the function `r lrd("waterLevelPegelonline()", "waterLevel.html")`. 
+Since this function queries gauging data through the internet and not from 
+package-internal datasets, the resulting shiny application is well suited to
+generate up-to-date water level information.
+
+\begin{center}
+\url{https://shiny.bafg.de/waterlevelpegelonline/}
+\end{center}
+
+``` {r link_waterlevelpegelonline, eval = is_html, echo = FALSE, results = 'asis'}
+cat('<p style="text-align: center;"><a href="https://shiny.bafg.de/waterlevelpegelonline/" target="_blank">https://shiny.bafg.de/waterlevelpegelonline/</a></p>')
+```
+
+```{r figure21, echo = FALSE, fig.cap = capFig(paste0("Screenshot of the ", href("waterLevelPegelonline-ShinyApp", "https://shiny.bafg.de/waterlevelpegelonline/"), " with the interpolated water level, computationrevelvant stationary ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-waterlevels (", bf("a"), ", ", bf("0.75MQ"), " and ", bf("0.5MQ"), ") and gauge heights at 2018-04-13 11:00 a.m. at the River Elbe between Rosslau and Dessau, Germany.")), fig.show = 'asis', out.width = "100%"}
+knitr::include_graphics('screenshot_waterLevelPegelonline.png')
+```
+
+## hydflood (flood extents and durations)
+
+The R package **hydflood** enables the modelling of flood extents and durations
+through an extrapolation of water levels computed along the river axis with
+functions provided within R package **hyd1d** to cross section areas and GIS
+operations comparing these water levels to digital elevation models. Daily flood
+extents can be aggregated over longer time periods to flood durations
+(e.g. days/year). More details to this method can be found on the corresponding
+package documentation of **hydflood**:
+
+\begin{center}
+\url{https://hydflood.bafg.de}
+\end{center}
+
+``` {r link_hydflood, eval = is_html, echo = FALSE, results = 'asis'}
+cat('<p style="text-align: center;"><a href="https://hydflood.bafg.de" target="_blank">https://hydflood.bafg.de</a></p>')
+```
 
 <BR>
 
