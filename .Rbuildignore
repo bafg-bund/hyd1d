@@ -17,6 +17,7 @@
 ^\.gitlab-ci\.yml$
 ^_install\.R$
 ^makefile$
+^man/figures/Thumbs\.db$
 ^_pkgdown\.yml$
 ^_pkgdown\.yaml$
 ^pkgdown$
@@ -26,6 +27,8 @@
 ^screenshot_flys_export_1\.png$
 ^screenshot_flys_export_2\.png$
 ^shinyapps$
+^vignettes/latex/Thumbs\.db$
+^vignettes/paper_plot\.pdf$
 ^vignettes/Thumbs\.db$
 ^vignettes/.*\.xcf$
 ^vignettes/vignette_long_DE\.sty$
