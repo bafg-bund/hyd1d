@@ -76,9 +76,9 @@ navbar:
     - text: "ShinyApps"
       menu:
       - text: "waterLevel"
-        href: https://shiny.bafg.de/waterlevel
+        href: shinyapps/waterlevel
       - text: "waterLevelPegelonline"
-        href: https://shiny.bafg.de/waterlevelpegelonline
+        href: shinyapps/waterlevelpegelonline
   right:
     - text: BfG
       href: https://www.bafg.de

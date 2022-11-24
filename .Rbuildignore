@@ -12,6 +12,7 @@
 ^db$
 ^DB_credentials_flys3$
 ^DB_credentials_gauging_data$
+^DB_credentials_oracle$
 ^docs$
 ^_documentation\.R$
 ^\.gitlab-ci\.yml$
