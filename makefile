@@ -15,5 +15,12 @@ pkg:
 	module list; \
 	Rscript _build.R
 
+pdfde:
+	. /usr/share/Modules/init/bash; \
+	module purge; \
+	module load i4/R/latest; \
+	module list; \
+	R -e 'rmarkdown::render("vignettes/vignette_DE.Rmd", output_format = "pdf_document")'
+
 www:
 	rsync -auv --delete /srv/cifs-mounts/WeberA_home/WeberA/hyd1d/docs/ /srv/cifs-mounts/WeberA/U/U3/Auengruppe_INFORM/Weber_etal_2022_hyd1d_hydflood/www/hyd1d
