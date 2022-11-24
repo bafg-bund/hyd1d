@@ -74,7 +74,7 @@ waterLevelFlood2 <- function(wldf) {
         
         # time
         time    <- as.Date(trunc(getTime(wldf), units = "days"))
-        if (is.na(time)) {
+        if (is.na(getTime(wldf))) {
             errors <- c(errors, paste0("Error ", l(errors), ": The time slot ",
                                        "of 'wldf' must not be NA."))
         }
