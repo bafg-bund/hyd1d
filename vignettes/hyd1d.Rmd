@@ -502,14 +502,14 @@ are required. That predestines this function to embed it into an interactive
 Shiny Application:
 
 \begin{center}
-\url{https://shiny.bafg.de/waterlevel/}
+\url{https://hyd1d.bafg.de/shinyapps/waterlevel/}
 \end{center}
 
 ``` {r link_waterlevel, eval = is_html, echo = FALSE, results = 'asis'}
-cat('<p style="text-align: center;"><a href="https://shiny.bafg.de/waterlevel/" target="_blank">https://shiny.bafg.de/waterlevel/</a></p>')
+cat('<p style="text-align: center;"><a href="https://hyd1d.bafg.de/shinyapps/waterlevel/" target="_blank">https://hyd1d.bafg.de/shinyapps/waterlevel/</a></p>')
 ```
 
-```{r figure20, echo = FALSE, fig.cap = capFig(paste0("Screenshot of the ", href("waterLevel-ShinyApp", "https://shiny.bafg.de/waterlevel/"), " with the interpolated water level, caomputationrevelvant stationary ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-waterlevels (", bf("0.5MQ"), ", ", bf("a"), " and ", bf("0.75MQ"), ") and gauge heights at 2016-12-21 at the River Elbe between Rosslau and Dessau, Germany.")), fig.show = 'asis', out.width = "100%", results = 'asis'}
+```{r figure20, echo = FALSE, fig.cap = capFig(paste0("Screenshot of the ", href("waterLevel-ShinyApp", "https://hyd1d.bafg.de/shinyapps/waterlevel/"), " with the interpolated water level, caomputationrevelvant stationary ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-waterlevels (", bf("0.5MQ"), ", ", bf("a"), " and ", bf("0.75MQ"), ") and gauge heights at 2016-12-21 at the River Elbe between Rosslau and Dessau, Germany.")), fig.show = 'asis', out.width = "100%", results = 'asis'}
 knitr::include_graphics('screenshot_waterLevel.png')
 ```
 
@@ -521,14 +521,14 @@ package-internal datasets, the resulting shiny application is well suited to
 generate up-to-date water level information.
 
 \begin{center}
-\url{https://shiny.bafg.de/waterlevelpegelonline/}
+\url{https://hyd1d.bafg.de/shinyapps/waterlevelpegelonline/}
 \end{center}
 
 ``` {r link_waterlevelpegelonline, eval = is_html, echo = FALSE, results = 'asis'}
-cat('<p style="text-align: center;"><a href="https://shiny.bafg.de/waterlevelpegelonline/" target="_blank">https://shiny.bafg.de/waterlevelpegelonline/</a></p>')
+cat('<p style="text-align: center;"><a href="https://hyd1d.bafg.de/shinyapps/waterlevelpegelonline/" target="_blank">https://hyd1d.bafg.de/shinyapps/waterlevelpegelonline/</a></p>')
 ```
 
-```{r figure21, echo = FALSE, fig.cap = capFig(paste0("Screenshot of the ", href("waterLevelPegelonline-ShinyApp", "https://shiny.bafg.de/waterlevelpegelonline/"), " with the interpolated water level, computationrevelvant stationary ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-waterlevels (", bf("a"), ", ", bf("0.75MQ"), " and ", bf("0.5MQ"), ") and gauge heights at 2018-04-13 11:00 a.m. at the River Elbe between Rosslau and Dessau, Germany.")), fig.show = 'asis', out.width = "100%"}
+```{r figure21, echo = FALSE, fig.cap = capFig(paste0("Screenshot of the ", href("waterLevelPegelonline-ShinyApp", "https://hyd1d.bafg.de/shinyapps/waterlevelpegelonline/"), " with the interpolated water level, computationrevelvant stationary ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-waterlevels (", bf("a"), ", ", bf("0.75MQ"), " and ", bf("0.5MQ"), ") and gauge heights at 2018-04-13 11:00 a.m. at the River Elbe between Rosslau and Dessau, Germany.")), fig.show = 'asis', out.width = "100%"}
 knitr::include_graphics('screenshot_waterLevelPegelonline.png')
 ```
 

@@ -9,11 +9,7 @@ if (Sys.info()["nodename"] %in% c("r.bafg.de")) {
         
         # read the data
         # access the FLYS3 DB
-        f3_string <- paste0("(DESCRIPTION=",
-                            "(ADDRESS=(PROTOCOL=tcp)",
-                            "(HOST=10.140.79.56)(PORT=1521))",
-                            "(CONNECT_DATA=",
-                            "(SERVICE_NAME=FLYS3.DBMSDB.BAFG.DE)))")
+        f3_string <- scan("DB_credentials_oracle", "character")
         f3_con <- ROracle::dbConnect(drv      = DBI::dbDriver("Oracle"),
                                      username = f3_credentials["user"],
                                      password = f3_credentials["password"],
@@ -43,7 +39,7 @@ if (Sys.info()["nodename"] %in% c("r.bafg.de")) {
             FLYS3.WST_COLUMN_VALUES.POSITION ASC, FLYS3.WST_COLUMN_VALUES.W"
         
         df.flys_elbe <- dbGetQuery(f3_con, query_string_elbe)
-        df.flys_elbe <- cbind(data.frame(river = as.character("Elbe", 
+        df.flys_elbe <- cbind(data.frame(river = rep("Elbe", 
                                                      nrow(df.flys_elbe)),
                                          stringsAsFactors = FALSE),
                               df.flys_elbe)
@@ -71,7 +67,7 @@ if (Sys.info()["nodename"] %in% c("r.bafg.de")) {
             FLYS3.WST_COLUMN_VALUES.POSITION ASC, FLYS3.WST_COLUMN_VALUES.W"
         
         df.flys_rhine <- dbGetQuery(f3_con, query_string_rhine)
-        df.flys_rhine <- cbind(data.frame(river = as.character("Rhine", 
+        df.flys_rhine <- cbind(data.frame(river = rep("Rhine", 
                                                       nrow(df.flys_rhine)),
                                           stringsAsFactors = FALSE),
                                df.flys_rhine)
@@ -99,8 +95,8 @@ if (Sys.info()["nodename"] %in% c("r.bafg.de")) {
             FLYS3.WST_COLUMN_VALUES.POSITION ASC, FLYS3.WST_COLUMN_VALUES.W"
         
         df.flys_weser <- dbGetQuery(f3_con, query_string_weser)
-        df.flys_weser <- cbind(data.frame(river = as.character("Weser", 
-                                                               nrow(df.flys_weser)),
+        df.flys_weser <- cbind(data.frame(river = rep("Weser",
+                                                      nrow(df.flys_weser)),
                                           stringsAsFactors = FALSE),
                                df.flys_weser)
         # df.flys_sel <- df.flys_weser[which(df.flys_weser$station == 0.1), ]
