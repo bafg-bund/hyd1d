@@ -1108,7 +1108,7 @@ Pegeldaten aus dem Datensatz `r lrd("df.gauging_data")`,
 welcher tages-gemittelte Pegeldaten seit dem 01.01.1960 enthält. Daher sind 
 Berechungen für den Zeitraum vom 01.01.1960 bis gestern möglich.
 
-Nach der [Initialisierung](articles/hyd1d.html#s4-klasse-waterleveldataframe) 
+Nach der [Initialisierung](articles/vignette_DE.html#s4-klasse-waterleveldataframe) 
 eines Objektes der Klasse `r lrd("WaterLevelDataFrame", "WaterLevelDataFrame-class.html")`
 ist die Verwendung der Funktion denkbar einfach:
 
@@ -1308,14 +1308,14 @@ Das prädestiniert die Funktion dazu eine interaktive Berechnungsapplikation fü
 die Nutzung im Browser mittels Shiny zu implementieren.
 
 \begin{center}
-\url{https://hyd1d.bafg.de/shinyapps/waterlevel/}
+\url{https://hyd1d.bafg.de/shinyapps/waterlevel}
 \end{center}
 
 ``` {r link_waterlevel, eval = is_html, echo = FALSE, results = 'asis'}
-cat('<p style="text-align: center;"><a href="https://hyd1d.bafg.de/shinyapps/waterlevel/" target="_blank">https://hyd1d.bafg.de/shinyapps/waterlevel/</a></p>')
+cat('<p style="text-align: center;"><a href="https://hyd1d.bafg.de/shinyapps/waterlevel" target="_blank">https://hyd1d.bafg.de/shinyapps/waterlevel</a></p>')
 ```
 
-```{r figure20, echo = FALSE, fig.cap = capFig(paste0("Screenshot der ", href("waterLevel-ShinyApp", "https://hyd1d.bafg.de/shinyapps/waterlevel/"), " mit der interpolierten Wasserspiegellage, berechnungsrelevanten stationären ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("0.5MQ"), ", ", bf("a"), " und ", bf("0.75MQ"), ") und Wasserständen vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), fig.show = 'asis', out.width = "100%", results = 'asis'}
+```{r figure20, echo = FALSE, fig.cap = capFig(paste0("Screenshot der ", href("waterLevel-ShinyApp", "https://hyd1d.bafg.de/shinyapps/waterlevel"), " mit der interpolierten Wasserspiegellage, berechnungsrelevanten stationären ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("0.5MQ"), ", ", bf("a"), " und ", bf("0.75MQ"), ") und Wasserständen vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), fig.show = 'asis', out.width = "100%", results = 'asis'}
 knitr::include_graphics('screenshot_waterLevel.png')
 ```
 
@@ -1328,14 +1328,14 @@ bezieht, ist diese Applikation sehr gut geeignet aktuelle
 Wasserspiegelinformationen auf Anfrage zu generieren.
 
 \begin{center}
-\url{https://hyd1d.bafg.de/shinyapps/waterlevelpegelonline/}
+\url{https://hyd1d.bafg.de/shinyapps/waterlevelpegelonline}
 \end{center}
 
 ``` {r link_waterlevelpegelonline, eval = is_html, echo = FALSE, results = 'asis'}
-cat('<p style="text-align: center;"><a href="https://hyd1d.bafg.de/shinyapps/waterlevelpegelonline/" target="_blank">https://hyd1d.bafg.de/shinyapps/waterlevelpegelonline/</a></p>')
+cat('<p style="text-align: center;"><a href="https://hyd1d.bafg.de/shinyapps/waterlevelpegelonline" target="_blank">https://hyd1d.bafg.de/shinyapps/waterlevelpegelonline</a></p>')
 ```
 
-```{r figure21, echo = FALSE, fig.cap = capFig(paste0("Screenshot der ", href("waterLevelPegelonline-ShinyApp", "https://hyd1d.bafg.de/shinyapps/waterlevelpegelonline/"), " mit der interpolierten Wasserspiegellage und den berechnungsrelevanten stationären ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("a"), ", ", bf("0.75MQ"), " and ", bf("0.5MQ"), ") und Wasserständen vom 13.04.2018 11:00 Uhr an der Elbe bei Rosslau und Dessau.")), fig.show = 'asis', out.width = "100%"}
+```{r figure21, echo = FALSE, fig.cap = capFig(paste0("Screenshot der ", href("waterLevelPegelonline-ShinyApp", "https://hyd1d.bafg.de/shinyapps/waterlevelpegelonline"), " mit der interpolierten Wasserspiegellage und den berechnungsrelevanten stationären ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("a"), ", ", bf("0.75MQ"), " and ", bf("0.5MQ"), ") und Wasserständen vom 13.04.2018 11:00 Uhr an der Elbe bei Rosslau und Dessau.")), fig.show = 'asis', out.width = "100%"}
 knitr::include_graphics('screenshot_waterLevelPegelonline.png')
 ```
 

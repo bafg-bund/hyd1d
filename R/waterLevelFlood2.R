@@ -7,7 +7,7 @@
 #'   (Flut2)
 #'
 #' @description This function computes a 1D water level according to the
-#'   \href{https://www.bafg.de/DE/08_Ref/U2/02_analyse/01_INFORM/inform.html}{INFORM}
+#'   \href{https://www.bafg.de/DE/08_Ref/U3/02_analyse/01_INFORM/inform.html}{INFORM}
 #'   flood duration method Flood2 (Flut2) and stores it as column \code{w} of an
 #'   S4 object of type \linkS4class{WaterLevelDataFrame}. Flood2 is designed to
 #'   enable water level computation between gauging stations along waterways 
