@@ -4,7 +4,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^_build\.R$
-^build$
+^built$
 ^\.commit$
 ^data/df\.gauging_data_latest\.rda$
 ^data-raw$
