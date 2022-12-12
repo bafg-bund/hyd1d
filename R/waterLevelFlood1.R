@@ -6,7 +6,7 @@
 #'   gauging station according to the INFORM 3-method Flood1 (Flut1)
 #' 
 #' @description This function computes a 1D water level according to the
-#'   \href{https://www.bafg.de/DE/08_Ref/U2/02_analyse/01_INFORM/inform.html}{INFORM}
+#'   \href{https://www.bafg.de/DE/08_Ref/U3/02_analyse/01_INFORM/inform.html}{INFORM}
 #'   flood duration method Flood1 (Flut1) and stores it as column \code{w} of an
 #'   S4 object of type \linkS4class{WaterLevelDataFrame}. First the function
 #'   obtains the reference water level MQ from \code{\link{df.flys}}. This
