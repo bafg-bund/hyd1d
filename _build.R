@@ -18,7 +18,7 @@ write(" determine output directories", stdout())
 R_version <- as.character(getRversion())
 
 # output paths
-build <- paste0("build/", R_version)
+build <- paste0("built/", R_version)
 dir.create(build, FALSE, TRUE)
 public <- paste0("docs/")
 dir.create(public, FALSE, TRUE)
