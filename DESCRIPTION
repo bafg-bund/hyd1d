@@ -2,7 +2,7 @@ Package: hyd1d
 Type: Package
 Title: Algorithms to Compute 1D Water Levels along the German Federal Waterways
     Elbe and Rhine
-Version: 0.3.1
+Version: 0.3.2
 Date: 2022-12-20
 Authors@R: c(person("Arnd", "Weber", email = "arnd.weber@bafg.de",
                     role = c("aut", "cre"), 
