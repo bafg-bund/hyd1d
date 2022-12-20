@@ -431,7 +431,7 @@ details_df.flys <- function() {
 #'   \href{https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3}-database.
 #'   
 #'   For both rivers 30 stationary water levels have been computed by means of 
-#'   the 1D hydraulic model \href{https://www.deltares.nl/en/software/sobek}{SOBEK}.
+#'   the 1D hydraulic model \href{https://www.deltares.nl/en/software/sobek/}{SOBEK}.
 #'   The water levels cover the full length of the free flowing river sections 
 #'   with a spatial resolution of 200 m river stretch along the official 
 #'   river stationing. They range from extremely low to extremely high flow 

@@ -82,13 +82,9 @@ navbar:
   right:
     - text: BfG
       href: https://www.bafg.de
+    - icon: fa-github
+      href: https://github.com/bafg-bund/hyd1d
 footer:
   structure: 
     left: built_with
     right: developed_by
-repo:
-  url:
-    home: https://gitlab.lan.bafg.de/auenoekologie/hyd1d/
-    source: https://gitlab.lan.bafg.de/auenoekologie/hyd1d/-/blob/main/
-    issue: https://gitlab.lan.bafg.de/auenoekologie/hyd1d/issues/
-    user: https://gitlab.lan.bafg.de/auenoekologie/

@@ -4,7 +4,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^_build\.R$
-^build$
+^built$
 ^\.commit$
 ^data/df\.gauging_data_latest\.rda$
 ^data-raw$
@@ -15,7 +15,6 @@
 ^DB_credentials_oracle$
 ^docs$
 ^_documentation\.R$
-^\.gitlab-ci\.yml$
 ^_install\.R$
 ^makefile$
 ^man/figures/Thumbs\.db$
