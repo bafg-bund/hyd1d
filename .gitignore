@@ -20,6 +20,7 @@ DB_credentials_*
 
 # ignore directories and files
 build
+built
 data/date_gauging_data.rda
 data/df.gauging_data_latest.rda
 data-raw/daily_cron_hpc-service.bafg.de.log
