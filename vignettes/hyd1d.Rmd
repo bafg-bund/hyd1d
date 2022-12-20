@@ -224,13 +224,12 @@ Rhine.
 ## Installation
 
 The package **hyd1d** is currently not available from CRAN. To install the 
-recent developmental version from the Gitlab server of the Federal Institute 
-of Hydrology (BfG) execute the following commands: 
+recent developmental version from Github execute the following commands: 
 
 ```{r install_git, eval = FALSE}
 install.packages("devtools")
 library(devtools)
-devtools::install_git("git://gitlab.lan.bafg.de/auenoekologie/hyd1d.git")
+devtools::install_github("bafg-bund/hyd1d")
 ```
 
 Afterwards **hyd1d** can be loaded like every other R package with the following 

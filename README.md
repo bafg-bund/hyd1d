@@ -8,13 +8,13 @@ information along the German federal waterways Elbe and Rhine.
 
 ## Installation
 
-**hyd1d** is currently not available from CRAN, but you can install the
-development version from BfG’s gitlab server with:
+**hyd1d** is currently not available from CRAN, but you can install the 
+development version from Github with:
 
 ``` r
 install.packages("devtools")
 library(devtools)
-devtools::install_git("git://gitlab.lan.bafg.de/auenoekologie/hyd1d.git")
+devtools::install_github("bafg-bund/hyd1d")
 ```
 
 ## Usage
