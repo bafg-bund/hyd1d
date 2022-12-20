@@ -943,7 +943,7 @@ Befehlen installiert werden:
 ```{r hyd1d-install1, eval = FALSE, echo = TRUE}
 install.packages("devtools")
 library("devtools")
-install_git("git://gitlab.lan.bafg.de/auenoekologie/hyd1d.git")
+install_github("bafg-bund/hyd1d")
 ```
 
 - Nach einer Veröffentlichung auf [CRAN](https://cran.r-project.org) reicht eine
@@ -1062,7 +1062,7 @@ folgenden Befehlen installiert werden:
 ```{r hydflood-install1, eval = FALSE, echo = TRUE}
 install.packages("devtools")
 library("devtools")
-install_git("git://gitlab.lan.bafg.de/auenoekologie/hydflood.git")
+install_github("bafg-bund/hydflood")
 ```
 
 - Nach einer Veröffentlichung auf [CRAN](https://cran.r-project.org) reicht eine

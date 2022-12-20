@@ -15,7 +15,6 @@
 ^DB_credentials_oracle$
 ^docs$
 ^_documentation\.R$
-^\.gitlab-ci\.yml$
 ^_install\.R$
 ^makefile$
 ^man/figures/Thumbs\.db$
