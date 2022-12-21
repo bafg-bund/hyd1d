@@ -64,7 +64,10 @@ nrow_df.gauging_data <- function() {
 #'   distributed through package and/or internal dataset updates.
 #'   
 #'   The latest version is stored locally under
-#'   \code{~/.hyd1d/df.gauging_data_latest.RDS}.
+#'   \code{paste0(options()$hyd1d.datadir, "/df.gauging_data_latest.RDS")}. To
+#'   modify the location of your locally stored gauging data set using
+#'   \code{options()} prior to loading the package, e.g.
+#'   \code{options("hyd1d.datadir" = "~/.hyd1d");library(hyd1d)}
 #' 
 #' @eval nrow_df.gauging_data()
 #' 
@@ -74,7 +77,11 @@ nrow_df.gauging_data <- function() {
 #'    \insertRef{wsv_pegeldaten_2021}{hyd1d}
 #'    
 #'    \insertRef{wsv_pegelonline_2018}{hyd1d}
-#'
+#' 
+#' @example
+#'   options("hyd1d.datadir" = tempdir())
+#'   updateGaugingData(as.Date("2016-12-21"))
+#' 
 "df.gauging_data"
 
 nrow_df.gauging_station_data <- function() {
