@@ -50,19 +50,6 @@ test_that("time", {
     expect_equal(all(is.na(wldf$w)), TRUE)
     setTime(wldf) <- as.POSIXct("2016-12-21")
     wldf <- waterLevel(wldf)
-    
-    if (Sys.info()["nodename"] == "r.bafg.de") {
-        wldf1 <- readWaterLevelFileDB(river = getRiver(wldf),
-                                      time = getTime(wldf),
-                                      from = 256, to = 263)
-        expect_equal(wldf$station, wldf1$station)
-        expect_equal(wldf$station_int, wldf1$station_int)
-        diff <- wldf$w - wldf1$w
-        expect_equal(min(diff), -0.01, 
-                     label = "minimum difference: computed wl <> stored  wl")
-        expect_equal(max(diff), 0.01, 
-                     label = "maximum difference: computed wl <> stored  wl")
-    }
 })
 
 
