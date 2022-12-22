@@ -38,7 +38,6 @@ reference:
       - "`df.flys_sections`"
       - "`df.gauging_data`"
       - "`df.gauging_station_data`"
-      - "`df.sections`"
       - "`updateGaugingData`"
   - title: W functions
     desc: Functions to obtain gauging data

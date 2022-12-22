@@ -1,8 +1,8 @@
 #' @name hyd1d
 #' @docType package
 #' 
-#' @title hyd1d: A package to compute 1D water levels along the German federal
-#' waterways Elbe and Rhine
+#' @title hyd1d: A package to Compute 1D Water Levels along the German Federal
+#' Waterways Elbe and Rhine
 #' 
 #' @description The hyd1d package provides an S4 class, data import and export 
 #' functions, relevant datasets and functions to compute 1D water levels along 
@@ -22,7 +22,7 @@
 #'   \item \code{\link{df.gauging_data}}
 #'   \item \code{\link{df.gauging_station_data}}
 #'   \item \code{\link{df.flys}}
-#'   \item \code{\link{df.sections}}
+#'   \item \code{\link{df.flys_sections}}
 #' }
 #' 
 #' \strong{Water level computation}
@@ -33,9 +33,9 @@
 #' \code{\link{waterLevel}} and \code{\link{waterLevelPegelonline}}. The later 
 #' functions use the datasets \code{\link{df.flys}} and 
 #' \code{\link{df.gauging_station_data}} and gauging data provided by 
-#' \code{\link{df.gauging_data}} or \url{https://pegelonline.wsv.de} to 
-#' linearily interpolate continuous water levels intersecting with the measured 
-#' water level data at the gauging stations.
+#' \code{\link{df.gauging_data}} or \url{https://pegelonline.wsv.de/gast/start}
+#' to linearily interpolate continuous water levels intersecting with the
+#' measured water level data at the gauging stations.
 #' 
 #' @importFrom Rdpack reprompt
 #' @import utils

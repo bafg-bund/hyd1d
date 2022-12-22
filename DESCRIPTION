@@ -40,7 +40,6 @@ Collate:
     'hyd1d-internal.R'
     'hyd1d.R'
     'plotShiny.R'
-    'read.R'
     'updateGaugingData.R'
     'waterLevel.R'
     'waterLevelFlood1.R'
@@ -50,7 +49,6 @@ Collate:
     'waterLevelFlys3InterpolateY.R'
     'waterLevelFlys3Seq.R'
     'waterLevelPegelonline.R'
-    'write.R'
     'zzz.R'
 VignetteBuilder: knitr
 BugReports: https://github.com/bafg-bund/hyd1d/issues/
