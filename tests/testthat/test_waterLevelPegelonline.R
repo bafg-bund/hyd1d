@@ -48,21 +48,3 @@ test_that("waterLevelPegelonline: Geesthacht", {
     
 })
 
-
-test_that("waterLevelPegelonline: Iffezheim", {
-    if (Sys.info()["nodename"] == "r.bafg.de") {
-        wldf <- readWaterLevelStationInt(file = paste0("/home/WeberA/freigaben",
-                                                       "/U/U3/Auengruppe_INFOR",
-                                                       "M/RH_336_867_UFD/data/",
-                                                       "wl/r001_IFFEZHEIM/km_v",
-                                                       "alues.txt"),
-                                         time = as.POSIXct("2016-12-21"))
-        wldf1 <- subset(wldf, station > 336.2 & station <= 340)
-        wldf2 <- waterLevel(wldf1, shiny = TRUE)
-        
-        expect_equal(wldf1$station, wldf2$station)
-        expect_equal(wldf1$station_int, wldf2$station_int)
-        expect_equal(order(wldf2$station), order(- wldf2$w), 
-                     label = "inversed order between station and w")
-    }
-})
