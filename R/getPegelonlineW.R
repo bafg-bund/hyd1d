@@ -4,7 +4,7 @@
 #'   time
 #' 
 #' @description Download and temporarily interpolate or average water level data
-#'   from \url{https://pegelonline.wsv.de}.
+#'   from \url{https://pegelonline.wsv.de/gast/start}.
 #' 
 #' @eval param_gauging_station()
 #' @param time must be type \code{c("POSIXct", "POSIXt")} or \code{Date} and
@@ -17,19 +17,19 @@
 #' 
 #' @details This functions queries online water level data through the
 #'   \href{https://en.wikipedia.org/wiki/Representational_state_transfer}{REST}
-#'   service of \url{https://pegelonline.wsv.de}. The gauging data from
-#'   \href{https://pegelonline.wsv.de}{PEGELONLINE} have a high temporal
-#'   resolution of 15 minutes, enabling meaningful linear temporal interpolation
-#'   if \code{time} is supplied with type
+#'   service of \href{https://pegelonline.wsv.de/gast/start}{PEGELONLINE}. The
+#'   gauging data from \href{https://pegelonline.wsv.de/gast/start}{PEGELONLINE}
+#'   have a high temporal resolution of 15 minutes, enabling meaningful linear
+#'   temporal interpolation if \code{time} is supplied with type
 #'   \code{\link[base:POSIXct]{c("POSIXct", "POSIXt")}}. If \code{time} is
 #'   supplied with type \code{Date} water level data are aggregated to daily
 #'   averages.
 #'   
-#'   Since data from \href{https://pegelonline.wsv.de}{PEGELONLINE} expire after
-#'   31 days, this function is only applicable to query unvalidated water level
-#'   values for the last 31 days before function call. If you need older and
-#'   validated data, feel free to contact the data service at the Federal
-#'   Institute of Hydrology by email (\email{Datenstelle-M1@@bafg.de}).
+#'   Since data from \href{https://pegelonline.wsv.de/gast/start}{PEGELONLINE}
+#'   expire after 31 days, this function is only applicable to query unvalidated
+#'   water level values for the last 31 days before function call. If you need
+#'   older and validated data, feel free to contact the data service at the
+#'   Federal Institute of Hydrology by email (\email{Datenstelle-M1@@bafg.de}).
 #' 
 #' @return The returned output depends on the type of the input parameter
 #'   \code{time}. If \code{time} is type

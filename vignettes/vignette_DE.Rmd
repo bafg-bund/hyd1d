@@ -227,15 +227,16 @@ alle 15 Minuten, in tidebeinflussten Gewässern sogar alle Minute. Für die
 Webseite bis 30 Tage rückwirkend veröffentlicht:
 
 \begin{center}
-\url{https://pegelonline.wsv.de}
+\url{https://pegelonline.wsv.de/gast/start}
 \end{center}
 
 ``` {r link_pegelonline, eval = is_html, echo = FALSE, results = 'asis'}
-cat('<p style="text-align: center;"><a href="https://pegelonline.wsv.de" target="_blank">https://pegelonline.wsv.de</a></p>')
+cat('<p style="text-align: center;"><a href="https://pegelonline.wsv.de/gast/start" target="_blank">https://pegelonline.wsv.de/gast/start</a></p>')
 ```
 
 
-Durch die manuelle Auswahl entsprechender Pegel von [PEGELONLINE](https://pegelonline.wsv.de) 
+Durch die manuelle Auswahl entsprechender Pegel von
+[PEGELONLINE](https://pegelonline.wsv.de/gast/start) 
 lassen sich näherungsweise, flussabschnittsbezogene Wasserstandsentwicklungen 
 beobachten und bewerten, wie hier an den Pegeln 
 [Rosslau](https://pegelonline.wsv.de/gast/stammdaten?pegelnr=501490) und 
@@ -289,8 +290,8 @@ Bezug auf relevante Pegelstände genommen wird, und die Rede ist von:
 die Flutschutztore geschlossen, etc.
 
 Wo die Wasserspiegellagen entlang der Gewässerachse - also zwischen den Pegeln - 
-liegen, läßt sich mittels der lokalen Messdaten von [PEGELONLINE](https://pegelonline.wsv.de) 
-nicht ermitteln. 
+liegen, läßt sich mittels der lokalen Messdaten von
+[PEGELONLINE](https://pegelonline.wsv.de/gast/start) nicht ermitteln. 
 
 ---
 nocite: | 
@@ -560,7 +561,8 @@ Verwendung von
 [FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
 Probleme bereiten, zu berücksichtigen und durchgehende, stetige
 Wasserspiegellagen für lange Gewässerabschnitte zu berechnen. Dafür 
-werden Pegeldaten, die über [PEGELONLINE](https://pegelonline.wsv.de) oder die 
+werden Pegeldaten, die über [PEGELONLINE](https://pegelonline.wsv.de/gast/start)
+oder die 
 [HyDaBa](http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html) 
 zur Verfügung stehen oder gestellt werden können, mit den stationären 
 Wasserspiegellagen von
@@ -581,7 +583,7 @@ Datenbestände von Pegeldaten verwendet und über Stammdaten verknüpft.
 
 #### PEGELONLINE {#loesung_grundlagen_pegeldaten_pegelonline}
 
-Das Portal [PEGELONLINE](https://pegelonline.wsv.de) ermöglicht einen 
+Das Portal [PEGELONLINE](https://pegelonline.wsv.de/gast/start) ermöglicht einen
 Zugriff auf **unvalidierte** Pegelmesswerte aller Pegel, die von der
 Wasserstraßen- und Schifffahrstverwaltung betrieben werden. Diese Daten sind 
 jedoch nur 30 Tage rückwirkend vorhanden und werden dannach vom Server gelöscht.
@@ -621,7 +623,7 @@ automatisiert aktualisiert (`r lrd("updateGaugingData()")`).
 
 #### Stammdaten {#loesung_grundlagen_pegeldaten_stammdaten}
 
-Um die Daten von [PEGELONLINE](https://pegelonline.wsv.de) und aus der
+Um die Daten von [PEGELONLINE](https://pegelonline.wsv.de/gast/start) und aus der
 [HyDaBa](http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html)
 nebeneinander nutzen und verknüpfen zu können, sind Stammdaten notwendig.
 Innerhalb des Pakets **hyd1d** ist ein eigener Stammdatensatz vorhanden
@@ -1150,9 +1152,9 @@ für das Visualisieren notwendig sind.
 Die Funktion `r lrd("waterLevelPegelonline()", "waterLevel.html")` funktioniert 
 equivalent zur Funktion `r lrd("waterLevel()")`, greift für 
 die Berechung aber auf eine andere Datenquelle für die Pegeldaten zurück, 
-nämlich <https://pegelonline.wsv.de>. Auf Grund dieser externen Datenquelle
-sind Berechnungen auch nur 30 Tage rückwirkend möglich, aber mit einer hohen 
-zeitlichen Auflösung.
+nämlich <https://pegelonline.wsv.de/gast/start>. Auf Grund dieser externen
+Datenquelle sind Berechnungen auch nur 30 Tage rückwirkend möglich, aber mit
+einer hohen zeitlichen Auflösung.
 
 ```{r figure15, fig.show = 'asis', fig.cap = capFig(paste0("Interpolierte Wasserspiegellage, berechnungsrelevante stationäre ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen und Wasserstände vom ", strftime(Sys.time() - 3600, format = "%d.%m.%Y %H:%M")," Uhr an der Elbe bei Rosslau und Dessau.")), eval = TRUE}
 # one hour ago

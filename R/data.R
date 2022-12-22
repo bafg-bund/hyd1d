@@ -58,10 +58,10 @@ nrow_df.gauging_data <- function() {
 #'   1960-01-01 until 2021-12-31 are validated and were queried from the
 #'   BfG-Wiski
 #'   (\href{http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html}{HyDaBa})
-#'    and supplied by \email{Datenstelle-M1@@bafg.de}. Data after 2021-12-31 are
-#'   continuously collected from \url{https://pegelonline.wsv.de} and are not
-#'   officially validated. Unvalidated recent data will be replaced anually and
-#'   distributed through package and/or internal dataset updates.
+#'   and supplied by \email{Datenstelle-M1@@bafg.de}. Data after 2021-12-31 are
+#'   continuously collected from \url{https://pegelonline.wsv.de/gast/start} and
+#'   are not officially validated. Unvalidated recent data will be replaced
+#'   anually and distributed through package and/or internal dataset updates.
 #'   
 #'   The latest version is stored locally under
 #'   \code{paste0(options()$hyd1d.datadir, "/df.gauging_data_latest.RDS")}. To
@@ -161,7 +161,7 @@ nrow_df.gauging_station_data <- function() {
 #'   stations along \strong{Elbe} and \strong{Rhine} operated by the waterway 
 #'   and shipping administration (Wasserstraßen- und Schifffahrtsverwaltung 
 #'   (WSV)). The data were originally obtained from 
-#'   \url{https://pegelonline.wsv.de} and are updated anually.
+#'   \url{https://pegelonline.wsv.de/gast/start} and are updated anually.
 #' 
 #' @eval nrow_df.gauging_station_data()
 #' 
@@ -427,7 +427,7 @@ details_df.flys <- function() {
 #'   \href{https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3}-database.
 #'   
 #'   For both rivers 30 stationary water levels have been computed by means of 
-#'   the 1D hydraulic model \href{https://www.deltares.nl/en/software/sobek/}{SOBEK}.
+#'   the 1D hydraulic model \href{https://download.deltares.nl/en/software/sobek/}{SOBEK}.
 #'   The water levels cover the full length of the free flowing river sections 
 #'   with a spatial resolution of 200 m river stretch along the official 
 #'   river stationing. They range from extremely low to extremely high flow 
