@@ -1,19 +1,25 @@
 
 .onLoad <- function(libname, pkgname) {
+    
+    # add hyd1d.datadir to options
+    if (!("hyd1d.datadir" %in% names(options()))) {
+        options("hyd1d.datadir" = tempdir())
+    }
+    
     # load package data
-    utils::data("df.flys", "df.flys_sections", "df.gauging_station_data", 
-                "df.sections", "df.gauging_data", package = pkgname, 
+    utils::data("df.flys", "df.flys_sections", "df.gauging_station_data",
+                "df.gauging_data", package = pkgname,
                 envir = parent.env(environment()))
     
     # set relevant DB variables
     if (utils::compareVersion(as.character(getRversion()), "3.5.0") < 0) {
-        file_date <- paste0(path.expand('~'), "/.hyd1d/date_gauging_data_v2.RD",
+        file_date <- paste0(options()$hyd1d.datadir, "/date_gauging_data_v2.RD",
                             "S")
-        file_data <- paste0(path.expand('~'), "/.hyd1d/df.gauging_data_latest_",
+        file_data <- paste0(options()$hyd1d.datadir, "/df.gauging_data_latest_",
                             "v2.RDS")
     } else {
-        file_date <- paste0(path.expand('~'), "/.hyd1d/date_gauging_data.RDS")
-        file_data <- paste0(path.expand('~'), "/.hyd1d/df.gauging_data_latest.",
+        file_date <- paste0(options()$hyd1d.datadir, "/date_gauging_data.RDS")
+        file_data <- paste0(options()$hyd1d.datadir, "/df.gauging_data_latest.",
                             "RDS")
     }
     
@@ -40,7 +46,8 @@
         }
         .db_updated <<- list(TRUE, t)
     } else {
-        t <- "'df.gauging_data' will be downloaded initially."
+        t <- "'df.gauging_data' will be downloaded initially to:"
+        t <- paste0(t, "\n  ", file_data)
         # update
         date_gauging_data <- Sys.Date()
         if (updateGaugingData(x = date_gauging_data)) {

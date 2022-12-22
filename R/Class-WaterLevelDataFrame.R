@@ -38,11 +38,10 @@
 #'   functions \code{\link{waterLevel}}, \code{\link{waterLevelPegelonline}},
 #'   \code{\link{waterLevelFlys3}} and \code{\link{waterLevelFlys3Seq}}.
 #' @slot comment contains information on which function has been used to create
-#'   (\code{\link{WaterLevelDataFrame}}, \code{\link{readWaterLevelFileDB}},
-#'   \code{\link{readWaterLevelJson}}, \code{\link{readWaterLevelStationInt}})
-#'   or compute (\code{\link{waterLevel}}, \code{\link{waterLevelPegelonline}},
-#'   \code{\link{waterLevelFlys3}} and \code{\link{waterLevelFlys3Seq}}) an
-#'   object of class \linkS4class{WaterLevelDataFrame}.
+#'   (\code{\link{WaterLevelDataFrame}}) or compute (\code{\link{waterLevel}},
+#'   \code{\link{waterLevelPegelonline}}, \code{\link{waterLevelFlys3}} and
+#'   \code{\link{waterLevelFlys3Seq}}) an object of class
+#'    \linkS4class{WaterLevelDataFrame}.
 #' 
 #' @exportClass WaterLevelDataFrame
 #' 
@@ -484,10 +483,8 @@ methods::setClass(
 #' @param comment an optional argument to fill the
 #'   \linkS4class{WaterLevelDataFrame}-slot \code{comment}. It has to be type
 #'   \code{character} and is used by the functions
-#'   \code{\link{WaterLevelDataFrame}}, \code{\link{readWaterLevelFileDB}},
-#'   \code{\link{readWaterLevelJson}}, \code{\link{readWaterLevelStationInt}},
-#'   \code{\link{waterLevel}}, \code{\link{waterLevelPegelonline}},
-#'   \code{\link{waterLevelFlys3}} and \code{\link{waterLevelFlys3Seq}}.
+#'   \code{\link{WaterLevelDataFrame}}, \code{\link{waterLevel}},
+#'   \code{\link{waterLevelPegelonline}}, \code{\link{waterLevelFlys3}} and \code{\link{waterLevelFlys3Seq}}.
 #' @param id an optional argument to hand over the \code{row.names(wldf)}.
 #'   \code{id} has to be type \code{integer} and has to have the same length
 #'   as other optional arguments (\code{station}, \code{station_int} and
