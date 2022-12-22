@@ -16,7 +16,7 @@ citEntry(
 )
 
 citEntry(entry = "Misc",
-  title        = "hyd1d - Algorythms to Compute 1D Water Levels along the German Federal Waterways Elbe and Rhine",
+  title        = "hyd1d - Algorythms to Compute 1d Water Levels along the German Federal Waterways Elbe and Rhine",
   author       = personList(as.person("Arnd Weber"),
                             as.person("Marcus Hatz")),
   year         = "2022",
