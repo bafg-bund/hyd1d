@@ -14,9 +14,11 @@
 #'   \code{waterLevelPegelonline} carries out the interpolation with gauging
 #'   data obtained through a
 #'   \href{https://en.wikipedia.org/wiki/Representational_state_transfer}{REST}
-#'   service from \url{https://pegelonline.wsv.de} . The gauging data from
-#'   PEGELONLINE have a high temporal resolution of 15 minutes, enabling
-#'   meaningful linear temporal interpolation. Since data from PEGELONLINE
+#'   service from \url{https://pegelonline.wsv.de/gast/start}. The gauging data
+#'   from \href{https://pegelonline.wsv.de/gast/start}{PEGELONLINE} have a high
+#'   temporal resolution of 15 minutes, enabling meaningful linear temporal
+#'   interpolation. Since data from
+#'   \href{https://pegelonline.wsv.de/gast/start}{PEGELONLINE}
 #'   expire after 31 days, this function is only applicable for
 #'   \linkS4class{WaterLevelDataFrame}s with a \code{time}-slot set to
 #'   appropriate values within the last 31 days before function call.
