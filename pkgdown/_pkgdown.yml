@@ -28,13 +28,8 @@ reference:
       - "`names<-,WaterLevelDataFrame,character-method`"
       - "`plotShiny`"
       - "`rbind.WaterLevelDataFrame`"
-      - "`readWaterLevelFileDB`"
-      - "`readWaterLevelJson`"
-      - "`readWaterLevelStationInt`"
       - "`subset.WaterLevelDataFrame`"
       - "`summary.WaterLevelDataFrame`"
-      - "`writeWaterLevelJson`"
-      - "`writeWaterLevelStationInt`"
       - "`[.WaterLevelDataFrame`"
   - title: Datasets
     desc: Datasets included in hyd1d and a function to update df.gauging_data
