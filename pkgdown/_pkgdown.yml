@@ -28,13 +28,8 @@ reference:
       - "`names<-,WaterLevelDataFrame,character-method`"
       - "`plotShiny`"
       - "`rbind.WaterLevelDataFrame`"
-      - "`readWaterLevelFileDB`"
-      - "`readWaterLevelJson`"
-      - "`readWaterLevelStationInt`"
       - "`subset.WaterLevelDataFrame`"
       - "`summary.WaterLevelDataFrame`"
-      - "`writeWaterLevelJson`"
-      - "`writeWaterLevelStationInt`"
       - "`[.WaterLevelDataFrame`"
   - title: Datasets
     desc: Datasets included in hyd1d and a function to update df.gauging_data
@@ -43,7 +38,6 @@ reference:
       - "`df.flys_sections`"
       - "`df.gauging_data`"
       - "`df.gauging_station_data`"
-      - "`df.sections`"
       - "`updateGaugingData`"
   - title: W functions
     desc: Functions to obtain gauging data
