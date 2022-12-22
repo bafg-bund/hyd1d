@@ -78,7 +78,7 @@ nrow_df.gauging_data <- function() {
 #'    
 #'    \insertRef{wsv_pegelonline_2018}{hyd1d}
 #' 
-#' @example
+#' @examples
 #'   options("hyd1d.datadir" = tempdir())
 #'   updateGaugingData(as.Date("2016-12-21"))
 #' 
@@ -175,16 +175,12 @@ nrow_df.flys <- function() {
     if (file.exists("DB_credentials_flys3") &
         requireNamespace("ROracle") & requireNamespace("DBI")) {
         
-        # credentials
+        # get credentials
         f3_credentials <- credentials("DB_credentials_flys3")
         
         # read the data
         # access the FLYS3 DB
-        f3_string <- paste0("(DESCRIPTION=",
-                            "(ADDRESS=(PROTOCOL=tcp)",
-                            "(HOST=10.140.79.56)(PORT=1521))",
-                            "(CONNECT_DATA=",
-                            "(SERVICE_NAME=FLYS3.DBMSDB.BAFG.DE)))")
+        f3_string <- scan("DB_credentials_oracle", "character")
         f3_con <- tryCatch(
             {
                 ROracle::dbConnect(drv      = DBI::dbDriver("Oracle"),
@@ -195,6 +191,7 @@ nrow_df.flys <- function() {
             error = function(cond) {return(FALSE)},
             warning = function(cond) {return(FALSE)}
         )
+        f3_con <- FALSE
         
         if (is.logical(f3_con)) {
             n <- 169980
@@ -283,16 +280,12 @@ names_df.flys <- function(river = c("Elbe", "Rhine")) {
     if (file.exists("DB_credentials_flys3") &
         requireNamespace("ROracle") & requireNamespace("DBI")) {
         
-        # credentials
+        # get credentials
         f3_credentials <- credentials("DB_credentials_flys3")
         
         # read the data
         # access the FLYS3 DB
-        f3_string <- paste0("(DESCRIPTION=",
-                            "(ADDRESS=(PROTOCOL=tcp)",
-                            "(HOST=10.140.79.56)(PORT=1521))",
-                            "(CONNECT_DATA=",
-                            "(SERVICE_NAME=FLYS3.DBMSDB.BAFG.DE)))")
+        f3_string <- scan("DB_credentials_oracle", "character")
         f3_con <- tryCatch(
           {
             ROracle::dbConnect(drv      = DBI::dbDriver("Oracle"),
@@ -363,16 +356,12 @@ details_df.flys <- function() {
     if (file.exists("DB_credentials_flys3") &
         requireNamespace("ROracle") & requireNamespace("DBI")) {
         
-        # credentials
+        # get credentials
         f3_credentials <- credentials("DB_credentials_flys3")
         
         # read the data
         # access the FLYS3 DB
-        f3_string <- paste0("(DESCRIPTION=",
-                            "(ADDRESS=(PROTOCOL=tcp)",
-                            "(HOST=10.140.79.56)(PORT=1521))",
-                            "(CONNECT_DATA=",
-                            "(SERVICE_NAME=FLYS3.DBMSDB.BAFG.DE)))")
+        f3_string <- scan("DB_credentials_oracle", "character")
         f3_con <- tryCatch(
             {
                 ROracle::dbConnect(drv      = DBI::dbDriver("Oracle"),
@@ -486,28 +475,3 @@ details_df.flys <- function() {
 #'    \insertRef{bundesanstalt_fur_gewasserkunde_flys_2016}{hyd1d}
 #' 
 "df.flys_sections"
-
-
-#' @name df.sections
-#' @rdname df.sections
-#' 
-#' @title Sections with precomputed water level data along Elbe and Rhine
-#'
-#' @description A dataset containing all precomputed sections and relevant 
-#'   descriptive data to locate and import JSON-formatted water level data 
-#'   within the \code{\link{readWaterLevelFileDB}()}-function.
-#'
-#' @format A \code{data.frame} with 89 rows and 8 variables:
-#' \describe{
-#'   \item{id}{continuous numbering (type \code{integer}).}
-#'   \item{river}{a section belongs to (type \code{character}).}
-#'   \item{name}{of the section (type \code{character}).}
-#'   \item{name_km}{consisting of 0-padded upper and lower km (type \code{character}).}
-#'   \item{from_km}{upper km of the section (type \code{numeric}).}
-#'   \item{to_km}{lower km of the section (type \code{numeric}).}
-#'   \item{gs_upper}{name of the section upstream (type \code{character}).}
-#'   \item{gs_lower}{name of the section downstream (type \code{character}).}
-#' }
-#' 
-"df.sections"
-

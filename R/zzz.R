@@ -7,8 +7,8 @@
     }
     
     # load package data
-    utils::data("df.flys", "df.flys_sections", "df.gauging_station_data", 
-                "df.sections", "df.gauging_data", package = pkgname, 
+    utils::data("df.flys", "df.flys_sections", "df.gauging_station_data",
+                "df.gauging_data", package = pkgname,
                 envir = parent.env(environment()))
     
     # set relevant DB variables
