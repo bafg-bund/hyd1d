@@ -1109,7 +1109,7 @@ Pegeldaten aus dem Datensatz `r lrd("df.gauging_data")`,
 welcher tages-gemittelte Pegeldaten seit dem 01.01.1960 enthält. Daher sind 
 Berechungen für den Zeitraum vom 01.01.1960 bis gestern möglich.
 
-Nach der [Initialisierung](articles/vignette_DE.html#s4-klasse-waterleveldataframe) 
+Nach der [Initialisierung](#s4-klasse-waterleveldataframe) 
 eines Objektes der Klasse `r lrd("WaterLevelDataFrame", "WaterLevelDataFrame-class.html")`
 ist die Verwendung der Funktion denkbar einfach:
 

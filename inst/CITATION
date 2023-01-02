@@ -19,11 +19,11 @@ citEntry(entry = "Misc",
   title        = "hyd1d - Algorythms to Compute 1d Water Levels along the German Federal Waterways Elbe and Rhine",
   author       = personList(as.person("Arnd Weber"),
                             as.person("Marcus Hatz")),
-  year         = "2022",
+  year         = "2023",
   url          = "https://hyd1d.bafg.de/index.html",
 
   textVersion  =
-  paste0("Weber, A., & Hatz, M. (2022): hyd1d - Algorythms to Compute 1D ",
+  paste0("Weber, A., & Hatz, M. (2023): hyd1d - Algorythms to Compute 1D ",
          "Water Levels along the German Federal Waterways Elbe and Rhine. ",
          "URL https://hyd1d.bafg.de/index.html.")
 )

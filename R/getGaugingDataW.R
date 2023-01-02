@@ -288,56 +288,18 @@ getGaugingDataW <- function(gauging_station, time, uuid) {
                     strftime(Sys.Date() - 1, "%Y-%m-%d"),
                     ". You requested data of today that are accessible \n  ",
                     "through getPegelonlineW() only."))
-        
-        # # get data present on pegelonline.wsv.de
-        # id_subset <- date == Sys.Date()
-        # date_subset1 <- date[id_subset]
-        # w_subset1 <- tryCatch({getPegelonlineW(gauging_station = gs_internal, 
-        #                                        time = date_subset1)},
-        #                       warning = function(w) {return(NA)}, 
-        #                       error = function(e) {return(NA)})
-        # 
-        # # get all remaining data
-        # date_subset2 <- date[-id_subset]
-        # 
-        # # access and subset the gauging_data
-        # if (exists("df.gauging_data", where = p_env)) {
-        #     get("df.gauging_data", envir = p_env)
-        # } else {
-        #     utils::data("df.gauging_data")
-        # }
-        # 
-        # w_subset2 <- numeric()
-        # for (a_date in date_subset2) {
-        #     b_date <- as.Date(a_date, origin = as.Date("1970-01-01"))
-        #     id <- which(df.gauging_data$gauging_station == gs_internal_asc & 
-        #                 df.gauging_data$date == b_date)
-        #     w_subset2 <- append(w_subset2, round(df.gauging_data$w[id], 0))
-        # }
-        # 
-        # # combine both vectors
-        # w <- as.numeric(rep(NA, length(date)))
-        # w[id_subset] <- w_subset1
-        # w[-id_subset] <- w_subset2
-        # w <- round(w, 0)
-        # 
-        # if (length(w) == 0) {
-        #     return(NA)
-        # } else {
-        #     return(w)
-        # }
     }
     
     #####
     # query df.gauging_data or .df.gauging_data
     w <- numeric()
-    if (exists(".df.gauging_data", envir = .GlobalEnv)) {
+    if (exists(".df.gauging_data", envir = .pkgenv)) {
         for (a_date in date) {
             b_date <- as.Date(a_date, origin = as.Date("1970-01-01"))
-            id <- which(.df.gauging_data$gauging_station == gs_internal & 
-                            .df.gauging_data$date == b_date)
+            id <- which(.pkgenv$.df.gauging_data$gauging_station == gs_internal
+                        & .pkgenv$.df.gauging_data$date == b_date)
             if (length(id) == 1) {
-                w <- append(w, round(.df.gauging_data$w[id], 0))
+                w <- append(w, round(.pkgenv$.df.gauging_data$w[id], 0))
             }
         }
     } else {
