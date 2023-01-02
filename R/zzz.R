@@ -1,81 +1,57 @@
+.pkgenv <- new.env(parent=emptyenv())
 
 .onLoad <- function(libname, pkgname) {
-    
-    # add hyd1d.datadir to options
-    if (!("hyd1d.datadir" %in% names(options()))) {
-        options("hyd1d.datadir" = tempdir())
-    }
     
     # load package data
     utils::data("df.flys", "df.flys_sections", "df.gauging_station_data",
                 "df.gauging_data", package = pkgname,
                 envir = parent.env(environment()))
     
-    # set relevant DB variables
-    if (utils::compareVersion(as.character(getRversion()), "3.5.0") < 0) {
-        file_date <- paste0(options()$hyd1d.datadir, "/date_gauging_data_v2.RD",
-                            "S")
-        file_data <- paste0(options()$hyd1d.datadir, "/df.gauging_data_latest_",
-                            "v2.RDS")
-    } else {
-        file_date <- paste0(options()$hyd1d.datadir, "/date_gauging_data.RDS")
-        file_data <- paste0(options()$hyd1d.datadir, "/df.gauging_data_latest.",
-                            "RDS")
-    }
-    
-    # update date_gauging_data 
-    .db_updated <<- list(FALSE)
-    if (file.exists(file_date)) {
-        # check, when it was updated the last time
-        date_gauging_data <- readRDS(file_date)
-        t <- paste0("'df.gauging_data' was last updated on ",
-                     as.character(date_gauging_data), ".")
-        
-        if (date_gauging_data < Sys.Date() - 8) {
-            t <- paste0(t, "\nIt will be updated now ...")
-            
-            # update
-            if (updateGaugingData(x = date_gauging_data)) {
-                t <- paste0(t, "\n'df.gauging_data' was updated successfully.")
-                date_gauging_data <- Sys.Date()
-                saveRDS(date_gauging_data, file = file_date)
+    # add a default hyd1d.datadir to options
+    if (!("hyd1d.datadir" %in% names(options()))) {
+        d <- Sys.getenv("hyd1d_datadir")
+        if (d != "") {
+            if (!dir.exists(d)) {
+                options("hyd1d.datadir" = tempdir())
             } else {
-                t <- paste0(t, "\n'df.gauging_data' was not updated successful",
-                            "ly.")
+                options("hyd1d.datadir" = d)
             }
-        }
-        .db_updated <<- list(TRUE, t)
-    } else {
-        t <- "'df.gauging_data' will be downloaded initially to:"
-        t <- paste0(t, "\n  ", file_data)
-        # update
-        date_gauging_data <- Sys.Date()
-        if (updateGaugingData(x = date_gauging_data)) {
-            t <- paste0(t, "\n'df.gauging_data' was downloaded successfully.")
-            saveRDS(date_gauging_data, file = file_date)
         } else {
-            t <- paste0(t, "\n'df.gauging_data' was not downloaded.")
+            options("hyd1d.datadir" = tempdir())
         }
-        
-        .db_updated <<- list(TRUE, t)
+    } else {
+        if (!dir.exists(options()$hyd1d.datadir)) {
+            tryCatch(
+                dir.create(options()$hyd1d.datadir, TRUE, TRUE, "0700"),
+                error = function(e){
+                    t <- tempdir()
+                    msg <- paste0("It was not possible to create:",
+                                  options()$hyd1d.datadir, "\n", t,
+                                  " is used instead!")
+                    .pkgenv[["msg"]] <- msg
+                    options("hyd1d.datadir" = t)
+                }
+            )
+        }
     }
     
-    # load df.gauging_data into .GlobalEnv
-    .GlobalEnv$.df.gauging_data <- readRDS(file_data)
-    if (exists("df.gauging_data", envir = .GlobalEnv)) {
-        rm(df.gauging_data, envir = .GlobalEnv)
-    }
+    # path to dataset and 
+    file_data <- paste0(options()$hyd1d.datadir, "/df.gauging_data_latest.RDS")
+    updateGaugingData(file_data)
+    
+    # load df.gauging_data into .pkgenv
+    .pkgenv[[".df.gauging_data"]] <- readRDS(file_data)
 }
 
 .onAttach <- function(libname, pkgname) {
-    if (.db_updated[[1]]) {
-        packageStartupMessage(.db_updated[[2]])
+    file_data <- paste0(options()$hyd1d.datadir, "/df.gauging_data_latest.RDS")
+    file_mtime <- format(file.info(file_data)$mtime, "%Y-%m-%d %H:%M:%S %Z")
+    if (exists("msg", envir = .pkgenv)) {
+        msg <- paste0(.pkgenv$msg, "\n")
+    } else {
+        msg <- ""
     }
+    msg <- paste0(msg, "'df.gauging_data' locally stored at\n", file_data, "\n",
+                  "was last downloaded ", file_mtime)
+    packageStartupMessage(msg)
 }
-
-.onUnload  <- function(libpath) {
-    if (exists(".df.gauging_data", envir = .GlobalEnv)) {
-        rm(.df.gauging_data, envir = .GlobalEnv)
-    }
-}
-

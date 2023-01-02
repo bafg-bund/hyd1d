@@ -71,7 +71,7 @@ rm(a_file)
 # unload superfluous packages
 detach("package:RPostgreSQL", unload = TRUE)
 detach("package:DBI", unload = TRUE)
-rm(list = c("credentials", "DBpath", "simpleCap", "readzrx"))
+rm(list = c("credentials", "simpleCap", "readzrx"))
 
 #####
 # minimal devtools workflow
