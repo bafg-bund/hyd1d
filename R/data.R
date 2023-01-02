@@ -67,8 +67,9 @@ nrow_df.gauging_data <- function() {
 #'   \code{paste0(options()$hyd1d.datadir, "/df.gauging_data_latest.RDS")}. To
 #'   modify the location of your locally stored gauging data set using
 #'   \code{options()} prior to loading the package, e.g.
-#'   \code{options("hyd1d.datadir" = "~/.hyd1d");library(hyd1d)}
-#' 
+#'   \code{options("hyd1d.datadir" = "~/.hyd1d");library(hyd1d)}. The location
+#'   can be determined through the environmental variable \code{hyd1d_datadir}.
+#'   
 #' @eval nrow_df.gauging_data()
 #' 
 #' @seealso \code{\link{updateGaugingData}}
@@ -80,7 +81,8 @@ nrow_df.gauging_data <- function() {
 #' 
 #' @examples
 #'   options("hyd1d.datadir" = tempdir())
-#'   updateGaugingData(as.Date("2016-12-21"))
+#'   updateGaugingData(paste0(options()$hyd1d.datadir,
+#'                            "/df.gauging_data_latest.RDS"))
 #' 
 "df.gauging_data"
 
