@@ -24,11 +24,11 @@
 ^presentation$
 ^README\.Rmd$
 ^README_files$
-^screenshot_flys_export_1\.png$
-^screenshot_flys_export_2\.png$
 ^shinyapps$
 ^vignettes/latex/Thumbs\.db$
+^vignettes/microbenchmarking\.R$
 ^vignettes/paper_plot\.pdf$
+^vignettes/paper_plot\.R$
 ^vignettes/Thumbs\.db$
 ^vignettes/.*\.xcf$
 ^vignettes/vignette_long_DE\.sty$
