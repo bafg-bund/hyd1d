@@ -55,4 +55,4 @@ wldf <- waterLevel(wldf, TRUE)
 plotShiny(wldf, TRUE, TRUE, TRUE, xlim = c(256.8, 262.2))
 ```
 
-<img src="README_files/figure-gfm/usage-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-usage-1.png" style="display: block; margin: auto;" />
