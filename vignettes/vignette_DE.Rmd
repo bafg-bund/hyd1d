@@ -1026,8 +1026,14 @@ finales Produkt:
 
 ## Installation und Laden des Paketes
 
-Momentan ist das Paket **hyd1d** noch nicht auf CRAN verfügbar. Daher kann nur 
-die aktuelle Entwicklungsversion von Github installiert werden:
+Das Paket **hyd1d** ist auf CRAN verfügbar. Um es zu installieren reicht ein:
+
+```{r install_cran, eval = FALSE}
+install.packages("hyd1d")
+```
+
+Um die aktuelle Entwicklungsversion von Github zu installieren, müssen folgende
+Befehle ausgeführt werden:
 
 ```{r install_git, eval = FALSE}
 install.packages("devtools")

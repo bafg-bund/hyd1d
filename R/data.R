@@ -68,7 +68,7 @@ nrow_df.gauging_data <- function() {
 #'   modify the location of your locally stored gauging data set using
 #'   \code{options()} prior to loading the package, e.g.
 #'   \code{options("hyd1d.datadir" = "~/.hyd1d");library(hyd1d)}. The location
-#'   can be determined through the environmental variable \code{hyd1d_datadir}.
+#'   can be determined through the environmental variable \env{hyd1d_datadir}.
 #'   
 #' @eval nrow_df.gauging_data()
 #' 

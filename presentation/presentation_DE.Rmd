@@ -938,19 +938,20 @@ Aufhängen der resultierenden Wasserspiegellage an den Pegeln unmöglich
 
 ## Installation {#hyd1d-install data-background="background.png" data-background-size="auto 800px"}
 
-- Bisher ist **hyd1d** nur innerhalb der BfG verfügbar und kann mit folgenden
-Befehlen installiert werden:
+- **hyd1d** ist über CRAN verfügbar. Zur Installation und zum Laden reicht:
+
+```{r hyd1d-install2, eval = FALSE, echo = TRUE}
+install.packages("hyd1d")
+library("hyd1d")
+```
+
+- Zur Installation der aktuellsten Entwicklungsversion von Github sind folgende
+Befehle nötig:
+
 ```{r hyd1d-install1, eval = FALSE, echo = TRUE}
 install.packages("devtools")
 library("devtools")
 install_github("bafg-bund/hyd1d")
-```
-
-- Nach einer Veröffentlichung auf [CRAN](https://cran.r-project.org) reicht eine
-Zeile zur Installation, eine weitere zum Laden:
-```{r hyd1d-install2, eval = FALSE, echo = TRUE}
-install.packages("hyd1d")
-library("hyd1d")
 ```
 
 ## S4-Klasse WaterLevelDataFrame {#hyd1d-s4-1 data-background="background.png" data-background-size="auto 800px"}
