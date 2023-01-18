@@ -2,10 +2,10 @@
 #' @rdname waterLevelFlood1
 #' @aliases waterLevelFlood1
 #'
-#' @title Compute 1D water level data from the FLYS3 water level MQ and a
+#' @title Compute 1d water level data from the FLYS3 water level MQ and a
 #'   gauging station according to the INFORM 3-method Flood1 (Flut1)
 #' 
-#' @description This function computes a 1D water level according to the
+#' @description This function computes a 1d water level according to the
 #'   \href{https://www.bafg.de/DE/08_Ref/U3/02_analyse/01_INFORM/inform.html}{INFORM}
 #'   flood duration method Flood1 (Flut1) and stores it as column \code{w} of an
 #'   S4 object of type \linkS4class{WaterLevelDataFrame}. First the function

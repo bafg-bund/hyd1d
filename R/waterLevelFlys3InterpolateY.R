@@ -1,9 +1,9 @@
 #' @name waterLevelFlys3InterpolateY
 #' @rdname waterLevelFlys3InterpolateY
 #' 
-#' @title Compute a 1D water level dataset based on the FLYS3 algorythms
+#' @title Compute a 1d water level dataset based on the FLYS3 algorythms
 #' 
-#' @description Function to compute 1D water level information based on the
+#' @description Function to compute 1d water level information based on the
 #'   original
 #'   \href{https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3}
 #'   algorythms and store it as column \code{w} of an S4 object of type

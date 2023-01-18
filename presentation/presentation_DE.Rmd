@@ -1,6 +1,6 @@
 ---
 title: hyd1d & hydflood
-subtitle: R-Pakete zur Interpolation von 1D-Wasserspiegellagen mit Pegeldaten und zur Überflutungsdauerberechnung
+subtitle: R-Pakete zur Interpolation von 1d-Wasserspiegellagen mit Pegeldaten und zur Überflutungsdauerberechnung
 author: Arnd Weber, Marcus Hatz, Stephan Rosenzweig
 date: "`r format(Sys.time(), '%d.%m.%Y')`"
 output:
@@ -133,7 +133,7 @@ ist kein hydraulisches Modell, sondern eine Plattform zur Ausgabe und
 Interpolation von Modellergebnissen
 > - [FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
 stellt 30 stationäre Wasserspiegellagen für gleichwertige 
-Abflusslängsschnitte von 0.5MNQ bis HQ500 aus 1D-SOBEK-Berechnungen bereit
+Abflusslängsschnitte von 0.5MNQ bis HQ500 aus 1d-SOBEK-Berechnungen bereit
 > - <https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html>
 > - Quellcode verfügbar auf <http://www.dive4elements.org>
 
