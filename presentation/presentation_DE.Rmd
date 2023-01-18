@@ -1186,11 +1186,12 @@ und [flood3wms](https://shiny.bafg.de/flood3wms/)
 ## Danke {#thanks-list data-background="background.png" data-background-size="auto 800px"}
 
 > - Z2: Klaus Reuter, Kai Schramm
-> - M1: Wilfried Wiechmann und das Team der Datenstelle M1, Lars Schumann
-> - M2: Wolfgang Stürmer, Markus Promny, Bastian Klein, Thomas Recknagel
+> - M1: Wilfried Wiechmann und das Team der Datenstelle M1
+> - M2: Wolfgang Stürmer, Markus Promny, Bastian Klein
 > - M3: Marcel Reiss
-> - M4: Torsten Fay
-> - U2: Jens Wyrwa, Beatrix Konz, Peter Horchler, Elmar Fuchs, Michael Schleuter
+> - M4: Torsten Fay, Thomas Recknagel
+> - M5: Lars Schumann
+> - U3: Peter Horchler, Elmar Fuchs, Uwe Schröder
 
 # Fragen? {#questions data-background="background.png" data-background-size="auto 800px"}
 
