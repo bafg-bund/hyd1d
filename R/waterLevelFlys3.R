@@ -82,9 +82,9 @@ details_waterLevelFlys3 <- function() {
 #' @rdname waterLevelFlys3
 #' @aliases waterLevelFlys3
 #' 
-#' @title Obtain 1D water level data from the FLYS3 database
+#' @title Obtain 1d water level data from the FLYS3 database
 #' 
-#' @description Obtain 1D water level data from the
+#' @description Obtain 1d water level data from the
 #'   \href{https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3}
 #'   database using either 
 #'   a predefined \linkS4class{WaterLevelDataFrame} or \code{river}, \code{from} 

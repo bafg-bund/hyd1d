@@ -8,7 +8,7 @@
 #'   water levels for selected stations and return it with the structure of
 #'   \code{\link{df.flys}}.
 #' 
-#' @details \code{\link{df.flys}} contains 1D water level data computed
+#' @details \code{\link{df.flys}} contains 1d water level data computed
 #'   with SOBEK for every second hectometer (every 200 m). This function
 #'   provides a way to interpolate the 30 stationary water levels for selected
 #'   stations inbetween these hectometers and returns them with the 

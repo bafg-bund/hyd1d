@@ -1,18 +1,17 @@
 #' @name hyd1d
 #' @docType package
 #' 
-#' @title hyd1d: A package to Compute 1D Water Levels along the German Federal
-#' Waterways Elbe and Rhine
+#' @title hyd1d - 1d Water Level Interpolation along the Rivers Elbe and Rhine
 #' 
-#' @description The hyd1d package provides an S4 class, data import and export 
-#' functions, relevant datasets and functions to compute 1D water levels along 
-#' the German federal waterways Elbe and Rhine.
+#' @description The hyd1d package provides an S4 class, relevant datasets and
+#'   functions to compute 1d water levels along the German federal waterways
+#'   Elbe and Rhine.
 #' 
 #' \strong{S4 class WaterLevelDataFrame}
 #' 
 #' The detailled description of the S4 class \code{WaterLevelDataFrame} is 
 #' available \link[=WaterLevelDataFrame-class]{here}. This class structures the 
-#' handling and computation of the 1D water levels.
+#' handling and computation of the 1d water levels.
 #' 
 #' \strong{Datasets}
 #' 

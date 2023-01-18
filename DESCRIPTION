@@ -1,9 +1,8 @@
 Package: hyd1d
 Type: Package
-Title: Algorithms to Compute 1d Water Levels along the German Federal Waterways
-    Elbe and Rhine
 Version: 0.4.1
 Date: 2023-01-02
+Title: 1d Water Level Interpolation along the Rivers Elbe and Rhine
 Authors@R: c(person("Arnd", "Weber", email = "arnd.weber@bafg.de",
                     role = c("aut", "cre"), 
                     comment = c(ORCID = "0000-0002-5973-2770")),
