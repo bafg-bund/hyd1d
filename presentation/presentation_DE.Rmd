@@ -494,9 +494,9 @@ abschnittsweise berechneten Wasserspiegellagen verursachen
 
 ## Einleitung {#hyd1d-intro data-background="background.png" data-background-size="auto 800px"}
 
-> - **hyd1d** ist als **R**-Paket programmiert und soll über
+> - **hyd1d** ist als **R**-Paket programmiert und über
 [CRAN](https://cran.r-project.org) unter der
-[GPL2](https://www.gnu.org/licenses/gpl-2.0) veröffentlicht werden
+[GPL2](https://www.gnu.org/licenses/gpl-2.0) veröffentlicht
 > - **hyd1d** integriert Paket-eigene Pegeldaten aus der
 [HyDaBa](http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html),
 aktuelle Pegeldaten von [PEGELONLINE](https://pegelonline.wsv.de), und
@@ -995,9 +995,9 @@ str(wldf1@gauging_stations, max.level = 2, vec.len = 3, width = 160,
 
 ## Einleitung {#hydflood-intro data-background="background.png" data-background-size="auto 800px"}
 
-> - **hydflood** ist als **R**-Paket programmiert und soll über
+> - **hydflood** ist als **R**-Paket programmiert und über
 [CRAN](https://cran.r-project.org) unter der
-[GPL2](https://www.gnu.org/licenses/gpl-2.0) veröffentlicht werden
+[GPL2](https://www.gnu.org/licenses/gpl-2.0) veröffentlicht
 > - **hydflood** dient der Berechnung von Überflutungsflächen und -dauern,
 äquivalent zum INFORM-Modul Flut 3.
 > - Wasserspiegellagen, die mittels **hyd1d** berechnet wurden, werden über
@@ -1058,19 +1058,20 @@ mittels der Funktion `flood3()` Überflutungsflächen und -dauern zu berechnen
 
 ## Installation {#hydflood-install data-background="background.png" data-background-size="auto 800px"}
 
-- Bisher ist **hydflood** nur innerhalb der BfG verfügbar und kann mit
-folgenden Befehlen installiert werden:
+- **hydflood** ist über CRAN verfügbar. Zur Installation und zum Laden reicht:
+
+```{r hydflood-install2, eval = FALSE, echo = TRUE}
+install.packages("hydflood")
+library("hydflood")
+```
+
+- Zur Installation der aktuellsten Entwicklungsversion von Github sind folgende
+Befehle nötig:
+
 ```{r hydflood-install1, eval = FALSE, echo = TRUE}
 install.packages("devtools")
 library("devtools")
 install_github("bafg-bund/hydflood")
-```
-
-- Nach einer Veröffentlichung auf [CRAN](https://cran.r-project.org) reicht eine
-Zeile zur Installation, eine weitere zum Laden:
-```{r hydflood-install2, eval = FALSE, echo = TRUE}
-install.packages("hydflood")
-library("hydflood")
 ```
 
 ## hydSpatRaster {#hydflood-s1 data-background="background.png" data-background-size="auto 800px"}
@@ -1148,12 +1149,12 @@ ufd <- flood3(x = x, seq = seq)
 
 ## hyd1d {#hyd1d-publication data-background="background.png" data-background-size="auto 800px"}
 
-> - OpenSource-Package auf [CRAN](https://cran.r-project.org)
+> - OpenSource-Package auf [CRAN](https://cran.r-project.org/package=hyd1d)
 > - Dokumentationswebseite
 > - beinhaltet eine Veröffentlichung von
 [FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen
 und [HyDaBa](http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html)-Pegeldaten
-> - vorberechnete 1D-Wasserspiegellagen für Rhein und Elbe vom 01.01.1990 bis gestern
+> - vorberechnete 1d-Wasserspiegellagen für Rhein und Elbe vom 01.01.1990 bis gestern
 > - Shiny-Services [waterLevel()](https://shiny.bafg.de/waterlevel/)
 und [waterLevelPegelonline()](https://shiny.bafg.de/waterlevelpegelonline/)
 > - Einbettung der Shiny-Services in
@@ -1161,7 +1162,7 @@ und [waterLevelPegelonline()](https://shiny.bafg.de/waterlevelpegelonline/)
 
 ## hydflood {#hydflood-publication data-background="background.png" data-background-size="auto 800px"}
 
-> - OpenSource-Package auf [CRAN](https://cran.r-project.org)
+> - OpenSource-Package auf [CRAN](https://cran.r-project.org/package=hydflood)
 > - Dokumentationswebseite
 > - beinhaltet eine (Wieder-)Veröffentlichung der
 [DGM-W](https://www.govdata.de/daten/-/details/1c669080-c804-11e4-8731-1681e6b88ec1bkg)'s
