@@ -23,7 +23,7 @@ wldf2 <- waterLevelFlys3InterpolateY(wldf, "WITTENBERG", shiny = TRUE)
 wldf3 <- waterLevelFlys3InterpolateY(wldf, "ROSSLAU", shiny = TRUE)
 wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
 
-pdf("vignettes/paper_plot.pdf", width = 8, height = 20)
+pdf("vignettes/paper_plot_2.pdf", width = 8, height = 20)
 par(mfrow = c(8, 1), oma = c(0.5, 3, 0.5, 3), mar = c(2, 2, 0.2, 2))
 # Fig. 2a
 {

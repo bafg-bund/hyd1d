@@ -27,8 +27,10 @@
 ^shinyapps$
 ^vignettes/latex/Thumbs\.db$
 ^vignettes/microbenchmarking\.R$
-^vignettes/paper_plot\.pdf$
-^vignettes/paper_plot\.R$
+^vignettes/paper_plot_2\.pdf$
+^vignettes/paper_plot_2\.R$
+^vignettes/paper_plot_3\.pdf$
+^vignettes/paper_plot_3\.R$
 ^vignettes/Thumbs\.db$
 ^vignettes/.*\.xcf$
 ^vignettes/vignette_long_DE\.sty$
