@@ -1,7 +1,7 @@
 Package: hyd1d
 Type: Package
-Version: 0.4.1
-Date: 2023-01-02
+Version: 0.4.2
+Date: 2023-02-21
 Title: 1d Water Level Interpolation along the Rivers Elbe and Rhine
 Authors@R: c(person("Arnd", "Weber", email = "arnd.weber@bafg.de",
                     role = c("aut", "cre"), 
