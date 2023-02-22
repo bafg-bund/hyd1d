@@ -1,30 +1,26 @@
-citHeader("To cite hyd1d in publications, please use:")
+# R package reference generated from DESCRIPTION metadata
+citation(auto = meta)
 
-citEntry(
-  entry    = "Article",
+# article
+bibentry(
+  bibtype  = "Article",
   title    = "hyd1d and hydflood - R packages to compute water levels and annual flood durations along the rivers Rhine and Elbe, Germany",
-  author   = personList(as.person("Arnd Weber"),
-                        as.person("Marcus Hatz"),
-                        as.person("Wiebke Schramm"),
-                        as.person("Stephan Rosenzweig")),
+  author   = c(person("Arnd", "Weber"),
+               person("Marcus", "Hatz"),
+               person("Wiebke", "Schramm"),
+               person("Stephan", "Rosenzweig")),
   journal  = "Ecohydrology & Hydrobiology",
-  year     = "submitted",
-  textVersion = paste0(
-    "Weber, A., Hatz, M., Schramm, W., & Rosenzweig, S. (submitted): hyd1d and",
-    " hydflood - Algorythms to compute  water levels and annual flood duration",
-    "s along the rivers Rhine and Elbe, Germany. Ecohydrology & Hydrobiology.")
+  year     = "submitted"
 )
 
-citEntry(entry = "Misc",
+# manual
+bibentry(
+  bibtype      = "Manual",
   title        = "hyd1d - 1d Water Level Interpolation along the Rivers Elbe and Rhine",
-  author       = personList(as.person("Arnd Weber"),
-                            as.person("Marcus Hatz")),
+  author       = c(person("Arnd", "Weber"),
+                   person("Marcus", "Hatz")),
   year         = "2023",
-  url          = "https://hyd1d.bafg.de/index.html",
-
-  textVersion  =
-  paste0("Weber, A., & Hatz, M. (2023): hyd1d - 1d Water Level Interpolation a",
-         "long the Rivers Elbe and Rhine. URL https://hyd1d.bafg.de/index.html",
-         ".")
+  note         = "R package version 0.4.2",
+  url          = "https://hyd1d.bafg.de/index.html"
 )
 
