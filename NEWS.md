@@ -5,3 +5,4 @@
 * Shorten package title.
 * Changes to incorporate availability on CRAN.
 * Move  README figure to man/figures.
+* Adapt the newly required `bibentry` synthax in `inst/CITATION`.
