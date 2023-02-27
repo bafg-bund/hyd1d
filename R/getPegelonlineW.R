@@ -146,20 +146,29 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
         
         ###
         # gauging data w as cm relative to PNP
-        w_string <- RCurl::getURL(paste0("https://www.pegelonline.wsv.de",
-                                         "/webservices/rest-api/v2/statio",
-                                         "ns/", uuid_internal, "/W",
-                                         "/measurements.json?start=",
-                                         strftime(min(time)
-                                                  - as.difftime(60,
-                                                                units = "mins"),
-                                                  format = "%Y-%m-%d"),
-                                         "T00:00%2B01:00&end=",
-                                         strftime(max(time)
-                                                  + as.difftime(60,
-                                                                units = "mins"),
-                                                  format = "%Y-%m-%dT%H:%M"),
-                                         "%2B01:00"))
+        url <- paste0("https://www.pegelonline.wsv.de/webservices/rest-api/v2/",
+                      "stations/", uuid_internal, "/W/measurements.json?start=",
+                      strftime(min(time)
+                               - as.difftime(60,
+                                             units = "mins"),
+                               format = "%Y-%m-%d"),
+                      "T00:00%2B01:00&end=",
+                      strftime(max(time)
+                               + as.difftime(60,
+                                             units = "mins"),
+                               format = "%Y-%m-%dT%H:%M"),
+                      "%2B01:00")
+        w_string <- tryCatch({
+            tf <- tempfile()
+            utils::download.file(url, tf, method = "auto", quiet = TRUE)
+            tf
+        }, 
+        error = function(e){
+            msg <- paste0("It was not possible to access gauging data from\n",
+                          "https://pegelonline.wsv.de\n",
+                          "Please try again later.\n", e)
+            stop(msg)
+        })
         w_list <- RJSONIO::fromJSON(w_string)
         df.w <- data.frame(time = as.POSIXct(rep(NA, length(w_list))),
                            w    = as.numeric(rep(NA, length(w_list))))
@@ -204,20 +213,29 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
         
         ###
         # gauging data w as cm relative to PNP
-        w_string <- RCurl::getURL(paste0("https://www.pegelonline.wsv.de",
-                                         "/webservices/rest-api/v2/statio",
-                                         "ns/", uuid_internal, "/W",
-                                         "/measurements.json?start=",
-                                         strftime(min(time)
-                                                  - as.difftime(60,
-                                                                units = "mins"),
-                                                  format = "%Y-%m-%d"),
-                                         "T00:00%2B01:00&end=",
-                                         strftime(max(time) + 1
-                                                  + as.difftime(60,
-                                                                units = "mins"),
-                                                  format = "%Y-%m-%dT%H:%M"),
-                                         "%2B01:00"))
+        url <- paste0("https://www.pegelonline.wsv.de/webservices/rest-api/v2/",
+                      "stations/", uuid_internal, "/W/measurements.json?start=",
+                      strftime(min(time)
+                               - as.difftime(60,
+                                             units = "mins"),
+                               format = "%Y-%m-%d"),
+                      "T00:00%2B01:00&end=",
+                      strftime(max(time) + 1
+                               + as.difftime(60,
+                                             units = "mins"),
+                               format = "%Y-%m-%dT%H:%M"),
+                      "%2B01:00")
+        w_string <- tryCatch({
+            tf <- tempfile()
+            utils::download.file(url, tf, method = "auto", quiet = TRUE)
+            tf
+        }, 
+        error = function(e){
+            msg <- paste0("It was not possible to access gauging data from\n",
+                          "https://pegelonline.wsv.de\n",
+                          "Please try again later.\n", e)
+            stop(msg)
+        })
         w_list <- RJSONIO::fromJSON(w_string)
         df.w <- data.frame(time = as.POSIXct(rep(NA, length(w_list))),
                            w    = as.numeric(rep(NA, length(w_list))))

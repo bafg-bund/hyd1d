@@ -1,50 +1,50 @@
 details_waterLevelFlys3 <- function() {
     
-    if (file.exists("DB_credentials_flys3") &
-        requireNamespace("ROracle") & requireNamespace("DBI")) {
-        
-        # credentials
-        f3_credentials <- credentials("DB_credentials_flys3")
-        
-        # read the data
-        # access the FLYS3 DB
-        f3_string <- paste0("(DESCRIPTION=",
-                            "(ADDRESS=(PROTOCOL=tcp)",
-                            "(HOST=10.140.79.56)(PORT=1521))",
-                            "(CONNECT_DATA=",
-                            "(SERVICE_NAME=FLYS3.DBMSDB.BAFG.DE)))")
-        f3_con <- tryCatch(
-            {
-                ROracle::dbConnect(drv      = DBI::dbDriver("Oracle"),
-                                   username = f3_credentials["user"],
-                                   password = f3_credentials["password"],
-                                   dbname   = f3_string)
-            },
-            error = function(cond) {return(FALSE)},
-            warning = function(cond) {return(FALSE)}
-        )
-        
-        if (is.logical(f3_con)) {
-            wl_elbe <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ",
-                         "c","2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5",
-                         "g", "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50",
-                         "HQ75", "HQ100", "i", "HQ150", "HQ200", "HQ300",
-                         "HQ500")
-            wl_rhine <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
-                          "Ud=120", "Ud=183", "MQ", "Ud=240","Ud=270", "Ud=310",
-                          "Ud=340", "Ud=356", "Ud=360", "MHQ", "HQ2", "HQ5",
-                          "HQ5-10", "HQ10", "HQ10-20", "~HQ20", "HQ20-50",
-                          "HQ50", "HQ50-100", "HQ100", "HQ100-200", "HQ200",
-                          "HQ200-ex", "HQextr.")
-        } else {
-            # retrieve the data
-            # for the Elbe
-            wl_elbe <- names_df.flys(river = "Elbe")
-            
-            # for the Rhine
-            wl_rhine <- names_df.flys(river = "Rhine")
-        }
-    } else {
+    # if (file.exists("DB_credentials_flys3") &
+    #     requireNamespace("ROracle") & requireNamespace("DBI")) {
+    #     
+    #     # credentials
+    #     f3_credentials <- credentials("DB_credentials_flys3")
+    #     
+    #     # read the data
+    #     # access the FLYS3 DB
+    #     f3_string <- paste0("(DESCRIPTION=",
+    #                         "(ADDRESS=(PROTOCOL=tcp)",
+    #                         "(HOST=10.140.79.56)(PORT=1521))",
+    #                         "(CONNECT_DATA=",
+    #                         "(SERVICE_NAME=FLYS3.DBMSDB.BAFG.DE)))")
+    #     f3_con <- tryCatch(
+    #         {
+    #             ROracle::dbConnect(drv      = DBI::dbDriver("Oracle"),
+    #                                username = f3_credentials["user"],
+    #                                password = f3_credentials["password"],
+    #                                dbname   = f3_string)
+    #         },
+    #         error = function(cond) {return(FALSE)},
+    #         warning = function(cond) {return(FALSE)}
+    #     )
+    #     
+    #     if (is.logical(f3_con)) {
+    #         wl_elbe <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ",
+    #                      "c","2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5",
+    #                      "g", "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50",
+    #                      "HQ75", "HQ100", "i", "HQ150", "HQ200", "HQ300",
+    #                      "HQ500")
+    #         wl_rhine <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
+    #                       "Ud=120", "Ud=183", "MQ", "Ud=240","Ud=270", "Ud=310",
+    #                       "Ud=340", "Ud=356", "Ud=360", "MHQ", "HQ2", "HQ5",
+    #                       "HQ5-10", "HQ10", "HQ10-20", "~HQ20", "HQ20-50",
+    #                       "HQ50", "HQ50-100", "HQ100", "HQ100-200", "HQ200",
+    #                       "HQ200-ex", "HQextr.")
+    #     } else {
+    #         # retrieve the data
+    #         # for the Elbe
+    #         wl_elbe <- names_df.flys(river = "Elbe")
+    #         
+    #         # for the Rhine
+    #         wl_rhine <- names_df.flys(river = "Rhine")
+    #     }
+    # } else {
         wl_elbe <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ",
                      "c","2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5",
                      "g", "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50",
@@ -56,7 +56,7 @@ details_waterLevelFlys3 <- function() {
                       "HQ5-10", "HQ10", "HQ10-20", "~HQ20", "HQ20-50",
                       "HQ50", "HQ50-100", "HQ100", "HQ100-200", "HQ200",
                       "HQ200-ex", "HQextr.")
-    }
+    # }
     
     c(paste0("@details Possible \\code{name}s of \\href{https://www.bafg.de/DE",
              "/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3} water ",

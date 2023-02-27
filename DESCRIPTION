@@ -1,7 +1,7 @@
 Package: hyd1d
 Type: Package
-Version: 0.4.2
-Date: 2023-02-21
+Version: 0.4.3
+Date: 2023-02-27
 Title: 1d Water Level Interpolation along the Rivers Elbe and Rhine
 Authors@R: c(person("Arnd", "Weber", email = "arnd.weber@bafg.de",
                     role = c("aut", "cre"), 
@@ -21,11 +21,10 @@ Description: An S4 class and several functions which utilize internally stored
     gauging data are queried externally from the 'PEGELONLINE REST API' 
     <https://pegelonline.wsv.de/webservice/dokuRestapi>.
 Depends: R (>= 4.0.0)
-Imports: methods, utils, RJSONIO (>= 1.0-0), RCurl (>= 1.95-4.10),
-    plotrix (>= 3.0-0), Rdpack
-Suggests: DBI (>= 0.4-9), ROracle (>= 1.1-1), RPostgreSQL (>= 0.6-1), testthat,
-    knitr, rmarkdown, stringr, devtools, pkgdown, roxygen2, revealjs, shiny,
-    shiny.i18n, shinyTime, lubridate, usethis, yaml, desc
+Imports: methods, utils, RJSONIO (>= 1.0-0), plotrix (>= 3.0-0), Rdpack
+Suggests: DBI (>= 0.4-9), RPostgreSQL (>= 0.6-1), testthat, knitr, rmarkdown,
+    stringr, devtools, pkgdown, roxygen2, revealjs, shiny, shiny.i18n,
+    shinyTime, lubridate, usethis, yaml, desc
 RdMacros: Rdpack
 License: GPL (>= 2)
 Encoding: UTF-8

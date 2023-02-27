@@ -174,97 +174,97 @@ nrow_df.gauging_station_data <- function() {
 
 nrow_df.flys <- function() {
     
-    if (file.exists("DB_credentials_flys3") &
-        requireNamespace("ROracle") & requireNamespace("DBI")) {
-        
-        # get credentials
-        f3_credentials <- credentials("DB_credentials_flys3")
-        
-        # read the data
-        # access the FLYS3 DB
-        f3_string <- scan("DB_credentials_oracle", "character")
-        f3_con <- tryCatch(
-            {
-                ROracle::dbConnect(drv      = DBI::dbDriver("Oracle"),
-                                   username = f3_credentials["user"],
-                                   password = f3_credentials["password"],
-                                   dbname   = f3_string)
-            },
-            error = function(cond) {return(FALSE)},
-            warning = function(cond) {return(FALSE)}
-        )
-        f3_con <- FALSE
-        
-        if (is.logical(f3_con)) {
-            n <- 169980
-        } else {
-            # retrieve the data
-            # for the Elbe
-            query_string_elbe <- "
-            SELECT
-                FLYS3.WST_COLUMNS.NAME AS \"name\",
-                FLYS3.WST_COLUMN_VALUES.POSITION AS \"station\",
-                FLYS3.WST_COLUMN_VALUES.W AS \"w\"
-            FROM
-            FLYS3.RIVERS
-                INNER JOIN FLYS3.WSTS ON FLYS3.RIVERS.ID = FLYS3.WSTS.RIVER_ID
-                INNER JOIN FLYS3.WST_KINDS ON FLYS3.WST_KINDS.ID = FLYS3.WSTS.KIND
-                INNER JOIN FLYS3.WST_COLUMNS ON FLYS3.WSTS.ID = 
-                    FLYS3.WST_COLUMNS.WST_ID
-                INNER JOIN FLYS3.WST_COLUMN_VALUES ON FLYS3.WST_COLUMNS.ID = 
-                    FLYS3.WST_COLUMN_VALUES.WST_COLUMN_ID
-            WHERE
-                FLYS3.WSTS.KIND = 0 AND
-                FLYS3.RIVERS.NAME = 'Elbe' AND
-                FLYS3.WST_COLUMN_VALUES.POSITION <= 585.7 AND
-                FLYS3.WST_COLUMN_VALUES.POSITION >= 0
-            ORDER BY
-                FLYS3.WST_COLUMN_VALUES.POSITION ASC, FLYS3.WST_COLUMN_VALUES.W"
-            
-            df.flys_elbe <- DBI::dbGetQuery(f3_con, query_string_elbe)
-            df.flys_elbe <- cbind(data.frame(river = as.character("Elbe", 
-                                                                  nrow(df.flys_elbe)),
-                                             stringsAsFactors = FALSE),
-                                  df.flys_elbe)
-            
-            # for the Rhine
-            query_string_rhine <- "
-            SELECT
-                FLYS3.WST_COLUMNS.NAME AS \"name\",
-                FLYS3.WST_COLUMN_VALUES.POSITION AS \"station\",
-                FLYS3.WST_COLUMN_VALUES.W AS \"w\"
-            FROM
-                FLYS3.RIVERS
-                INNER JOIN FLYS3.WSTS ON FLYS3.RIVERS.ID = FLYS3.WSTS.RIVER_ID
-                INNER JOIN FLYS3.WST_KINDS ON FLYS3.WST_KINDS.ID = FLYS3.WSTS.KIND
-                INNER JOIN FLYS3.WST_COLUMNS ON FLYS3.WSTS.ID = 
-                    FLYS3.WST_COLUMNS.WST_ID
-                INNER JOIN FLYS3.WST_COLUMN_VALUES ON FLYS3.WST_COLUMNS.ID = 
-                    FLYS3.WST_COLUMN_VALUES.WST_COLUMN_ID
-            WHERE
-                FLYS3.WSTS.KIND = 0 AND
-                FLYS3.RIVERS.NAME = 'Rhein' AND
-                FLYS3.WST_COLUMN_VALUES.POSITION <= 865.7 AND
-                FLYS3.WST_COLUMN_VALUES.POSITION >= 336.2
-            ORDER BY
-                FLYS3.WST_COLUMN_VALUES.POSITION ASC, FLYS3.WST_COLUMN_VALUES.W"
-            
-            df.flys_rhine <- DBI::dbGetQuery(f3_con, query_string_rhine)
-            df.flys_rhine <- cbind(data.frame(river = as.character("Rhine", 
-                                                                   nrow(df.flys_rhine)),
-                                              stringsAsFactors = FALSE),
-                                   df.flys_rhine)
-            
-            # combine both datasets
-            df.flys <- rbind.data.frame(df.flys_elbe, df.flys_rhine,
-                                        stringsAsFactors = FALSE)
-            
-            n <- nrow(df.flys)
-            
-        }
-    } else {
+    # if (file.exists("DB_credentials_flys3") &
+    #     requireNamespace("ROracle") & requireNamespace("DBI")) {
+    #     
+    #     # get credentials
+    #     f3_credentials <- credentials("DB_credentials_flys3")
+    #     
+    #     # read the data
+    #     # access the FLYS3 DB
+    #     f3_string <- scan("DB_credentials_oracle", "character")
+    #     f3_con <- tryCatch(
+    #         {
+    #             ROracle::dbConnect(drv      = DBI::dbDriver("Oracle"),
+    #                                username = f3_credentials["user"],
+    #                                password = f3_credentials["password"],
+    #                                dbname   = f3_string)
+    #         },
+    #         error = function(cond) {return(FALSE)},
+    #         warning = function(cond) {return(FALSE)}
+    #     )
+    #     f3_con <- FALSE
+    #     
+    #     if (is.logical(f3_con)) {
+    #         n <- 169980
+    #     } else {
+    #         # retrieve the data
+    #         # for the Elbe
+    #         query_string_elbe <- "
+    #         SELECT
+    #             FLYS3.WST_COLUMNS.NAME AS \"name\",
+    #             FLYS3.WST_COLUMN_VALUES.POSITION AS \"station\",
+    #             FLYS3.WST_COLUMN_VALUES.W AS \"w\"
+    #         FROM
+    #         FLYS3.RIVERS
+    #             INNER JOIN FLYS3.WSTS ON FLYS3.RIVERS.ID = FLYS3.WSTS.RIVER_ID
+    #             INNER JOIN FLYS3.WST_KINDS ON FLYS3.WST_KINDS.ID = FLYS3.WSTS.KIND
+    #             INNER JOIN FLYS3.WST_COLUMNS ON FLYS3.WSTS.ID = 
+    #                 FLYS3.WST_COLUMNS.WST_ID
+    #             INNER JOIN FLYS3.WST_COLUMN_VALUES ON FLYS3.WST_COLUMNS.ID = 
+    #                 FLYS3.WST_COLUMN_VALUES.WST_COLUMN_ID
+    #         WHERE
+    #             FLYS3.WSTS.KIND = 0 AND
+    #             FLYS3.RIVERS.NAME = 'Elbe' AND
+    #             FLYS3.WST_COLUMN_VALUES.POSITION <= 585.7 AND
+    #             FLYS3.WST_COLUMN_VALUES.POSITION >= 0
+    #         ORDER BY
+    #             FLYS3.WST_COLUMN_VALUES.POSITION ASC, FLYS3.WST_COLUMN_VALUES.W"
+    #         
+    #         df.flys_elbe <- DBI::dbGetQuery(f3_con, query_string_elbe)
+    #         df.flys_elbe <- cbind(data.frame(river = as.character("Elbe", 
+    #                                                               nrow(df.flys_elbe)),
+    #                                          stringsAsFactors = FALSE),
+    #                               df.flys_elbe)
+    #         
+    #         # for the Rhine
+    #         query_string_rhine <- "
+    #         SELECT
+    #             FLYS3.WST_COLUMNS.NAME AS \"name\",
+    #             FLYS3.WST_COLUMN_VALUES.POSITION AS \"station\",
+    #             FLYS3.WST_COLUMN_VALUES.W AS \"w\"
+    #         FROM
+    #             FLYS3.RIVERS
+    #             INNER JOIN FLYS3.WSTS ON FLYS3.RIVERS.ID = FLYS3.WSTS.RIVER_ID
+    #             INNER JOIN FLYS3.WST_KINDS ON FLYS3.WST_KINDS.ID = FLYS3.WSTS.KIND
+    #             INNER JOIN FLYS3.WST_COLUMNS ON FLYS3.WSTS.ID = 
+    #                 FLYS3.WST_COLUMNS.WST_ID
+    #             INNER JOIN FLYS3.WST_COLUMN_VALUES ON FLYS3.WST_COLUMNS.ID = 
+    #                 FLYS3.WST_COLUMN_VALUES.WST_COLUMN_ID
+    #         WHERE
+    #             FLYS3.WSTS.KIND = 0 AND
+    #             FLYS3.RIVERS.NAME = 'Rhein' AND
+    #             FLYS3.WST_COLUMN_VALUES.POSITION <= 865.7 AND
+    #             FLYS3.WST_COLUMN_VALUES.POSITION >= 336.2
+    #         ORDER BY
+    #             FLYS3.WST_COLUMN_VALUES.POSITION ASC, FLYS3.WST_COLUMN_VALUES.W"
+    #         
+    #         df.flys_rhine <- DBI::dbGetQuery(f3_con, query_string_rhine)
+    #         df.flys_rhine <- cbind(data.frame(river = as.character("Rhine", 
+    #                                                                nrow(df.flys_rhine)),
+    #                                           stringsAsFactors = FALSE),
+    #                                df.flys_rhine)
+    #         
+    #         # combine both datasets
+    #         df.flys <- rbind.data.frame(df.flys_elbe, df.flys_rhine,
+    #                                     stringsAsFactors = FALSE)
+    #         
+    #         n <- nrow(df.flys)
+    #         
+    #     }
+    # } else {
         n <- 169980
-    }
+    # }
     
     c(paste0("@format A \\code{data.frame} with ", n, " rows and 4 variables:"),
       "\\describe{",
@@ -279,63 +279,63 @@ nrow_df.flys <- function() {
 }
 
 names_df.flys <- function(river = c("Elbe", "Rhine")) {
-    if (file.exists("DB_credentials_flys3") &
-        requireNamespace("ROracle") & requireNamespace("DBI")) {
-        
-        # get credentials
-        f3_credentials <- credentials("DB_credentials_flys3")
-        
-        # read the data
-        # access the FLYS3 DB
-        f3_string <- scan("DB_credentials_oracle", "character")
-        f3_con <- tryCatch(
-          {
-            ROracle::dbConnect(drv      = DBI::dbDriver("Oracle"),
-                               username = f3_credentials["user"],
-                               password = f3_credentials["password"],
-                               dbname   = f3_string)
-          },
-          error = function(cond) {return(FALSE)},
-          warning = function(cond) {return(FALSE)}
-        )
-        
-        if (is.logical(f3_con)) {
-            if (river == "Elbe") {
-                return(c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ",
-                         "c","2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5",
-                         "g", "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50",
-                         "HQ75", "HQ100", "i", "HQ150", "HQ200", "HQ300",
-                         "HQ500"))
-            } else {
-                return(c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
-                         "Ud=120", "Ud=183", "MQ", "Ud=240","Ud=270", "Ud=310",
-                         "Ud=340", "Ud=356", "Ud=360", "MHQ", "HQ2", "HQ5",
-                         "HQ5-10", "HQ10", "HQ10-20", "~HQ20", "HQ20-50",
-                         "HQ50", "HQ50-100", "HQ100", "HQ100-200", "HQ200",
-                         "HQ200-ex", "HQextr."))
-            }
-        } else {
-          query_string <- paste0("
-              SELECT
-                  FLYS3.WST_COLUMNS.NAME AS \"name\"
-              FROM
-              FLYS3.RIVERS
-                  INNER JOIN FLYS3.WSTS ON FLYS3.RIVERS.ID = FLYS3.WSTS.RIVER_ID
-                  INNER JOIN FLYS3.WST_KINDS ON FLYS3.WST_KINDS.ID = FLYS3.WSTS.KIND
-                  INNER JOIN FLYS3.WST_COLUMNS ON FLYS3.WSTS.ID = 
-                      FLYS3.WST_COLUMNS.WST_ID
-                  INNER JOIN FLYS3.WST_COLUMN_VALUES ON FLYS3.WST_COLUMNS.ID = 
-                      FLYS3.WST_COLUMN_VALUES.WST_COLUMN_ID
-              WHERE
-                  FLYS3.WSTS.KIND = 0 AND
-                  FLYS3.RIVERS.NAME = '", river, "' AND
-                  FLYS3.WST_COLUMN_VALUES.POSITION = 0
-              ORDER BY
-                  FLYS3.WST_COLUMN_VALUES.W")
-            
-            return(DBI::dbGetQuery(f3_con, query_string)$name)
-        }
-    } else {
+    # if (file.exists("DB_credentials_flys3") &
+    #     requireNamespace("ROracle") & requireNamespace("DBI")) {
+    #     
+    #     # get credentials
+    #     f3_credentials <- credentials("DB_credentials_flys3")
+    #     
+    #     # read the data
+    #     # access the FLYS3 DB
+    #     f3_string <- scan("DB_credentials_oracle", "character")
+    #     f3_con <- tryCatch(
+    #       {
+    #         ROracle::dbConnect(drv      = DBI::dbDriver("Oracle"),
+    #                            username = f3_credentials["user"],
+    #                            password = f3_credentials["password"],
+    #                            dbname   = f3_string)
+    #       },
+    #       error = function(cond) {return(FALSE)},
+    #       warning = function(cond) {return(FALSE)}
+    #     )
+    #     
+    #     if (is.logical(f3_con)) {
+    #         if (river == "Elbe") {
+    #             return(c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ",
+    #                      "c","2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5",
+    #                      "g", "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50",
+    #                      "HQ75", "HQ100", "i", "HQ150", "HQ200", "HQ300",
+    #                      "HQ500"))
+    #         } else {
+    #             return(c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
+    #                      "Ud=120", "Ud=183", "MQ", "Ud=240","Ud=270", "Ud=310",
+    #                      "Ud=340", "Ud=356", "Ud=360", "MHQ", "HQ2", "HQ5",
+    #                      "HQ5-10", "HQ10", "HQ10-20", "~HQ20", "HQ20-50",
+    #                      "HQ50", "HQ50-100", "HQ100", "HQ100-200", "HQ200",
+    #                      "HQ200-ex", "HQextr."))
+    #         }
+    #     } else {
+    #       query_string <- paste0("
+    #           SELECT
+    #               FLYS3.WST_COLUMNS.NAME AS \"name\"
+    #           FROM
+    #           FLYS3.RIVERS
+    #               INNER JOIN FLYS3.WSTS ON FLYS3.RIVERS.ID = FLYS3.WSTS.RIVER_ID
+    #               INNER JOIN FLYS3.WST_KINDS ON FLYS3.WST_KINDS.ID = FLYS3.WSTS.KIND
+    #               INNER JOIN FLYS3.WST_COLUMNS ON FLYS3.WSTS.ID = 
+    #                   FLYS3.WST_COLUMNS.WST_ID
+    #               INNER JOIN FLYS3.WST_COLUMN_VALUES ON FLYS3.WST_COLUMNS.ID = 
+    #                   FLYS3.WST_COLUMN_VALUES.WST_COLUMN_ID
+    #           WHERE
+    #               FLYS3.WSTS.KIND = 0 AND
+    #               FLYS3.RIVERS.NAME = '", river, "' AND
+    #               FLYS3.WST_COLUMN_VALUES.POSITION = 0
+    #           ORDER BY
+    #               FLYS3.WST_COLUMN_VALUES.W")
+    #         
+    #         return(DBI::dbGetQuery(f3_con, query_string)$name)
+    #     }
+    # } else {
         if (river == "Elbe") {
             return(c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ",
                      "c","2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5",
@@ -350,52 +350,52 @@ names_df.flys <- function(river = c("Elbe", "Rhine")) {
                      "HQ50", "HQ50-100", "HQ100", "HQ100-200", "HQ200",
                      "HQ200-ex", "HQextr."))
         }
-    }
+    # }
 }
 
 details_df.flys <- function() {
     
-    if (file.exists("DB_credentials_flys3") &
-        requireNamespace("ROracle") & requireNamespace("DBI")) {
-        
-        # get credentials
-        f3_credentials <- credentials("DB_credentials_flys3")
-        
-        # read the data
-        # access the FLYS3 DB
-        f3_string <- scan("DB_credentials_oracle", "character")
-        f3_con <- tryCatch(
-            {
-                ROracle::dbConnect(drv      = DBI::dbDriver("Oracle"),
-                                   username = f3_credentials["user"],
-                                   password = f3_credentials["password"],
-                                   dbname   = f3_string)
-            },
-            error = function(cond) {return(FALSE)},
-            warning = function(cond) {return(FALSE)}
-        )
-        
-        if (is.logical(f3_con)) {
-            wl_elbe <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ",
-                         "c","2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5",
-                         "g", "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50",
-                         "HQ75", "HQ100", "i", "HQ150", "HQ200", "HQ300",
-                         "HQ500")
-            wl_rhine <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
-                          "Ud=120", "Ud=183", "MQ", "Ud=240","Ud=270", "Ud=310",
-                          "Ud=340", "Ud=356", "Ud=360", "MHQ", "HQ2", "HQ5",
-                          "HQ5-10", "HQ10", "HQ10-20", "~HQ20", "HQ20-50",
-                          "HQ50", "HQ50-100", "HQ100", "HQ100-200", "HQ200",
-                          "HQ200-ex", "HQextr.")
-        } else {
-            # retrieve the data
-            # for the Elbe
-            wl_elbe <- names_df.flys(river = "Elbe")
-            
-            # for the Rhine
-            wl_rhine <- names_df.flys(river = "Rhine")
-        }
-    } else {
+    # if (file.exists("DB_credentials_flys3") &
+    #     requireNamespace("ROracle") & requireNamespace("DBI")) {
+    #     
+    #     # get credentials
+    #     f3_credentials <- credentials("DB_credentials_flys3")
+    #     
+    #     # read the data
+    #     # access the FLYS3 DB
+    #     f3_string <- scan("DB_credentials_oracle", "character")
+    #     f3_con <- tryCatch(
+    #         {
+    #             ROracle::dbConnect(drv      = DBI::dbDriver("Oracle"),
+    #                                username = f3_credentials["user"],
+    #                                password = f3_credentials["password"],
+    #                                dbname   = f3_string)
+    #         },
+    #         error = function(cond) {return(FALSE)},
+    #         warning = function(cond) {return(FALSE)}
+    #     )
+    #     
+    #     if (is.logical(f3_con)) {
+    #         wl_elbe <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ",
+    #                      "c","2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5",
+    #                      "g", "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50",
+    #                      "HQ75", "HQ100", "i", "HQ150", "HQ200", "HQ300",
+    #                      "HQ500")
+    #         wl_rhine <- c("Ud=1", "Ud=5", "GlQ2012", "Ud=50", "Ud=80", "Ud=100",
+    #                       "Ud=120", "Ud=183", "MQ", "Ud=240","Ud=270", "Ud=310",
+    #                       "Ud=340", "Ud=356", "Ud=360", "MHQ", "HQ2", "HQ5",
+    #                       "HQ5-10", "HQ10", "HQ10-20", "~HQ20", "HQ20-50",
+    #                       "HQ50", "HQ50-100", "HQ100", "HQ100-200", "HQ200",
+    #                       "HQ200-ex", "HQextr.")
+    #     } else {
+    #         # retrieve the data
+    #         # for the Elbe
+    #         wl_elbe <- names_df.flys(river = "Elbe")
+    #         
+    #         # for the Rhine
+    #         wl_rhine <- names_df.flys(river = "Rhine")
+    #     }
+    # } else {
         wl_elbe <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ",
                      "c","2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5",
                      "g", "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50",
@@ -407,7 +407,7 @@ details_df.flys <- function() {
                       "HQ5-10", "HQ10", "HQ10-20", "~HQ20", "HQ20-50",
                       "HQ50", "HQ50-100", "HQ100", "HQ100-200", "HQ200",
                       "HQ200-ex", "HQextr.")
-    }
+    # }
     
     c(paste0("@details The \\code{name}ing of the water levels is \\code{river",
              "}-specific:"),
