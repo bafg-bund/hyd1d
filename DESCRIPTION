@@ -21,8 +21,7 @@ Description: An S4 class and several functions which utilize internally stored
     gauging data are queried externally from the 'PEGELONLINE REST API' 
     <https://pegelonline.wsv.de/webservice/dokuRestapi>.
 Depends: R (>= 4.0.0)
-Imports: methods, utils, RJSONIO (>= 1.0-0), RCurl (>= 1.95-4.10),
-    plotrix (>= 3.0-0), Rdpack
+Imports: methods, utils, RJSONIO (>= 1.0-0), plotrix (>= 3.0-0), Rdpack
 Suggests: DBI (>= 0.4-9), RPostgreSQL (>= 0.6-1), testthat, knitr, rmarkdown,
     stringr, devtools, pkgdown, roxygen2, revealjs, shiny, shiny.i18n,
     shinyTime, lubridate, usethis, yaml, desc

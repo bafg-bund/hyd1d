@@ -1,6 +1,7 @@
 # hyd1d 0.4.3
 
 * Remove the package 'ROracle' from suggests.
+* Remove the package 'RCurl' from imports.
 
 # hyd1d 0.4.2
 
