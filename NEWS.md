@@ -1,3 +1,7 @@
+# hyd1d
+
+* Import validated gauging data for 2022.
+
 # hyd1d 0.4.3
 
 * Remove the package 'ROracle' from suggests.
