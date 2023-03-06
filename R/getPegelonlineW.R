@@ -53,6 +53,11 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
     #####
     # assemble internal variables and check the existence of required data
     ##
+    # determine download method
+    method <- ifelse(Sys.info()["sysname"] == "Windows", 
+        ifelse(compareVersion("4.2.0", as.character(getRversion())) < 0,
+               "libcurl", "wininet"), "auto")
+    
     #  get the names of all available gauging_stations
     get("df.gauging_station_data", pos = -1)
     id <- which(df.gauging_station_data$data_present)
@@ -160,7 +165,7 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
                       "%2B01:00")
         w_string <- tryCatch({
             tf <- tempfile()
-            utils::download.file(url, tf, method = "auto", quiet = TRUE)
+            utils::download.file(url, tf, method = method, quiet = TRUE)
             tf
         }, 
         error = function(e){
@@ -227,7 +232,7 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
                       "%2B01:00")
         w_string <- tryCatch({
             tf <- tempfile()
-            utils::download.file(url, tf, method = "auto", quiet = TRUE)
+            utils::download.file(url, tf, method = method, quiet = TRUE)
             tf
         }, 
         error = function(e){

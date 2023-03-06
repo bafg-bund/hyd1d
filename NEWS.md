@@ -1,3 +1,8 @@
+# hyd1d 0.4.4
+
+* Import validated gauging data for 2022.
+* Fix SSL error within `getPegelonlineW` for R < 4.2.0.
+
 # hyd1d 0.4.3
 
 * Remove the package 'ROracle' from suggests.

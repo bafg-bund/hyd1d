@@ -26,7 +26,7 @@ nrow_df.gauging_data <- function() {
                 gauging_data.gauging_station = gauging_station_data.gauging_station
             WHERE
                 gauging_data.date >= '1960-01-01' AND 
-                gauging_data.date <= '2020-12-31' AND
+                gauging_data.date <= '2022-12-31' AND
                 (
                     gauging_station_data.water_shortname = 'ELBE' OR
                     gauging_station_data.water_shortname = 'RHEIN'
@@ -34,7 +34,7 @@ nrow_df.gauging_data <- function() {
         
         n <- DBI::dbGetQuery(con, query_string)
     } else {
-        n <- 733449
+        n <- 1379334
     }
     
     c(paste0("@format A \\code{data.frame} with ", n, " (", "rows and 3 variables):"),
@@ -55,7 +55,7 @@ nrow_df.gauging_data <- function() {
 #'   for the gauging stations along \strong{Elbe} and \strong{Rhine} operated by
 #'   the waterway and shipping administration (Wasserstraßen- und
 #'   Schifffahrtsverwaltung (WSV)) since 1960-01-01. Data from
-#'   1960-01-01 until 2021-12-31 are validated and were queried from the
+#'   1960-01-01 until 2022-12-31 are validated and were queried from the
 #'   BfG-Wiski
 #'   (\href{http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html}{HyDaBa})
 #'   and supplied by \email{Datenstelle-M1@@bafg.de}. Data after 2021-12-31 are
