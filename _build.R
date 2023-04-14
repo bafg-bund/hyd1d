@@ -212,9 +212,14 @@ if (!file.exists("presentation/presentation_DE.html")) {
     system("R -e 'rmarkdown::render(\"presentation/presentation_DE.Rmd\")'",
            intern = FALSE, wait = TRUE)
 }
+if (!file.exists("presentation/presentation_aow.html")) {
+    system("R -e 'rmarkdown::render(\"presentation/presentation_aow.Rmd\")'",
+           intern = FALSE, wait = TRUE)
+}
 
 # copy external image and video files
-from <- "presentation/presentation_DE.html"
+from <- c("presentation/presentation_DE.html",
+          "presentation/presentation_aow.html")
 from <- append(from, list.files(path = "presentation", pattern = "*\\.png",
                                 full.names = TRUE))
 from <- append(from, list.files(path = "presentation", pattern = "*\\.css",
