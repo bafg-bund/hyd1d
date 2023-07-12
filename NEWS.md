@@ -1,7 +1,8 @@
 # hyd1d
 
-* add the Elbe estuary to the gauging_station_data table in the pg database
-* use `station_int` within waterLevelFlys3Seq to initialize the returned wldf
+* Better capture `download.file` errors within `getPegelonlineW`
+* Add the Elbe estuary to the gauging_station_data table in the pg database
+* Use `station_int` within `waterLevelFlys3Seq` to initialize the returned wldf
 
 # hyd1d 0.4.4
 
