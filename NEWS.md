@@ -1,4 +1,4 @@
-# hyd1d
+# hyd1d 0.4.5
 
 * Better capture `download.file` errors within `getPegelonlineW`
 * Add the Elbe estuary to the gauging_station_data table in the pg database
