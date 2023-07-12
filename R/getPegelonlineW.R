@@ -31,6 +31,11 @@
 #'   older and validated data, feel free to contact the data service at the
 #'   Federal Institute of Hydrology by email (\email{Datenstelle-M1@@bafg.de}).
 #' 
+#' @note Internally \code{\link[utils:download.file]{download.file}} is used to
+#'   obtain the gauging data from \url{https://pegelonline.wsv.de/gast/start}.
+#'   The download method can be set through the option "\code{download.file.method}":
+#'   see \code{\link[base:options]{options()}}.
+#' 
 #' @return The returned output depends on the type of the input parameter
 #'   \code{time}. If \code{time} is type
 #'   \code{\link[base:POSIXct]{c("POSIXct", "POSIXt")}} the
@@ -38,7 +43,7 @@
 #'   \code{time} is type \code{Date} the returned object contains daily averaged
 #'   water levels.
 #' 
-#' @seealso \code{\link{waterLevelPegelonline}}
+#' @seealso \code{\link[utils:download.file]{download.file}}, \code{\link{waterLevelPegelonline}}
 #' 
 #' @references \insertRef{wsv_pegelonline_2018}{hyd1d}
 #' 
@@ -54,9 +59,18 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
     # assemble internal variables and check the existence of required data
     ##
     # determine download method
-    method <- ifelse(Sys.info()["sysname"] == "Windows", 
-        ifelse(compareVersion("4.2.0", as.character(getRversion())) < 0,
-               "libcurl", "wininet"), "auto")
+    method <- getOption("download.file.method")
+    if (is.null(method)) {
+        if (Sys.info()["sysname"] == "Windows") {
+            if (compareVersion("4.2.0", as.character(getRversion())) < 0) {
+                method <- "auto"
+            } else {
+                method <- "wininet"
+            }
+        } else {
+            method <- "auto"
+        }
+    }
     
     #  get the names of all available gauging_stations
     get("df.gauging_station_data", pos = -1)
@@ -165,16 +179,24 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
                       "%2B01:00")
         w_string <- tryCatch({
             tf <- tempfile()
-            utils::download.file(url, tf, method = method, quiet = TRUE)
+            utils::download.file(url, tf, method = method, quiet = TRUE,
+                                 extra = getOption("download.file.extra"))
             tf
         }, 
         error = function(e){
             msg <- paste0("It was not possible to access gauging data from\n",
                           "https://pegelonline.wsv.de\n",
-                          "Please try again later.\n", e)
+                          "Please try again later, if the server was not available.\n",
+                          "Please read the notes if you recieve an SSL error.\n",
+                          e)
             stop(msg)
         })
         w_list <- RJSONIO::fromJSON(w_string)
+        if (length(w_list) == 0) {
+            stop(paste0("It was not possible to obtain gauging data from\n",
+                        "https://pegelonline.wsv.de\n",
+                        "Please try again later."))
+        }
         df.w <- data.frame(time = as.POSIXct(rep(NA, length(w_list))),
                            w    = as.numeric(rep(NA, length(w_list))))
         for(i in 1:length(w_list)) {
@@ -232,16 +254,24 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
                       "%2B01:00")
         w_string <- tryCatch({
             tf <- tempfile()
-            utils::download.file(url, tf, method = method, quiet = TRUE)
+            utils::download.file(url, tf, method = method, quiet = TRUE,
+                                 extra = getOption("download.file.extra"))
             tf
         }, 
         error = function(e){
             msg <- paste0("It was not possible to access gauging data from\n",
                           "https://pegelonline.wsv.de\n",
-                          "Please try again later.\n", e)
+                          "Please try again later, if the server was not available.\n",
+                          "Please read the notes if you recieve an SSL error.\n",
+                          e)
             stop(msg)
         })
         w_list <- RJSONIO::fromJSON(w_string)
+        if (length(w_list) == 0) {
+            stop(paste0("It was not possible to obtain gauging data from\n",
+                        "https://pegelonline.wsv.de\n",
+                        "Please try again later."))
+        }
         df.w <- data.frame(time = as.POSIXct(rep(NA, length(w_list))),
                            w    = as.numeric(rep(NA, length(w_list))))
         for(i in 1:length(w_list)) {

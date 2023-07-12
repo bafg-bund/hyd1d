@@ -212,9 +212,14 @@ if (!file.exists("presentation/presentation_DE.html")) {
     system("R -e 'rmarkdown::render(\"presentation/presentation_DE.Rmd\")'",
            intern = FALSE, wait = TRUE)
 }
+if (!file.exists("presentation/presentation_aow.html")) {
+    system("R -e 'rmarkdown::render(\"presentation/presentation_aow.Rmd\")'",
+           intern = FALSE, wait = TRUE)
+}
 
 # copy external image and video files
-from <- "presentation/presentation_DE.html"
+from <- c("presentation/presentation_DE.html",
+          "presentation/presentation_aow.html")
 from <- append(from, list.files(path = "presentation", pattern = "*\\.png",
                                 full.names = TRUE))
 from <- append(from, list.files(path = "presentation", pattern = "*\\.css",
@@ -233,7 +238,7 @@ write(" web", stdout())
 
 host <- Sys.info()["nodename"]
 user <- Sys.info()["user"]
-if (host == "pvil-r" & user == "WeberA" & R_version == "4.2.2") {
+if (host == "pvil-r" & user == "WeberA" & R_version == "4.3.1") {
     # copy html output to ~/public_html
     system(paste0("cp -rp ", public, "* /home/", user, "/public_html/hyd1d/"))
     system("permissions_html")

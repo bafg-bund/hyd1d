@@ -120,3 +120,8 @@
     color: #ffffff;
 }
 
+.reveal a.uri {
+    display:inline;
+    background-color: #ffffff;
+}
+

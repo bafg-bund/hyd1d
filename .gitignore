@@ -42,6 +42,8 @@ Meta
 presentation/Thumbs.db
 presentation/presentation_DE.html
 presentation/presentation_DE_files/*
+presentation/presentation_aow.html
+presentation/presentation_aow_files/*
 presentation/*.mp4
 shinyapps/waterLevel/rsconnect/
 shinyapps/waterLevel/www
