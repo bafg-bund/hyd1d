@@ -430,7 +430,7 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhine"), name, from, to) {
                                 comment = paste0("Computed by ", 
                                                  "waterLevelFlys3Seq(): ",
                                                  name),
-                                station = data$x,
+                                station_int = as.integer(data$x * 1000),
                                 w = data$y)
     
     return(wldf)

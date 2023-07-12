@@ -1,3 +1,7 @@
+# hyd1d
+
+* use `station_int` within waterLevelFlys3Seq to initialize the returned wldf
+
 # hyd1d 0.4.4
 
 * Import validated gauging data for 2022.
