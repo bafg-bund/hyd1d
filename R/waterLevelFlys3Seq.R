@@ -421,6 +421,7 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhine"), name, from, to) {
                           xout = station, method = "linear",
                           yleft = df.wl_left$w, yright = df.wl_right$w,
                           rule = c(2, 2), ties = "ordered")
+    data$x <- as.integer(round(data$x * 1000, 0))
     
     ##########
     # initialize the resulting WaterLevelDataFrame and return it
@@ -430,7 +431,7 @@ waterLevelFlys3Seq <- function(river = c("Elbe", "Rhine"), name, from, to) {
                                 comment = paste0("Computed by ", 
                                                  "waterLevelFlys3Seq(): ",
                                                  name),
-                                station_int = as.integer(data$x * 1000),
+                                station_int = data$x,
                                 w = data$y)
     
     return(wldf)
