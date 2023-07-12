@@ -5,7 +5,8 @@
 # date:   24.07.2019
 #
 # purpose:
-#   - query pegelonline.wsv.de for the gauging_station_data along the Elbe
+#   - query pegelonline.wsv.de for the gauging_station_data along the Elbe 
+#     estuary
 #
 ################################################################################
 # load required packages
@@ -38,55 +39,127 @@ stringReplace <- function(x) {
     return(x)
 }
 
+river <- "ELBE"
+
 # specify the kilometers
-fr <- 0
-to <- 363
+if (river == "WESER") {
+    fr <- 0
+    to <- 363
+}
+
+if (river == "ELBE") {
+    fr <- 585.990
+    to <- 724.000
+}
 
 center <- (to + fr) / 2
 radius <- (to - fr) / 2
 
 # construct the urls
 station_url <- paste0("http://www.pegelonline.wsv.de/webservices/rest-api/v2/s",
-                      "tations.json?waters=WESER&km=", as.character(center),
-                      "&radius=", as.character(radius))
+                      "tations.json?waters=", river, "&km=",
+                      as.character(center), "&radius=", as.character(radius))
 waters_url <- "http://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/"
 
 # query pegelonline.wsv.de
 get_stations <- GET(station_url)
 get_stations_text <- content(get_stations, "text")
+get_waters_text <- content(GET(waters_url), "text")
+get_waters_json <- fromJSON(get_waters_text, flatten = TRUE)
+df.waters <- as.data.frame(get_waters_json)
 
 # load json data
 get_stations_json <- fromJSON(get_stations_text, flatten = TRUE)
 df.stations <- as.data.frame(get_stations_json)
 
-# remove stations downstream of the Weserwehr (km 362.15)
-df.stations <- df.stations[which(df.stations$km < 362.15), ]
-df.stations <- df.stations[which(df.stations$km > 115.1 | 
-                                 (! df.stations$agency %in% 
-                                      c("WSA BREMEN", "WSA BREMERHAVEN"))), ]
-df.stations <- df.stations[order(df.stations$km), ]
+if (river == "WESER") {
+    # remove stations downstream of the Weserwehr (km 362.15)
+    df.stations <- df.stations[which(df.stations$km < 362.15), ]
+    df.stations <- df.stations[which(df.stations$km > 115.1 | 
+                                         (! df.stations$agency %in% 
+                                              c("WSA BREMEN",
+                                                "WSA BREMERHAVEN"))), ]
+    df.stations <- df.stations[order(df.stations$km), ]
+    
+    print(paste0("A total of ", as.character(nrow(df.stations)), " gauging sta",
+                 "tions were found for the specified river section."))
+    
+    # add confluence and Weserwehr to df.stations
+    df.stations <- rbind(data.frame(uuid = NA_character_,
+                                    number = NA_character_, 
+                                    shortname = "GRENZE_HM",
+                                    longname = "GRENZE_HM",
+                                    km = 0, agency = NA_character_, 
+                                    longitude = NA_real_, latitude = NA_real_,
+                                    water.shortname = river, 
+                                    water.longname = river,
+                                    stringsAsFactors = FALSE),
+                         df.stations, stringsAsFactors = FALSE)
+    df.stations <- rbind(df.stations, 
+                         data.frame(uuid = NA_character_,
+                                    number = NA_character_,
+                                    shortname = "WESERWEHR",
+                                    longname = "WESERWEHR",
+                                    km = 362.15, agency = NA_character_, 
+                                    longitude = NA_real_, latitude = NA_real_,
+                                    water.shortname = river, 
+                                    water.longname = river,
+                                    stringsAsFactors = FALSE),
+                         stringsAsFactors = FALSE)
+}
 
-print(paste0("A total of ", as.character(nrow(df.stations)), " gauging station",
-             "s were found for the specified river section."))
-
-# add confluence and Weserwehr to df.stations
-df.stations <- rbind(data.frame(uuid = NA_character_, number = NA_character_, 
-                                shortname = "GRENZE_HM", longname = "GRENZE_HM",
-                                km = 0, agency = NA_character_, 
-                                longitude = NA_real_, latitude = NA_real_,
-                                water.shortname = "WESER", 
-                                water.longname = "WESER",
-                                stringsAsFactors = FALSE),
-                     df.stations, stringsAsFactors = FALSE)
-df.stations <- rbind(df.stations, 
-                     data.frame(uuid = NA_character_, number = NA_character_, 
-                                shortname = "WESERWEHR", longname = "WESERWEHR",
-                                km = 362.15, agency = NA_character_, 
-                                longitude = NA_real_, latitude = NA_real_,
-                                water.shortname = "WESER", 
-                                water.longname = "WESER",
-                                stringsAsFactors = FALSE),
-                     stringsAsFactors = FALSE)
+if (river == "ELBE") {
+    # remove stations downstream of the Weserwehr (km 362.15)
+    df.stations <- df.stations[which(df.stations$km < 725), ]
+    df.stations <- df.stations[which(df.stations$km > 585.7), ]
+    df.stations <- df.stations[order(df.stations$km), ]
+    df.stations <- df.stations[which(!df.stations$shortname %in%
+        c("HAMBURG-HARBURG", "CRANZ", "SCHÖPFSTELLE", "HAHNÖFER SAND WEST SIEL",
+          "D1 HANSKALBSAND OBERFLÄCHE", "HETLINGEN", "TWIELENFLETH SIEL",
+          "D2 JUELSSAND OBERFLÄCHE", "D2 Juelssand OBERFLÄCHE",
+          "PINNAU-SPERRWERK AP", "GRAUERORT REEDE",
+          "KRÜCKAU-SPERRWERK AP", "KRAUTSAND REEDE",
+          "D4 RHINPLATE-NORD OBERFLÄCHE", "STÖR-SPERRWERK AP",
+          "SCHÖNEWORTH SIEL")), ]
+    
+    # add Nordseepegel (MITTELGRUND, SCHARHÖRN, BAKE Z)
+    station_url <- paste0("http://www.pegelonline.wsv.de/webservices/rest-api/",
+                          "v2/stations.json?ids=MITTELGRUND,SCHARH%C3%96RN,BAK",
+                          "E%20Z")
+    get_stations <- GET(station_url)
+    get_stations_text <- content(get_stations, "text")
+    get_stations_json <- fromJSON(get_stations_text, flatten = TRUE)
+    df.stations_add <- as.data.frame(get_stations_json)
+    df.stations_add$water.shortname <- rep(river, nrow(df.stations_add))
+    df.stations_add$water.longname <- rep(river, nrow(df.stations_add))
+    
+    # add Wehr Geesthacht and North Sea to df.stations
+    df.stations <- rbind(data.frame(uuid = NA_character_,
+                                    number = NA_character_, 
+                                    shortname = "GEESTHACHT_WEHR",
+                                    longname = "GEESTHACHT_WEHR",
+                                    km = 585.7, agency = NA_character_, 
+                                    longitude = NA_real_, latitude = NA_real_,
+                                    water.shortname = river, 
+                                    water.longname = river,
+                                    stringsAsFactors = FALSE),
+                         df.stations, stringsAsFactors = FALSE)
+    df.stations <- rbind(df.stations, df.stations_add, stringsAsFactors = FALSE)
+    df.stations <- rbind(df.stations, 
+                         data.frame(uuid = NA_character_,
+                                    number = NA_character_,
+                                    shortname = "NORTH_SEA",
+                                    longname = "NORTH_SEA",
+                                    km = 760, agency = NA_character_, 
+                                    longitude = NA_real_, latitude = NA_real_,
+                                    water.shortname = river, 
+                                    water.longname = river,
+                                    stringsAsFactors = FALSE),
+                         stringsAsFactors = FALSE)
+    
+    print(paste0("A total of ", as.character(nrow(df.stations)), " gauging sta",
+                 "tions were found for the specified river section."))
+}
 
 for (i in 1:nrow(df.stations)) {
     
@@ -95,7 +168,7 @@ for (i in 1:nrow(df.stations)) {
     # check existence of a record
     gs <- dbGetQuery(con, paste0("SELECT * FROM gauging_station_data WHERE gau",
                                  "ging_station = \'", 
-                                 umlReplace(df.stations$shortname[i]), "\'"))
+                                 stringReplace(df.stations$shortname[i]), "\'"))
     
     if (nrow(gs) == 0) {
         # INSERT
@@ -111,8 +184,8 @@ for (i in 1:nrow(df.stations)) {
                        "VALUES (DEFAULT, \'",
                        stringReplace(toupper(df.stations$longname[i])),
                        "\', NULL, NULL, NULL",
-                       ", ", df.stations$km[i], ", \'WESER\', \'WESER\', \'",
-                       toupper(df.stations$shortname[i]), "\', \'",
+                       ", ", df.stations$km[i], ", \'", river, "\', \'", river,
+                       "\', \'", toupper(df.stations$shortname[i]), "\', \'",
                        toupper(df.stations$longname[i]), "\', NULL, NULL, NULL",
                        ", NULL, NULL, FALSE, NULL, ", df.stations$km[i], ", ",
                        df.stations$km[i], ")"))
@@ -127,6 +200,12 @@ for (i in 1:nrow(df.stations)) {
             
             # load json data
             get_station_json <- fromJSON(get_station_text, flatten = TRUE)
+            if (length(get_station_json$characteristicValues) == 0) {
+                get_station_json$characteristicValues <- NULL
+                charval <- FALSE
+            } else {
+                charval <- TRUE
+            }
             df.station <- as.data.frame(get_station_json)
             
             # PNP
@@ -141,11 +220,22 @@ for (i in 1:nrow(df.stations)) {
             }
             
             # MW
-            id_mw <- which(df.station$characteristicValues.shortname == "MW")
-            mw <- df.station$characteristicValues.value[id_mw] / 100
-            mw_start <- df.station$characteristicValues.timespanStart[id_mw]
-            mw_end <- df.station$characteristicValues.timespanEnd[id_mw]
-            mw_timespan <- paste(sep = " - ", mw_start, mw_end)
+            if (charval) {
+                id_mw <- which(df.station$characteristicValues.shortname == "MW")
+            } else {
+                id_mw <- integer(0)
+            }
+            if (length(id_mw) > 0){
+                mw <- df.station$characteristicValues.value[id_mw] / 100
+                mw_start <- df.station$characteristicValues.timespanStart[id_mw]
+                mw_end <- df.station$characteristicValues.timespanEnd[id_mw]
+                mw_timespan <- paste0("\'",
+                                      paste(sep = " - ", mw_start, mw_end),
+                                      "\'")
+            } else {
+                mw <- "NULL"
+                mw_timespan <- "NULL"
+            }
             
             dbSendQuery(con,
                 paste0("INSERT INTO public.gauging_station_data (id, gauging_s",
@@ -165,8 +255,8 @@ for (i in 1:nrow(df.stations)) {
                        toupper(df.stations$longname[i]), "\', ",
                        df.stations$longitude[i], ", ",
                        df.stations$latitude[i], ", ",
-                       mw, ", \'",
-                       mw_timespan, "\', ",
+                       mw, ", ",
+                       mw_timespan, ", ",
                        pnp, ", ",
                        "TRUE, ",
                        "\'", paste(sep = " - ", Sys.Date() - 31,
@@ -226,10 +316,17 @@ for (i in 1:nrow(df.stations)) {
             
             # MW
             id_mw <- which(df.station$characteristicValues.shortname == "MW")
-            mw <- df.station$characteristicValues.value[id_mw] / 100
-            mw_start <- df.station$characteristicValues.timespanStart[id_mw]
-            mw_end <- df.station$characteristicValues.timespanEnd[id_mw]
-            mw_timespan <- paste(sep = " - ", mw_start, mw_end)
+            if (length(id_mw) > 0){
+                mw <- df.station$characteristicValues.value[id_mw] / 100
+                mw_start <- df.station$characteristicValues.timespanStart[id_mw]
+                mw_end <- df.station$characteristicValues.timespanEnd[id_mw]
+                mw_timespan <- paste0("\'",
+                                      paste(sep = " - ", mw_start, mw_end),
+                                      "\'")
+            } else {
+                mw <- "NULL"
+                mw_timespan <- "NULL"
+            }
             
             dbSendQuery(con,
                 paste0("UPDATE public.gauging_station_data SET ", 
@@ -247,7 +344,7 @@ for (i in 1:nrow(df.stations)) {
                        "longitude = ", df.stations$longitude[i], ", ",
                        "latitude = ", df.stations$latitude[i], ", ",
                        "mw = ", mw, ", ",
-                       "mw_timespan = \'", mw_timespan, "\', ",
+                       "mw_timespan = ", mw_timespan, ", ",
                        "pnp = ", pnp, ", ",
                        "km_qpf = ", df.stations$km[i], ", ",
                        "km_qps = ", df.stations$km[i],
