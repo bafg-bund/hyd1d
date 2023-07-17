@@ -189,13 +189,15 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
                           "Please try again later, if the server was not available.\n",
                           "Please read the notes if you recieve an SSL error.\n",
                           e)
-            stop(msg)
+            message(msg)
+            return(NA)
         })
         w_list <- RJSONIO::fromJSON(w_string)
-        if (length(w_list) == 0) {
-            stop(paste0("It was not possible to obtain gauging data from\n",
-                        "https://pegelonline.wsv.de\n",
-                        "Please try again later."))
+        if (length(w_list) == 0 | is.na(w_string)) {
+            message(paste0("It was not possible to obtain gauging data from\n",
+                           "https://pegelonline.wsv.de\n",
+                           "Please try again later."))
+            return(NA)
         }
         df.w <- data.frame(time = as.POSIXct(rep(NA, length(w_list))),
                            w    = as.numeric(rep(NA, length(w_list))))
@@ -264,13 +266,15 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
                           "Please try again later, if the server was not available.\n",
                           "Please read the notes if you recieve an SSL error.\n",
                           e)
-            stop(msg)
+            message(msg)
+            return(NA)
         })
         w_list <- RJSONIO::fromJSON(w_string)
-        if (length(w_list) == 0) {
-            stop(paste0("It was not possible to obtain gauging data from\n",
-                        "https://pegelonline.wsv.de\n",
-                        "Please try again later."))
+        if (length(w_list) == 0 | is.na(w_string)) {
+            message(paste0("It was not possible to obtain gauging data from\n",
+                           "https://pegelonline.wsv.de\n",
+                           "Please try again later."))
+            return(NA)
         }
         df.w <- data.frame(time = as.POSIXct(rep(NA, length(w_list))),
                            w    = as.numeric(rep(NA, length(w_list))))
