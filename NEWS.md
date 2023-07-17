@@ -3,6 +3,7 @@
 * Better capture `download.file` errors within `getPegelonlineW`
 * Add the Elbe estuary to the gauging_station_data table in the pg database
 * Use `station_int` within `waterLevelFlys3Seq` to initialize the returned wldf
+* Fix broken links to SOBEK website
 
 # hyd1d 0.4.4
 
