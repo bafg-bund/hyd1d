@@ -45,8 +45,8 @@ updateGaugingData <- function(x) {
             utils::download.file(url, x, quiet = TRUE, method = "curl")
             invisible(TRUE)
         }, error = function(e){
-            paste0("It was not possible to update the gauging data. Try again ",
-                   "later!")
+            message(paste0("It was not possible to update the gauging data. Tr",
+                           "y again later!"))
             invisible(FALSE)
             }
         )
@@ -57,8 +57,8 @@ updateGaugingData <- function(x) {
                 utils::download.file(url, x, quiet = TRUE, method = "curl")
                 invisible(TRUE)
             }, error = function(e){
-                paste0("It was not possible to update the gauging data. Try ag",
-                       "ain later!")
+                message(paste0("It was not possible to update the gauging data",
+                               ". Try again later!"))
                 invisible(FALSE)
             }
             )
