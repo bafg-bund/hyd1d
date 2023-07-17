@@ -261,6 +261,56 @@ waterLevelPegelonline <- function(wldf, shiny = FALSE) {
                                 weight_x = as.numeric(rep(NA, nrow(df.data))),
                                 weight_y = as.numeric(rep(NA, nrow(df.data))))
     
+    # no queried gauging data
+    if (nrow(df.gs) <= 1) {
+        message(paste0("It was not possible to obtain gauging data from\n",
+                       "https://pegelonline.wsv.de\n",
+                       "Please try again later."))
+        
+        # return an empty wldf
+        wldf_data <- df.data[ ,c("station", "station_int", "w")]
+        row.names(wldf_data) <- df.data$id
+        
+        df.gs <- df.gs[, c('id', 'gauging_station', 'uuid', 'km', 'km_qps',
+                           'river', 'longitude', 'latitude', 'mw',
+                           'mw_timespan', 'pnp', 'w', 'wl', 'n_wls_below_w_do',
+                           'n_wls_above_w_do', 'n_wls_below_w_up',
+                           'n_wls_above_w_up', 'name_wl_below_w_do',
+                           'name_wl_above_w_do', 'name_wl_below_w_up',
+                           'name_wl_above_w_up', 'w_wl_below_w_do',
+                           'w_wl_above_w_do', 'w_wl_below_w_up',
+                           'w_wl_above_w_up', 'weight_up', 'weight_do')]
+        c_columns <- c("gauging_station", "uuid", "river",
+                       "name_wl_below_w_do", "name_wl_above_w_do", 
+                       "name_wl_below_w_up", "name_wl_above_w_up")
+        for (a_column in c_columns) {
+            df.gs[ , a_column] <- as.character(df.gs[ , a_column])
+        }
+        
+        if (shiny) {
+            wldf_data <- cbind(wldf_data, df.data_shiny)
+            wldf <- methods::new("WaterLevelDataFrame",
+                wldf_data,
+                river                    = river,
+                time                     = as.POSIXct(time),
+                gauging_stations         = df.gs,
+                gauging_stations_missing = gauging_stations_missing,
+                comment = "Computed by waterLevelPegelonline().")
+            
+            return(wldf)
+        } else {
+            wldf <- methods::new("WaterLevelDataFrame",
+                wldf_data,
+                river                    = river,
+                time                     = as.POSIXct(time),
+                gauging_stations         = df.gs,
+                gauging_stations_missing = gauging_stations_missing,
+                comment = "Computed by waterLevelPegelonline().")
+            
+            return(wldf)
+        }
+    }
+    
     #####
     # loop over the sections
     for (s in 1:(nrow(df.gs)-1)) {
