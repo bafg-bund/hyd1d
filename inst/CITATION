@@ -11,17 +11,8 @@ bibentry(
                person("Stephan", "Rosenzweig")),
   journal  = "Ecohydrology & Hydrobiology",
   year     = "2023",
-  doi = "10.1016/j.ecohyd.2023.04.001"
+  doi      = "10.1016/j.ecohyd.2023.04.001",
+  volume   = "23",
+  number   = "3",
+  pages    = "375-388"
 )
-
-# manual
-bibentry(
-  bibtype      = "Manual",
-  title        = "hyd1d - 1d Water Level Interpolation along the Rivers Elbe and Rhine",
-  author       = c(person("Arnd", "Weber"),
-                   person("Marcus", "Hatz")),
-  year         = "2023",
-  note         = "R package version 0.4.4",
-  url          = "https://hyd1d.bafg.de/index.html"
-)
-

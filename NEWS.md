@@ -1,5 +1,6 @@
 # hyd1d
 
+* final citation of the associated manuscript article
 * harmonize vignette chunk naming
 * fix BfG-internal (daily) (data) processing
 
