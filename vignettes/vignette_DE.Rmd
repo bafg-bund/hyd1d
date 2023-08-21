@@ -230,7 +230,7 @@ Webseite bis 30 Tage rückwirkend veröffentlicht:
 \url{https://pegelonline.wsv.de/gast/start}
 \end{center}
 
-``` {r link_pegelonline, eval = is_html, echo = FALSE, results = 'asis'}
+``` {r link-pegelonline, eval = is_html, echo = FALSE, results = 'asis'}
 cat('<p style="text-align: center;"><a href="https://pegelonline.wsv.de/gast/start" target="_blank">https://pegelonline.wsv.de/gast/start</a></p>')
 ```
 
@@ -316,7 +316,7 @@ Abflüsse, bzw. Wasserstände an Pegeln abzuleiten:
 \href{https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS – Flusshydrologischer Webdienst}
 \end{center}
 
-``` {r link_flys, eval = is_html, echo = FALSE, results = 'asis'}
+``` {r link-flys, eval = is_html, echo = FALSE, results = 'asis'}
 cat('<p style="text-align: center;"><a href="https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html" target="_blank">FLYS3 – Flusshydrologischer Webdienst</a></p>')
 ```
 
@@ -596,7 +596,7 @@ dokumentiert ist:
 \url{https://www.pegelonline.wsv.de/webservice/dokuRestapi}
 \end{center}
 
-``` {r link_pegelonline_restapi, eval = is_html, echo = FALSE, results = 'asis'}
+``` {r link-pegelonline-restapi, eval = is_html, echo = FALSE, results = 'asis'}
 cat('<p style="text-align: center;"><a href="https://www.pegelonline.wsv.de/webservice/dokuRestapi" target="_blank">https://www.pegelonline.wsv.de/webservice/dokuRestapi</a></p>')
 ```
 
@@ -929,7 +929,7 @@ einrahmenden
 Beziehung:
 
 
-``` {r formula_latex, eval = !is_html, echo = FALSE, results = 'asis'}
+``` {r formula-latex, eval = !is_html, echo = FALSE, results = 'asis'}
 cat('
 \\begin{center}
 $WSL = WSL_{0.5MQ} + Gewicht * (WSL_{0.75MQ} - WSL_{0.5MQ})$
@@ -937,7 +937,7 @@ $WSL = WSL_{0.5MQ} + Gewicht * (WSL_{0.75MQ} - WSL_{0.5MQ})$
 ')
 ```
 
-``` {r formula_html, eval = is_html, echo = FALSE, results = 'asis'}
+``` {r formula-html, eval = is_html, echo = FALSE, results = 'asis'}
 cat('<p style="text-align: center;">$WSL = WSL_{0.5MQ} + Gewicht * (WSL_{0.75MQ} - WSL_{0.5MQ})$</p>')
 ```
 
@@ -1028,14 +1028,14 @@ finales Produkt:
 
 Das Paket **hyd1d** ist auf CRAN verfügbar. Um es zu installieren reicht ein:
 
-```{r install_cran, eval = FALSE}
+```{r install-cran, eval = FALSE}
 install.packages("hyd1d")
 ```
 
 Um die aktuelle Entwicklungsversion von Github zu installieren, müssen folgende
 Befehle ausgeführt werden:
 
-```{r install_git, eval = FALSE}
+```{r install-git, eval = FALSE}
 install.packages("devtools")
 library(devtools)
 devtools::install_github("bafg-bund/hyd1d")
@@ -1044,7 +1044,7 @@ devtools::install_github("bafg-bund/hyd1d")
 Dannach kann das Paket **hyd1d** wie jedes andere installierte R-Paket über 
 folgenden Befehl geladen werden:
 
-```{r, eval = FALSE}
+```{r library, eval = FALSE}
 library(hyd1d)
 ```
 
@@ -1058,7 +1058,7 @@ durchführen zu können, benötigt man zunächst einen initialisierten
 `r lrd("WaterLevelDataFrame", "WaterLevelDataFrame-class.html")`, den man mit
 der gleichnamigen `r lrd("WaterLevelDataFrame()")`-Funktion anlegen kann:
 
-```{r, eval = TRUE}
+```{r wldf, eval = TRUE}
 wldf <- WaterLevelDataFrame(river   = "Elbe",
                             time    = as.POSIXct("2016-12-21"),
                             station = seq(257, 262, 0.1))
@@ -1072,7 +1072,7 @@ Informationen wird ein Object der Klasse
 `r lrd("WaterLevelDataFrame", "WaterLevelDataFrame-class.html")` angelegt, 
 welches folgende Struktur aufweist:
 
-```{r, eval = TRUE}
+```{r str-summary, eval = TRUE}
 str(wldf)
 
 summary(wldf)
@@ -1119,10 +1119,9 @@ Nach der [Initialisierung](#s4-klasse-waterleveldataframe)
 eines Objektes der Klasse `r lrd("WaterLevelDataFrame", "WaterLevelDataFrame-class.html")`
 ist die Verwendung der Funktion denkbar einfach:
 
-```{r, eval = TRUE}
+```{r waterlevel-summary, eval = TRUE}
 wldf <- waterLevel(wldf)
 summary(wldf)
-
 ```
 
 Soll das Berechnungsergebnis auch noch mittels `r lrd("plotShiny()")`
@@ -1318,7 +1317,7 @@ die Nutzung im Browser mittels Shiny zu implementieren.
 \url{https://shiny.bafg.de/waterlevel/}
 \end{center}
 
-``` {r link_waterlevel, eval = is_html, echo = FALSE, results = 'asis'}
+``` {r link-waterlevel, eval = is_html, echo = FALSE, results = 'asis'}
 cat('<p style="text-align: center;"><a href="https://shiny.bafg.de/waterlevel/" target="_blank">https://shiny.bafg.de/waterlevel/</a></p>')
 ```
 
@@ -1338,7 +1337,7 @@ Wasserspiegelinformationen auf Anfrage zu generieren.
 \url{https://shiny.bafg.de/waterlevelpegelonline/}
 \end{center}
 
-``` {r link_waterlevelpegelonline, eval = is_html, echo = FALSE, results = 'asis'}
+``` {r link-waterlevelpegelonline, eval = is_html, echo = FALSE, results = 'asis'}
 cat('<p style="text-align: center;"><a href="https://shiny.bafg.de/waterlevelpegelonline/" target="_blank">https://shiny.bafg.de/waterlevelpegelonline/</a></p>')
 ```
 
@@ -1358,7 +1357,7 @@ sich auf dem Dokumentationsportal von hydflood:
 \url{https://hydflood.bafg.de}
 \end{center}
 
-``` {r link_hydflood, eval = is_html, echo = FALSE, results = 'asis'}
+``` {r link-hydflood, eval = is_html, echo = FALSE, results = 'asis'}
 cat('<p style="text-align: center;"><a href="https://hydflood.bafg.de" target="_blank">https://hydflood.bafg.de</a></p>')
 ```
 

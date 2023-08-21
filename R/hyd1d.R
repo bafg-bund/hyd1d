@@ -1,5 +1,6 @@
 #' @name hyd1d
 #' @docType package
+#' @aliases hyd1d-package
 #' 
 #' @title hyd1d - 1d Water Level Interpolation along the Rivers Elbe and Rhine
 #' 

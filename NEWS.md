@@ -1,3 +1,10 @@
+# hyd1d 0.4.6
+
+* change to documentation to avoid a problem on CRAN (Issue #26)
+* final citation of the associated manuscript article
+* harmonize vignette chunk naming
+* fix BfG-internal (daily) (data) processing
+
 # hyd1d 0.4.5
 
 * Better capture `download.file` errors within `getPegelonlineW`
