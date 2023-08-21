@@ -1,4 +1,4 @@
-# hyd1d
+# hyd1d 0.4.6
 
 * change to documentation to avoid a problem on CRAN (Issue #26)
 * final citation of the associated manuscript article
