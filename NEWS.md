@@ -1,5 +1,6 @@
 # hyd1d
 
+* harmonize vignette chunk naming
 * fix BfG-internal (daily) (data) processing
 
 # hyd1d 0.4.5
