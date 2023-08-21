@@ -1,3 +1,7 @@
+# hyd1d
+
+* fix BfG-internal (daily) (data) processing
+
 # hyd1d 0.4.5
 
 * Better capture `download.file` errors within `getPegelonlineW`

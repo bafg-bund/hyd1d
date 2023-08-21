@@ -164,7 +164,7 @@ for(a_gs in df.gs$gauging_station) {
         }
         
         # create a temporary file name for the download of data
-        if (Sys.info()["nodename"] == "r.bafg.de" & 
+        if (Sys.info()["nodename"] == "pvil-r" & 
             Sys.info()["user"] == "WeberA") {
             # assemble a file name
             destfile <- paste0("/home/WeberA/flut3_",
@@ -194,6 +194,11 @@ for(a_gs in df.gs$gauging_station) {
         
         # calculate daily mean
         w <- round(mean(as.numeric(df.data$V2), na.rm = TRUE), 0)
+        
+        if (is.nan(w)) {
+            write("w ist NaN", stderr())
+            next
+        }
         
         # insert data into the gauging_data table
         dbSendQuery(con, paste0("INSERT INTO public.gauging_data (id, gauging_",

@@ -16,6 +16,7 @@
 ^docs$
 ^_documentation\.R$
 ^_install\.R$
+^.*\.log$
 ^makefile$
 ^man/figures/Thumbs\.db$
 ^_pkgdown\.yml$
