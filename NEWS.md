@@ -1,5 +1,6 @@
 # hyd1d
 
+* change to documentation to avoid a problem on CRAN (Issue #26)
 * final citation of the associated manuscript article
 * harmonize vignette chunk naming
 * fix BfG-internal (daily) (data) processing
