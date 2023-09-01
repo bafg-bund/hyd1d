@@ -44,6 +44,7 @@ reference:
     contents:
       - "`getGaugingDataW`"
       - "`getPegelonlineW`"
+      - "`getPegelonlineCharacteristicValues`"
   - title: waterLevel functions
     desc: Functions to compute 1-dimensional water levels
     contents:

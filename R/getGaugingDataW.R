@@ -37,20 +37,20 @@ param_gauging_station <- function() {
         rm(con)
         
     } else {
-        gauging_stations <- c('SCH<c3><96>NA', 'PIRNA', 'DRESDEN', 'MEISSEN',
-            'RIESA', 'M<c3><9c>HLBERG', 'TORGAU', 'PRETZSCH-MAUKEN', 'ELSTER',
+        gauging_stations <- c('SCHOENA', 'PIRNA', 'DRESDEN', 'MEISSEN',
+            'RIESA', 'MUEHLBERG', 'TORGAU', 'PRETZSCH-MAUKEN', 'ELSTER',
             'WITTENBERG', 'COSWIG', 'VOCKERODE', 'ROSSLAU', 'DESSAU', 'AKEN',
-            'BARBY', 'SCH<c3><96>NEBECK', 'MAGDEBURG-BUCKAU',
-            'MAGDEBURG-STROMBR<c3><9c>CKE', 'MAGDEBURG-ROTHENSEE',
-            'NIEGRIPP AP', 'ROG<c3><84>TZ', 'TANGERM<c3><9c>NDE', 'STORKAU',
-            'SANDAU', 'SCHARLEUK', 'WITTENBERGE', 'M<c3><9c>GGENDORF',
-            'SCHNACKENBURG', 'LENZEN', 'GORLEBEN', 'D<c3><96>MITZ', 'DAMNATZ',
+            'BARBY', 'SCHOENEBECK', 'MAGDEBURG-BUCKAU',
+            'MAGDEBURG-STROMBRUECKE', 'MAGDEBURG-ROTHENSEE',
+            'NIEGRIPP AP', 'ROGAETZ', 'TANGERMUENDE', 'STORKAU',
+            'SANDAU', 'SCHARLEUK', 'WITTENBERGE', 'MUEGGENDORF',
+            'SCHNACKENBURG', 'LENZEN', 'GORLEBEN', 'DOEMITZ', 'DAMNATZ',
             'HITZACKER', 'NEU DARCHAU', 'BLECKEDE', 'BOIZENBURG', 'HOHNSTORF',
             'ARTLENBURG', 'GEESTHACHT', 'IFFEZHEIM', 'PLITTERSDORF', 'MAXAU',
             'PHILIPPSBURG', 'SPEYER', 'MANNHEIM', 'WORMS',
             'NIERSTEIN-OPPENHEIM', 'MAINZ', 'OESTRICH', 'BINGEN', 'KAUB',
             'SANKT GOAR', 'BOPPARD', 'BRAUBACH', 'KOBLENZ', 'ANDERNACH',
-            'OBERWINTER', 'BONN', 'K<c3><96>LN', 'D<c3><9c>SSELDORF', 'RUHRORT',
+            'OBERWINTER', 'BONN', 'KOELN', 'DUESSELDORF', 'RUHRORT',
             'WESEL', 'REES', 'EMMERICH')
     }
     
