@@ -18,15 +18,18 @@
 #'   provided mainly for historical reasons and more advanced functions like 
 #'   \code{\link{waterLevel}} or \code{\link{waterLevelPegelonline}} should be
 #'   used.
-#'   
+#' 
 #' @param wldf an object of class \linkS4class{WaterLevelDataFrame}.
+#' @param value must be type \code{character}. Commonly available values are
+#'   \code{c("MThw", "MTnw", "HThw", "NTnw", "HHW", "NNW", "MNW", "MW", "MHW")}.
 #'
 #' @return An object of class \linkS4class{WaterLevelDataFrame}.
 #'
 #' @details This function computes a water level through simple linear
 #'   interpolation of water levels at neighboring gauging stations. Historically
 #'   it has been designed for rivers without 1d reference water levels provided
-#'   by FLYS3 for \code{\link{df.flys}}.
+#'   by FLYS3 for \code{\link{df.flys}}. In the meantime it has been extended to
+#'   linearly interpolate characteristic water levels.
 #' 
 #' @references 
 #'   \insertRef{rosenzweig_inform_2011}{hyd1d}
@@ -37,10 +40,16 @@
 #'                             station = seq(257, 262, 0.1))
 #' wldf1 <- waterLevelFlood2(wldf)
 #' wldf1
+#' 
+#' wldf2 <- WaterLevelDataFrame(river   = "Elbe_tidal",
+#'                             time    = as.POSIXct(NA),
+#'                             station_int = as.integer(seq(500, 170400, 100)))
+#' wldf2 <- waterLevelFlood2(wldf2, "MThw")
+#' wldf2
 #'
 #' @export
 #' 
-waterLevelFlood2 <- function(wldf) {
+waterLevelFlood2 <- function(wldf, value = NULL) {
     
     # make parent environment accessible through the local environment
     e <- environment()
@@ -74,9 +83,10 @@ waterLevelFlood2 <- function(wldf) {
         
         # time
         time    <- as.Date(trunc(getTime(wldf), units = "days"))
-        if (is.na(getTime(wldf))) {
+        if (is.na(getTime(wldf)) & is.null(value)) {
             errors <- c(errors, paste0("Error ", l(errors), ": The time slot ",
-                                       "of 'wldf' must not be NA."))
+                                       "of 'wldf' must not be NA, if value is",
+                                       " NULL."))
         }
     }
     
@@ -144,11 +154,23 @@ waterLevelFlood2 <- function(wldf) {
         gs_up_missing <- character()
     } else {
         gs_up_missing <- character()
-        w <- getGaugingDataW(df.gs_up$gauging_station, time)
-        if (is.na(w)) {
-            gs_up_missing <- df.gs_up$gauging_station
+        if (is.null(value)) {
+            w <- getGaugingDataW(df.gs_up$gauging_station, time)
+            if (is.na(w)) {
+                gs_up_missing <- df.gs_up$gauging_station
+            }
+            df.gs_up$w <- w
+        } else {
+            w <- getPegelonlineCharacteristicValues(df.gs_up$gauging_station,
+                                                    value = value)
+            if (is.na(w)) {
+                gs_up_missing <- df.gs_up$gauging_station
+            }
+            df.gs_up$w <- w[[value]]$value
+            df.gs_up$timespan <- paste(c(w[[value]]$timespanStart,
+                                         w[[value]]$timespanEnd),
+                                       collapse = " - ")
         }
-        df.gs_up$w <- w
     }
     
     # replace df.gs_up with the next gs further upstream, if w is
@@ -172,13 +194,18 @@ waterLevelFlood2 <- function(wldf) {
         }
         df.gs_up$w <- w
     }
+    if (!"timespan" %in% colnames(df.gs_up)) {
+        df.gs_up$timespan <- rep(NA_character_, nrow(df.gs_up))
+    }
     
     ###
     # append the df.gs_inarea to this data.frame, if w is available for a_gs on
     # the specified date
     df.gs_inarea$w <- rep(NA_real_, nrow(df.gs_inarea))
+    df.gs_inarea$timespan <- rep(NA_character_, nrow(df.gs_inarea))
     i <- 1
     for (a_gs in df.gs_inarea$gauging_station) {
+        print(a_gs)
         if (a_gs %in% 
             df.gauging_station_data$gauging_station[!
                 df.gauging_station_data$data_present]) {
@@ -186,13 +213,29 @@ waterLevelFlood2 <- function(wldf) {
             w <- NA_real_
         } else {
             no_limit <- TRUE
-            w <- getGaugingDataW(a_gs, time)
+            if (is.null(value)) {
+                w <- getGaugingDataW(a_gs, time)
+                if (is.na(w) & no_limit) {
+                    gauging_stations_missing <- append(gauging_stations_missing,
+                                                       paste0('in: ', a_gs))
+                }
+                df.gs_inarea$w[i] <- w
+            } else {
+                w <- tryCatch(
+                    getPegelonlineCharacteristicValues(a_gs, value = value),
+                    error = function(e){return(NA)},
+                    warning = function(w){return(NA)})
+                if (is.na(w) & no_limit) {
+                    gauging_stations_missing <- append(gauging_stations_missing,
+                                                       paste0('in: ', a_gs))
+                } else {
+                    df.gs_inarea$w[i] <- w[[value]]$value
+                    df.gs_inarea$timespan[i] <- paste(c(w[[value]]$timespanStart,
+                                                        w[[value]]$timespanEnd),
+                                                      collapse = " - ")
+                }
+            }
         }
-        if (is.na(w) & no_limit) {
-            gauging_stations_missing <- append(gauging_stations_missing,
-                                               paste0('in: ', a_gs))
-        }
-        df.gs_inarea$w[i] <- w
         rm(no_limit)
         i <- i + 1
     }
@@ -200,16 +243,29 @@ waterLevelFlood2 <- function(wldf) {
     ###
     # append the df.gs_do to this list, if w is available for the df.gs_do on
     # the specified date
-    if (df.gs_do$gauging_station %in% c("GEESTHACHT_WEHR", "GRENZE_NL")) {
+    if (df.gs_do$gauging_station %in% c("GEESTHACHT_WEHR", "GRENZE_NL",
+                                        "NORTH_SEA")) {
         gs_do_missing <- character()
         df.gs_do$w <- NA_real_
     } else {
         gs_do_missing <- character()
-        w <- getGaugingDataW(df.gs_do$gauging_station, time)
-        if (is.na(w)) {
-            gs_do_missing <- df.gs_do$gauging_station
+        if (is.null(value)) {
+            w <- getGaugingDataW(df.gs_do$gauging_station, time)
+            if (is.na(w)) {
+                gs_do_missing <- df.gs_do$gauging_station
+            }
+            df.gs_do$w <- w
+        } else {
+            w <- getPegelonlineCharacteristicValues(df.gs_do$gauging_station,
+                                                    value = value)
+            if (is.na(w)) {
+                gs_do_missing <- df.gs_do$gauging_station
+            }
+            df.gs_do$w <- w[[value]]$value
+            df.gs_do$timespan <- paste(c(w[[value]]$timespanStart,
+                                         w[[value]]$timespanEnd),
+                                       collapse = " - ")
         }
-        df.gs_do$w <- w
     }
     
     # replace df.gs_do with the next gs further downstream, if w is
@@ -232,6 +288,9 @@ waterLevelFlood2 <- function(wldf) {
             gs_do_missing <- df.gs_do$gauging_station
         }
         df.gs_do$w <- w
+    }
+    if (!"timespan" %in% colnames(df.gs_do)) {
+        df.gs_do$timespan <- rep(NA_character_, nrow(df.gs_do))
     }
     
     # bind the df.gs_. datasets and remove gauging stations which should 
@@ -356,14 +415,18 @@ waterLevelFlood2 <- function(wldf) {
     wldf_data <- df.data[ ,c("station", "station_int", "w")]
     row.names(wldf_data) <- df.data$id
     
-    df.gs <- df.gs[, c('id', 'gauging_station', 'uuid', 'km', 'km_qps',
-                       'river', 'longitude', 'latitude', 'mw', 'mw_timespan', 
-                       'pnp', 'w', 'wl', 'n_wls_below_w_do', 'n_wls_above_w_do',
-                       'n_wls_below_w_up', 'n_wls_above_w_up',
-                       'name_wl_below_w_do', 'name_wl_above_w_do',
-                       'name_wl_below_w_up', 'name_wl_above_w_up',
-                       'w_wl_below_w_do', 'w_wl_above_w_do', 'w_wl_below_w_up',
-                       'w_wl_above_w_up', 'weight_up', 'weight_do')]
+    columns <- c('id', 'gauging_station', 'uuid', 'km', 'km_qps', 'river',
+                 'longitude', 'latitude', 'mw', 'mw_timespan', 
+                 'pnp', 'w', 'wl', 'n_wls_below_w_do', 'n_wls_above_w_do',
+                 'n_wls_below_w_up', 'n_wls_above_w_up',
+                 'name_wl_below_w_do', 'name_wl_above_w_do',
+                 'name_wl_below_w_up', 'name_wl_above_w_up',
+                 'w_wl_below_w_do', 'w_wl_above_w_do', 'w_wl_below_w_up',
+                 'w_wl_above_w_up', 'weight_up', 'weight_do')
+    if ("timespan" %in% colnames(df.gs)) {
+        df.gs$mw_timespan <- df.gs$timespan
+    }
+    df.gs <- df.gs[, columns]
     c_columns <- c("gauging_station", "uuid", "river", "mw_timespan",
                    "name_wl_below_w_do", "name_wl_above_w_do", 
                    "name_wl_below_w_up", "name_wl_above_w_up")
