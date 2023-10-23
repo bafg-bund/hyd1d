@@ -22,7 +22,8 @@
 #'   further columns can be added.
 #' @slot river is a required slot clearly determining the location of a station.
 #'   Possible values of \code{river} have to be type \code{character}, have to
-#'   have a length of one and are either \strong{Elbe} or \strong{Rhine}.
+#'   have a length of one and are either \strong{Elbe} or \strong{Elbe_tidal} or 
+#'   \strong{Rhine}.
 #' @slot time is a slot determining the time for which the water level has been
 #'   computed. \code{time} has to be type \code{\link[base:POSIXct]{c("POSIXct",
 #'   "POSIXt")}}, has to have a length of one and be in the range between
@@ -113,10 +114,10 @@ methods::setClass(
                 error_river <- TRUE
             }
             # %in% c('Elbe', 'Rhine')
-            if (!(object@river %in% c("Elbe", "Rhine"))) {
+            if (!(object@river %in% c("Elbe", "Elbe_tidal", "Rhine"))) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'river' ",
                                            "must be an element of ",
-                                           "c('Elbe', 'Rhine')."))
+                                           "c('Elbe', 'Elbe_tidal', 'Rhine')."))
                 error_river <- TRUE
             }
             # set 'river'-specific limits of station_int and w
@@ -126,6 +127,12 @@ methods::setClass(
                     station_int_max <- 585700
                     w_min <- 0
                     w_max <- 130
+                }
+                if (object@river == "Elbe_tidal") {
+                    station_int_min <- 0
+                    station_int_max <- 174000
+                    w_min <- -10
+                    w_max <- 10
                 }
                 if (object@river == "Rhine") {
                     station_int_min <- 336200
@@ -257,7 +264,7 @@ methods::setClass(
                                            "'station' must not contain ",
                                            "NA's."))
             }
-            # range (Elbe: 0 - 585700; Rhine: 336200 - 865700)
+            # range (Elbe: 0 - 585700; Elbe_tidal: 0 - 174000; Rhine: 336200 - 865700)
             if (!(error_river)) {
                 if (min(object$station) < station_int_min / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": ",
@@ -313,7 +320,7 @@ methods::setClass(
                                            "'station_int' must not contain ",
                                            "NA's."))
             }
-            # range (Elbe: 0 - 585700; Rhine: 336200 - 865700)
+            # range (Elbe: 0 - 585700; Elbe_tidal: 0 - 174000; Rhine: 336200 - 865700)
             if (!(error_river)) {
                 if (min(object$station_int) < station_int_min) {
                     errors <- c(errors, paste0("Error ", l(errors), ": ",
@@ -377,7 +384,7 @@ methods::setClass(
                 errors <- c(errors, paste0("Error ", l(errors), ": 'w' must ",
                                            "be type 'numeric'."))
             }
-            # range (Elbe: 130 - 0; Rhine: 120 - 5)
+            # range (Elbe: 130 - 0; Elbe_tidal: -10 - 10; Rhine: 120 - 5)
             if (!(error_river)) {
                 if (!(all(is.na(object$w)))) {
                     if (min(object$w, na.rm = TRUE) < w_min) {
@@ -451,7 +458,7 @@ methods::setClass(
 #' 
 #' @param river a required argument to fill the \linkS4class{WaterLevelDataFrame}-slot
 #'   \code{river}. It has to be type \code{character}, has to have a length of
-#'   one and can be either \strong{Elbe} or \strong{Rhine}.
+#'   one and can be \strong{Elbe} or \strong{Elbe_tidal} or \strong{Rhine}.
 #' @param time a required argument to fill the \linkS4class{WaterLevelDataFrame}-slot
 #'   \code{time}. It has to be type \code{\link[base:POSIXct]{c("POSIXct",
 #'   "POSIXt")}}, has to have a length of one and must be in the temporal range
@@ -498,7 +505,7 @@ methods::setClass(
 #'   (\code{station} and \code{station_int}) are specified, all elements of
 #'   \code{station} have to be equal to \code{as.numeric(station_int / 1000)}.
 #'   Minimum and maximum allowed values of \code{station} are
-#'   \code{river}-specific: Elbe (km 0 - 585.7), Rhine (km 336.2 - 865.7).
+#'   \code{river}-specific: Elbe (km 0 - 585.7), Elbe_tidal (km 0 - 174.0), Rhine (km 336.2 - 865.7).
 #' @param station_int an optional argument to hand over the stationing along the
 #'   specified \code{river}. If specified, it has to be type \code{integer}
 #'   and has to have the same length as other optional arguments (\code{id},
@@ -507,7 +514,7 @@ methods::setClass(
 #'   (\code{station} and \code{station_int}) are specified, all elements of
 #'   \code{station_int} have to be equal to \code{as.integer(station * 1000)}.
 #'   Minimum and maximum allowed values of \code{station_int} are \code{river}-specific:
-#'   Elbe (m 0 - 585700), Rhine (m 336200 - 865700).
+#'   Elbe (m 0 - 585700), Elbe_tidal (m 0 - 174000), Rhine (m 336200 - 865700).
 #' @param w an optional argument to hand over the water level information along
 #'   the stationing of the specified \code{river} for a given \code{time}. If
 #'   specified, it has to be type \code{numeric} and has to have the same
@@ -518,7 +525,7 @@ methods::setClass(
 #'   functions \code{\link{waterLevel}}, \code{\link{waterLevelPegelonline}},
 #'   \code{\link{waterLevelFlys3}} and \code{\link{waterLevelFlys3Seq}}. Minimum
 #'   and maximum allowed values of \code{w} are river-specific: Elbe (m a.s.l. 0
-#'   - 130), Rhine (m a.s.l. 5 - 120).
+#'   - 130), Elbe (m a.s.l. -10 - 10),  Rhine (m a.s.l. 5 - 120).
 #' 
 #' @return The function produces an object of class
 #'   \linkS4class{WaterLevelDataFrame} which might contain 1d water level data
@@ -532,7 +539,7 @@ methods::setClass(
 #' 
 #' @export
 #' 
-WaterLevelDataFrame <- function(river = c("Elbe", "Rhine"),
+WaterLevelDataFrame <- function(river = c("Elbe", "Elbe_tidal", "Rhine"),
                                 time,
                                 gauging_stations         = NULL,
                                 gauging_stations_missing = NULL,
@@ -568,9 +575,10 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhine"),
             error_river <- TRUE
         }
         # %in% c('Elbe', 'Rhine')
-        if (!(river %in% c("Elbe", "Rhine"))) {
+        if (!(river %in% c("Elbe", "Elbe_tidal", "Rhine"))) {
             errors <- c(errors, paste0("Error ", l(errors), ": 'river' must ",
-                                       "be an element of c('Elbe', 'Rhine')."))
+                                       "be an element of c('Elbe', 'Elbe_tidal",
+                                       "', 'Rhine')."))
             error_river <- TRUE
         }
         # set 'river'-specific limits of station_int
@@ -580,6 +588,12 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhine"),
                 station_int_max <- 585700
                 w_min <- 0
                 w_max <- 130
+            }
+            if (river == "Elbe_tidal") {
+                station_int_min <- 300
+                station_int_max <- 170500
+                w_min <- -5
+                w_max <- 8
             }
             if (river == "Rhine") {
                 station_int_min <- 336200
@@ -591,7 +605,7 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhine"),
         } else {
             station_int_min <- 0
             station_int_max <- 865700
-            w_min <- 0
+            w_min <- -5
             w_max <- 130
         }
     }
