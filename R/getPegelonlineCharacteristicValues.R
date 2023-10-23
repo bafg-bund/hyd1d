@@ -7,7 +7,9 @@
 #'   from \url{https://pegelonline.wsv.de/gast/start}.
 #' 
 #' @eval param_gauging_station()
-#' @param value must be type \code{character}.
+#' @param value must be type \code{character}. Commonly available values are
+#'   \code{c("PNP", "MThw", "MTnw", "HThw", "NTnw", "HHW", "NNW", "MNW", "MW",
+#'   "MHW")}.
 #' @eval param_uuid()
 #' @param as_list `boolean` to switch between `list` or `data.frame` output
 #' 
