@@ -69,8 +69,10 @@
     file_data <- paste0(options()$hyd1d.datadir, "/df.gauging_data_latest.RDS")
     if (file.exists(file_data)) {
         file_mtime <- format(file.info(file_data)$mtime, "%Y-%m-%d %H:%M:%S %Z")
-        msg <- paste0(msg, "'df.gauging_data' locally stored at\n", file_data, "\n",
-                      "was last downloaded ", file_mtime)
+        msg <- paste0(msg, "'df.gauging_data' locally stored at\n", file_data,
+                      "\nwas last downloaded ", file_mtime)
     }
     packageStartupMessage(msg)
 }
+
+.pegelonline_rest_url <- "https://www.pegelonline.wsv.de/webservices/rest-api/v2"
