@@ -1,3 +1,7 @@
+# hyd1d 0.5.0
+
+* use httr2 to interact with the pegelonline rest api
+
 # hyd1d 0.4.6
 
 * change to documentation to avoid a problem on CRAN (Issue #26)
