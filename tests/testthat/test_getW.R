@@ -3,7 +3,6 @@ library(hyd1d)
 
 context("get...W")
 
-
 test_that("getGaugingDataW", {
     times <- c(as.Date('1991-12-16'), as.Date('2016-12-21'))
     expect_equal(length(getGaugingDataW(gauging_station = "DESSAU",
@@ -43,16 +42,9 @@ test_that("getGaugingDataW", {
 
 
 test_that("getPegelonlineW", {
-    times <- c(Sys.time() - 3600*4, Sys.time() - 3600*3, Sys.time() - 3600*2, Sys.time() - 3600)
-    expect_equal(length(getPegelonlineW(gauging_station = "DESSAU",
-                                        time = times)), 4)
-    expect_equal(getPegelonlineW(gauging_station = "DESSAU", time = times),
-                 getPegelonlineW(uuid = "1edc5fa4-88af-47f5-95a4-0e77a06fe8b1", 
-                                 time = times))
-    expect_equal(getPegelonlineW(gauging_station = "DESSAU", time = times),
-                 getPegelonlineW(gauging_station = "DESSAU", 
-                                 uuid = "1edc5fa4-88af-47f5-95a4-0e77a06fe8b1", 
-                                 time = times))
+    times <- c(Sys.time() - 3600*4, Sys.time() - 3600*3,
+               Sys.time() - 3600*2, Sys.time() - 3600)
+    
     expect_error(getPegelonlineW(gauging_station = "DESSAU", 
                                  uuid = "7cb7461b-3530-4c01-8978-7f676b8f71ed", 
                                  time = times), 
@@ -79,8 +71,19 @@ test_that("getPegelonlineW", {
                                  time = Sys.Date()), 
                  "which is today or in the future and thereby out")
     
+    # need online ressources
+    skip_on_cran()
+    expect_equal(length(getPegelonlineW(gauging_station = "DESSAU",
+                                        time = times)), 4)
+    expect_equal(getPegelonlineW(gauging_station = "DESSAU", time = times),
+                 getPegelonlineW(uuid = "1edc5fa4-88af-47f5-95a4-0e77a06fe8b1", 
+                                 time = times))
+    expect_equal(getPegelonlineW(gauging_station = "DESSAU", time = times),
+                 getPegelonlineW(gauging_station = "DESSAU", 
+                                 uuid = "1edc5fa4-88af-47f5-95a4-0e77a06fe8b1", 
+                                 time = times))
+    
     # test for Umlaut in gauging_station
     expect_equal(is.na(getPegelonlineW("SCHOENA", Sys.Date() - 10)), FALSE)
-    
 })
 

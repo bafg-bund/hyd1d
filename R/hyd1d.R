@@ -40,6 +40,8 @@
 #' @importFrom Rdpack reprompt
 #' @import utils
 #' @import methods
+#' @import httr2
+#' @importFrom curl has_internet
 #'
 NULL
 

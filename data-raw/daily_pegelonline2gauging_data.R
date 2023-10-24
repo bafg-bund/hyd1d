@@ -34,7 +34,9 @@ postgresqlpqExec(con, "SET client_encoding = 'UTF-8'")
 df.gs <- dbGetQuery(con, paste0("SELECT gauging_station, gauging_station_short",
                                 "name, water_longname, pnp, data_present_times",
                                 "pan FROM public.gauging_station_data WHERE da",
-                                "ta_present IS TRUE ORDER BY id ASC"))
+                                "ta_present IS TRUE AND (water_longname = 'ELB",
+                                "E' OR water_longname = 'RHEIN') ORDER BY id A",
+                                "SC"))
 
 ###
 # produce a vector of dates to be downloaded
