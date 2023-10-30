@@ -172,6 +172,13 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
         
         # perform the request
         resp <- httr2::req_perform(req)
+        if (resp$status_code != 200) {
+            message(paste0("The webserver of the PEGELONLINE rest-api returned",
+                           " a status code of '", resp$status_code, "'.\nThere",
+                           "fore the return value of getPegelonlineW() is NA.",
+                           "\nPlease try again later."))
+            return(NA_real_)
+        }
         df.w <- httr2::resp_body_json(resp, simplifyVector = TRUE)
         df.w$timestamp <- strptime(df.w$timestamp, format = "%Y-%m-%dT%H:%M:%S")
         
@@ -237,6 +244,13 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
         
         # perform the request
         resp <- httr2::req_perform(req)
+        if (resp$status_code != 200) {
+            message(paste0("The webserver of the PEGELONLINE rest-api returned",
+                           " a status code of '", resp$status_code, "'.\nThere",
+                           "fore the return value of getPegelonlineW() is NA.",
+                           "\nPlease try again later."))
+            return(NA_real_)
+        }
         df.w <- httr2::resp_body_json(resp, simplifyVector = TRUE)
         df.w$timestamp <- strptime(df.w$timestamp, format = "%Y-%m-%dT%H:%M:%S")
         
