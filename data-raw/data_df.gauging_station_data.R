@@ -20,6 +20,8 @@ if (!(file.exists("data/df.gauging_station_data.rda"))) {
                "ps FROM gauging_station_data ORDER BY water_shortname, km_qps"))
     df.gauging_station_data$river <- df.gauging_station_data$water_shortname
     df.gauging_station_data$water_shortname <- NULL
+    df.gauging_station_data$river[df.gauging_station_data$river == "RHEIN"] <- 
+        "RHINE"
     
     # store df.gauging_station_data as external dataset
     usethis::use_data(df.gauging_station_data, overwrite = TRUE,
@@ -30,7 +32,7 @@ if (!(file.exists("data/df.gauging_station_data.rda"))) {
         as.character(nrow(df.gauging_station_data))
     
     # clean up
-    rm(gd_con, gd_credentials, a)
+    rm(gd_con, gd_credentials)
     
 } else {
     write("data/df.gauging_station_data.rda exists already", stderr())

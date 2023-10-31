@@ -31,11 +31,6 @@
 #'   older and validated data, feel free to contact the data service at the
 #'   Federal Institute of Hydrology by email (\email{Datenstelle-M1@@bafg.de}).
 #' 
-#' @note Internally \code{\link[utils:download.file]{download.file}} is used to
-#'   obtain the gauging data from \url{https://pegelonline.wsv.de/gast/start}.
-#'   The download method can be set through the option "\code{download.file.method}":
-#'   see \code{\link[base:options]{options()}}.
-#' 
 #' @return The returned output depends on the type of the input parameter
 #'   \code{time}. If \code{time} is type
 #'   \code{\link[base:POSIXct]{c("POSIXct", "POSIXt")}} the
@@ -43,13 +38,13 @@
 #'   \code{time} is type \code{Date} the returned object contains daily averaged
 #'   water levels.
 #' 
-#' @seealso \code{\link[utils:download.file]{download.file}}, \code{\link{waterLevelPegelonline}}
+#' @seealso \code{\link{waterLevelPegelonline}}
 #' 
 #' @references \insertRef{wsv_pegelonline_2018}{hyd1d}
 #' 
-#' @examples
-#' getPegelonlineW(gauging_station = "DESSAU", time = Sys.time() - 3600)
-#' getPegelonlineW(gauging_station = "DESSAU", time = Sys.Date() - 1)
+#' @examplesIf hyd1d:::.pegelonline_status()
+#'    getPegelonlineW(gauging_station = "DESSAU", time = Sys.time() - 3600)
+#'    getPegelonlineW(gauging_station = "DESSAU", time = Sys.Date() - 1)
 #' 
 #' @export
 #' 
@@ -58,20 +53,6 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
     #####
     # assemble internal variables and check the existence of required data
     ##
-    # determine download method
-    method <- getOption("download.file.method")
-    if (is.null(method)) {
-        if (Sys.info()["sysname"] == "Windows") {
-            if (compareVersion("4.2.0", as.character(getRversion())) < 0) {
-                method <- "auto"
-            } else {
-                method <- "wininet"
-            }
-        } else {
-            method <- "auto"
-        }
-    }
-    
     #  get the names of all available gauging_stations
     get("df.gauging_station_data", pos = -1)
     id <- which(df.gauging_station_data$data_present)
@@ -165,49 +146,44 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
         
         ###
         # gauging data w as cm relative to PNP
-        url <- paste0("https://www.pegelonline.wsv.de/webservices/rest-api/v2/",
-                      "stations/", uuid_internal, "/W/measurements.json?start=",
-                      strftime(min(time)
-                               - as.difftime(60,
-                                             units = "mins"),
-                               format = "%Y-%m-%d"),
-                      "T00:00%2B01:00&end=",
-                      strftime(max(time)
-                               + as.difftime(60,
-                                             units = "mins"),
-                               format = "%Y-%m-%dT%H:%M"),
-                      "%2B01:00")
-        w_string <- tryCatch({
-            tf <- tempfile()
-            utils::download.file(url, tf, method = method, quiet = TRUE,
-                                 extra = getOption("download.file.extra"))
-            tf
-        }, 
-        error = function(e){
-            msg <- paste0("It was not possible to access gauging data from\n",
-                          "https://pegelonline.wsv.de\n",
-                          "Please try again later, if the server was not available.\n",
-                          "Please read the notes if you recieve an SSL error.\n",
-                          e)
-            message(msg)
-            return(NA)
-        })
-        w_list <- RJSONIO::fromJSON(w_string)
-        if (length(w_list) == 0 | is.na(w_string)) {
-            message(paste0("It was not possible to obtain gauging data from\n",
-                           "https://pegelonline.wsv.de\n",
-                           "Please try again later."))
-            return(NA)
-        }
-        df.w <- data.frame(time = as.POSIXct(rep(NA, length(w_list))),
-                           w    = as.numeric(rep(NA, length(w_list))))
-        for(i in 1:length(w_list)) {
-            df.w$time[i] <- strptime(w_list[[i]]$timestamp, 
-                                     format = "%Y-%m-%dT%H:%M:%S")
-            df.w$w[i] <- as.numeric(w_list[[i]]$value)
+        # query pegelonline data
+        if (!curl::has_internet()) {
+            stop ("The PEGELONLINE rest-api is unavailable without internet.",
+                  call. = FALSE
+            )
         }
         
-        w <- stats::approx(x = df.w$time, y = df.w$w, xout = 
+        # assemble the request
+        req <- httr2::request(.pegelonline_rest_url)
+        req <- httr2::req_url_path_append(req, "stations")
+        req <- httr2::req_url_path_append(req, uuid_internal)
+        req <- httr2::req_url_path_append(req, "W")
+        req <- httr2::req_url_path_append(req, "measurements.json")
+        req <- httr2::req_url_query(req,
+            start = I(paste0(strftime(min(time) 
+                                      - as.difftime(60, units = "mins"),
+                                      format = "%Y-%m-%d"),
+                             "T00:00%2B01:00")),
+            end = I(paste0(strftime(max(time) + as.difftime(60, units = "mins"),
+                                    format = "%Y-%m-%dT%H:%M"),
+                           "%2B01:00")))
+        req <- httr2::req_method(req, "GET")
+        req <- httr2::req_retry(req, max_tries = 10L)
+        
+        # perform the request
+        resp <- httr2::req_perform(req)
+        if (resp$status_code != 200) {
+            message(paste0("The webserver of the PEGELONLINE rest-api returned",
+                           " a status code of '", resp$status_code, "'.\nThere",
+                           "fore the return value of getPegelonlineW() is NA.",
+                           "\nPlease try again later."))
+            return(NA_real_)
+        }
+        df.w <- httr2::resp_body_json(resp, simplifyVector = TRUE)
+        df.w$timestamp <- strptime(df.w$timestamp, format = "%Y-%m-%dT%H:%M:%S")
+        
+        # interpolate w
+        w <- stats::approx(x = df.w$timestamp, y = df.w$value, xout = 
                                as.POSIXct(time, format = "%Y-%m-%d %H:%M:%S"),
                            rule = 2, method = "linear", ties = mean)$y
         w <- round(w, 0)
@@ -242,53 +218,49 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
         
         ###
         # gauging data w as cm relative to PNP
-        url <- paste0("https://www.pegelonline.wsv.de/webservices/rest-api/v2/",
-                      "stations/", uuid_internal, "/W/measurements.json?start=",
-                      strftime(min(time)
-                               - as.difftime(60,
-                                             units = "mins"),
-                               format = "%Y-%m-%d"),
-                      "T00:00%2B01:00&end=",
-                      strftime(max(time) + 1
-                               + as.difftime(60,
-                                             units = "mins"),
-                               format = "%Y-%m-%dT%H:%M"),
-                      "%2B01:00")
-        w_string <- tryCatch({
-            tf <- tempfile()
-            utils::download.file(url, tf, method = method, quiet = TRUE,
-                                 extra = getOption("download.file.extra"))
-            tf
-        }, 
-        error = function(e){
-            msg <- paste0("It was not possible to access gauging data from\n",
-                          "https://pegelonline.wsv.de\n",
-                          "Please try again later, if the server was not available.\n",
-                          "Please read the notes if you recieve an SSL error.\n",
-                          e)
-            message(msg)
-            return(NA)
-        })
-        w_list <- RJSONIO::fromJSON(w_string)
-        if (length(w_list) == 0 | is.na(w_string)) {
-            message(paste0("It was not possible to obtain gauging data from\n",
-                           "https://pegelonline.wsv.de\n",
-                           "Please try again later."))
-            return(NA)
+        # query pegelonline data
+        if (!curl::has_internet()) {
+            stop("The PEGELONLINE rest-api is unavailable without internet.",
+                 call. = FALSE)
         }
-        df.w <- data.frame(time = as.POSIXct(rep(NA, length(w_list))),
-                           w    = as.numeric(rep(NA, length(w_list))))
-        for(i in 1:length(w_list)) {
-            df.w$time[i] <- strptime(w_list[[i]]$timestamp, 
-                                     format = "%Y-%m-%dT%H:%M:%S")
-            df.w$w[i] <- as.numeric(w_list[[i]]$value)
+        
+        # assemble the request
+        req <- httr2::request(.pegelonline_rest_url)
+        req <- httr2::req_url_path_append(req, "stations")
+        req <- httr2::req_url_path_append(req, uuid_internal)
+        req <- httr2::req_url_path_append(req, "W")
+        req <- httr2::req_url_path_append(req, "measurements.json")
+        req <- httr2::req_url_query(req,
+            start = I(paste0(strftime(min(time)
+                                      - as.difftime(60, units = "mins"),
+                                      format = "%Y-%m-%d"),
+                             "T00:00%2B01:00")),
+            end = I(paste0(strftime(max(time) + 1
+                                    + as.difftime(60, units = "mins"),
+                                    format = "%Y-%m-%dT%H:%M"),
+                           "%2B01:00")))
+        req <- httr2::req_method(req, "GET")
+        req <- httr2::req_retry(req, max_tries = 10L)
+        
+        # perform the request
+        resp <- httr2::req_perform(req)
+        if (resp$status_code != 200) {
+            message(paste0("The webserver of the PEGELONLINE rest-api returned",
+                           " a status code of '", resp$status_code, "'.\nThere",
+                           "fore the return value of getPegelonlineW() is NA.",
+                           "\nPlease try again later."))
+            return(NA_real_)
         }
+        df.w <- httr2::resp_body_json(resp, simplifyVector = TRUE)
+        df.w$timestamp <- strptime(df.w$timestamp, format = "%Y-%m-%dT%H:%M:%S")
+        
+        # interpolate daily means
         w <- numeric()
         for (a_day in time) {
             a_time <- as.POSIXct(time) - as.difftime(60, units = "mins")
             b_time <- as.POSIXct(time) + as.difftime(23 * 60, units = "mins")
-            id <- which(df.w$time >= a_time & df.w$time < b_time)
-            w <- append(w, round(mean(df.w$w[id], na.rm = TRUE), 0))
+            id <- which(df.w$timestamp >= a_time & df.w$timestamp < b_time)
+            w <- append(w, round(mean(df.w$value[id], na.rm = TRUE), 0))
         }
         
         return(w)
@@ -296,3 +268,15 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
     }
     
 }
+
+.pegelonline_status <- function() {
+    req <- httr2::req_url_path_append(httr2::request(.pegelonline_rest_url),
+                                      "stations.json")
+    if (httr2::req_perform(req)$status_code == 200) {
+        return(TRUE)
+    } else {
+        return(FALSE)
+    }
+}
+
+

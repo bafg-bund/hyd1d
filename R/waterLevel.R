@@ -42,7 +42,7 @@
 #'   
 #'   \insertRef{wsv_pegelonline_2018}{hyd1d}
 #'
-#' @examples
+#' @examplesIf hyd1d:::.pegelonline_status()
 #' # waterLevel
 #' wldf <- WaterLevelDataFrame(river   = "Elbe",
 #'                             time    = as.POSIXct("2016-12-21"),
