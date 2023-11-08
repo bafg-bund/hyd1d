@@ -82,7 +82,6 @@ Sys.setlocale(category = "LC_MESSAGES", locale = "de_DE.UTF-8")
 <!-- numbering for figures and tables-->
 ```{r captions, echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
 library(hyd1d)
-library(plotrix)
 library(stringr)
 library(yaml)
 library(desc)
@@ -245,7 +244,6 @@ ist:
 
 ```{r figure01, echo = FALSE, error = FALSE, fig.cap = capFig("Tagesgemittelte Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau."), fig.show = 'asis', message = FALSE, warning = FALSE}
 library(hyd1d)
-library(plotrix)
 xlim_min <- 257
 xlim_max <- 263
 ylim_min <- 53.8
@@ -264,12 +262,13 @@ id <- gs$km_qps >= xlim_min & gs$km_qps <= xlim_max
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 0.7, 
-                 border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 0.7, 
-                 border = FALSE)
+    hyd1d:::.boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 0.7,
+                          border = FALSE)
+    hyd1d:::.boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 0.7,
+                          border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
-    boxed.labels(259.6, 55.5, "MULDE", cex = 0.7, border = FALSE, col = "blue")
+    hyd1d:::.boxed.labels(259.6, 55.5, "MULDE", cex = 0.7, border = FALSE,
+                          col = "blue")
     
     # gauging data
     points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
@@ -354,12 +353,13 @@ flys3_water_levels <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ", "c",
         }
     }
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 53.5, gs$gauging_station[2], cex = 0.7, 
-                 border = FALSE)
-    boxed.labels(gs$km_qps[3], 61.5, gs$gauging_station[3], cex = 0.7, 
-                 border = FALSE)
+    hyd1d:::.boxed.labels(gs$km_qps[2], 53.5, gs$gauging_station[2], cex = 0.7,
+                          border = FALSE)
+    hyd1d:::.boxed.labels(gs$km_qps[3], 61.5, gs$gauging_station[3], cex = 0.7,
+                          border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
-    boxed.labels(259.6, 61.5, "MULDE", cex = 0.7, border = FALSE, col = "blue")
+    hyd1d:::.boxed.labels(259.6, 61.5, "MULDE", cex = 0.7, border = FALSE,
+                          col = "blue")
 }
 ```
 
@@ -381,12 +381,13 @@ mq <- waterLevelFlys3(wldf, "MQ")
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 0.7, 
-                 border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 0.7, 
-                 border = FALSE)
+    hyd1d:::.boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 0.7,
+                          border = FALSE)
+    hyd1d:::.boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 0.7,
+                          border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
-    boxed.labels(259.6, 55.5, "MULDE", cex = 0.7, border = FALSE, col = "blue")
+    hyd1d:::.boxed.labels(259.6, 55.5, "MULDE", cex = 0.7, border = FALSE,
+                          col = "blue")
     
     # gauging data
     points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
@@ -433,12 +434,13 @@ wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 0.7, 
-                 border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 0.7, 
-                 border = FALSE)
+    hyd1d:::.boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 0.7,
+                          border = FALSE)
+    hyd1d:::.boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 0.7,
+                          border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
-    boxed.labels(259.6, 55.5, "MULDE", cex = 0.7, border = FALSE, col = "blue")
+    hyd1d:::.boxed.labels(259.6, 55.5, "MULDE", cex = 0.7, border = FALSE,
+                          col = "blue")
     
     # gauging data
     points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
@@ -494,12 +496,13 @@ ergibt sich folgendes Bild:
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 0.7, 
-                 border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 0.7, 
-                 border = FALSE)
+    hyd1d:::.boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 0.7,
+                          border = FALSE)
+    hyd1d:::.boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 0.7,
+                          border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
-    boxed.labels(259.6, 55.5, "MULDE", cex = 0.7, border = FALSE, col = "blue")
+    hyd1d:::.boxed.labels(259.6, 55.5, "MULDE", cex = 0.7, border = FALSE,
+                          col = "blue")
     
     # gauging data
     points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
@@ -794,12 +797,13 @@ Selektion der einrahmenden
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 0.7, 
-                 border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 0.7, 
-                 border = FALSE)
+    hyd1d:::.boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 0.7,
+                          border = FALSE)
+    hyd1d:::.boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 0.7,
+                          border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
-    boxed.labels(259.6, 55.5, "MULDE", cex = 0.7, border = FALSE, col = "blue")
+    hyd1d:::.boxed.labels(259.6, 55.5, "MULDE", cex = 0.7, border = FALSE,
+                          col = "blue")
     
     # gauging data
     points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
@@ -855,12 +859,13 @@ kann das relative Gewicht auch negativ werden.
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.52)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 0.7, 
-                 border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 0.7, 
-                 border = FALSE)
+    hyd1d:::.boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 0.7,
+                          border = FALSE)
+    hyd1d:::.boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 0.7,
+                          border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
-    boxed.labels(259.6, 55.5, "MULDE", cex = 0.7, border = FALSE, col = "blue")
+    hyd1d:::.boxed.labels(259.6, 55.5, "MULDE", cex = 0.7, border = FALSE,
+                          col = "blue")
     
     # gauging data
     points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
@@ -907,12 +912,13 @@ Pegeln linear interpoliert.
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], -0.05, gs$gauging_station[2], cex = 0.7, 
-                 border = FALSE)
-    boxed.labels(gs$km_qps[3], 1.05, gs$gauging_station[3], cex = 0.7, 
-                 border = FALSE)
+    hyd1d:::.boxed.labels(gs$km_qps[2], -0.05, gs$gauging_station[2], cex = 0.7,
+                          border = FALSE)
+    hyd1d:::.boxed.labels(gs$km_qps[3], 1.05, gs$gauging_station[3], cex = 0.7,
+                          border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
-    boxed.labels(259.6, 1.05, "MULDE", cex = 0.7, border = FALSE, col = "blue")
+    hyd1d:::.boxed.labels(259.6, 1.05, "MULDE", cex = 0.7, border = FALSE,
+                          col = "blue")
     
     # weighting
     lines(x = c(gs$km_qps[id][1], gs$km_qps[id][2]),
@@ -951,12 +957,13 @@ Dann erhält man für den 2. Abschnitt folgendes Produkt:
     
     # landmarks
     abline(v = gs$km_qps[2:3], lty = 3, lwd = 0.5)
-    boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 0.7, 
-                 border = FALSE)
-    boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 0.7, 
-                 border = FALSE)
+    hyd1d:::.boxed.labels(gs$km_qps[2], 54, gs$gauging_station[2], cex = 0.7,
+                          border = FALSE)
+    hyd1d:::.boxed.labels(gs$km_qps[3], 55.5, gs$gauging_station[3], cex = 0.7,
+                          border = FALSE)
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
-    boxed.labels(259.6, 55.5, "MULDE", cex = 0.7, border = FALSE, col = "blue")
+    hyd1d:::.boxed.labels(259.6, 55.5, "MULDE", cex = 0.7, border = FALSE,
+                          col = "blue")
     
     # gauging data
     points(gs$km_qps[id], gs$wl[id], pch = 21, col = "darkblue", 
@@ -1002,7 +1009,8 @@ finales Produkt:
     
     # landmark
     abline(v = 259.6, lty = 3, lwd = 0.5, col = "blue")
-    boxed.labels(259.6, 55.5, "MULDE", cex = 0.7, border = FALSE, col = "blue")
+    hyd1d:::.boxed.labels(259.6, 55.5, "MULDE", cex = 0.7, border = FALSE,
+                          col = "blue")
     
     # legend
     legend("topright", 
@@ -1204,7 +1212,7 @@ Wasserstandswert am ausgewählten Bezugspegel schneidet, bei der Flut2-Methode
 werden Wasserspiegellagen durch lineare Interpolation umliegender Pegeldaten
 berechnet.
 
-```{r figure16, fig.show = 'asis', fig.cap = capFig("Wasserspiegellagen nach Flut1 mit den Bezugspegeln Rosslau (wldf1) und Dessau (wldf2) und Flut2 (wldf3) für den 21.12.2016 an der Elbe bei Rosslau und Dessau."), eval = TRUE}
+```{r figure16-prep}
 wldf <- WaterLevelDataFrame(river   = "Elbe",
                             time    = as.POSIXct("2016-12-21"),
                             station = seq(257, 262, 0.1))
@@ -1217,7 +1225,9 @@ summary(wldf2)
 
 wldf3 <- waterLevelFlood2(wldf)
 summary(wldf3)
+```
 
+```{r figure16, fig.show = 'asis', fig.cap = capFig("Wasserspiegellagen nach Flut1 mit den Bezugspegeln Rosslau (wldf1) und Dessau (wldf2) und Flut2 (wldf3) für den 21.12.2016 an der Elbe bei Rosslau und Dessau."), eval = TRUE, echo = FALSE}
 df.gs2 <- getGaugingStations(wldf2)
 
 {
@@ -1226,8 +1236,9 @@ df.gs2 <- getGaugingStations(wldf2)
     lines(wldf3$station, wldf3$w, col = "red", lty = 2)
     abline(v = df.gs2$km_qps, lty = 3, lwd = 0.5)
     points(df.gs2$km_qps, df.gs2$wl, pch=21, col="darkblue", bg="darkblue")
-    boxed.labels(df.gs2$km_qps, 55.4, df.gs2$gauging_station, bg="white", 
-                 srt = 90, border = FALSE, xpad = 4, ypad = 0.7, cex = 0.7)
+    hyd1d:::.boxed.labels(df.gs2$km_qps, 55.4, df.gs2$gauging_station,
+                          bg="white", srt = 90, border = FALSE, xpad = 4,
+                          ypad = 0.7, cex = 0.7)
     legend("topright", 
            col = c("darkblue", "darkblue", "darkblue", "red"), 
            pch = c(21, NA, NA, NA), 
@@ -1256,16 +1267,19 @@ einrahmenden
 an dem ausgewählten Bezugspegel bestimmt und dann für eine Interpolation
 zwischen diesen beiden Wasserspiegellagen verwendet.
 
-```{r figure17, fig.show = 'asis', fig.cap = capFig(paste0("Wasserspiegellage nach ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), " mit dem Bezugspegel Rosslau für den 21.12.2016 an der Elbe bei Rosslau und Dessau.")), eval = TRUE}
+```{r figure17-prep}
 wldf <- waterLevelFlys3InterpolateY(wldf, "ROSSLAU", shiny = TRUE)
 summary(wldf)
+```
 
+```{r figure17, fig.show = 'asis', fig.cap = capFig(paste0("Wasserspiegellage nach ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), " mit dem Bezugspegel Rosslau für den 21.12.2016 an der Elbe bei Rosslau und Dessau.")), eval = TRUE, echo = FALSE}
 {
     plotShiny(wldf, TRUE, TRUE, TRUE, xlim = c(xlim_min, xlim_max))
     abline(v = df.gs2$km_qps, lty = 3, lwd = 0.5)
     points(df.gs2$km_qps, df.gs2$wl, pch=21, col="darkblue", bg="darkblue")
-    boxed.labels(df.gs2$km_qps, 55.4, df.gs2$gauging_station, bg="white", 
-                 srt = 90, border = FALSE, xpad = 4, ypad = 0.7, cex = 0.7)
+    hyd1d:::.boxed.labels(df.gs2$km_qps, 55.4, df.gs2$gauging_station,
+                          bg="white", srt = 90, border = FALSE, xpad = 4,
+                          ypad = 0.7, cex = 0.7)
     legend("topright", 
            col = c("darkblue", "darkblue", "darkblue", "red", "black"), 
            pch = c(21, NA, NA, NA, NA), 

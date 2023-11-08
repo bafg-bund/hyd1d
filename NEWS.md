@@ -1,3 +1,7 @@
+# hyd1d
+
+* remove the dependency to the orphaned package plotrix
+
 # hyd1d 0.5.0
 
 * use httr2 to interact with the pegelonline rest api
