@@ -1,5 +1,6 @@
 # hyd1d
 
+* adapt BfG's new corporate design
 * remove the dependency to the orphaned package plotrix
 
 # hyd1d 0.5.0

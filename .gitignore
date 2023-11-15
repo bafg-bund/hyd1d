@@ -37,8 +37,11 @@ doc
 /doc/
 docs
 inst/doc
+man
+!man/figures
 Meta
 /Meta/
+pkgdown/favicon/*
 presentation/Thumbs.db
 presentation/presentation_DE.html
 presentation/presentation_DE_files/*
