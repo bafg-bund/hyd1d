@@ -27,23 +27,10 @@ if (!(file.exists("data/df.gauging_station_data.rda"))) {
     usethis::use_data(df.gauging_station_data, overwrite = TRUE,
                       compress = "bzip2")
     
-    # variables for RDO
-    RDO_NROW_DF.GAUGING_STATION_DATA <- 
-        as.character(nrow(df.gauging_station_data))
-    
     # clean up
     rm(gd_con, gd_credentials)
     
 } else {
     write("data/df.gauging_station_data.rda exists already", stderr())
-    
-    # variables for RDO
-    load("data/df.gauging_station_data.rda")
-    RDO_NROW_DF.GAUGING_STATION_DATA <- 
-        as.character(nrow(df.gauging_station_data))
-    
-    # clean up
-    rm(df.gauging_station_data)
-    
 }
 

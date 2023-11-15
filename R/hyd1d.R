@@ -37,11 +37,11 @@
 #' to linearily interpolate continuous water levels intersecting with the
 #' measured water level data at the gauging stations.
 #' 
-#' @importFrom Rdpack reprompt
-#' @import utils
-#' @import methods
 #' @import httr2
+#' @import methods
+#' @import utils
 #' @importFrom curl has_internet
+#' @importFrom Rdpack reprompt
 #'
 NULL
 
