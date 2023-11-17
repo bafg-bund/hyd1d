@@ -522,23 +522,23 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
             id2 <- df.gs$km_qps <= (dots$xlim[1] + 
                                         (dots$xlim[2] - dots$xlim[1]) / 2)
             if (any(id1 & id2)) {
-                plotrix::boxed.labels(df.gs$km_qps[id1 & id2],
-                                      rep(y_gauging_station_lab_min, 
-                                          nrow(df.gs[id1 & id2, ])),
-                                      df.gs$gauging_station[id1 & id2], 
-                                      bg="white", srt = srt, border = FALSE, 
-                                      xpad = 0.5, ypad = 0.5, cex = 0.7)
+                .boxed.labels(df.gs$km_qps[id1 & id2],
+                              rep(y_gauging_station_lab_min, 
+                                  nrow(df.gs[id1 & id2, ])),
+                              df.gs$gauging_station[id1 & id2], 
+                              bg="white", srt = srt, border = FALSE, 
+                              xpad = 0.5, ypad = 0.5, cex = 0.7)
             }
         } else {
             id2 <- df.gs$km_qps > (dots$xlim[1] + 
                                        (dots$xlim[2] - dots$xlim[1]) / 2)
             if (any(id1 & id2)) {
-                plotrix::boxed.labels(df.gs$km_qps[id1 & id2],
-                                      rep(y_gauging_station_lab_max, 
-                                          nrow(df.gs[id1 & id2, ])),
-                                      df.gs$gauging_station[id1 & id2],
-                                      bg = "white", srt = srt, border = FALSE,
-                                      xpad = 0.5, ypad = 0.5, cex = 0.7)
+                .boxed.labels(df.gs$km_qps[id1 & id2],
+                              rep(y_gauging_station_lab_max, 
+                                  nrow(df.gs[id1 & id2, ])),
+                              df.gs$gauging_station[id1 & id2],
+                              bg = "white", srt = srt, border = FALSE,
+                              xpad = 0.5, ypad = 0.5, cex = 0.7)
             }
         }
     }
@@ -549,23 +549,23 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
             id4 <- df.gsm$km_qps <= (dots$xlim[1] + 
                                          (dots$xlim[2] - dots$xlim[1]) / 2)
             if (any(id3 & id4)) {
-                plotrix::boxed.labels(df.gsm$km_qps[id3 & id4],
-                                      rep(y_gauging_station_lab_min, 
-                                          nrow(df.gsm[id3 & id4, ])),
-                                      df.gsm$gauging_station[id3 & id4], 
-                                      bg="white", srt = srt, border = FALSE, 
-                                      xpad = 0.5, ypad = 0.5, cex = 0.7)
+                .boxed.labels(df.gsm$km_qps[id3 & id4],
+                              rep(y_gauging_station_lab_min, 
+                                  nrow(df.gsm[id3 & id4, ])),
+                              df.gsm$gauging_station[id3 & id4], 
+                              bg="white", srt = srt, border = FALSE, 
+                              xpad = 0.5, ypad = 0.5, cex = 0.7)
             }
         } else {
             id4 <- df.gsm$km_qps > (dots$xlim[1] + 
                                         (dots$xlim[2] - dots$xlim[1]) / 2)
             if (any(id3 & id4)) {
-                plotrix::boxed.labels(df.gsm$km_qps[id3 & id4],
-                                      rep(y_gauging_station_lab_max, 
-                                          nrow(df.gsm[id3 & id4, ])),
-                                      df.gsm$gauging_station[id3 & id4],
-                                      bg = "white", srt = srt, border = FALSE,
-                                      xpad = 0.5, ypad = 0.5, cex = 0.7)
+                .boxed.labels(df.gsm$km_qps[id3 & id4],
+                              rep(y_gauging_station_lab_max, 
+                                  nrow(df.gsm[id3 & id4, ])),
+                              df.gsm$gauging_station[id3 & id4],
+                              bg = "white", srt = srt, border = FALSE,
+                              xpad = 0.5, ypad = 0.5, cex = 0.7)
             }
         }
     }
@@ -608,3 +608,72 @@ plotShiny <- function(wldf, add_flys = TRUE, add_flys_labels = TRUE,
     graphics::plot(...)
 }
 
+# function copied from orphaned (possibly retiring) package plotrix
+# J L (2006). “Plotrix: a package in the red light district of R.” R-News, 6(4),
+# 8-12.
+.boxed.labels <- function (x, y = NULL, labels,
+                           bg = ifelse(match(graphics::par("bg"), "transparent", 0),
+                                       "white", graphics::par("bg")),
+                           border = TRUE, xpad = 1.2, ypad = 1.2, srt = 0,
+                           cex = 1, adj = 0.5, xlog = FALSE, ylog = FALSE,
+                           ...) {
+    # store par
+    oldpars <- graphics::par(c("cex", "xpd"))
+    
+    # overwrite par
+    graphics::par(cex = cex, xpd = TRUE)
+    
+    # unlist x
+    if (is.null(y) && is.list(x)) {
+        y <- unlist(x[[2]])
+        x <- unlist(x[[1]])
+    }
+    
+    # compute boxes
+    box.adj <- adj + (xpad - 1) * cex * (0.5 - adj)
+    if (srt == 90 || srt == 270) {
+        bheights <- graphics::strwidth(labels)
+        theights <- bheights * (1 - box.adj)
+        bheights <- bheights * box.adj
+        lwidths <- rwidths <- graphics::strheight(labels) * 0.5
+    } else {
+        lwidths <- graphics::strwidth(labels)
+        rwidths <- lwidths * (1 - box.adj)
+        lwidths <- lwidths * box.adj
+        bheights <- theights <- graphics::strheight(labels) * 0.5
+    }
+    
+    # assemble args
+    args <- list(x = x, y = y, labels = labels, srt = srt, adj = adj, 
+                 col = ifelse(colSums(grDevices::col2rgb(bg) * c(1, 1.4, 0.6))
+                              < 350, "white", "black"))
+    args <- modifyList(args, list(...))
+    
+    # log-scale
+    if (xlog) {
+        xpad <- xpad * 2
+        xr <- exp(log(x) - lwidths * xpad)
+        xl <- exp(log(x) + lwidths * xpad)
+    } else {
+        xr <- x - lwidths * xpad
+        xl <- x + lwidths * xpad
+    }
+    if (ylog) {
+        ypad <- ypad * 2
+        yb <- exp(log(y) - bheights * ypad)
+        yt <- exp(log(y) + theights * ypad)
+    }
+    else {
+        yb <- y - bheights * ypad
+        yt <- y + theights * ypad
+    }
+    
+    # plot rectangular boxes
+    graphics::rect(xr, yb, xl, yt, col = bg, border = border)
+    
+    # plot labels
+    do.call(graphics::text, args)
+    
+    # restore old par
+    graphics::par(oldpars)
+}
