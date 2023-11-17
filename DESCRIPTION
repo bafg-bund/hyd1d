@@ -10,6 +10,8 @@ Authors@R: c(person("Arnd", "Weber", email = "arnd.weber@bafg.de",
                     role = c("aut")),
              person("Wolfgang", "Stürmer", role = c("ctb")),
              person("Wilfried", "Wiechmann", email="wiechmann@bafg.de",
+                    role = c("ctb")),
+             person("Benjamin", "Eberhardt", email="eberhardt@bafg.de",
                     role = c("ctb")))
 Description: An S4 class and several functions which utilize internally stored
     datasets and gauging data enable 1d water level interpolation. The S4 class
