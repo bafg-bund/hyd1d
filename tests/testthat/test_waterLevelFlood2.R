@@ -10,8 +10,12 @@ test_that("waterLevelFlood2: checks", {
                                 time    = as.POSIXct(NA),
                                 station = seq(257, 262, 0.1))
     expect_error(wldf <- waterLevelFlood2(wldf), 
-                 "The time slot of 'wldf' must not be NA.", fixed = TRUE)
-})    
+                 "The time slot of 'wldf' must not be NA, if value is NULL.",
+                 fixed = TRUE)
+    
+    # value
+    
+})
 
 test_that("waterLevelFlood2: Dessau", {
     wldf1 <- WaterLevelDataFrame(river   = "Elbe",
@@ -75,5 +79,22 @@ test_that("waterLevelFlood2: Grenze NL", {
                                  time        = as.POSIXct("2016-12-21"),
                                  station_int = as.integer(seq(860000, 865700, 100)))
     expect_silent(wldf2 <- waterLevelFlood2(wldf2))
+})
+
+test_that("waterLevelFlood2: tidal", {
+    wldf1 <- WaterLevelDataFrame(river       = "Elbe_tidal",
+                                 time        = as.POSIXct(NA),
+                                 station_int = as.integer(seq(0, 19000, 1000)))
+    expect_no_error(wldf1 <- waterLevelFlood2(wldf1, value = "MThw"))
+    
+    wldf1 <- WaterLevelDataFrame(river       = "Ems_tidal",
+                                 time        = as.POSIXct(NA),
+                                 station_int = as.integer(seq(0, 15000, 1000)))
+    expect_no_error(wldf1 <- waterLevelFlood2(wldf1, value = "MThw"))
+    
+    wldf1 <- WaterLevelDataFrame(river       = "Stoer_tidal",
+                                 time        = as.POSIXct(NA),
+                                 station_int = as.integer(seq(0, 44800, 200)))
+    expect_nerror(wldf1 <- waterLevelFlood2(wldf1, value = "MThw"))
 })
 
