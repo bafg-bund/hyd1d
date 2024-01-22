@@ -77,6 +77,10 @@ waterLevelFlood1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
         time <- getTime(wldf)
         river   <- getRiver(wldf)
         RIVER   <- toupper(river)
+        River <- ifelse(length(unlist(strsplit(river, "_"))) > 1,
+                        paste0(toupper(unlist(strsplit(river, "_"))[1]), "_",
+                               unlist(strsplit(river, "_"))[2]),
+                        toupper(river))
         
         # start
         start_f <- min(wldf$station)
@@ -95,11 +99,10 @@ waterLevelFlood1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
         # gauging_station &| uuid
         #  get the names of all available gauging_stations
         get("df.gauging_station_data", pos = -1)
-        id <- which(df.gauging_station_data$data_present & 
-                    df.gauging_station_data$river == RIVER)
-        df.gauging_station_data_sel <- df.gauging_station_data[id, ]
-        gs <- df.gauging_station_data_sel$gauging_station
-        uuids <- df.gauging_station_data_sel$uuid
+        df.gsd <- df.gauging_station_data[
+            which(df.gauging_station_data$river == River), ]
+        gs <- df.gsd$gauging_station
+        uuids <- df.gsd$uuid
         
         if (missing(gauging_station) & missing(uuid)) {
             errors <- c(errors, paste0("Error ", l(errors), ": The 'gauging_",
@@ -129,16 +132,14 @@ waterLevelFlood1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
                     
                     id_gs <- which(gs == gauging_station)
                     uuid_internal <- uuids[id_gs]
-                    df.gs <- df.gauging_station_data_sel[
-                        which(uuids == uuid_internal),]
+                    df.gs <- df.gsd[which(uuids == uuid_internal),]
                     
                     if (df.gs$km_qps < start_f | df.gs$km_qps > end_f) {
-                        id <- which(df.gauging_station_data_sel$km_qps > 
-                                        start_f & 
-                                    df.gauging_station_data_sel$km_qps < end_f)
+                        id <- which(df.gsd$km_qps > start_f & 
+                                    df.gsd$km_qps < end_f)
                         id <- c(min(id) - 1, id, max(id) + 1)
                         gs_possible <- stats::na.omit(
-                            df.gauging_station_data_sel$gauging_station[id])
+                            df.gsd$gauging_station[id])
                         if (!(df.gs$gauging_station %in% gs_possible)) {
                             errors <- c(errors, paste0("Error ", l(errors), ":",
                                                        " The selected 'gauging",
@@ -179,16 +180,13 @@ waterLevelFlood1 <- function(wldf, gauging_station, w, uuid, shiny = FALSE) {
                     
                     id_uu <- which(uuids == uuid)
                     uuid_internal <- uuids[id_uu]
-                    df.gs <- df.gauging_station_data_sel[
-                        which(uuids == uuid_internal),]
+                    df.gs <- df.gsd[which(uuids == uuid_internal),]
                     
                     if (df.gs$km_qps < start_f | df.gs$km_qps > end_f) {
-                        id <- which(df.gauging_station_data_sel$km_qps > 
-                                        start_f & 
-                                    df.gauging_station_data_sel$km_qps < end_f)
+                        id <- which(df.gsd$km_qps > start_f & 
+                                    df.gsd$km_qps < end_f)
                         id <- c(min(id) - 1, id, max(id) + 1)
-                        uuid_possible <- stats::na.omit(
-                            df.gauging_station_data_sel$uuid[id])
+                        uuid_possible <- stats::na.omit(df.gsd$uuid[id])
                         if (!(df.gs$uuid %in% uuid_possible)) {
                             errors <- c(errors, paste0("Error ", l(errors), ":",
                                                        " The selected 'uuid' h",
