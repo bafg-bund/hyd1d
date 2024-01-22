@@ -45,7 +45,7 @@ test_that("getPegelonlineCharacteristicValues", {
                                                       value = c("MW", "MNQ")),
                    "Not all of your supplied values are among the commonly que",
                    fixed = TRUE)
-    expect_message(getPegelonlineCharacteristicValues(gauging_station = "SCHOENA",
+    expect_warning(getPegelonlineCharacteristicValues(gauging_station = "SCHOENA",
                                                       value = c("MW", "MThw")),
                    "Not all requested values are available for the queried gau",
                    fixed = TRUE)
@@ -53,9 +53,9 @@ test_that("getPegelonlineCharacteristicValues", {
                                                     value = c("MNQ", "MHQ")),
                  "None of your supplied values is among the commonly queried",
                  fixed = TRUE)
-    expect_message(getPegelonlineCharacteristicValues(gauging_station = "SCHOENA",
+    expect_warning(getPegelonlineCharacteristicValues(gauging_station = "SCHOENA",
                                                       value = "MThw"),
-                   "None of requested values is available for ",
+                   "None of the requested values is available for ",
                    fixed = TRUE)
     
     # as_list
