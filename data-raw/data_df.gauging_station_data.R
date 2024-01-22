@@ -2,7 +2,7 @@
 if (!(file.exists("data/df.gauging_station_data.rda"))) {
     
     # get credentials
-    gd_credentials <- credentials("DB_credentials_gauging_data")
+    gd_credentials <- credentials("~/hydflood/DB_credentials_gauging_data")
     
     # read the data
     # access the gauging_data DB
@@ -17,11 +17,17 @@ if (!(file.exists("data/df.gauging_station_data.rda"))) {
     df.gauging_station_data <- DBI::dbGetQuery(gd_con, 
         paste0("SELECT id, gauging_station, uuid, agency, km, water_shortname,",
                " longitude, latitude, mw, mw_timespan, pnp, data_present, km_q",
-               "ps FROM gauging_station_data ORDER BY water_shortname, km_qps"))
+               "ps FROM gauging_station_data ORDER BY water_shortname, km_qps,",
+               " id"))
     df.gauging_station_data$river <- df.gauging_station_data$water_shortname
     df.gauging_station_data$water_shortname <- NULL
     df.gauging_station_data$river[df.gauging_station_data$river == "RHEIN"] <- 
         "RHINE"
+    
+    # remove data upstream of Iffezheim
+    df.gauging_station_data <- 
+        df.gauging_station_data[which(df.gauging_station_data$river != "RHINE" |
+                                      df.gauging_station_data$km_qps >= 336.2),]
     
     # store df.gauging_station_data as external dataset
     usethis::use_data(df.gauging_station_data, overwrite = TRUE,

@@ -5,8 +5,8 @@
 # date:   24.07.2019
 #
 # purpose:
-#   - query pegelonline.wsv.de for the gauging_station_data along the Elbe 
-#     estuary
+#   - query pegelonline.wsv.de for the gauging_station_data along the Elbe, Ems
+#     and Stör estuary
 #
 ################################################################################
 # load required packages
@@ -39,17 +39,37 @@ stringReplace <- function(x) {
     return(x)
 }
 
-river <- "ELBE"
+river <- "STÖR_tidal"
 
 # specify the kilometers
+if (river == "ELBE") {
+    fr <- 0
+    to <- 585.990
+}
+
+if (river == "RHEIN") {
+    fr <- 336.2
+    to <- 868
+}
+
 if (river == "WESER") {
     fr <- 0
     to <- 363
 }
 
-if (river == "ELBE") {
+if (river == "ELBE_tidal") {
     fr <- 585.990
     to <- 724.000
+}
+
+if (river == "EMS_tidal") {
+    fr <- 0
+    to <- 215
+}
+
+if (river == "STÖR_tidal") {
+    fr <- 0
+    to <- 55
 }
 
 center <- (to + fr) / 2
@@ -57,20 +77,64 @@ radius <- (to - fr) / 2
 
 # construct the urls
 station_url <- paste0("http://www.pegelonline.wsv.de/webservices/rest-api/v2/s",
-                      "tations.json?waters=", river, "&km=",
-                      as.character(center), "&radius=", as.character(radius))
+                      "tations.json?waters=",
+                      substr(river, 1, unlist(gregexpr("_", river)) - 1),
+                      "&km=", as.character(center),
+                      "&radius=", as.character(radius))
 waters_url <- "http://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/"
 
 # query pegelonline.wsv.de
-get_stations <- GET(station_url)
-get_stations_text <- content(get_stations, "text")
-get_waters_text <- content(GET(waters_url), "text")
-get_waters_json <- fromJSON(get_waters_text, flatten = TRUE)
-df.waters <- as.data.frame(get_waters_json)
+get_stations <- request(station_url)
+get_stations <- req_perform(get_stations)
+df.stations <- resp_body_json(get_stations, simplifyVector = TRUE,
+                              flatten = TRUE)
 
-# load json data
-get_stations_json <- fromJSON(get_stations_text, flatten = TRUE)
-df.stations <- as.data.frame(get_stations_json)
+get_waters <- request(waters_url)
+get_waters <- req_perform(get_waters)
+df.waters <- resp_body_json(get_waters, simplifyVector = TRUE, flatten = TRUE)
+
+#####
+# manually add river specific data
+if (river == "ELBE") {
+    # add upstream end
+    df.stations <- rbind(data.frame(uuid = NA_character_,
+                                    number = NA_character_,
+                                    shortname = "GRENZE_CZ",
+                                    longname = "GRENZE_CZ",
+                                    km = 0, agency = NA_character_,
+                                    longitude = NA_real_, latitude = NA_real_,
+                                    water.shortname = river,
+                                    water.longname = river,
+                                    stringsAsFactors = FALSE),
+                         df.stations, stringsAsFactors = FALSE)
+    # add downstream end
+    df.stations <- rbind(df.stations, 
+                         data.frame(uuid = NA_character_,
+                                    number = NA_character_,
+                                    shortname = "GEESTHACHT_WEHR",
+                                    longname = "GEESTHACHT_WEHR",
+                                    km = 585.7, agency = NA_character_,
+                                    longitude = NA_real_, latitude = NA_real_,
+                                    water.shortname = river,
+                                    water.longname = river,
+                                    stringsAsFactors = FALSE),
+                         stringsAsFactors = FALSE)
+}
+
+if (river == "RHEIN") {
+    # add downstream end
+    df.stations <- rbind(df.stations, 
+                         data.frame(uuid = NA_character_,
+                                    number = NA_character_,
+                                    shortname = "GRENZE_NL",
+                                    longname = "GRENZE_NL",
+                                    km = 865.7, agency = NA_character_,
+                                    longitude = NA_real_, latitude = NA_real_,
+                                    water.shortname = river,
+                                    water.longname = river,
+                                    stringsAsFactors = FALSE),
+                         stringsAsFactors = FALSE)
+}
 
 if (river == "WESER") {
     # remove stations downstream of the Weserwehr (km 362.15)
@@ -81,35 +145,32 @@ if (river == "WESER") {
                                                 "WSA BREMERHAVEN"))), ]
     df.stations <- df.stations[order(df.stations$km), ]
     
-    print(paste0("A total of ", as.character(nrow(df.stations)), " gauging sta",
-                 "tions were found for the specified river section."))
-    
     # add confluence and Weserwehr to df.stations
     df.stations <- rbind(data.frame(uuid = NA_character_,
-                                    number = NA_character_, 
+                                    number = NA_character_,
                                     shortname = "GRENZE_HM",
                                     longname = "GRENZE_HM",
-                                    km = 0, agency = NA_character_, 
+                                    km = 0, agency = NA_character_,
                                     longitude = NA_real_, latitude = NA_real_,
-                                    water.shortname = river, 
+                                    water.shortname = river,
                                     water.longname = river,
                                     stringsAsFactors = FALSE),
                          df.stations, stringsAsFactors = FALSE)
-    df.stations <- rbind(df.stations, 
+    df.stations <- rbind(df.stations,
                          data.frame(uuid = NA_character_,
                                     number = NA_character_,
                                     shortname = "WESERWEHR",
                                     longname = "WESERWEHR",
-                                    km = 362.15, agency = NA_character_, 
+                                    km = 362.15, agency = NA_character_,
                                     longitude = NA_real_, latitude = NA_real_,
-                                    water.shortname = river, 
+                                    water.shortname = river,
                                     water.longname = river,
                                     stringsAsFactors = FALSE),
                          stringsAsFactors = FALSE)
 }
 
-if (river == "ELBE") {
-    # remove stations downstream of the Weserwehr (km 362.15)
+if (river == "ELBE_tidal") {
+    # select stations downstream of Geesthacht and upstream of Nordsee
     df.stations <- df.stations[which(df.stations$km < 725), ]
     df.stations <- df.stations[which(df.stations$km > 585.7), ]
     df.stations <- df.stations[order(df.stations$km), ]
@@ -126,49 +187,121 @@ if (river == "ELBE") {
     station_url <- paste0("http://www.pegelonline.wsv.de/webservices/rest-api/",
                           "v2/stations.json?ids=MITTELGRUND,SCHARH%C3%96RN,BAK",
                           "E%20Z")
-    get_stations <- GET(station_url)
-    get_stations_text <- content(get_stations, "text")
-    get_stations_json <- fromJSON(get_stations_text, flatten = TRUE)
-    df.stations_add <- as.data.frame(get_stations_json)
+    get_stations <- request(station_url)
+    get_stations <- req_perform(get_stations)
+    df.stations_add <- resp_body_json(get_stations, simplifyVector = TRUE,
+                                      flatten = TRUE)
     df.stations_add$water.shortname <- rep(river, nrow(df.stations_add))
     df.stations_add$water.longname <- rep(river, nrow(df.stations_add))
     
     # add Wehr Geesthacht and North Sea to df.stations
     df.stations <- rbind(data.frame(uuid = NA_character_,
-                                    number = NA_character_, 
+                                    number = NA_character_,
                                     shortname = "GEESTHACHT_WEHR",
                                     longname = "GEESTHACHT_WEHR",
-                                    km = 585.7, agency = NA_character_, 
+                                    km = 585.7,
+                                    agency = NA_character_,
                                     longitude = NA_real_, latitude = NA_real_,
-                                    water.shortname = river, 
+                                    water.shortname = river,
                                     water.longname = river,
                                     stringsAsFactors = FALSE),
                          df.stations, stringsAsFactors = FALSE)
     df.stations <- rbind(df.stations, df.stations_add, stringsAsFactors = FALSE)
-    df.stations <- rbind(df.stations, 
+    df.stations <- rbind(df.stations,
                          data.frame(uuid = NA_character_,
                                     number = NA_character_,
                                     shortname = "NORTH_SEA",
                                     longname = "NORTH_SEA",
-                                    km = 760, agency = NA_character_, 
+                                    km = 760, agency = NA_character_,
                                     longitude = NA_real_, latitude = NA_real_,
-                                    water.shortname = river, 
+                                    water.shortname = river,
                                     water.longname = river,
                                     stringsAsFactors = FALSE),
                          stringsAsFactors = FALSE)
-    
-    print(paste0("A total of ", as.character(nrow(df.stations)), " gauging sta",
-                 "tions were found for the specified river section."))
 }
 
+if (river == "EMS_tidal") {
+    # add Nordseepegel
+    station_url <- paste0("http://www.pegelonline.wsv.de/webservices/rest-api/",
+                          "v2/stations.json?ids=BORKUM%20FISCHERBALJE,LANGEOOG",
+                          ",NORDERNEY%20RIFFGAT,WANGEROOGE%20NORD,WANGEROOGE%2",
+                          "0OST,WANGEROOGE%20WEST,SPIEKEROOG,BORKUM%20SÜDSTRAN",
+                          "D")
+    get_stations <- request(station_url)
+    get_stations <- req_perform(get_stations)
+    df.stations_add <- resp_body_json(get_stations, simplifyVector = TRUE,
+                                      flatten = TRUE)
+    df.stations_add$water.shortname <- rep(river, nrow(df.stations_add))
+    df.stations_add$water.longname <- rep(river, nrow(df.stations_add))
+    
+    # add DEK
+    station_url <- paste0("http://www.pegelonline.wsv.de/webservices/rest-api/",
+                          "v2/stations.json?ids=HERBRUM%20HAFENDAMM,RHEDE")
+    get_stations <- request(station_url)
+    get_stations <- req_perform(get_stations)
+    df.stations_add2 <- resp_body_json(get_stations, simplifyVector = TRUE,
+                                       flatten = TRUE)
+    df.stations_add2$water.shortname <- rep(river, nrow(df.stations_add2))
+    df.stations_add2$water.longname <- rep(river, nrow(df.stations_add2))
+    
+    # add Wehr Herbrum and North Sea to df.stations
+    df.stations <- rbind(data.frame(uuid = NA_character_,
+                                    number = NA_character_,
+                                    shortname = "HERBRUM_WEHR",
+                                    longname = "HERBRUM_WEHR",
+                                    km = 0,
+                                    agency = NA_character_,
+                                    longitude = NA_real_, latitude = NA_real_,
+                                    water.shortname = river,
+                                    water.longname = river,
+                                    stringsAsFactors = FALSE),
+                         df.stations, stringsAsFactors = FALSE)
+    df.stations <- rbind(df.stations, df.stations_add, df.stations_add2,
+                         stringsAsFactors = FALSE)
+    df.stations <- rbind(df.stations,
+                         data.frame(uuid = NA_character_,
+                                    number = NA_character_,
+                                    shortname = "NORTH_SEA",
+                                    longname = "NORTH_SEA",
+                                    km = 300, agency = NA_character_,
+                                    longitude = NA_real_, latitude = NA_real_,
+                                    water.shortname = river,
+                                    water.longname = river,
+                                    stringsAsFactors = FALSE),
+                         stringsAsFactors = FALSE)
+}
+
+if (river == "STÖR_tidal") {
+    
+    # add Wehr Geesthacht and North Sea to df.stations
+    df.stations <- rbind(data.frame(uuid = NA_character_,
+                                    number = NA_character_,
+                                    shortname = "KELLINGHUSEN",
+                                    longname = "KELLINGHUSEN",
+                                    km = 0,
+                                    agency = NA_character_,
+                                    longitude = NA_real_, latitude = NA_real_,
+                                    water.shortname = stringReplace(river),
+                                    water.longname = stringReplace(river),
+                                    stringsAsFactors = FALSE),
+                         df.stations, stringsAsFactors = FALSE)
+}
+
+print(paste0("A total of ", as.character(nrow(df.stations)), " gauging sta",
+             "tions were found for the specified river section."))
+
+# query data
+river <- stringReplace(river)
 for (i in 1:nrow(df.stations)) {
     
     write(df.stations$longname[i], stdout())
     
     # check existence of a record
     gs <- dbGetQuery(con, paste0("SELECT * FROM gauging_station_data WHERE gau",
-                                 "ging_station = \'", 
-                                 stringReplace(df.stations$shortname[i]), "\'"))
+                                 "ging_station = \'",
+                                 stringReplace(df.stations$shortname[i]), "\' ",
+                                 "AND water_longname = \'",
+                                 df.stations$water.longname[i], "\'"))
     
     if (nrow(gs) == 0) {
         # INSERT
@@ -194,12 +327,15 @@ for (i in 1:nrow(df.stations)) {
             
             # get the characteristic W values
             # query pegelonline.wsv.de
-            get_station <- GET(paste0(waters_url, df.stations$uuid[i], "/W.jso",
-                                      "n?includeCharacteristicValues=true"))
-            get_station_text <- content(get_station, "text")
+            get_station <- request(paste0(waters_url, df.stations$uuid[i],
+                                          "/W.json?includeCharacteristicValues",
+                                          "=true"))
+            get_station <- req_perform(get_station)
+            get_station_json  <- resp_body_json(get_station,
+                                                simplifyVector = TRUE,
+                                                flatten = TRUE)
             
             # load json data
-            get_station_json <- fromJSON(get_station_text, flatten = TRUE)
             if (length(get_station_json$characteristicValues) == 0) {
                 get_station_json$characteristicValues <- NULL
                 charval <- FALSE
@@ -213,9 +349,12 @@ for (i in 1:nrow(df.stations)) {
             if (is.null(pnp)) {
                 if (df.stations$longname[i] == "STOLZENAU") {
                     pnp <- 23.52
-                }
-                if (df.stations$longname[i] == "HOYA") {
+                } else if (df.stations$longname[i] == "HOYA") {
                     pnp <- 11.169
+                } else if (df.stations$longname[i] == "HERBRUM HAFENDAMM") {
+                    pnp <- 0
+                } else {
+                    pnp <- "NULL"
                 }
             }
             
@@ -249,8 +388,8 @@ for (i in 1:nrow(df.stations)) {
                        stringReplace(toupper(df.stations$agency[i])), "\', \'",
                        df.stations$number[i], "\', ",
                        df.stations$km[i], ", \'",
-                       toupper(df.stations$water.shortname[i]), "\', \'",
-                       toupper(df.stations$water.longname[i]), "\', \'",
+                       river, "\', \'",
+                       river, "\', \'",
                        toupper(df.stations$shortname[i]), "\', \'",
                        toupper(df.stations$longname[i]), "\', ",
                        df.stations$longitude[i], ", ",
@@ -275,12 +414,10 @@ for (i in 1:nrow(df.stations)) {
                        "agency = NULL, ",
                        "number = NULL, ",
                        "km = ", df.stations$km[i], ", ",
-                       "water_shortname = \'WESER\', ",
-                       "water_longname = \'WESER\', ",
-                       "gauging_station_shortname = \'",
-                           toupper(df.stations$shortname[i]), "\', ",
-                       "gauging_station_longname = \'",
-                           toupper(df.stations$longname[i]), "\', ",
+                       "water_shortname = \'", river, "\', ",
+                       "water_longname = \'", river, "\', ",
+                       "gauging_station_shortname = \'", river, "\', ",
+                       "gauging_station_longname = \'", river, "\', ",
                        "longitude = NULL, ",
                        "latitude = NULL, ",
                        "mw = NULL, ",
@@ -295,12 +432,16 @@ for (i in 1:nrow(df.stations)) {
             
             # get the characteristic W values
             # query pegelonline.wsv.de
-            get_station <- GET(paste0(waters_url, df.stations$uuid[i], "/W.jso",
-                                      "n?includeCharacteristicValues=true"))
-            get_station_text <- content(get_station, "text")
-            
-            # load json data
-            get_station_json <- fromJSON(get_station_text, flatten = TRUE)
+            get_station <- request(paste0(waters_url, df.stations$uuid[i],
+                                          "/W.json?includeCharacteristicValues",
+                                          "=true"))
+            get_station <- req_perform(get_station)
+            get_station_json  <- resp_body_json(get_station,
+                                                simplifyVector = TRUE,
+                                                flatten = TRUE)
+            if (length(get_station_json$characteristicValues) == 0) {
+                get_station_json$characteristicValues <- NULL
+            }
             df.station <- as.data.frame(get_station_json)
             
             # PNP
@@ -308,9 +449,12 @@ for (i in 1:nrow(df.stations)) {
             if (is.null(pnp)) {
                 if (df.stations$longname[i] == "STOLZENAU") {
                     pnp <- 23.52
-                }
-                if (df.stations$longname[i] == "HOYA") {
+                } else if (df.stations$longname[i] == "HOYA") {
                     pnp <- 11.169
+                } else if (df.stations$longname[i] == "HERBRUM HAFENDAMM") {
+                    pnp <- 0
+                } else {
+                    pnp <- "NULL"
                 }
             }
             
@@ -335,8 +479,8 @@ for (i in 1:nrow(df.stations)) {
                        stringReplace(toupper(df.stations$agency[i])), "\', ",
                        "number = \'", df.stations$number[i], "\', ",
                        "km = ", df.stations$km[i], ", ",
-                       "water_shortname = \'WESER\', ",
-                       "water_longname = \'WESER\', ",
+                       "water_shortname = \'", river, "\', ",
+                       "water_longname = \'", river, "\', ",
                        "gauging_station_shortname = \'",
                            toupper(df.stations$shortname[i]), "\', ",
                        "gauging_station_longname = \'",
@@ -354,9 +498,6 @@ for (i in 1:nrow(df.stations)) {
     }
 }
 
-# dbWriteTable(con, "gauging_station_data", df.stations, append = TRUE,
-#              row.names = TRUE)
-
-dbDisconnect(con)
-
-q("no")
+# dbDisconnect(con)
+# 
+# q("no")
