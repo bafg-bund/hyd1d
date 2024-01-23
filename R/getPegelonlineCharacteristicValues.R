@@ -6,11 +6,11 @@
 #' @description Download characteristic water level data for a gauging station
 #'   from \url{https://pegelonline.wsv.de/gast/start}.
 #' 
-#' @eval param_gauging_station()
+#' @eval param_gauging_station_all()
 #' @param value must be type \code{character}. Commonly available values are
 #'   \code{c("PNP", "MThw", "MTnw", "HThw", "NTnw", "HHW", "NNW", "MNW", "MW",
 #'   "MHW")}.
-#' @eval param_uuid()
+#' @eval param_uuid_all()
 #' @param as_list `boolean` to switch between `list` or `data.frame` output
 #' @param abs_height `boolean` to switch between absolute and relative height
 #'   output
