@@ -158,30 +158,30 @@ getPegelonlineCharacteristicValues <- function(gauging_station, value, uuid,
     if ("PNP" %in% value) {
         shortnames <- c(shortnames, "PNP")
         if (as_list) {
-            res <- vector("list")
-            res[["shortname"]] <- "PNP"
-            res[["longname"]] <- "Pegelnullpunkt"
-            res <- append(res, gz)
-            res[["validFrom"]] <- format(
-                as.Date.character(res[["validFrom"]]), "%Y-%m-%d")
+            l <- vector("list")
+            l[["shortname"]] <- "PNP"
+            l[["longname"]] <- "Pegelnullpunkt"
+            l <- append(l, gz)
+            l[["validFrom"]] <- format(
+                as.Date.character(l[["validFrom"]]), "%Y-%m-%d")
         } else {
-            res <- data.frame("shortname" = "PNP",
-                              "longname" = "Pegelnullpunkt")
+            df_pnp <- data.frame("shortname" = "PNP",
+                                 "longname" = "Pegelnullpunkt")
             for (colname in names(gz)) {
                 if (grepl("unit", colname)) {
-                    res[1, colname] <- as.character(gz[[colname]])
+                    df_pnp[1, colname] <- as.character(gz[[colname]])
                     next
                 }
                 if (grepl("value", colname)) {
-                    res[1, colname] <- as.numeric(gz[[colname]])
+                    df_pnp[1, colname] <- as.numeric(gz[[colname]])
                     next
                 }
                 if (grepl("validFrom", colname)) {
-                    res[1, colname] <- format(
+                    df_pnp[1, colname] <- format(
                         as.Date.character(gz[[colname]]), "%Y-%m-%d")
                     next
                 }
-                res[1, colname] <- as.character(gz[[colname]])
+                df_pnp[1, colname] <- as.character(gz[[colname]])
             }
         }
     }
@@ -254,56 +254,59 @@ getPegelonlineCharacteristicValues <- function(gauging_station, value, uuid,
     }
     
     if (as_list) {
-        if (exists("res")) {
-            res <- append(list(res), cv)
-            names(res) <- shortnames
-            res <- res[value]
+        if (exists("l")) {
+            l <- append(list(l), cv)
+            names(l) <- shortnames
+            l <- l[value]
         } else {
-            res <- cv
-            names(res) <- shortnames
-            res <- res[value]
+            l <- cv
+            names(l) <- shortnames
+            l <- l[value]
         }
         
         if (abs_height) {
-            for (i in names(res)) {
+            for (i in names(l)) {
                 if (i == "PNP" | is.na(i)) {next}
-                res[[i]]$unit <- "m. a. NHN"
-                res[[i]]$value <- res[[i]]$value/100 + gz$value
+                l[[i]]$unit <- "m. a. NHN"
+                l[[i]]$value <- l[[i]]$value/100 + gz$value
             }
         }
         
-        res[is.na(names(res))] <- NULL
+        l[is.na(names(l))] <- NULL
+        
+        return(l)
         
     } else {
-        if (exists("res")) {
-            res[setdiff(names(df), names(res))] <- NA
-            df[setdiff(names(res), names(df))] <- NA
-            res <- rbind(res, df)
-            res <- res[which(res$shortname %in% value), ]
-            res[, colSums(is.na(res)) == nrow(res)] <- NULL
-            row.names(res) <- 1:nrow(res)
+        if (exists("df_pnp")) {
+            df_pnp[setdiff(names(df), names(df_pnp))] <- NA
+            df[setdiff(names(df_pnp), names(df))] <- NA
+            df <- rbind(df_pnp, df)
+            df <- df[which(df$shortname %in% value), ]
+            df[, colSums(is.na(df)) == nrow(df)] <- NULL
+            row.names(df) <- 1:nrow(df)
         } else {
-            res <- df[df$shortname %in% value, ]
-            res[, colSums(is.na(res)) == nrow(res)] <- NULL
-            row.names(res) <- 1:nrow(res)
+            df <- df[df$shortname %in% value, ]
+            df[, colSums(is.na(df)) == nrow(df)] <- NULL
+            row.names(df) <- 1:nrow(df)
         }
-        id_dates <- which("validFrom" == names(res) |
-                              startsWith(names(res), "timespan"))
+        id_dates <- which("validFrom" == names(df) |
+                              startsWith(names(df), "timespan"))
         for (i in id_dates) {
-            res[, i] <- as.Date.character(res[, i], format = "%Y-%m-%d")
+            df[, i] <- as.Date.character(df[, i], format = "%Y-%m-%d")
         }
-        res[res == ""] <- NA
-        res <- res[, !apply(is.na(res), 2, all)]
+        df[df == ""] <- NA
+        df <- df[, !apply(is.na(df), 2, all)]
         
         if (abs_height) {
-            id_remain <- which(res$shortname != "PNP")
+            id_remain <- which(df$shortname != "PNP")
             
-            res$unit <- rep("m. a. NHN", nrow(res))
-            res$value[id_remain] <- res$value[id_remain]/100 + 
+            df$unit <- rep("m. a. NHN", nrow(df))
+            df$value[id_remain] <- df$value[id_remain]/100 + 
                 rep(gz$value, length(id_remain))
         }
+        
+        return(df)
+        
     }
-    
-    return(res)
 }
 
