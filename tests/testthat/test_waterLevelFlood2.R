@@ -95,6 +95,6 @@ test_that("waterLevelFlood2: tidal", {
     wldf1 <- WaterLevelDataFrame(river       = "Stoer_tidal",
                                  time        = as.POSIXct(NA),
                                  station_int = as.integer(seq(0, 44800, 200)))
-    expect_nerror(wldf1 <- waterLevelFlood2(wldf1, value = "MThw"))
+    expect_no_error(wldf1 <- waterLevelFlood2(wldf1, value = "MThw"))
 })
 
