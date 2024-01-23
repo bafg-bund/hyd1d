@@ -39,7 +39,7 @@ stringReplace <- function(x) {
     return(x)
 }
 
-river <- "STÖR_tidal"
+river <- "EMS_tidal"
 
 # specify the kilometers
 if (river == "ELBE") {
@@ -263,12 +263,16 @@ if (river == "EMS_tidal") {
                                     number = NA_character_,
                                     shortname = "NORTH_SEA",
                                     longname = "NORTH_SEA",
-                                    km = 300, agency = NA_character_,
+                                    km = 158, agency = NA_character_,
                                     longitude = NA_real_, latitude = NA_real_,
                                     water.shortname = river,
                                     water.longname = river,
                                     stringsAsFactors = FALSE),
                          stringsAsFactors = FALSE)
+    df.stations <- df.stations[
+        which(! df.stations$shortname %in% c(
+            "FUESTRUP", "RHEINE UNTERSCHLEUSE", "LINGEN-DARME", "DALUM",
+            "BORKUM SÜDSTRAND", "WANGEROOGE NORD", "WANGEROOGE OST")), ]
 }
 
 if (river == "STÖR_tidal") {
