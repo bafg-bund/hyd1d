@@ -67,5 +67,17 @@ test_that("getPegelonlineCharacteristicValues", {
                                                     as_list = c(TRUE, TRUE)),
                  'length(as_list) == 1 is not TRUE', fixed = TRUE)
     
+    # verbose
+    expect_error(getPegelonlineCharacteristicValues(gauging_station = "SCHOENA",
+                                                    value = "MHW", 
+                                                    as_list = TRUE,
+                                                    verbose = ""),
+                 'inherits(verbose, "logical") is not TRUE', fixed = TRUE)
+    expect_error(getPegelonlineCharacteristicValues(gauging_station = "SCHOENA",
+                                                    value = "MHW",
+                                                    as_list = TRUE,
+                                                    verbose = c(TRUE, TRUE)),
+                 'length(verbose) == 1 is not TRUE', fixed = TRUE)
+    
 })
 

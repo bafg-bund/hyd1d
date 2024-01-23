@@ -14,6 +14,7 @@
 #' @param as_list `boolean` to switch between `list` or `data.frame` output
 #' @param abs_height `boolean` to switch between absolute and relative height
 #'   output
+#' @param verbose `boolean` to switch off warnings
 #' 
 #' @details This functions queries online data through the
 #'   \href{https://en.wikipedia.org/wiki/Representational_state_transfer}{REST}
@@ -35,7 +36,8 @@
 #' 
 getPegelonlineCharacteristicValues <- function(gauging_station, value, uuid,
                                                as_list = TRUE,
-                                               abs_height = TRUE) {
+                                               abs_height = TRUE,
+                                               verbose = TRUE) {
     
     warn <- FALSE
     
@@ -114,11 +116,13 @@ getPegelonlineCharacteristicValues <- function(gauging_station, value, uuid,
                         "eried values:\n  '", paste0(values, collapse = "', '"),
                         "'"))
         } else if (! all(value %in% values)) {
-            warning(paste0("Not all of your supplied values are among the comm",
-                           "only queried values:\n  '",
-                           paste0(values, collapse = "', '"),
-                           "'\n  The function will return data for the availab",
-                           "le values"))
+            if (verbose) {
+                warning(paste0("Not all of your supplied values are among the ",
+                               "commonly queried values:\n  '",
+                               paste0(values, collapse = "', '"),
+                               "'\n  The function will return data for the ava",
+                               "ilable values"))
+            }
             warn <- TRUE
         }
     }
@@ -132,6 +136,11 @@ getPegelonlineCharacteristicValues <- function(gauging_station, value, uuid,
     # as_list
     stopifnot(inherits(abs_height, "logical"))
     stopifnot(length(abs_height) == 1)
+    
+    ##
+    # verbose
+    stopifnot(inherits(verbose, "logical"))
+    stopifnot(length(verbose) == 1)
     
     ## 
     # query the data from pegelonline.wsv.de
@@ -231,16 +240,17 @@ getPegelonlineCharacteristicValues <- function(gauging_station, value, uuid,
     
     # assemble returned list
     if (! any(value %in% shortnames)) {
-        warning(paste0("None of the requested values is available for the que",
-                       "ried gauging station: ", gauging_station))
+        if (verbose) {
+            warning(paste0("None of the requested values is available for the ",
+                           "queried gauging station: ", gauging_station))
+        }
         return(NA)
     }
     if (! all(value %in% shortnames)) {
-        if (!warn) {
+        if (!warn & verbose) {
             warning(paste0("Not all requested values are available for the que",
                            "ried gauging station: ", gauging_station))
         }
-        
     }
     
     if (as_list) {

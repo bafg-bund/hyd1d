@@ -75,10 +75,6 @@
 #' 
 waterLevelFlood2 <- function(wldf, value = NULL, df = NULL) {
     
-    # make parent environment accessible through the local environment
-    e <- environment()
-    p_env <- parent.env(e)
-    
     #####
     # assemble internal variables and check the existence of required data
     ##
@@ -216,13 +212,9 @@ waterLevelFlood2 <- function(wldf, value = NULL, df = NULL) {
                 }
                 df.gs_up$w <- w
             } else {
-                w <- tryCatch(suppressWarnings({
-                    getPegelonlineCharacteristicValues(df.gs_up$gauging_station,
-                                                       value = value,
-                                                       as_list = TRUE,
-                                                       abs_height = FALSE)}),
-                    error = function(e){return(NA)},
-                    warning = function(w){return(NA)})
+                w <- getPegelonlineCharacteristicValues(
+                    df.gs_up$gauging_station, value = value,
+                    as_list = TRUE, abs_height = FALSE, verbose = FALSE)
                 if (is.na(w)) {
                     gs_up_missing <- df.gs_up$gauging_station
                 } else {
@@ -254,13 +246,9 @@ waterLevelFlood2 <- function(wldf, value = NULL, df = NULL) {
                 }
                 df.gs_up$w <- w
             } else {
-                w <- tryCatch(suppressWarnings({
-                    getPegelonlineCharacteristicValues(df.gs_up$gauging_station,
-                                                       value = value,
-                                                       as_list = TRUE,
-                                                       abs_height = FALSE)}),
-                    error = function(e){return(NA)},
-                    warning = function(w){return(NA)})
+                w <- getPegelonlineCharacteristicValues(
+                    df.gs_up$gauging_station, value = value, as_list = TRUE,
+                    abs_height = FALSE, verbose = FALSE)
                 if (is.na(w)) {
                     gs_up_missing <- df.gs_up$gauging_station
                 } else {
@@ -294,12 +282,8 @@ waterLevelFlood2 <- function(wldf, value = NULL, df = NULL) {
                     }
                     df.gs_inarea$w[i] <- w
                 } else {
-                    w <- tryCatch(suppressWarnings({
-                        getPegelonlineCharacteristicValues(
-                            a_gs, value = value, as_list = TRUE,
-                            abs_height = FALSE)}),
-                        error = function(e){return(NA)},
-                        warning = function(w){return(NA)})
+                    w <- getPegelonlineCharacteristicValues(a_gs, value = value,
+                        as_list = TRUE, abs_height = FALSE, verbose = FALSE)
                     if (is.na(w) & no_limit) {
                         gs_missing <- append(gs_missing, paste0('in: ', a_gs))
                     } else {
@@ -331,13 +315,9 @@ waterLevelFlood2 <- function(wldf, value = NULL, df = NULL) {
                 }
                 df.gs_do$w <- w
             } else {
-                w <- tryCatch(suppressWarnings({
-                    getPegelonlineCharacteristicValues(df.gs_do$gauging_station,
-                                                       value = value,
-                                                       as_list = TRUE,
-                                                       abs_height = FALSE)}),
-                    error = function(e){return(NA)},
-                    warning = function(w){return(NA)})
+                w <- getPegelonlineCharacteristicValues(
+                    df.gs_do$gauging_station, value = value, as_list = TRUE,
+                    abs_height = FALSE, verbose = FALSE)
                 if (is.na(w)) {
                     gs_do_missing <- df.gs_do$gauging_station
                 } else {
@@ -368,13 +348,9 @@ waterLevelFlood2 <- function(wldf, value = NULL, df = NULL) {
                 }
                 df.gs_do$w <- w
             } else {
-                w <- tryCatch(suppressWarnings({
-                    getPegelonlineCharacteristicValues(df.gs_do$gauging_station,
-                                                       value = value,
-                                                       as_list = TRUE,
-                                                       abs_height = FALSE)}),
-                    error = function(e){return(NA)},
-                    warning = function(w){return(NA)})
+                w <- getPegelonlineCharacteristicValues(
+                    df.gs_do$gauging_station, value = value, as_list = TRUE,
+                    abs_height = FALSE, verbose = FALSE)
                 if (is.na(w)) {
                     gs_do_missing <- df.gs_do$gauging_station
                 } else {
@@ -406,12 +382,9 @@ waterLevelFlood2 <- function(wldf, value = NULL, df = NULL) {
                     if (is.null(value)) {
                         w <- getGaugingDataW(gs, time)
                     } else {
-                        w <- tryCatch(suppressWarnings({
-                            getPegelonlineCharacteristicValues(
-                                df.gs_do$gauging_station, value = value,
-                                as_list = TRUE, abs_height = FALSE)}),
-                            error = function(e){return(NA)},
-                            warning = function(w){return(NA)})
+                        w <- getPegelonlineCharacteristicValues(
+                            df.gs_do$gauging_station, value = value,
+                            as_list = TRUE, abs_height = FALSE, verbose = FALSE)
                     }
                     if (! is.na(w)) {
                         break
@@ -434,12 +407,10 @@ waterLevelFlood2 <- function(wldf, value = NULL, df = NULL) {
                     if (is.null(value)) {
                         w <- getGaugingDataW(gs, time)
                     } else {
-                        w <- tryCatch(suppressWarnings({
-                            getPegelonlineCharacteristicValues(
+                        w <- getPegelonlineCharacteristicValues(
                                 df.gs_do$gauging_station, value = value,
-                                as_list = TRUE, abs_height = FALSE)}),
-                            error = function(e){return(NA)},
-                            warning = function(w){return(NA)})
+                                as_list = TRUE, abs_height = FALSE,
+                                verbose = FALSE)
                     }
                     if (! is.na(w)) {
                         break
