@@ -27,7 +27,7 @@ test_that("waterLevelPegelonline: Schöna", {
     wldf <- WaterLevelDataFrame(river = "Elbe", time = Sys.time() - 3600,
                                 station_int = 
                                     as.integer(seq(0, 20000, by = 100)))
-    wldf1 <- waterLevelPegelonline(wldf, shiny = TRUE)
+    expect_no_error(wldf1 <- waterLevelPegelonline(wldf, shiny = TRUE))
 })
 
 test_that("waterLevelPegelonline: Geesthacht", {
@@ -35,6 +35,6 @@ test_that("waterLevelPegelonline: Geesthacht", {
     
     wldf <- WaterLevelDataFrame(river = "Elbe", time = Sys.time() - 3600,
                                 station = seq(580, 585.7, by = 0.1))
-    wldf1 <- waterLevelPegelonline(wldf, shiny = TRUE)
+    expect_no_error(wldf1 <- waterLevelPegelonline(wldf, shiny = TRUE))
 })
 

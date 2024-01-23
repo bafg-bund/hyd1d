@@ -1,3 +1,7 @@
+# hyd1d
+
+* internal cleanup of waterLevel(), waterLevelFlood1(), waterLevelPegelonline()
+
 # hyd1d 0.5.1
 
 * adapt BfG's new corporate design
