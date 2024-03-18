@@ -39,7 +39,7 @@ stringReplace <- function(x) {
     return(x)
 }
 
-river <- "EMS_tidal"
+river <- "Weser_tidal"
 
 # specify the kilometers
 if (river == "ELBE") {
@@ -52,7 +52,7 @@ if (river == "RHEIN") {
     to <- 868
 }
 
-if (river == "WESER") {
+if (river == "WESER" | river == "Weser_tidal") {
     fr <- 0
     to <- 363
 }
@@ -70,6 +70,11 @@ if (river == "EMS_tidal") {
 if (river == "STÖR_tidal") {
     fr <- 0
     to <- 55
+}
+
+if (river == "Jade_tidal") {
+    fr <- 0
+    to <- 50
 }
 
 center <- (to + fr) / 2
@@ -276,8 +281,7 @@ if (river == "EMS_tidal") {
 }
 
 if (river == "STÖR_tidal") {
-    
-    # add Wehr Geesthacht and North Sea to df.stations
+    # add Kellinghusen to df.stations
     df.stations <- rbind(data.frame(uuid = NA_character_,
                                     number = NA_character_,
                                     shortname = "KELLINGHUSEN",
@@ -289,6 +293,67 @@ if (river == "STÖR_tidal") {
                                     water.longname = stringReplace(river),
                                     stringsAsFactors = FALSE),
                          df.stations, stringsAsFactors = FALSE)
+}
+
+if (river == "Jade_tidal") {
+    # add Varel and North Sea to df.stations
+    df.stations <- rbind(data.frame(uuid = NA_character_,
+                                    number = NA_character_,
+                                    shortname = "VAREL",
+                                    longname = "VAREL",
+                                    km = 0,
+                                    agency = NA_character_,
+                                    longitude = NA_real_, latitude = NA_real_,
+                                    water.shortname = stringReplace(river),
+                                    water.longname = stringReplace(river),
+                                    stringsAsFactors = FALSE),
+                         df.stations, stringsAsFactors = FALSE)
+    df.stations <- rbind(df.stations,
+                         data.frame(uuid = NA_character_,
+                                    number = NA_character_,
+                                    shortname = "NORTH_SEA",
+                                    longname = "NORTH_SEA",
+                                    km = 50, agency = NA_character_,
+                                    longitude = NA_real_, latitude = NA_real_,
+                                    water.shortname = river,
+                                    water.longname = river,
+                                    stringsAsFactors = FALSE),
+                     stringsAsFactors = FALSE)
+}
+
+if (river == "Weser_tidal") {
+    # remove stations upstream of the Weserwehr (km 362.15)
+    df.stations <- df.stations[
+        which(df.stations$agency %in% c("BREMEN", "BREMERHAVEN")), ]
+    df.stations <- df.stations[
+        which(!df.stations$shortname %in% c("DREYE", "WESERWEHR OW")), ]
+    df.stations <- df.stations[!is.na(df.stations$longitude), ]
+    df.stations$km[which(df.stations$shortname == "WESERWEHR UW")] <- 
+        df.stations$km[which(df.stations$shortname == "WESERWEHR UW")] - 366.720 #-3.81
+    df.stations <- df.stations[order(df.stations$km), ]
+    
+    # add confluence and Weserwehr to df.stations
+    df.stations <- rbind(data.frame(uuid = NA_character_,
+                                    number = NA_character_,
+                                    shortname = "WESERWEHR",
+                                    longname = "WESERWEHR",
+                                    km = -3.93 - 0.64, agency = NA_character_,
+                                    longitude = NA_real_, latitude = NA_real_,
+                                    water.shortname = river,
+                                    water.longname = river,
+                                    stringsAsFactors = FALSE),
+                         df.stations, stringsAsFactors = FALSE)
+    df.stations <- rbind(df.stations,
+                         data.frame(uuid = NA_character_,
+                                    number = NA_character_,
+                                    shortname = "NORTH_SEA",
+                                    longname = "NORTH_SEA",
+                                    km = 120, agency = NA_character_,
+                                    longitude = NA_real_, latitude = NA_real_,
+                                    water.shortname = river,
+                                    water.longname = river,
+                                    stringsAsFactors = FALSE),
+                         stringsAsFactors = FALSE)
 }
 
 print(paste0("A total of ", as.character(nrow(df.stations)), " gauging sta",

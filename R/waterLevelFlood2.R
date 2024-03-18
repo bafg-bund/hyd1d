@@ -634,6 +634,13 @@ waterLevelFlood2 <- function(wldf, value = NULL, df = NULL) {
     for (a_column in c_columns) {
         df.gs[ , a_column] <- as.character(df.gs[ , a_column])
     }
+    n_columns <- c("km", "km_qps", "w", "longitude", "latitude", "mw", "pnp",
+                   "wl", "w_wl_below_w_do", "w_wl_above_w_do",
+                   "w_wl_below_w_up", "w_wl_above_w_up", "weight_up",
+                   "weight_do")
+    for (a_column in n_columns) {
+        df.gs[ , a_column] <- as.numeric(df.gs[ , a_column])
+    }
     
     wldf <- methods::new("WaterLevelDataFrame",
                          wldf_data,
