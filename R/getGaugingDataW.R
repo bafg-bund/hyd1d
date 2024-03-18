@@ -1,10 +1,9 @@
-param_gauging_station <- function() {
+param_gauging_station_inland <- function() {
     
-    if (file.exists("DB_credentials_gauging_data") &
-        requireNamespace("RPostgreSQL") & requireNamespace("DBI")) {
+    if (requireNamespace("RPostgreSQL") & requireNamespace("DBI")) {
         
         # credentials
-        credentials <- credentials("DB_credentials_gauging_data")
+        credentials <- credentials("~/DB_credentials_gauging_data")
         
         # access the gauging_data DB
         con <- DBI::dbConnect(drv      = DBI::dbDriver("PostgreSQL"),
@@ -37,20 +36,20 @@ param_gauging_station <- function() {
         rm(con)
         
     } else {
-        gauging_stations <- c('SCH<c3><96>NA', 'PIRNA', 'DRESDEN', 'MEISSEN',
-            'RIESA', 'M<c3><9c>HLBERG', 'TORGAU', 'PRETZSCH-MAUKEN', 'ELSTER',
+        gauging_stations <- c('SCHOENA', 'PIRNA', 'DRESDEN', 'MEISSEN',
+            'RIESA', 'MUEHLBERG', 'TORGAU', 'PRETZSCH-MAUKEN', 'ELSTER',
             'WITTENBERG', 'COSWIG', 'VOCKERODE', 'ROSSLAU', 'DESSAU', 'AKEN',
-            'BARBY', 'SCH<c3><96>NEBECK', 'MAGDEBURG-BUCKAU',
-            'MAGDEBURG-STROMBR<c3><9c>CKE', 'MAGDEBURG-ROTHENSEE',
-            'NIEGRIPP AP', 'ROG<c3><84>TZ', 'TANGERM<c3><9c>NDE', 'STORKAU',
-            'SANDAU', 'SCHARLEUK', 'WITTENBERGE', 'M<c3><9c>GGENDORF',
-            'SCHNACKENBURG', 'LENZEN', 'GORLEBEN', 'D<c3><96>MITZ', 'DAMNATZ',
+            'BARBY', 'SCHOENEBECK', 'MAGDEBURG-BUCKAU',
+            'MAGDEBURG-STROMBRUECKE', 'MAGDEBURG-ROTHENSEE',
+            'NIEGRIPP AP', 'ROGAETZ', 'TANGERMUENDE', 'STORKAU',
+            'SANDAU', 'SCHARLEUK', 'WITTENBERGE', 'MUEGGENDORF',
+            'SCHNACKENBURG', 'LENZEN', 'GORLEBEN', 'DOEMITZ', 'DAMNATZ',
             'HITZACKER', 'NEU DARCHAU', 'BLECKEDE', 'BOIZENBURG', 'HOHNSTORF',
             'ARTLENBURG', 'GEESTHACHT', 'IFFEZHEIM', 'PLITTERSDORF', 'MAXAU',
             'PHILIPPSBURG', 'SPEYER', 'MANNHEIM', 'WORMS',
             'NIERSTEIN-OPPENHEIM', 'MAINZ', 'OESTRICH', 'BINGEN', 'KAUB',
             'SANKT GOAR', 'BOPPARD', 'BRAUBACH', 'KOBLENZ', 'ANDERNACH',
-            'OBERWINTER', 'BONN', 'K<c3><96>LN', 'D<c3><9c>SSELDORF', 'RUHRORT',
+            'OBERWINTER', 'BONN', 'KOELN', 'DUESSELDORF', 'RUHRORT',
             'WESEL', 'REES', 'EMMERICH')
     }
     
@@ -59,13 +58,12 @@ param_gauging_station <- function() {
                   paste0(gauging_stations, collapse = "', '"), "'."))
 }
 
-param_uuid <- function() {
+param_uuid_inland <- function() {
     
-    if (file.exists("DB_credentials_gauging_data") &
-        requireNamespace("RPostgreSQL") & requireNamespace("DBI")) {
+    if (requireNamespace("RPostgreSQL") & requireNamespace("DBI")) {
         
         # credentials
-        credentials <- credentials("DB_credentials_gauging_data")
+        credentials <- credentials("~/DB_credentials_gauging_data")
         
         # access the gauging_data DB
         con <- DBI::dbConnect(drv      = DBI::dbDriver("PostgreSQL"),
@@ -178,11 +176,11 @@ param_uuid <- function() {
 #' @description Extract the daily mean water level data from 
 #'   \code{\link{df.gauging_data}} for specific gauging station and date.
 #' 
-#' @eval param_gauging_station()
+#' @eval param_gauging_station_inland()
 #' @param time must be type \code{\link[base:POSIXct]{c("POSIXct", "POSIXlt")}}
 #'   or \code{\link[base:Date]{Date}} and in the temporal range between
 #'   1960-01-01 and now (\code{Sys.time()} or \code{Sys.Date()}).
-#' @eval param_uuid()
+#' @eval param_uuid_inland()
 #' 
 #' @details This functions queries package-internal gauging data 
 #'   (\code{\link{df.gauging_data}}).
@@ -205,7 +203,8 @@ getGaugingDataW <- function(gauging_station, time, uuid) {
     ##
     #  get the names of all available gauging_stations
     get("df.gauging_station_data", pos = -1)
-    id <- which(df.gauging_station_data$data_present)
+    id <- which(df.gauging_station_data$data_present & 
+                    df.gauging_station_data$river %in% c("ELBE", "RHINE"))
     gs <- df.gauging_station_data$gauging_station[id]
     uuids <- df.gauging_station_data$uuid[id]
     
