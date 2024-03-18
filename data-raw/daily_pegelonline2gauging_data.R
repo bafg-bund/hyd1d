@@ -12,15 +12,15 @@
 write("gauging_data are queried from pegelonline.wsv.de", stderr())
 
 # load required packages
-require("DBI")
-require("RPostgreSQL")
-require("RCurl")
+library("DBI")
+library("RPostgreSQL")
+library("RCurl")
 
 # source hyd1d-internal to obtain the credentials function
 source("R/hyd1d-internal.R")
 
 ### open the connection using user, password, etc., as
-credentials <- credentials("DB_credentials_gauging_data")
+credentials <- credentials("~/DB_credentials_gauging_data")
 con <- dbConnect("PostgreSQL",
                  host = credentials["host"],
                  dbname = credentials["dbname"],

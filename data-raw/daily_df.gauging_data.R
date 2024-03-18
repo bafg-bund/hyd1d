@@ -41,16 +41,16 @@ if (file.exists(from)) {
 # }
 
 # load required packages
-require(devtools)
-require(DBI)
-require(RPostgreSQL)
+library(devtools)
+library(DBI)
+library(RPostgreSQL)
 
 # source hyd1d-internal to obtain the credentials function
 source("R/hyd1d-internal.R")
 
 # read the data
 # get DB credentials
-credentials <- credentials("DB_credentials_gauging_data")
+credentials <- credentials("~/DB_credentials_gauging_data")
 
 # access the gauging_data DB
 con <- DBI::dbConnect(drv      = DBI::dbDriver("PostgreSQL"),
