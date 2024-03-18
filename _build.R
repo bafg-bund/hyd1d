@@ -370,7 +370,7 @@ write(" web", stdout())
 
 host <- Sys.info()["nodename"]
 user <- Sys.info()["user"]
-if (host == "pvil-r" & user == "WeberA" & R_version == "4.3.2") {
+if (host == "pvil-r" & user == "WeberA" & R_version == "4.3.3") {
     # copy html output to ~/public_html
     system(paste0("cp -rp ", public, "* /home/", user, "/public_html/hyd1d/"))
     system("permissions_html")
