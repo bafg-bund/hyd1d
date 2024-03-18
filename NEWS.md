@@ -1,5 +1,6 @@
 # hyd1d
 
+* Import validated gauging data for 2023.
 * internal cleanup of waterLevel(), waterLevelFlood1(), waterLevelPegelonline()
 
 # hyd1d 0.5.1

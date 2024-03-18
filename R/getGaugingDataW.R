@@ -3,7 +3,7 @@ param_gauging_station_inland <- function() {
     if (requireNamespace("RPostgreSQL") & requireNamespace("DBI")) {
         
         # credentials
-        credentials <- credentials("DB_credentials_gauging_data")
+        credentials <- credentials("~/DB_credentials_gauging_data")
         
         # access the gauging_data DB
         con <- DBI::dbConnect(drv      = DBI::dbDriver("PostgreSQL"),
@@ -63,7 +63,7 @@ param_uuid_inland <- function() {
     if (requireNamespace("RPostgreSQL") & requireNamespace("DBI")) {
         
         # credentials
-        credentials <- credentials("DB_credentials_gauging_data")
+        credentials <- credentials("~/DB_credentials_gauging_data")
         
         # access the gauging_data DB
         con <- DBI::dbConnect(drv      = DBI::dbDriver("PostgreSQL"),
