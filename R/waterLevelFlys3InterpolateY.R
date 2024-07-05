@@ -5,7 +5,7 @@
 #' 
 #' @description Function to compute 1d water level information based on the
 #'   original
-#'   \href{https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3}
+#'   \href{https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html}{FLYS3}
 #'   algorythms and store it as column \code{w} of an S4 object of type
 #'   \linkS4class{WaterLevelDataFrame}.
 #' 

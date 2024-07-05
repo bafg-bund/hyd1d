@@ -1,6 +1,7 @@
 # hyd1d
 
 * Import validated gauging data for 2023.
+* move file downloads from `utils::download.file` to `httr2`
 * internal cleanup of waterLevel(), waterLevelFlood1(), waterLevelPegelonline()
 
 # hyd1d 0.5.1
