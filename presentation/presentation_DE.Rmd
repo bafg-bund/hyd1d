@@ -128,13 +128,13 @@ lm_pegelonline <- lm(wl ~ km_qps, data = gs[id, ])
 
 ## Einleitung {#flys-intro data-background="background.png" data-background-size="auto 800px"}
 
-> - [FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+> - [FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 ist kein hydraulisches Modell, sondern eine Plattform zur Ausgabe und
 Interpolation von Modellergebnissen
-> - [FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+> - [FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 stellt 30 stationäre Wasserspiegellagen für gleichwertige 
 Abflusslängsschnitte von 0.5MNQ bis HQ500 aus 1d-SOBEK-Berechnungen bereit
-> - <https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html>
+> - <https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html>
 > - Quellcode verfügbar auf <http://www.dive4elements.org>
 
 ## Verfügbare Wasserspiegellagen {#flys-wsl1 data-background="background.png" data-background-size="auto 800px"}
@@ -479,14 +479,14 @@ wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
 
 ## Zusammenfassung {#flys-summary data-background="background.png" data-background-size="auto 800px"}
 
-> - [FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+> - [FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 interpoliert stationäre Wasserspiegellagen abschnittsweise mit jeweils einem
 Bezugspegel
 > - Die Auswahl des Bezugspegels und dessen relativer Abfluss kann starken
 Einfluss auf die resultierende Wasserspiegellage haben
 > - Ungleichwertige Abflüsse großer Nebengewässer können Differenzen von
 mehreren Dezimetern zwischen mit 
-[FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 abschnittsweise berechneten Wasserspiegellagen verursachen
 > - Sprünge, bzw. Diskontinuitäten an Abschnittsgrenzen sind daher unvermeidbar
 
@@ -498,9 +498,9 @@ abschnittsweise berechneten Wasserspiegellagen verursachen
 [CRAN](https://cran.r-project.org) unter der
 [GPL2](https://www.gnu.org/licenses/gpl-2.0) veröffentlicht
 > - **hyd1d** integriert Paket-eigene Pegeldaten aus der
-[HyDaBa](http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html),
+[WISKI7](https://www.bafg.de/DE/3_Beraet/2_Exp_quantitaet/Hydrologie_M1/hydrologie_node.html#vt-sprg-3)-Datenbank,
 aktuelle Pegeldaten von [PEGELONLINE](https://pegelonline.wsv.de), und
-Wasserspiegellagen von [FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+Wasserspiegellagen von [FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 > - Pegel- und Wasserspiegeldaten werden so miteinander interpoliert, dass
 resultierenden Wasserspiegellagen auch über lange Strecken keine
 Diskontinuitäten aufweisen
@@ -513,10 +513,10 @@ Berechnungsstrecke
 3. Aufteilung der Berechnungsstrecke in Abschnitte, die von jeweils zwei Pegeln
 eingerahmt werden
 4. Abschnittsweise Bestimmung, welche
-[FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Wasserspiegellagen
 die Wasserspiegellagen an den beiden Pegeln einrahmen
 5. Abschnittsweise, entfernungsabhängige Interpolation zwischen den einrahmenden
-[FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Wasserspiegellagen
 
 ## 1. Streckenrelevante Pegel {#hyd1d-method-1 data-background="background.png" data-background-size="auto 800px"}
 
@@ -925,7 +925,7 @@ die Wasserspiegellagen an den beiden Pegeln einrahmen
 ## Zusammenfassung {#hyd1d-summary data-background="background.png" data-background-size="auto 800px"}
 
 > - **hyd1d** interpoliert stationäre Wasserspiegellagen von
-[FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 abschnittsweise mit Hilfe der umliegenden Pegel
 > - Die Interpolation wird mit **allen** für den Zeitpunkt und den
 Gewässerabschnitt verfügbaren Pegeldaten durchgeführt
@@ -1007,7 +1007,7 @@ Querprofilflächen in die Aue extrapoliert und mit digitalen Geländemodellen
 ## Datengrundlagen {#hydflood-data data-background="background.png" data-background-size="auto 800px"}
 
 > - Querprofilspuren aus den SOBEK-Modellen für
-[FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html),
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html),
 umgerechnet zu Querprofilflächen (`qpf`)
 > - Wasserspiegellagen von **hyd1d**
 > - Digitale Geländemodelle (`dgm`)
@@ -1152,13 +1152,13 @@ ufd <- flood3(x = x, seq = seq)
 > - OpenSource-Package auf [CRAN](https://cran.r-project.org/package=hyd1d)
 > - Dokumentationswebseite
 > - beinhaltet eine Veröffentlichung von
-[FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen
-und [HyDaBa](http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html)-Pegeldaten
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Wasserspiegellagen
+und [WISKI7](https://www.bafg.de/DE/3_Beraet/2_Exp_quantitaet/Hydrologie_M1/hydrologie_node.html#vt-sprg-3)-Pegeldaten
 > - vorberechnete 1d-Wasserspiegellagen für Rhein und Elbe vom 01.01.1990 bis gestern
 > - Shiny-Services [waterLevel()](https://shiny.bafg.de/waterlevel/)
 und [waterLevelPegelonline()](https://shiny.bafg.de/waterlevelpegelonline/)
 > - Einbettung der Shiny-Services in
-[FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html) 3.3
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html) 3.3
 
 ## hydflood {#hydflood-publication data-background="background.png" data-background-size="auto 800px"}
 
@@ -1172,9 +1172,9 @@ und der Querprofilflächen
 > - WMS-Dienste der jährlichen und aggregierten Überflutungsdauerraster
 > - Shiny-Services [flood3daily](https://shiny.bafg.de/flood3daily/)
 und [flood3wms](https://shiny.bafg.de/flood3wms/)
-> - Einbettung der WMS-Dienste in [FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+> - Einbettung der WMS-Dienste in [FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 3.3
-> - Einbettung der Shiny-Services in [FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+> - Einbettung der Shiny-Services in [FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 3.3
 
 ## {#publication-ems data-background-iframe="https://www.journals.elsevier.com/environmental-modelling-and-software"}
