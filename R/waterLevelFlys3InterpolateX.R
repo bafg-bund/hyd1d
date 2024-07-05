@@ -4,7 +4,7 @@
 #' @title Interpolate FLYS3 water levels for given stations
 #' 
 #' @description Function to interpolate
-#'   \href{https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3}
+#'   \href{https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html}{FLYS3}
 #'   water levels for selected stations and return it with the structure of
 #'   \code{\link{df.flys}}.
 #' 

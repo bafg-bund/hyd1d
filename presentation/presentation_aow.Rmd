@@ -120,10 +120,10 @@ lm_pegelonline <- lm(wl ~ km_qps, data = gs[id, ])
 
 ## Einleitung {#flys-intro data-background="background.png" data-background-size="auto 800px"}
 
-> - [FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+> - [FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 ist kein hydraulisches Modell, sondern eine Plattform zur Ausgabe und
 Interpolation von Modellergebnissen
-> - [FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+> - [FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 stellt 30 stationäre Wasserspiegellagen für gleichwertige 
 Abflusslängsschnitte von 0.5MNQ bis HQ500 aus 1d-SOBEK-Berechnungen bereit
 
@@ -345,9 +345,9 @@ wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
 [CRAN](https://cran.r-project.org) unter der
 [GPL2](https://www.gnu.org/licenses/gpl-2.0) veröffentlicht
 > - **hyd1d** integriert Paket-eigene Pegeldaten aus der
-[HyDaBa](http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html),
+[WISKI7](https://www.bafg.de/DE/3_Beraet/2_Exp_quantitaet/Hydrologie_M1/hydrologie_node.html#vt-sprg-3)-Datenbank,
 aktuelle Pegeldaten von [PEGELONLINE](https://pegelonline.wsv.de), und
-Wasserspiegellagen von [FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+Wasserspiegellagen von [FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 > - Pegel- und Wasserspiegeldaten werden so miteinander interpoliert, dass
 resultierenden Wasserspiegellagen auch über lange Strecken keine
 Diskontinuitäten aufweisen
@@ -681,7 +681,7 @@ Diskontinuitäten aufweisen
 ## Zusammenfassung {#hyd1d-summary data-background="background.png" data-background-size="auto 800px"}
 
 > - **hyd1d** interpoliert stationäre Wasserspiegellagen von
-[FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 abschnittsweise mit Hilfe der umliegenden Pegel
 > - Die Interpolation wird mit **allen** für den Zeitpunkt und den
 Gewässerabschnitt verfügbaren Pegeldaten durchgeführt
@@ -705,7 +705,7 @@ Querprofilflächen in die Aue extrapoliert und mit digitalen Geländemodellen
 ## Datengrundlagen {#hydflood-data data-background="background.png" data-background-size="auto 800px"}
 
 > - Querprofilspuren aus den SOBEK-Modellen für
-[FLYS3](https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html),
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html),
 umgerechnet zu Querprofilflächen (`qpf`)
 > - Wasserspiegellagen von **hyd1d**
 > - Digitale Geländemodelle (`dgm`)
