@@ -88,6 +88,8 @@ navbar:
         href: https://shiny.bafg.de/waterlevel/
       - text: "waterLevelPegelonline"
         href: https://shiny.bafg.de/waterlevelpegelonline/
+    - text: Changelog
+      href: news/index.html
   right:
     - text: BfG
       href: https://www.bafg.de

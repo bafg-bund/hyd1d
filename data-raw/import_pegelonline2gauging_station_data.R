@@ -10,9 +10,9 @@
 #
 ################################################################################
 # load required packages
-require(httr)
-require(jsonlite)
-require(RPostgreSQL)
+library(httr2)
+library(jsonlite)
+library(RPostgreSQL)
 
 # source hyd1d-internal to obtain the credentials function
 source("R/hyd1d-internal.R")

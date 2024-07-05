@@ -9,27 +9,27 @@
 #
 ##################################################
 # load required packages
-require("DBI")
-require("RPostgreSQL")
+library("DBI")
+library("RPostgreSQL")
 source("R/hyd1d-internal.R")
 
 # open the connection using user, password, etc., as
-credentials <- credentials("DB_credentials_gauging_data")
+credentials <- credentials("~/DB_credentials_gauging_data")
 
 # access the gauging_data DB
 con <- DBI::dbConnect(drv      = DBI::dbDriver("PostgreSQL"),
-                      host     = credentials["host"], 
-                      dbname   = credentials["dbname"], 
-                      user     = credentials["user"], 
-                      password = credentials["password"], 
+                      host     = credentials["host"],
+                      dbname   = credentials["dbname"],
+                      user     = credentials["user"],
+                      password = credentials["password"],
                       port     = credentials["port"])
 
 # read *.zrx-files into a vector
 files_e <- list.files(path = paste0("/home/WeberA/freigaben/U/U3/Auengruppe_IN",
-                                    "FORM/EL_000_586_UFD/data/w/prep/2022_2"),
+                                    "FORM/EL_000_586_UFD/data/w/prep/2023"),
                       pattern = "*.zrx", full.names = TRUE, recursive = TRUE)
 files_r <- list.files(path = paste0("/home/WeberA/freigaben/U/U3/Auengruppe_IN",
-                                    "FORM/RH_336_867_UFD/data/w/prep/2022_2"),
+                                    "FORM/RH_336_867_UFD/data/w/prep/2023"),
                       pattern = "*.zrx", full.names = TRUE, recursive = TRUE)
 files <- c(files_e, files_r)
 
