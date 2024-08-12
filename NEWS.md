@@ -1,3 +1,7 @@
+# hyd1d
+
+* improve website accessibility
+
 # hyd1d 0.5.2
 
 * move file downloads from `utils::download.file` to `httr2`
