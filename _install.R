@@ -15,7 +15,8 @@ update.packages(lib.loc = .libPaths()[1], ask = FALSE, checkBuilt = TRUE)
 
 # install dependencies
 # ROracle (>= 1.1-1) needs an Oracle (Instant)Client
-packages <- c("jsonlite", "Rdpack", "DBI", "ROracle", "RPostgreSQL", "testthat",
+# "ROracle"
+packages <- c("jsonlite", "Rdpack", "DBI", "RPostgreSQL", "testthat",
               "knitr", "rmarkdown", "stringr", "devtools", "httr2", "curl",
               "pkgdown", "roxygen2", "revealjs", "shiny", "shiny.i18n",
               "shinyTime", "lubridate", "usethis", "bslib", "xml2")
