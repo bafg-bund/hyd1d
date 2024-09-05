@@ -4,7 +4,7 @@ cd /srv/cifs-mounts/WeberA_home/WeberA/hyd1d
 # load latest R
 source /etc/profile.d/modules.sh
 module purge
-module load i4/R/latest
+module load R/latest
 module list
 
 # compare local repository with remote 'origin'
@@ -53,7 +53,7 @@ fi
 Rscript data-raw/daily_pegelonline2gauging_data.R
 Rscript data-raw/daily_df.gauging_data.R
 #Rscript data-raw/daily_waterLevels.R
-chown -R WeberA:users /srv/cifs-mounts/WeberA_home/WeberA/hyd1d
+chown -R WeberA:Domänen-Benutzer /srv/cifs-mounts/WeberA_home/WeberA/hyd1d
 
 # sync hyd1d website
 #export OPTS="-v --recursive --delete --times --no-implied-dirs --iconv=utf8"
