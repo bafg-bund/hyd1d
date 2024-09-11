@@ -1,5 +1,6 @@
 # hyd1d
 
+* programmatically check urls
 * improve website accessibility
 
 # hyd1d 0.5.2

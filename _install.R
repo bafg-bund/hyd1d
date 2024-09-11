@@ -19,7 +19,8 @@ update.packages(lib.loc = .libPaths()[1], ask = FALSE, checkBuilt = TRUE)
 packages <- c("jsonlite", "Rdpack", "DBI", "RPostgreSQL", "testthat",
               "knitr", "rmarkdown", "stringr", "devtools", "httr2", "curl",
               "pkgdown", "roxygen2", "revealjs", "shiny", "shiny.i18n",
-              "shinyTime", "lubridate", "usethis", "bslib", "xml2")
+              "shinyTime", "lubridate", "usethis", "bslib", "xml2",
+              "urlchecker")
 
 for (a_package in packages) {
     if (! (a_package %in% installed.packages()[, "Package"])) {

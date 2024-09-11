@@ -36,6 +36,7 @@ library(rmarkdown)
 library(pkgdown)
 library(revealjs)
 library(xml2)
+library(urlchecker)
 
 #####
 # assemble variables and create output directories
@@ -85,6 +86,13 @@ devtools::load_all(".")
 write("#####", stdout())
 write(" document", stdout())
 devtools::document(".")
+
+#####
+# check and update urls
+write("#####", stdout())
+write(" url checks", stdout())
+urlchecker::url_check(".")
+urlchecker::url_update(".")
 
 #####
 # build vignettes
