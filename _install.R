@@ -32,5 +32,8 @@ for (a_package in packages) {
 library(devtools)
 devtools::install(".", quick = TRUE, dependencies = TRUE)
 
+# install bfgdown
+devtools::install_github("bafg-bund/bfgdown")
+
 # exit
 q("no")

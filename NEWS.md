@@ -1,5 +1,6 @@
 # hyd1d
 
+* replace scripted html-postprocessing with packaged (`bfgdown::cleanAll`)
 * programmatically check urls
 * improve website accessibility
 
