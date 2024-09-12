@@ -166,7 +166,7 @@ for(a_gs in df.gs$gauging_station) {
         }
         
         # create a temporary file name for the download of data
-        if (Sys.info()["nodename"] == "pvil-rr" & 
+        if (Sys.info()["nodename"] == "pvil-rr.bafg.de" & 
             Sys.info()["user"] == "WeberA") {
             # assemble a file name
             destfile <- paste0("/home/WeberA/flut3_",
