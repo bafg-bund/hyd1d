@@ -1,6 +1,14 @@
 # hyd1d
 
-* Import validated gauging data for 2023.
+* replace scripted html-postprocessing with packaged (`bfgdown::cleanAll`)
+* programmatically check urls
+* improve website accessibility
+
+# hyd1d 0.5.2
+
+* move file downloads from `utils::download.file` to `httr2`
+* fix broken urls
+* import validated gauging data for 2023.
 * internal cleanup of waterLevel(), waterLevelFlood1(), waterLevelPegelonline()
 
 # hyd1d 0.5.1

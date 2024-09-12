@@ -7,9 +7,12 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/hyd1d)](https://cran.r-project.org/package=hyd1d)
-[![](https://cranlogs.r-pkg.org/badges/grand-total/hyd1d?color=green)](https://cran.r-project.org/package=hyd1d)
-[![](https://cranlogs.r-pkg.org/badges/last-month/hyd1d?color=green)](https://cran.r-project.org/package=hyd1d)
-[![](https://cranlogs.r-pkg.org/badges/last-week/hyd1d?color=green)](https://cran.r-project.org/package=hyd1d)
+[![CRAN total
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/hyd1d?color=green)](https://cran.r-project.org/package=hyd1d)
+[![CRAN monthly
+downloads](https://cranlogs.r-pkg.org/badges/last-month/hyd1d?color=green)](https://cran.r-project.org/package=hyd1d)
+[![CRAN weekly
+downloads](https://cranlogs.r-pkg.org/badges/last-week/hyd1d?color=green)](https://cran.r-project.org/package=hyd1d)
 <!-- badges: end -->
 
 The R package **hyd1d** is designed to compute 1-dimensional water level
@@ -55,4 +58,4 @@ wldf <- waterLevel(wldf, TRUE)
 plotShiny(wldf, TRUE, TRUE, TRUE, xlim = c(256.8, 262.2))
 ```
 
-<img src="man/figures/README-usage-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-usage-1.png" alt="example output of hyd1d::plotShiny()" style="display: block; margin: auto;" />

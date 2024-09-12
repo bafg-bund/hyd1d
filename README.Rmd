@@ -18,9 +18,9 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/hyd1d)](https://cran.r-project.org/package=hyd1d)
-[![](https://cranlogs.r-pkg.org/badges/grand-total/hyd1d?color=green)](https://cran.r-project.org/package=hyd1d)
-[![](https://cranlogs.r-pkg.org/badges/last-month/hyd1d?color=green)](https://cran.r-project.org/package=hyd1d)
-[![](https://cranlogs.r-pkg.org/badges/last-week/hyd1d?color=green)](https://cran.r-project.org/package=hyd1d)
+[![CRAN total downloads](https://cranlogs.r-pkg.org/badges/grand-total/hyd1d?color=green)](https://cran.r-project.org/package=hyd1d)
+[![CRAN monthly downloads](https://cranlogs.r-pkg.org/badges/last-month/hyd1d?color=green)](https://cran.r-project.org/package=hyd1d)
+[![CRAN weekly downloads](https://cranlogs.r-pkg.org/badges/last-week/hyd1d?color=green)](https://cran.r-project.org/package=hyd1d)
 <!-- badges: end -->
 
 The R package **hyd1d** is designed to compute 1-dimensional water level 
@@ -54,7 +54,7 @@ compute and visualize 1-dimensional water level information an object of class
 Sys.setlocale(category = "LC_MESSAGES", locale = "en_US")
 ```
 
-```{r usage, eval = TRUE, error = FALSE, warning = FALSE, message = FALSE}
+```{r usage, eval = TRUE, error = FALSE, warning = FALSE, message = FALSE, fig.alt = "example output of hyd1d::plotShiny()"}
 # load the package
 library(hyd1d)
 

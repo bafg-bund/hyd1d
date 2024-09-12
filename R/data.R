@@ -26,7 +26,7 @@ nrow_df.gauging_data <- function() {
                 gauging_data.gauging_station = gauging_station_data.gauging_station
             WHERE
                 gauging_data.date >= '1960-01-01' AND 
-                gauging_data.date <= '2022-12-31' AND
+                gauging_data.date <= '2023-12-31' AND
                 (
                     gauging_station_data.water_shortname = 'ELBE' OR
                     gauging_station_data.water_shortname = 'RHEIN'
@@ -55,10 +55,9 @@ nrow_df.gauging_data <- function() {
 #'   for the gauging stations along \strong{Elbe} and \strong{Rhine} operated by
 #'   the waterway and shipping administration (Wasserstraßen- und
 #'   Schifffahrtsverwaltung (WSV)) since 1960-01-01. Data from
-#'   1960-01-01 until 2022-12-31 are validated and were queried from the
-#'   BfG-Wiski
-#'   (\href{http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html}{HyDaBa})
-#'   and supplied by \email{Datenstelle-M1@@bafg.de}. Data after 2021-12-31 are
+#'   1960-01-01 until 2023-12-31 are validated and were queried from
+#'   (\href{https://www.bafg.de/DE/3_Beraet/2_Exp_quantitaet/Hydrologie_M1/hydrologie_node.html#vt-sprg-3}{WISKI7})-database
+#'   and supplied by \email{Datenstelle-M1@@bafg.de}. Data after 2023-12-31 are
 #'   continuously collected from \url{https://pegelonline.wsv.de/gast/start} and
 #'   are not officially validated. Unvalidated recent data will be replaced
 #'   anually and distributed through package and/or internal dataset updates.
@@ -426,7 +425,7 @@ details_df.flys <- function() {
 #' 
 #' @description This dataset contains the 30 stationary 1d water levels for the
 #'   rivers \strong{Elbe} and \strong{Rhine} originally stored in the 
-#'   \href{https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3}-database.
+#'   \href{https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html}{FLYS3}-database.
 #'   
 #'   For both rivers 30 stationary water levels have been computed by means of 
 #'   the 1d hydraulic model \href{https://download.deltares.nl/en/sobek/}{SOBEK}.

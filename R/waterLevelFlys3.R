@@ -59,9 +59,9 @@ details_waterLevelFlys3 <- function() {
     # }
     
     c(paste0("@details Possible \\code{name}s of \\href{https://www.bafg.de/DE",
-             "/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3} water ",
-             "levels and ranges of \\code{from} and \\code{to} are river-speci",
-             "fic:"),
+             "/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html}{FLYS3} wate",
+             "r levels and ranges of \\code{from} and \\code{to} are river-spe",
+             "cific:"),
       "", "\\strong{Elbe:}", "",
       paste0("'", paste0(wl_elbe, collapse = "', '"), "'"),
       "",
@@ -85,7 +85,7 @@ details_waterLevelFlys3 <- function() {
 #' @title Obtain 1d water level data from the FLYS3 database
 #' 
 #' @description Obtain 1d water level data from the
-#'   \href{https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3}
+#'   \href{https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html}{FLYS3}
 #'   database using either 
 #'   a predefined \linkS4class{WaterLevelDataFrame} or \code{river}, \code{from} 
 #'   and \code{to} arguments that enable the internal construction of a 
@@ -98,7 +98,7 @@ details_waterLevelFlys3 <- function() {
 #'   \code{river}. It has to be type \code{character}, has to have a length of
 #'   one and can be either \strong{Elbe} or \strong{Rhine}.
 #' @param name a string with the name of a stationary 
-#'   \href{https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS3}
+#'   \href{https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html}{FLYS3}
 #'   water level. It has 
 #'   to be type \code{character}, has to have a length of
 #'   one and has to be an element of the \code{river}-specific names specified 

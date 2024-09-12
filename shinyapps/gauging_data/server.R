@@ -156,8 +156,17 @@ function(input, output, session){
         req(input$gauging_station)
         
         leaflet() %>%
-            addProviderTiles("Stamen.TonerLite",
-                             options = providerTileOptions(noWrap = TRUE)) %>%
+            addWMSTiles(
+                baseUrl = "https://sgx.geodatenzentrum.de/wms_topplus_open?",
+                layers = "web", group = "TopPlusOpen",
+                options = WMSTileOptions(format = "image/png",
+                                         transparent = TRUE),
+                attribution = paste0("BKG (", strftime(Sys.Date(), "%Y"),
+                                     "), <a href=\"https://sgx.geodatenzentrum",
+                                     ".de/web_public/gdz/datenquellen/Datenque",
+                                     "llen_TopPlusOpen.html\">",
+                                     i18n()$t("data source"), "</a>")
+            ) %>%
             addCircleMarkers(
                 data = spdf.gsd[which(spdf.gsd@data$gauging_station != 
                                                  input$gauging_station),],

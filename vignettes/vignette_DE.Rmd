@@ -306,22 +306,22 @@ beliebige Orte entlang eines Gewässers zu generieren, wird an der
 [Bundesanstalt für Gewässerkunde (BfG)](https://www.bafg.de) seit 1998 an der 
 Flusshydrologische Software FLYS gearbeitet. Nach 15 Jahren Entwicklungsarbeit 
 wurde im Jahr 2013 mit
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 ein web-basierter Fachdienst veröffentlicht, der es registrierten Nutzern
 ermöglicht Wasserstände für beliebige Orte und Strecken für ausgewählte
 Abflüsse, bzw. Wasserstände an Pegeln abzuleiten:
 
 \begin{center}
-\href{https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html}{FLYS – Flusshydrologischer Webdienst}
+\href{https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html}{FLYS – Flusshydrologischer Webdienst}
 \end{center}
 
 ``` {r link-flys, eval = is_html, echo = FALSE, results = 'asis'}
-cat('<p style="text-align: center;"><a href="https://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html" target="_blank">FLYS3 – Flusshydrologischer Webdienst</a></p>')
+cat('<p style="text-align: center;"><a href="https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html" target="_blank">FLYS3 – Flusshydrologischer Webdienst</a></p>')
 ```
 
 ### Methodik {#problem_flys_methodik}
 
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 ist kein hydraulisches Modell, sondern ein Werkzeug zur Verarbeitung und
 Interpolation von bestehenden Modellergebnissen. Diese bestehenden
 Modellergebnisse sind in der Regel Ergebnisse von 1-dimensionalen hydraulischen
@@ -332,7 +332,7 @@ Abflusszustände, von extremen Niedrigwassern (0,5 * mittleres Niedrigwasser
 (**HQ500**)), decken diese Simulationen die gesamte Bandbreite möglicher
 hydraulischer Zustände ab.
 
-```{r figure02, fig.show = 'asis', fig.cap = capFig("[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen an der Elbe bei Rosslau und Dessau."), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+```{r figure02, fig.show = 'asis', fig.cap = capFig("[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Wasserspiegellagen an der Elbe bei Rosslau und Dessau."), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
 flys3_water_levels <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ", "c",
                         "2MQ", "3MQ", "d", "e", "MHQ", "HQ2", "f", "HQ5", "g", 
                         "h", "HQ10", "HQ15", "HQ20", "HQ25", "HQ50", "HQ75", 
@@ -364,11 +364,11 @@ flys3_water_levels <- c("0.5MNQ", "MNQ", "0.5MQ", "a", "0.75MQ", "b", "MQ", "c",
 ```
 
 An Beispieldaten eines ausgesuchten Tages, dem 21.12.2016, umgeben drei stationäre
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Wasserspiegellagen
 die tagesgemittelten Pegelmesswerte von Rosslau und Dessau und lassen erste
 visuelle Abschätzungen zu:
 
-```{r figure03, fig.show = 'asis', fig.cap = capFig(paste0("Ausgewählte stationäre ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("0.5MQ"), ", ", bf("a"), " und ", bf("0.75MQ"), ") und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+```{r figure03, fig.show = 'asis', fig.cap = capFig(paste0("Ausgewählte stationäre ", href("FLYS3", "https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("0.5MQ"), ", ", bf("a"), " und ", bf("0.75MQ"), ") und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
 mq_0.5 <- waterLevelFlys3(wldf, "0.5MQ")
 a <- waterLevelFlys3(wldf, "a")
 mq_0.75 <- waterLevelFlys3(wldf, "0.75MQ")
@@ -410,7 +410,7 @@ mq <- waterLevelFlys3(wldf, "MQ")
 
 Für die Berechnung eines Wasserstandes entlang der Gewässerachse eines Flusses
 mit Bezug zu einem Wasserstand an einem Pegel sind in der Weboberfläche von
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 mehrere Arbeitsschritte vorzunehmen. Am Beispiel der Elbe zwischen Rosslau und
 Dessau für den Tag des 21.12.2016 sind dies:
 
@@ -423,7 +423,7 @@ Dessau für den Tag des 21.12.2016 sind dies:
 
 Diese Eingaben der genannten Daten liefern folgendes Ergebnis:
 
-```{r figure04, fig.show = 'asis', fig.cap = capFig("[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellage an der Elbe bei Rosslau und Dessau bei einem Wasserstand von 174 cm am Pegel Wittenberg (Tagesmittelwert des 21.12.2016)."), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+```{r figure04, fig.show = 'asis', fig.cap = capFig("[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Wasserspiegellage an der Elbe bei Rosslau und Dessau bei einem Wasserstand von 174 cm am Pegel Wittenberg (Tagesmittelwert des 21.12.2016)."), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
 wldf2 <- waterLevelFlys3InterpolateY(wldf, "WITTENBERG", shiny = TRUE)
 wldf3 <- waterLevelFlys3InterpolateY(wldf, "ROSSLAU", shiny = TRUE)
 wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
@@ -462,7 +462,7 @@ wldf4 <- waterLevelFlys3InterpolateY(wldf, "DESSAU", shiny = TRUE)
 Am Pegel Rosslau ist die Abweichung zwischen gemessenem Wasserstand(
 `r getGaugingDataW("ROSSLAU", as.Date("2016-12-21"))` cm
 $\widehat{=}$ `r round(gs$wl[2], 2)` m über NHN) und mittels
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 berechnetem Wasserstand (
 `r round((wldf2$w[which(wldf2$station == gs$km_qps[2])] - gs$pnp[2]) * 100, 0)`
 cm $\widehat{=}$ `r wldf2$w[which(wldf2$station == gs$km_qps[2])]` m über NHN)
@@ -471,7 +471,7 @@ gering und beträgt nur
 cm. Am Pegel Dessau, unterhalb der Mündung der Mulde, beträgt die Abweichung
 zwischen gemessenem Wasserstand (
 `r getGaugingDataW("DESSAU", as.Date("2016-12-21"))` cm $\widehat{=}$ `r round(gs$wl[3], 2)`
-m über NHN)) und mittels [FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+m über NHN)) und mittels [FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 berechnetem Wasserstand (
 `r round((wldf2$w[which(wldf2$station == gs$km_qps[3])] - gs$pnp[3]) * 100, 0)`
 cm $\widehat{=}$ `r wldf2$w[which(wldf2$station == gs$km_qps[3])]` m über NHN) 
@@ -479,12 +479,12 @@ aber bereits
 `r - round((wldf2$w[which(wldf2$station == gs$km_qps[3])] - gs$pnp[3]) * 100, 0) + getGaugingDataW("DESSAU", as.Date("2016-12-21"))` cm.
 
 Wendet man nun den
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Algorithmus
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Algorithmus
 zur Interpolation der stationären Wasserspiegellagen mit den relevanten
 Bezugspegeln Rosslau und Dessau an und fügt diese der Abbildung hinzu, so
 ergibt sich folgendes Bild:
 
-```{r figure05, fig.show = 'asis', fig.cap = capFig("[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen an der Elbe bei Rosslau und Dessau berechnet mittels der Bezugspegel Wittenberg, Rosslau und Dessau."), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+```{r figure05, fig.show = 'asis', fig.cap = capFig("[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Wasserspiegellagen an der Elbe bei Rosslau und Dessau berechnet mittels der Bezugspegel Wittenberg, Rosslau und Dessau."), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
 {
     plotShiny(wldf2, FALSE, FALSE, FALSE, xlim = c(xlim_min, xlim_max),
               ylim = c(ylim_min, ylim_max))
@@ -526,16 +526,16 @@ der höchsten und der niedrigsten der drei Wasserspiegellagen betragen
 `r round(max(abs(wldf3$w - wldf4$w)) * 100, 0)` cm.
 
 Bedingt durch die Stationarität der
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 zu Grunde liegenden SOBEK-Modelle, ist
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 gut geeignet zeitlich gemittelte, langfristige Daten zu verarbeiten. Bei
 der Aufstellung der 30 stationären Abflussmodelle wurden Zuflüsse signifikanter 
 Nebengewässer ebenso mit stationären, langfristig gemittelten Abflüssen als 
 Randbedingungen integriert. In Situationen in denen Nebengewässer mit 
 signifikanten Abflussvolumina jedoch stark vom Abflusszustand des 
 Hauptgewässers abweichen, kommt die Wasserspiegellagenberechnung mittels
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html), 
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html), 
 die nur von einem Bezugspegel abhängt, an ihre Grenzen. Das wiederum führt zu 
 starken Abweichungen im Bereich mehrerer Dezimeter zwischen berechneten 
 Wasserspiegellagen und gemessenen Wasserständen.
@@ -561,15 +561,15 @@ nocite: |
 
 Das R-Paket **hyd1d** wurde entwickelt, um die Instationaritäten, die bei der 
 Verwendung von
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 Probleme bereiten, zu berücksichtigen und durchgehende, stetige
 Wasserspiegellagen für lange Gewässerabschnitte zu berechnen. Dafür 
 werden Pegeldaten, die über [PEGELONLINE](https://pegelonline.wsv.de/gast/start)
 oder die 
-[HyDaBa](http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html) 
+[WISKI7](https://www.bafg.de/DE/3_Beraet/2_Exp_quantitaet/Hydrologie_M1/hydrologie_node.html#vt-sprg-3)-Datenbank
 zur Verfügung stehen oder gestellt werden können, mit den stationären 
 Wasserspiegellagen von
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 verrechnet.
 
 ## Grundlagen {#loesung_grundlagen}
@@ -577,7 +577,7 @@ verrechnet.
 Die grundlegenden Daten, die für die Berechnung von Wasserspiegellagen verwendet
 werden, wurden in der Problembeschreibung bereits genannt und verwendet. Dabei 
 handelt es sich einerseits um Pegeldaten, andererseits um die Wasserspiegellagen
-von [FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html).
+von [FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html).
 
 ### Pegeldaten {#loesung_grundlagen_pegeldaten}
 
@@ -607,15 +607,15 @@ Entsprechend kodierte Abfragen auf die PEGELONLINE REST-Schnittstelle werden mit
 Objekten in JSON-Notation beantwortet, die paketintern weiter verarbeitet 
 werden.
 
-#### HyDaBa {#loesung_grundlagen_pegeldaten_hydaba}
+#### WISKI7 {#loesung_grundlagen_pegeldaten_wiski}
 
-Die [HyDaBa](http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html), 
+[WISKI7](https://www.bafg.de/DE/3_Beraet/2_Exp_quantitaet/Hydrologie_M1/hydrologie_node.html#vt-sprg-3), 
 die gewässerkundliche Datenbank der WSV, wird durch die BfG betrieben und 
 gepflegt. Diese Datenbank enthält **validierte**, teilweise auch historische
 Wasserstands- und Abflussdaten für mehrere hundert Pegel der WSV und auch der
 Bundesländer. Allerdings sind diese Datenbestände bisher nicht online verfügbar.
 Daher wird innerhalb des Pakets **hyd1d** ein Auszug aus der 
-[HyDaBa](http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html)
+[WISKI7](https://www.bafg.de/DE/3_Beraet/2_Exp_quantitaet/Hydrologie_M1/hydrologie_node.html#vt-sprg-3)-Datenbank
 mitgeliefert.
 
 Konkret handelt es sich dabei um tagesgemittelte Wasserstandswerte 
@@ -627,7 +627,7 @@ automatisiert aktualisiert (`r lrd("updateGaugingData()")`).
 #### Stammdaten {#loesung_grundlagen_pegeldaten_stammdaten}
 
 Um die Daten von [PEGELONLINE](https://pegelonline.wsv.de/gast/start) und aus der
-[HyDaBa](http://www.bafg.de/DE/08_Ref/M1/03_Pegelwesen/HYDABA/hydaba_node.html)
+[WISKI7](https://www.bafg.de/DE/3_Beraet/2_Exp_quantitaet/Hydrologie_M1/hydrologie_node.html#vt-sprg-3)-Datenbank
 nebeneinander nutzen und verknüpfen zu können, sind Stammdaten notwendig.
 Innerhalb des Pakets **hyd1d** ist ein eigener Stammdatensatz vorhanden
 (`r lrd("df.gauging_station_data")`), der zentral gepflegt und aktualisiert
@@ -636,7 +636,7 @@ wird.
 ### FLYS3 Wasserspiegellagen {#loesung_grundlagen_flys}
 
 Auch die stationären Wasserspiegellagen für Elbe und Rhein aus
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 sind in das Paket **hyd1d** integriert. Der paket-interne Datensatz
 `r lrd("df.flys")` beinhaltet die 30 stationären Wasserspiegellagen für den
 Rhein [@hkv_hydrokontor_erstellung_2014] und die Elbe [@busch_einheitliche_2009].
@@ -654,7 +654,7 @@ verfügbaren Pegeldaten aller Pegel auf der zu berechnenden Strecke und die
 nächsten oberhalb und unterhalb gelegenen. An den Pegeln selbst entspricht der 
 berechnete Wasserstand den Pegelmesswerten. Zwischen den Pegeln erfolgt eine 
 entfernungsabhängige Interpolation anhand der Wasserspiegellagen von
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html).
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html).
 
 Insgesamt gliedert sich die Berechnung in fünf Schritte, die im weiteren Verlauf
 näher erläutert werden:
@@ -666,10 +666,10 @@ gewählten Zeitpunkt
 3. Aufteilung der Berechnungsstrecke in Abschnitte, die von jeweils zwei Pegeln 
 eingerahmt werden
 4. Abschnittsweise Bestimmung, welche
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Wasserspiegellagen
 die Wasserspiegellagen an den beiden Pegeln einrahmen
 5. Abschnittsweise, entfernungsabhängige Interpolation zwischen den einrahmenden
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Wasserspiegellagen
 
 ### Auswahl streckenbezogener Bezugspegel
 
@@ -781,9 +781,9 @@ wird:
 
 Anhand des zweiten Abschnitts von Rosslau bis Dessau erklärt sich dann auch die 
 Selektion der einrahmenden
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen:
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Wasserspiegellagen:
 
-```{r figure09, fig.show = 'asis', fig.cap = capFig(paste0("Ausgewählte stationäre ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("0.5MQ"), " und ", bf("0.75MQ"), ") und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+```{r figure09, fig.show = 'asis', fig.cap = capFig(paste0("Ausgewählte stationäre ", href("FLYS3", "https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("0.5MQ"), " und ", bf("0.75MQ"), ") und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
 {
     plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
          ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)", 
@@ -825,10 +825,10 @@ Selektion der einrahmenden
 ```
 
 Die Wasserspiegellage **0.5MQ** ist die höchste
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellage,
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Wasserspiegellage,
 die niedriger ist als die Wasserstände an den beiden Pegeln Rosslau und Dessau.
 Die Wasserspiegellage **0.75MQ** ist die niedrigste
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellage,
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Wasserspiegellage,
 die höher ist als die Wasserstände an den Pegeln. Die Wasserspiegellage **a**,
 die zwischen den Wasserspiegellagen **0.5MQ** und **0.75MQ** liegt, wird am
 Pegel Rosslau unterschritten, am Pegel Dessau aber überschritten und ist damit
@@ -838,20 +838,20 @@ für den folgenden Schritt der Interpolation ungeeignet.
 
 In einem vorbereitenden Schritt wird nun die relative Lage der gemessenen 
 Wasserstände an den Pegeln zu den einrahmenden
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Wasserspiegellagen
 **0.5MQ** und **0.75MQ** bestimmt. Die niedrigere Wasserspiegellage **0.5MQ**
 erhält dabei das Gewicht 0, die höhere Wasserspiegellage **0.75MQ** das Gewicht 
 1. Die Wasserstände an den Pegel liegen im Standardfall zwischen 0 und 1 (0 - 
 1 x der Differenz von **0.75MQ** - **0.5MQ**). Nur in Situationen, in denen der 
 Wasserstand an einem Pegel höher liegt als die höchste
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellage
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Wasserspiegellage
 HQ500, wird das realtive Gewicht größer als 1. In Situationen, in denen die 
 niedrigste 
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellage
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Wasserspiegellage
 0.5MNQ an einem Pegel unterschritten wird, 
 kann das relative Gewicht auch negativ werden.
 
-```{r figure10, fig.show = 'asis', fig.cap = capFig(paste0("Ausgewählte stationäre ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("0.5MQ"), " und ", bf("0.75MQ"), ") und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau und deren relative Lage zwischen den ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen.")), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+```{r figure10, fig.show = 'asis', fig.cap = capFig(paste0("Ausgewählte stationäre ", href("FLYS3", "https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("0.5MQ"), " und ", bf("0.75MQ"), ") und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau und deren relative Lage zwischen den ", href("FLYS3", "https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html"), "-Wasserspiegellagen.")), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
 {
     plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
          ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)", 
@@ -904,7 +904,7 @@ kann das relative Gewicht auch negativ werden.
 Diese relativen Gewichte an den Pegeln werden über die Strecke zwischen den 
 Pegeln linear interpoliert.
 
-```{r figure11, fig.show = 'asis', fig.cap = capFig(paste0("Relatives Gewicht für die Interpolation der Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau zwischen den ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen ", bf("0.5MQ"), " und ", bf("0.75MQ"), ".")), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+```{r figure11, fig.show = 'asis', fig.cap = capFig(paste0("Relatives Gewicht für die Interpolation der Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau zwischen den ", href("FLYS3", "https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html"), "-Wasserspiegellagen ", bf("0.5MQ"), " und ", bf("0.75MQ"), ".")), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
 {
     plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
          ylim = c(-0.1, 1.1), xlab = "Flusskilometer (km)", 
@@ -930,7 +930,7 @@ Pegeln linear interpoliert.
 
 Kombiniert man nun die lineare Interpolation des Gewichts zwischen den 
 einrahmenden
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Wasserspiegellagen
 **0.5MQ** und **0.75MQ** mit den Wasserständen über folgende mathematische
 Beziehung:
 
@@ -949,7 +949,7 @@ cat('<p style="text-align: center;">$WSL = WSL_{0.5MQ} + Gewicht * (WSL_{0.75MQ}
 
 Dann erhält man für den 2. Abschnitt folgendes Produkt:
 
-```{r figure12, fig.show = 'asis', fig.cap = capFig(paste0("Interpolierte Wasserspiegellage, ausgewählte stationäre ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("0.5MQ"), " und ", bf("0.75MQ"), ") und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+```{r figure12, fig.show = 'asis', fig.cap = capFig(paste0("Interpolierte Wasserspiegellage, ausgewählte stationäre ", href("FLYS3", "https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("0.5MQ"), " und ", bf("0.75MQ"), ") und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
 {
     plot(1, 1, type = "n", xlim = c(xlim_min, xlim_max), 
          ylim = c(ylim_min, ylim_max), xlab = "Flusskilometer (km)", 
@@ -1002,7 +1002,7 @@ Dann erhält man für den 2. Abschnitt folgendes Produkt:
 Nach Kombination der Daten aller drei Berechungsabschnitte erhält man folgendes,
 finales Produkt:
 
-```{r figure13, fig.show = 'asis', fig.cap = capFig(paste0("Interpolierte Wasserspiegellage, berechnungsrelevante stationäre ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("0.5MQ"), ", ", bf("a"), " und ", bf("0.75MQ"), ") und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
+```{r figure13, fig.show = 'asis', fig.cap = capFig(paste0("Interpolierte Wasserspiegellage, berechnungsrelevante stationäre ", href("FLYS3", "https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("0.5MQ"), ", ", bf("a"), " und ", bf("0.75MQ"), ") und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), echo = FALSE, error = FALSE, warning = FALSE, message = FALSE}
 {
     plotShiny(wldf1, TRUE, TRUE, TRUE, xlim = c(xlim_min, xlim_max),
               ylim = c(ylim_min, ylim_max))
@@ -1116,7 +1116,7 @@ Teilergebnisse, die zum Beispiel zur Visualisierung notwendig sind
 ### waterLevel
 
 Die zuvor detailliert beschriebene Interpolation von
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Wasserspiegellagen
 anhand von Pegeldaten ist in der Funktion `r lrd("waterLevel()")`
 implementiert. Diese Funktion nutzt für die Interpolation die Paket-internen
 Pegeldaten aus dem Datensatz `r lrd("df.gauging_data")`,
@@ -1136,7 +1136,7 @@ Soll das Berechnungsergebnis auch noch mittels `r lrd("plotShiny()")`
 visualisiert werden, so sollte zusätzlich noch das Argument `shiny = TRUE` 
 genutzt werden:
 
-```{r figure14, fig.show = 'asis', fig.cap = capFig(paste0("Interpolierte Wasserspiegellage, berechnungsrelevante stationäre ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("0.5MQ"), ", ", bf("a"), " und ", bf("0.75MQ"), ") und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), eval = TRUE}
+```{r figure14, fig.show = 'asis', fig.cap = capFig(paste0("Interpolierte Wasserspiegellage, berechnungsrelevante stationäre ", href("FLYS3", "https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("0.5MQ"), ", ", bf("a"), " und ", bf("0.75MQ"), ") und Wasserstände vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), eval = TRUE}
 wldf <- waterLevel(wldf, shiny = TRUE)
 summary(wldf)
 
@@ -1169,7 +1169,7 @@ nämlich <https://pegelonline.wsv.de/gast/start>. Auf Grund dieser externen
 Datenquelle sind Berechnungen auch nur 30 Tage rückwirkend möglich, aber mit
 einer hohen zeitlichen Auflösung.
 
-```{r figure15, fig.show = 'asis', fig.cap = capFig(paste0("Interpolierte Wasserspiegellage, berechnungsrelevante stationäre ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen und Wasserstände vom ", strftime(Sys.time() - 3600, format = "%d.%m.%Y %H:%M")," Uhr an der Elbe bei Rosslau und Dessau.")), eval = hyd1d:::.pegelonline_status()}
+```{r figure15, fig.show = 'asis', fig.cap = capFig(paste0("Interpolierte Wasserspiegellage, berechnungsrelevante stationäre ", href("FLYS3", "https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html"), "-Wasserspiegellagen und Wasserstände vom ", strftime(Sys.time() - 3600, format = "%d.%m.%Y %H:%M")," Uhr an der Elbe bei Rosslau und Dessau.")), eval = hyd1d:::.pegelonline_status()}
 # one hour ago
 time <- as.POSIXct(Sys.time() - 3600)
 
@@ -1205,7 +1205,7 @@ Berechnungsmethoden vergleichen zu können, wurde auch die Funktionen
 `r lrd("waterLevelFlood1()")` und `r lrd("waterLevelFlood2()")` implementiert.
 Diese Funktionen berechnen Wasserspiegellagen analog zur Flut1- und
 Flut2-Methoden der Modellierungsumgebung 
-[INFORM](http://www.bafg.de/DE/08_Ref/U3/02_analyse/01_INFORM/inform.html) 
+[INFORM](https://www.bafg.de/DE/3_Beraet/4_Exp_oekologie/Flussauenmodell_INFORM_U3/flussauenmodell_inform_node.html) 
 [@rosenzweig_inform_2011]. Dazu wird mittels der Flut1-Methode die
 Referenzwasserspiegellage **MQ** vertikal so verschoben, dass sie den
 Wasserstandswert am ausgewählten Bezugspegel schneidet, bei der Flut2-Methode 
@@ -1256,14 +1256,14 @@ df.gs2 <- getGaugingStations(wldf2)
 Um die neu entwickelten Funktionen `r lrd("waterLevel()")`
 und `r lrd("waterLevelPegelonline()", "waterLevel.html")` mit den existierenden 
 Berechnungsmethoden von 
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html) 
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html) 
 vergleichen zu können, wurde auch die Funktion 
 `r lrd("waterLevelFlys3InterpolateY()")` implementiert. Diese Funktion berechnet
 Wasserspiegellagen analog zu der Methode, wie sie im W-Info-Modul von
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)
 implementiert ist. Dazu wird die relative Lage des Wasserstandes zu den zwei
 einrahmenden
-[FLYS3](http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html)-Wasserspiegellagen
+[FLYS3](https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html)-Wasserspiegellagen
 an dem ausgewählten Bezugspegel bestimmt und dann für eine Interpolation
 zwischen diesen beiden Wasserspiegellagen verwendet.
 
@@ -1272,7 +1272,7 @@ wldf <- waterLevelFlys3InterpolateY(wldf, "ROSSLAU", shiny = TRUE)
 summary(wldf)
 ```
 
-```{r figure17, fig.show = 'asis', fig.cap = capFig(paste0("Wasserspiegellage nach ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), " mit dem Bezugspegel Rosslau für den 21.12.2016 an der Elbe bei Rosslau und Dessau.")), eval = TRUE, echo = FALSE}
+```{r figure17, fig.show = 'asis', fig.cap = capFig(paste0("Wasserspiegellage nach ", href("FLYS3", "https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html"), " mit dem Bezugspegel Rosslau für den 21.12.2016 an der Elbe bei Rosslau und Dessau.")), eval = TRUE, echo = FALSE}
 {
     plotShiny(wldf, TRUE, TRUE, TRUE, xlim = c(xlim_min, xlim_max))
     abline(v = df.gs2$km_qps, lty = 3, lwd = 0.5)
@@ -1335,7 +1335,7 @@ die Nutzung im Browser mittels Shiny zu implementieren.
 cat('<p style="text-align: center;"><a href="https://shiny.bafg.de/waterlevel/" target="_blank">https://shiny.bafg.de/waterlevel/</a></p>')
 ```
 
-```{r figure20, echo = FALSE, fig.cap = capFig(paste0("Screenshot der ", href("waterLevel-ShinyApp", "https://shiny.bafg.de/waterlevel/"), " mit der interpolierten Wasserspiegellage, berechnungsrelevanten stationären ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("0.5MQ"), ", ", bf("a"), " und ", bf("0.75MQ"), ") und Wasserständen vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), fig.show = 'asis', out.width = "100%", results = 'asis'}
+```{r figure20, echo = FALSE, fig.cap = capFig(paste0("Screenshot der ", href("waterLevel-ShinyApp", "https://shiny.bafg.de/waterlevel/"), " mit der interpolierten Wasserspiegellage, berechnungsrelevanten stationären ", href("FLYS3", "https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("0.5MQ"), ", ", bf("a"), " und ", bf("0.75MQ"), ") und Wasserständen vom 21.12.2016 an der Elbe bei Rosslau und Dessau.")), fig.show = 'asis', out.width = "100%", results = 'asis'}
 knitr::include_graphics('screenshot_waterLevel.png')
 ```
 
@@ -1355,7 +1355,7 @@ Wasserspiegelinformationen auf Anfrage zu generieren.
 cat('<p style="text-align: center;"><a href="https://shiny.bafg.de/waterlevelpegelonline/" target="_blank">https://shiny.bafg.de/waterlevelpegelonline/</a></p>')
 ```
 
-```{r figure21, echo = FALSE, fig.cap = capFig(paste0("Screenshot der ", href("waterLevelPegelonline-ShinyApp", "https://shiny.bafg.de/waterlevelpegelonline/"), " mit der interpolierten Wasserspiegellage und den berechnungsrelevanten stationären ", href("FLYS3", "http://www.bafg.de/DE/08_Ref/M2/03_Fliessgewmod/01_FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("a"), ", ", bf("0.75MQ"), " and ", bf("0.5MQ"), ") und Wasserständen vom 13.04.2018 11:00 Uhr an der Elbe bei Rosslau und Dessau.")), fig.show = 'asis', out.width = "100%"}
+```{r figure21, echo = FALSE, fig.cap = capFig(paste0("Screenshot der ", href("waterLevelPegelonline-ShinyApp", "https://shiny.bafg.de/waterlevelpegelonline/"), " mit der interpolierten Wasserspiegellage und den berechnungsrelevanten stationären ", href("FLYS3", "https://www.bafg.de/DE/5_Informiert/1_Portale_Dienste/FLYS/flys_node.html"), "-Wasserspiegellagen (", bf("a"), ", ", bf("0.75MQ"), " and ", bf("0.5MQ"), ") und Wasserständen vom 13.04.2018 11:00 Uhr an der Elbe bei Rosslau und Dessau.")), fig.show = 'asis', out.width = "100%"}
 knitr::include_graphics('screenshot_waterLevelPegelonline.png')
 ```
 
