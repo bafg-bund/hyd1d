@@ -147,7 +147,18 @@ getPegelonlineCharacteristicValues <- function(gauging_station, value, uuid,
     get_cv <- request(paste0("http://www.pegelonline.wsv.de/webservices/rest-a",
                              "pi/v2/stations/", uuid_internal,
                              "/W.json?includeCharacteristicValues=true"))
+    get_cv <- req_error(get_cv, is_error = \(resp) FALSE)
     get_cv <- req_perform(get_cv)
+    
+    status_code <- as.character(get_cv$status_code)
+    if (startsWith(status_code, "4") | startsWith(status_code, "5")) {
+        message(paste0("The webserver of the PEGELONLINE rest-api returned a s",
+                       "tatus code of '", status_code, "'.\nTherefore the retu",
+                       "rn value of getPegelonlineCharacteristicValues() is NA",
+                       ".\nPlease try again later."))
+        return(NA)
+    }
+    
     list <- resp_body_json(get_cv)
     
     # process queried data
