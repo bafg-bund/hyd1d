@@ -54,7 +54,7 @@
 #' # using characteristic water levels queried from PEGELONLINE
 #' wldf2 <- WaterLevelDataFrame(river   = "Elbe_tidal",
 #'                             time    = as.POSIXct(NA),
-#'                             station_int = as.integer(seq(500, 170400, 100)))
+#'                             station_int = as.integer(seq(0, 170000, 1000)))
 #' wldf2 <- waterLevelFlood2(wldf2, "MThw")
 #' 
 #' # supply external water levels through a data.frame
