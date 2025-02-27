@@ -1,5 +1,8 @@
-# hyd1d
+# hyd1d 0.5.3
 
+* require R >= 4.1.0
+* replace scripted html-postprocessing with packaged (`bfgdown::cleanAll`)
+* programmatically check urls
 * improve website accessibility
 
 # hyd1d 0.5.2
