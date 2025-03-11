@@ -1,3 +1,7 @@
+# hyd1d
+
+* import validated gauging data for 2024.
+
 # hyd1d 0.5.3
 
 * require R >= 4.1.0
