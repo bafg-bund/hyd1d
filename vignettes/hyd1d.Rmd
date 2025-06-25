@@ -396,7 +396,7 @@ To compare the newly developed functions `r lrd("waterLevel()")` and
 the functions `r lrd("waterLevelFlood1()")` and `r lrd("waterLevelFlood2()")`
 have been implemented. These functions compute water levels according to the
 Flood1- and Flood2-methods of the modelling environment
-[INFORM](https://www.bafg.de/DE/3_Beraet/4_Exp_oekologie/Flussauenmodell_INFORM_U3/flussauenmodell_inform_node.html)
+[INFORM](https://www.bafg.de/DE/3_Beraet/4_Exp_oekologie/OekoModelle/oekomodelle_node.html#vt-sprg-3)
 [@rosenzweig_inform_2011]. They either shift the reference water level **MQ**
 vertically, so that it intersects with the gauge height at a selected reference
 gauging station, or linearly interpolate water levels with neighboring gauging

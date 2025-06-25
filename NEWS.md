@@ -1,6 +1,7 @@
 # hyd1d
 
-* import validated gauging data for 2024.
+* fix broken link to INFORM webpage
+* import validated gauging data for 2024
 
 # hyd1d 0.5.3
 
