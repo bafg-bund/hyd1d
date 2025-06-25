@@ -21,7 +21,7 @@ source("R/hyd1d-internal.R")
 
 ### open the connection using user, password, etc., as
 credentials <- credentials("~/DB_credentials_gauging_data")
-con <- dbConnect("PostgreSQL",
+con <- dbConnect(drv = DBI::dbDriver("PostgreSQL"),
                  host = credentials["host"],
                  dbname = credentials["dbname"],
                  user = credentials["user"],

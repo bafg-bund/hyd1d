@@ -1,5 +1,6 @@
 # hyd1d
 
+* fix dbdriver selection
 * fix broken link to INFORM webpage
 * import validated gauging data for 2024
 

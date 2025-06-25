@@ -53,7 +53,7 @@ source("R/hyd1d-internal.R")
 credentials <- credentials("~/DB_credentials_gauging_data")
 
 # access the gauging_data DB
-con <- DBI::dbConnect(drv      = RPostgreSQL::PostgreSQL(),
+con <- DBI::dbConnect(drv      = DBI::dbDriver("PostgreSQL"),
                       host     = credentials["host"], 
                       dbname   = credentials["dbname"], 
                       user     = credentials["user"], 
