@@ -1,5 +1,6 @@
 # hyd1d
 
+* fix summary.WaterLevelDataFrame() for all missing data
 * fix waterLevel() for all missing data in df.gauging_data
 * fix html figure styling of man pages
 * updated roxygen version
