@@ -1205,7 +1205,7 @@ Berechnungsmethoden vergleichen zu können, wurde auch die Funktionen
 `r lrd("waterLevelFlood1()")` und `r lrd("waterLevelFlood2()")` implementiert.
 Diese Funktionen berechnen Wasserspiegellagen analog zur Flut1- und
 Flut2-Methoden der Modellierungsumgebung 
-[INFORM](https://www.bafg.de/DE/3_Beraet/4_Exp_oekologie/Flussauenmodell_INFORM_U3/flussauenmodell_inform_node.html) 
+[INFORM](https://www.bafg.de/DE/3_Beraet/4_Exp_oekologie/OekoModelle/oekomodelle_node.html#vt-sprg-3) 
 [@rosenzweig_inform_2011]. Dazu wird mittels der Flut1-Methode die
 Referenzwasserspiegellage **MQ** vertikal so verschoben, dass sie den
 Wasserstandswert am ausgewählten Bezugspegel schneidet, bei der Flut2-Methode 

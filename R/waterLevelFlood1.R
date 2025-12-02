@@ -6,7 +6,7 @@
 #'   gauging station according to the INFORM 3-method Flood1 (Flut1)
 #' 
 #' @description This function computes a 1d water level according to the
-#'   \href{https://www.bafg.de/DE/3_Beraet/4_Exp_oekologie/Flussauenmodell_INFORM_U3/flussauenmodell_inform_node.html}{INFORM}
+#'   \href{https://www.bafg.de/DE/3_Beraet/4_Exp_oekologie/OekoModelle/oekomodelle_node.html#vt-sprg-3}{INFORM}
 #'   flood duration method Flood1 (Flut1) and stores it as column \code{w} of an
 #'   S4 object of type \linkS4class{WaterLevelDataFrame}. First the function
 #'   obtains the reference water level MQ from \code{\link{df.flys}}. This

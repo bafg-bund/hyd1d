@@ -26,7 +26,7 @@ nrow_df.gauging_data <- function() {
                 gauging_data.gauging_station = gauging_station_data.gauging_station
             WHERE
                 gauging_data.date >= '1960-01-01' AND 
-                gauging_data.date <= '2023-12-31' AND
+                gauging_data.date <= '2024-12-31' AND
                 (
                     gauging_station_data.water_shortname = 'ELBE' OR
                     gauging_station_data.water_shortname = 'RHEIN'
@@ -55,9 +55,9 @@ nrow_df.gauging_data <- function() {
 #'   for the gauging stations along \strong{Elbe} and \strong{Rhine} operated by
 #'   the waterway and shipping administration (Wasserstraßen- und
 #'   Schifffahrtsverwaltung (WSV)) since 1960-01-01. Data from
-#'   1960-01-01 until 2023-12-31 are validated and were queried from
+#'   1960-01-01 until 2024-12-31 are validated and were queried from
 #'   (\href{https://www.bafg.de/DE/3_Beraet/2_Exp_quantitaet/Hydrologie_M1/hydrologie_node.html#vt-sprg-3}{WISKI7})-database
-#'   and supplied by \email{Datenstelle-M1@@bafg.de}. Data after 2023-12-31 are
+#'   and supplied by \email{Datenstelle-M1@@bafg.de}. Data after 2024-12-31 are
 #'   continuously collected from \url{https://pegelonline.wsv.de/gast/start} and
 #'   are not officially validated. Unvalidated recent data will be replaced
 #'   anually and distributed through package and/or internal dataset updates.
@@ -434,7 +434,7 @@ details_df.flys <- function() {
 #'   river stationing. They range from extremely low to extremely high flow 
 #'   conditions and are usually separated vertically by 0.2 - 0.6 m.
 #'   
-#'   \if{html}{\figure{flys3waterlevels.png}{options: width="60\%" alt="Figure: flys3waterlevels.png" style="text-align: center;"}}
+#'   \if{html}{\figure{flys3waterlevels.png}{options: alt="Figure: flys3waterlevels.png" style="text-align: center; width: 60\%;"}}
 #'   \if{latex}{\figure{flys3waterlevels.pdf}{options: width=7cm}}
 #' 
 #' @eval nrow_df.flys()

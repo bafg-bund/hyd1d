@@ -283,6 +283,11 @@ waterLevel <- function(wldf, shiny = FALSE) {
                                 weight_x = as.numeric(rep(NA, nrow(df.data))),
                                 weight_y = as.numeric(rep(NA, nrow(df.data))))
     
+    if (all(is.na(df.gs$wl))) {
+        stop(paste0("No waterlevel data are available through 'df.gauging_data",
+                    "'.\n   Please contact the package maintainer."))
+    }
+    
     #####
     # loop over the sections
     for (s in 1:(nrow(df.gs)-1)) {

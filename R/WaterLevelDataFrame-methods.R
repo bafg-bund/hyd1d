@@ -1007,9 +1007,10 @@ summary.WaterLevelDataFrame <- function(object, ...) {
     s_gauging_stations_missing <- getGaugingStationsMissing(object)
     if (length(s_gauging_stations_missing) == 0) {
         s_gauging_stations_missing <- "None"
-    } else if (length(s_gauging_stations_missing) == 1 & 
-               is.na(s_gauging_stations_missing)) {
-        s_gauging_stations_missing <- "None"
+    } else if (length(s_gauging_stations_missing) == 1) {
+        if (is.na(s_gauging_stations_missing)) {
+            s_gauging_stations_missing <- "None"
+        }
     } else {
         s_gauging_stations_missing <- paste(s_gauging_stations_missing, 
                                             collapse = ", ")
