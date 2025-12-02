@@ -434,7 +434,7 @@ details_df.flys <- function() {
 #'   river stationing. They range from extremely low to extremely high flow 
 #'   conditions and are usually separated vertically by 0.2 - 0.6 m.
 #'   
-#'   \if{html}{\figure{flys3waterlevels.png}{options: width="60\%" alt="Figure: flys3waterlevels.png" style="text-align: center;"}}
+#'   \if{html}{\figure{flys3waterlevels.png}{options: alt="Figure: flys3waterlevels.png" style="text-align: center; width: 60\%;"}}
 #'   \if{latex}{\figure{flys3waterlevels.pdf}{options: width=7cm}}
 #' 
 #' @eval nrow_df.flys()

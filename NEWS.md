@@ -1,5 +1,6 @@
 # hyd1d
 
+* fix html figure styling of man pages
 * updated roxygen version
 * fix dbdriver selection
 * fix broken link to INFORM webpage
