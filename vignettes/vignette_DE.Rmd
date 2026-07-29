@@ -1040,13 +1040,13 @@ Das Paket **hyd1d** ist auf CRAN verfügbar. Um es zu installieren reicht ein:
 install.packages("hyd1d")
 ```
 
-Um die aktuelle Entwicklungsversion von Github zu installieren, müssen folgende
-Befehle ausgeführt werden:
+Um die aktuelle Entwicklungsversion von opencode.de zu installieren, müssen
+folgende Befehle ausgeführt werden:
 
 ```{r install-git, eval = FALSE}
-install.packages("devtools")
-library(devtools)
-devtools::install_github("bafg-bund/hyd1d")
+install.packages("pak")
+library(pak)
+pak::pak("git::https://gitlab.opencode.de/bafg-bund/hyd1d.git")
 ```
 
 Dannach kann das Paket **hyd1d** wie jedes andere installierte R-Paket über 

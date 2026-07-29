@@ -25,7 +25,7 @@ Description: An S4 class and several functions which utilize internally stored
 Depends: R (>= 4.1.0)
 Imports: methods, utils, Rdpack, httr2, curl
 Suggests: DBI (>= 0.4-9), RPostgreSQL (>= 0.6-1), testthat, knitr, rmarkdown,
-    stringr, devtools, pkgdown, roxygen2, revealjs, shiny, shiny.i18n,
+    stringr, devtools, pak, pkgdown, roxygen2, revealjs, shiny, shiny.i18n,
     shinyTime, lubridate, usethis, yaml, desc
 RdMacros: Rdpack
 License: GPL (>= 2)
@@ -52,5 +52,5 @@ Collate:
     'waterLevelPegelonline.R'
     'zzz.R'
 VignetteBuilder: knitr
-BugReports: https://github.com/bafg-bund/hyd1d/issues/
-URL: https://hyd1d.bafg.de, https://github.com/bafg-bund/hyd1d
+BugReports: https://gitlab.opencode.de/bafg-bund/hyd1d/-/work_items
+URL: https://hyd1d.bafg.de, https://gitlab.opencode.de/bafg-bund/hyd1d

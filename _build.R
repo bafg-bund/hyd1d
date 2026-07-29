@@ -99,7 +99,7 @@ urlchecker::url_update(".")
 # build vignettes
 write("#####", stdout())
 write(" build vignettes", stdout())
-devtools::build_vignettes(".", clean = FALSE)
+pkgdown::build_articles(".", quiet = FALSE)
 tools::compactPDF(paths = "doc", gs_quality = "ebook")
 
 #####

@@ -20,7 +20,7 @@ packages <- c("jsonlite", "Rdpack", "DBI", "RPostgreSQL", "testthat",
               "knitr", "rmarkdown", "stringr", "devtools", "httr2", "curl",
               "pkgdown", "roxygen2", "revealjs", "shiny", "shiny.i18n",
               "shinyTime", "lubridate", "usethis", "bslib", "xml2",
-              "urlchecker")
+              "urlchecker", "pak")
 
 for (a_package in packages) {
     if (! (a_package %in% installed.packages()[, "Package"])) {
@@ -33,7 +33,8 @@ library(devtools)
 devtools::install(".", quick = TRUE, dependencies = TRUE)
 
 # install bfgdown
-devtools::install_github("bafg-bund/bfgdown")
+library(pak)
+pak::pak("git::https://gitlab.opencode.de/bafg-bund/bfgdown.git")
 
 # exit
 q("no")

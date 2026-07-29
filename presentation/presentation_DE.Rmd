@@ -945,13 +945,13 @@ install.packages("hyd1d")
 library("hyd1d")
 ```
 
-- Zur Installation der aktuellsten Entwicklungsversion von Github sind folgende
-Befehle nötig:
+- Zur Installation der aktuellsten Entwicklungsversion von opencode.de sind
+folgende Befehle nötig:
 
 ```{r hyd1d-install1, eval = FALSE, echo = TRUE}
-install.packages("devtools")
-library("devtools")
-install_github("bafg-bund/hyd1d")
+install.packages("pak")
+library(pak)
+pak::pak("git::https://gitlab.opencode.de/bafg-bund/hyd1d.git")
 ```
 
 ## S4-Klasse WaterLevelDataFrame {#hyd1d-s4-1 data-background="background.png" data-background-size="auto 800px"}
@@ -1069,9 +1069,9 @@ library("hydflood")
 Befehle nötig:
 
 ```{r hydflood-install1, eval = FALSE, echo = TRUE}
-install.packages("devtools")
-library("devtools")
-install_github("bafg-bund/hydflood")
+install.packages("pak")
+library(pak)
+pak::pak("git::https://gitlab.opencode.de/bafg-bund/hydflood.git")
 ```
 
 ## hydSpatRaster {#hydflood-s1 data-background="background.png" data-background-size="auto 800px"}

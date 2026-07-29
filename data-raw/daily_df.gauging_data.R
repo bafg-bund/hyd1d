@@ -41,7 +41,6 @@ if (file.exists(from)) {
 # }
 
 # load required packages
-library(devtools)
 library(DBI)
 library(RPostgreSQL)
 

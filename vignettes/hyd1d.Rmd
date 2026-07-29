@@ -228,13 +228,13 @@ The package **hyd1d** is available from CRAN. To install it run:
 install.packages("hyd1d")
 ```
 
-To install the recent developmental version from Github execute the following
-commands: 
+To install the recent developmental version from opencode.de execute the
+following commands: 
 
 ```{r install_git, eval = FALSE}
-install.packages("devtools")
-library(devtools)
-devtools::install_github("bafg-bund/hyd1d")
+install.packages("pak")
+library(pak)
+pak::pak("git::https://gitlab.opencode.de/bafg-bund/hyd1d.git")
 ```
 
 Afterwards **hyd1d** can be loaded like every other R package with the following 

@@ -1,3 +1,9 @@
+# hyd1d
+
+* install source packages using `pak:pak()`
+* remove dependencies to deprecated `devtools::`-functions
+* migrate repository from github.com to opencode.de
+
 # hyd1d 0.5.4
 
 * fix summary.WaterLevelDataFrame() for all missing data
