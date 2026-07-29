@@ -19,14 +19,14 @@ write(paste0(downloads, "/df.gauging_data_latest.RDS will be produced"),
 # check the existence of resulting datasets and time
 from <- paste0(downloads, "/df.gauging_data_latest.RDS")
 if (file.exists(from)) {
-    from_mtime <- strftime(file.mtime(from), format = "%Y-%m-%d")
-    to <- paste0(downloads, "/df.gauging_data_", from_mtime, ".RDS")
-    if (file.exists(to)) {
+    # from_mtime <- strftime(file.mtime(from), format = "%Y-%m-%d")
+    # to <- paste0(downloads, "/df.gauging_data_", from_mtime, ".RDS")
+    # if (file.exists(to)) {
         write(paste0(to, " exists already and will be replaced!"), 
               stderr())
         file.remove(to)
-    }
-    file.rename(from = from, to = to)
+    # }
+    # file.rename(from = from, to = to)
 }
 # from2 <- paste0(downloads, "/df.gauging_data_latest_v2.RDS")
 # if (file.exists(from2)) {
