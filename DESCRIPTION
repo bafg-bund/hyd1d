@@ -31,7 +31,6 @@ RdMacros: Rdpack
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.3
 Collate:
     'Class-WaterLevelDataFrame.R'
     'WaterLevelDataFrame-methods.R'
@@ -54,3 +53,4 @@ Collate:
 VignetteBuilder: knitr
 BugReports: https://gitlab.opencode.de/bafg-bund/hyd1d/-/work_items
 URL: https://hyd1d.bafg.de, https://gitlab.opencode.de/bafg-bund/hyd1d
+Config/roxygen2/version: 8.0.0
