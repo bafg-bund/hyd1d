@@ -22,7 +22,7 @@
 #'   further columns can be added.
 #' @slot river is a required slot clearly determining the location of a station.
 #'   Possible values of \code{river} have to be type \code{character}, have to
-#'   have a length of one and are either \strong{Elbe} or \strong{Rhine}.
+#'   have a length of one.
 #' @slot time is a slot determining the time for which the water level has been
 #'   computed. \code{time} has to be type \code{\link[base:POSIXct]{c("POSIXct",
 #'   "POSIXt")}}, has to have a length of one and be in the range between
@@ -112,27 +112,44 @@ methods::setClass(
                                            "must have length 1."))
                 error_river <- TRUE
             }
-            # %in% c('Elbe', 'Rhine')
-            if (!(object@river %in% c("Elbe", "Rhine"))) {
+            # river properties
+            rivers_summary <- data.frame(
+                RIVERS = unique(df.gauging_station_data$river),
+                rivers = simpleCap(unique(df.gauging_station_data$river)),
+                km_qps_min = stats::aggregate(
+                    df.gauging_station_data$km_qps,
+                    list(df.gauging_station_data$river), min,
+                    na.rm = TRUE)$x,
+                km_qps_max = stats::aggregate(
+                    df.gauging_station_data$km_qps,
+                    list(df.gauging_station_data$river), max,
+                    na.rm = TRUE)$x,
+                w_min = stats::aggregate(
+                    df.gauging_station_data$pnp,
+                    list(df.gauging_station_data$river), min,
+                    na.rm = TRUE)$x - 10,
+                w_max = stats::aggregate(
+                    df.gauging_station_data$pnp,
+                    list(df.gauging_station_data$river), max,
+                    na.rm = TRUE)$x + 10)
+            
+            if (!(object@river %in% rivers_summary$rivers)) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'river' ",
-                                           "must be an element of ",
-                                           "c('Elbe', 'Rhine')."))
+                                           "must be an element of c(",
+                                           paste(rivers_summary$rivers,
+                                                 collapse = '\', \''),
+                                           ")."))
                 error_river <- TRUE
             }
             # set 'river'-specific limits of station_int and w
             if (!(error_river)) {
-                if (object@river == "Elbe") {
-                    station_int_min <- 0
-                    station_int_max <- 585700
-                    w_min <- 0
-                    w_max <- 130
-                }
-                if (object@river == "Rhine") {
-                    station_int_min <- 336200
-                    station_int_max <- 865700
-                    w_min <- 5
-                    w_max <- 120
-                }
+                id_river <- which(rivers_summary$rivers == object@river)
+                station_int_min <- as.integer(
+                    rivers_summary$km_qps_min[id_river] * 1000)
+                station_int_max <- as.integer(
+                    rivers_summary$km_qps_max[id_river] * 1000)
+                w_min <- rivers_summary$w_min[id_river]
+                w_max <- rivers_summary$w_max[id_river]
             } else {
                 station_int_min <- 0
                 station_int_max <- 865700
@@ -257,7 +274,7 @@ methods::setClass(
                                            "'station' must not contain ",
                                            "NA's."))
             }
-            # range (Elbe: 0 - 585700; Rhine: 336200 - 865700)
+            # range (Elbe: 0 - 585700; Elbe_tidal: 0 - 174000; Rhine: 336200 - 865700)
             if (!(error_river)) {
                 if (min(object$station) < station_int_min / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": ",
@@ -313,7 +330,7 @@ methods::setClass(
                                            "'station_int' must not contain ",
                                            "NA's."))
             }
-            # range (Elbe: 0 - 585700; Rhine: 336200 - 865700)
+            # range (Elbe: 0 - 585700; Elbe_tidal: 0 - 174000; Rhine: 336200 - 865700)
             if (!(error_river)) {
                 if (min(object$station_int) < station_int_min) {
                     errors <- c(errors, paste0("Error ", l(errors), ": ",
@@ -377,7 +394,7 @@ methods::setClass(
                 errors <- c(errors, paste0("Error ", l(errors), ": 'w' must ",
                                            "be type 'numeric'."))
             }
-            # range (Elbe: 130 - 0; Rhine: 120 - 5)
+            # range (Elbe: 130 - 0; Elbe_tidal: -10 - 10; Rhine: 120 - 5)
             if (!(error_river)) {
                 if (!(all(is.na(object$w)))) {
                     if (min(object$w, na.rm = TRUE) < w_min) {
@@ -416,22 +433,7 @@ methods::setClass(
                     errors <- c(errors, paste0("Error ", l(errors), ": ",
                                                "'station_int' and 'w' must ",
                                                "have equal length."))
-            } 
-# order
-# else {
-#     if (!(all(order(object$station_int) == order(-object$w)))) { 
-#         len_in_order <- sum((order(object$station_int) == order(-object$w)))
-#         len_total <- length(object$station_int) 
-#         if (len_in_order/len_total < 0.8) {
-#             errors <- c(errors, paste0("Error ", l(errors), ": ",
-#                                        "'station_int', and 'w' ",
-#                                        "should be in inversed ",
-#                                        "order since 'w' decreases ",
-#                                        "in flow direction with ",
-#                                        "increasing 'station_int'."))
-#         }
-#     }
-# }
+            }
             
             ## return
             if (l(errors) != "1") {
@@ -451,7 +453,7 @@ methods::setClass(
 #' 
 #' @param river a required argument to fill the \linkS4class{WaterLevelDataFrame}-slot
 #'   \code{river}. It has to be type \code{character}, has to have a length of
-#'   one and can be either \strong{Elbe} or \strong{Rhine}.
+#'   one and can be \strong{Elbe} or \strong{Elbe_tidal} or \strong{Rhine}.
 #' @param time a required argument to fill the \linkS4class{WaterLevelDataFrame}-slot
 #'   \code{time}. It has to be type \code{\link[base:POSIXct]{c("POSIXct",
 #'   "POSIXt")}}, has to have a length of one and must be in the temporal range
@@ -498,7 +500,7 @@ methods::setClass(
 #'   (\code{station} and \code{station_int}) are specified, all elements of
 #'   \code{station} have to be equal to \code{as.numeric(station_int / 1000)}.
 #'   Minimum and maximum allowed values of \code{station} are
-#'   \code{river}-specific: Elbe (km 0 - 585.7), Rhine (km 336.2 - 865.7).
+#'   \code{river}-specific: Elbe (km 0 - 585.7), Elbe_tidal (km 0 - 174.0), Rhine (km 336.2 - 865.7).
 #' @param station_int an optional argument to hand over the stationing along the
 #'   specified \code{river}. If specified, it has to be type \code{integer}
 #'   and has to have the same length as other optional arguments (\code{id},
@@ -506,8 +508,7 @@ methods::setClass(
 #'   of a \linkS4class{WaterLevelDataFrame}. If both stationing arguments
 #'   (\code{station} and \code{station_int}) are specified, all elements of
 #'   \code{station_int} have to be equal to \code{as.integer(station * 1000)}.
-#'   Minimum and maximum allowed values of \code{station_int} are \code{river}-specific:
-#'   Elbe (m 0 - 585700), Rhine (m 336200 - 865700).
+#'   Minimum and maximum allowed values of \code{station_int} are \code{river}-specific.
 #' @param w an optional argument to hand over the water level information along
 #'   the stationing of the specified \code{river} for a given \code{time}. If
 #'   specified, it has to be type \code{numeric} and has to have the same
@@ -517,8 +518,7 @@ methods::setClass(
 #'   \linkS4class{WaterLevelDataFrame}-column \code{w} can be computed by the
 #'   functions \code{\link{waterLevel}}, \code{\link{waterLevelPegelonline}},
 #'   \code{\link{waterLevelFlys3}} and \code{\link{waterLevelFlys3Seq}}. Minimum
-#'   and maximum allowed values of \code{w} are river-specific: Elbe (m a.s.l. 0
-#'   - 130), Rhine (m a.s.l. 5 - 120).
+#'   and maximum allowed values of \code{w} are river-specific.
 #' 
 #' @return The function produces an object of class
 #'   \linkS4class{WaterLevelDataFrame} which might contain 1d water level data
@@ -532,7 +532,7 @@ methods::setClass(
 #' 
 #' @export
 #' 
-WaterLevelDataFrame <- function(river = c("Elbe", "Rhine"),
+WaterLevelDataFrame <- function(river,
                                 time,
                                 gauging_stations         = NULL,
                                 gauging_stations_missing = NULL,
@@ -567,26 +567,37 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhine"),
                                        "have length 1."))
             error_river <- TRUE
         }
-        # %in% c('Elbe', 'Rhine')
-        if (!(river %in% c("Elbe", "Rhine"))) {
-            errors <- c(errors, paste0("Error ", l(errors), ": 'river' must ",
-                                       "be an element of c('Elbe', 'Rhine')."))
+        # river properties
+        rivers_summary <- data.frame(
+            RIVERS = unique(df.gauging_station_data$river),
+            rivers = simpleCap(unique(df.gauging_station_data$river)),
+            km_qps_min = aggregate(df.gauging_station_data$km_qps,
+                                   list(df.gauging_station_data$river), min)$x,
+            km_qps_max = aggregate(df.gauging_station_data$km_qps,
+                                   list(df.gauging_station_data$river), max)$x,
+            w_min = aggregate(df.gauging_station_data$pnp,
+                              list(df.gauging_station_data$river), min,
+                              na.rm = TRUE)$x - 10,
+            w_max = aggregate(df.gauging_station_data$pnp,
+                              list(df.gauging_station_data$river), max,
+                              na.rm = TRUE)$x + 10)
+        if (!(river %in% rivers_summary$rivers)) {
+            errors <- c(errors, paste0("Error ", l(errors), ": 'river' ",
+                                       "must be an element of c(",
+                                       paste(rivers_summary$rivers,
+                                             collapse = '\', \''),
+                                       ")."))
             error_river <- TRUE
         }
-        # set 'river'-specific limits of station_int
+        # set 'river'-specific limits of station_int and w
         if (!(error_river)) {
-            if (river == "Elbe") {
-                station_int_min <- 0
-                station_int_max <- 585700
-                w_min <- 0
-                w_max <- 130
-            }
-            if (river == "Rhine") {
-                station_int_min <- 336200
-                station_int_max <- 865700
-                w_min <- 5
-                w_max <- 120
-            }
+            id_river <- which(rivers_summary$rivers == river)
+            station_int_min <- as.integer(
+                rivers_summary$km_qps_min[id_river] * 1000)
+            station_int_max <- as.integer(
+                rivers_summary$km_qps_max[id_river] * 1000)
+            w_min <- rivers_summary$w_min[id_river]
+            w_max <- rivers_summary$w_max[id_river]
             wldf_river <- river
         } else {
             station_int_min <- 0

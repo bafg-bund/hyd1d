@@ -36,6 +36,7 @@ Collate:
     'WaterLevelDataFrame-methods.R'
     'data.R'
     'getGaugingDataW.R'
+    'getPegelonlineCharacteristicValues.R'
     'getPegelonlineW.R'
     'hyd1d-internal.R'
     'hyd1d.R'

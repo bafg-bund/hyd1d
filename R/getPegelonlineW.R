@@ -402,16 +402,18 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
             end = I(paste0(strftime(max(time) + as.difftime(60, units = "mins"),
                                     format = "%Y-%m-%dT%H:%M"),
                            "%2B01:00")))
+        req <- httr2::req_error(req, is_error = \(resp) FALSE)
         req <- httr2::req_method(req, "GET")
         req <- httr2::req_retry(req, max_tries = 10L)
         
         # perform the request
         resp <- httr2::req_perform(req)
-        if (resp$status_code != 200) {
+        status_code <- as.character(resp$status_code)
+        if (status_code != "200") {
             message(paste0("The webserver of the PEGELONLINE rest-api returned",
-                           " a status code of '", resp$status_code, "'.\nThere",
-                           "fore the return value of getPegelonlineW() is NA.",
-                           "\nPlease try again later."))
+                           " a status code of '", status_code, "'.\nTherefore ",
+                           "the return value of getPegelonlineW() is NA.\nPlea",
+                           "se try again later."))
             return(NA_real_)
         }
         df.w <- httr2::resp_body_json(resp, simplifyVector = TRUE)
@@ -474,16 +476,18 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
                                     + as.difftime(60, units = "mins"),
                                     format = "%Y-%m-%dT%H:%M"),
                            "%2B01:00")))
+        req <- httr2::req_error(req, is_error = \(resp) FALSE)
         req <- httr2::req_method(req, "GET")
         req <- httr2::req_retry(req, max_tries = 10L)
         
         # perform the request
         resp <- httr2::req_perform(req)
-        if (resp$status_code != 200) {
+        status_code <- as.character(resp$status_code)
+        if (status_code != "200") {
             message(paste0("The webserver of the PEGELONLINE rest-api returned",
-                           " a status code of '", resp$status_code, "'.\nThere",
-                           "fore the return value of getPegelonlineW() is NA.",
-                           "\nPlease try again later."))
+                           " a status code of '", status_code, "'.\nTherefore ",
+                           "the return value of getPegelonlineW() is NA.\nPlea",
+                           "se try again later."))
             return(NA_real_)
         }
         df.w <- httr2::resp_body_json(resp, simplifyVector = TRUE)
@@ -507,9 +511,16 @@ getPegelonlineW <- function(gauging_station, time, uuid) {
 .pegelonline_status <- function() {
     req <- httr2::req_url_path_append(httr2::request(.pegelonline_rest_url),
                                       "stations.json")
-    if (httr2::req_perform(req)$status_code == 200) {
+    req <- httr2::req_error(req, is_error = \(resp) FALSE)
+    resp <- httr2::req_perform(req)
+    status_code <- as.character(resp$status_code)
+    if (status_code == "200") {
         return(TRUE)
     } else {
+        message(paste0("The webserver of the PEGELONLINE rest-api returned a s",
+                       "tatus code of '", status_code, "'.\nTherefore the retu",
+                       "rn value of getPegelonlineW() is NA.\nPlease try again",
+                       " later."))
         return(FALSE)
     }
 }
