@@ -1,5 +1,6 @@
 # hyd1d
 
+* deploy shinyapps automatically using `make shiny`
 * install source packages using `pak:pak()`
 * remove dependencies to deprecated `devtools::`-functions
 * migrate repository from github.com to opencode.de

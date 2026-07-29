@@ -25,6 +25,7 @@
 ^presentation$
 ^README\.Rmd$
 ^README_files$
+^rsconnect$
 ^shinyapps$
 ^vignettes/latex/Thumbs\.db$
 ^vignettes/microbenchmarking\.R$

@@ -20,7 +20,7 @@ packages <- c("jsonlite", "Rdpack", "DBI", "RPostgreSQL", "testthat",
               "knitr", "rmarkdown", "stringr", "devtools", "httr2", "curl",
               "pkgdown", "roxygen2", "revealjs", "shiny", "shiny.i18n",
               "shinyTime", "lubridate", "usethis", "bslib", "xml2",
-              "urlchecker", "pak")
+              "urlchecker", "pak", "rsconnect")
 
 for (a_package in packages) {
     if (! (a_package %in% installed.packages()[, "Package"])) {

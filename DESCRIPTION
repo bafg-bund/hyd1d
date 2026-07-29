@@ -26,7 +26,7 @@ Depends: R (>= 4.1.0)
 Imports: methods, utils, Rdpack, httr2, curl
 Suggests: DBI (>= 0.4-9), RPostgreSQL (>= 0.6-1), testthat, knitr, rmarkdown,
     stringr, devtools, pak, pkgdown, roxygen2, revealjs, shiny, shiny.i18n,
-    shinyTime, lubridate, usethis, yaml, desc
+    shinyTime, lubridate, usethis, yaml, desc, rsconnect
 RdMacros: Rdpack
 License: GPL (>= 2)
 Encoding: UTF-8
