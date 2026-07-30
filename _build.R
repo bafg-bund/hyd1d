@@ -203,13 +203,19 @@ bfgdown::insertLogo(public, "pkgdown/bfg_logo.png",
                     href = "https://www.bafg.de", text = "BfG")
 
 #####
-# create public/downloads directory and copy hyd1d_*.tar.gz-files into it
+# create docs/downloads directory and copy hyd1d_*.tar.gz-files into it
 downloads <- paste0(public, "downloads")
 dir.create(downloads, FALSE, TRUE)
-from <- list.files(path = build,
-                   pattern = "hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]\\.tar\\.gz",
-                   full.names = TRUE)
-file.copy(from = from, to = downloads, overwrite = TRUE, copy.date = TRUE)
+
+# copy old package versions
+vers <- list.dirs("built", FALSE, FALSE)
+for (a_vers in vers) {
+    from <- list.files(path = paste0("built/", a_vers),
+                       pattern = "hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]\\.tar\\.gz",
+                       full.names = TRUE)
+    file.copy(from = from, to = downloads, overwrite = TRUE, copy.date = TRUE)
+}
+rm(from, a_vers, vers)
 
 #####
 # export the documentation as pdf

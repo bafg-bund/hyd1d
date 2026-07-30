@@ -1,5 +1,6 @@
 # hyd1d
 
+* fully reproduce contents of `docs/`
 * deploy shinyapps automatically using `make shiny`
 * install source packages using `pak:pak()`
 * remove dependencies to deprecated `devtools::`-functions
