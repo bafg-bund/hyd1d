@@ -1,5 +1,6 @@
 # hyd1d
 
+* import validated gauging data for 2025
 * fully reproduce contents of `docs/`
 * deploy shinyapps automatically using `make shiny`
 * install source packages using `pak:pak()`
