@@ -1,6 +1,7 @@
 > [!WARNING]
-> This repository has been archived on github.com
-> Present development happens at https://gitlab.opencode.de/bafg-bund/hyd1d
+> This repository has been archived on github.com!
+> 
+> Present and future development happens at https://gitlab.opencode.de/bafg-bund/hyd1d
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
