@@ -274,7 +274,7 @@ methods::setClass(
                                            "'station' must not contain ",
                                            "NA's."))
             }
-            # range (Elbe: 0 - 585700; Elbe_tidal: 0 - 174000; Rhine: 336200 - 865700)
+            # range (Elbe: 0 - 585700; Rhine: 336200 - 865700)
             if (!(error_river)) {
                 if (min(object$station) < station_int_min / 1000) {
                     errors <- c(errors, paste0("Error ", l(errors), ": ",
@@ -330,7 +330,7 @@ methods::setClass(
                                            "'station_int' must not contain ",
                                            "NA's."))
             }
-            # range (Elbe: 0 - 585700; Elbe_tidal: 0 - 174000; Rhine: 336200 - 865700)
+            # range (Elbe: 0 - 585700; Rhine: 336200 - 865700)
             if (!(error_river)) {
                 if (min(object$station_int) < station_int_min) {
                     errors <- c(errors, paste0("Error ", l(errors), ": ",
@@ -394,7 +394,7 @@ methods::setClass(
                 errors <- c(errors, paste0("Error ", l(errors), ": 'w' must ",
                                            "be type 'numeric'."))
             }
-            # range (Elbe: 130 - 0; Elbe_tidal: -10 - 10; Rhine: 120 - 5)
+            # range (Elbe: 130 - 0; Rhine: 120 - 5)
             if (!(error_river)) {
                 if (!(all(is.na(object$w)))) {
                     if (min(object$w, na.rm = TRUE) < w_min) {
@@ -453,7 +453,7 @@ methods::setClass(
 #' 
 #' @param river a required argument to fill the \linkS4class{WaterLevelDataFrame}-slot
 #'   \code{river}. It has to be type \code{character}, has to have a length of
-#'   one and can be \strong{Elbe} or \strong{Elbe_tidal} or \strong{Rhine}.
+#'   one and can be \strong{Elbe} or \strong{Rhine}.
 #' @param time a required argument to fill the \linkS4class{WaterLevelDataFrame}-slot
 #'   \code{time}. It has to be type \code{\link[base:POSIXct]{c("POSIXct",
 #'   "POSIXt")}}, has to have a length of one and must be in the temporal range
@@ -500,7 +500,7 @@ methods::setClass(
 #'   (\code{station} and \code{station_int}) are specified, all elements of
 #'   \code{station} have to be equal to \code{as.numeric(station_int / 1000)}.
 #'   Minimum and maximum allowed values of \code{station} are
-#'   \code{river}-specific: Elbe (km 0 - 585.7), Elbe_tidal (km 0 - 174.0), Rhine (km 336.2 - 865.7).
+#'   \code{river}-specific: Elbe (km 0 - 585.7), Rhine (km 336.2 - 865.7).
 #' @param station_int an optional argument to hand over the stationing along the
 #'   specified \code{river}. If specified, it has to be type \code{integer}
 #'   and has to have the same length as other optional arguments (\code{id},
