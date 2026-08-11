@@ -99,7 +99,7 @@ urlchecker::url_update(".")
 # build vignettes
 write("#####", stdout())
 write(" build vignettes", stdout())
-devtools::build_vignettes(".", clean = FALSE)
+pkgdown::build_articles(".", quiet = FALSE)
 tools::compactPDF(paths = "doc", gs_quality = "ebook")
 
 #####
@@ -203,13 +203,19 @@ bfgdown::insertLogo(public, "pkgdown/bfg_logo.png",
                     href = "https://www.bafg.de", text = "BfG")
 
 #####
-# create public/downloads directory and copy hyd1d_*.tar.gz-files into it
+# create docs/downloads directory and copy hyd1d_*.tar.gz-files into it
 downloads <- paste0(public, "downloads")
 dir.create(downloads, FALSE, TRUE)
-from <- list.files(path = build,
-                   pattern = "hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]\\.tar\\.gz",
-                   full.names = TRUE)
-file.copy(from = from, to = downloads, overwrite = TRUE, copy.date = TRUE)
+
+# copy old package versions
+vers <- list.dirs("built", FALSE, FALSE)
+for (a_vers in vers) {
+    from <- list.files(path = paste0("built/", a_vers),
+                       pattern = "hyd1d\\_[:0-9:]\\.[:0-9:]\\.[:0-9:]\\.tar\\.gz",
+                       full.names = TRUE)
+    file.copy(from = from, to = downloads, overwrite = TRUE, copy.date = TRUE)
+}
+rm(from, a_vers, vers)
 
 #####
 # export the documentation as pdf
@@ -252,7 +258,8 @@ write(" web", stdout())
 
 host <- Sys.info()["nodename"]
 user <- Sys.info()["user"]
-if (host == "pvil-rr.bafg.de" & user == "WeberA" & R_version == "4.5.2") {
+if (host == "pvil-rr.bafg.de" & user == "WeberA" & R_version == "4.6.1") {
+    
     # copy html output to ~/public_html
     system(paste0("cp -rp ", public, "* /home/", user, "/public_html/hyd1d/"))
     system("permissions_html")

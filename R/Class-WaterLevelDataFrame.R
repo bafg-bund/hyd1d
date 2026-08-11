@@ -46,400 +46,400 @@
 #' @exportClass WaterLevelDataFrame
 #' 
 methods::setClass(
-         Class     = "WaterLevelDataFrame",
-         slots     = c(river                    = "character",
-                       time                     = "POSIXct",
-                       gauging_stations         = "data.frame",
-                       gauging_stations_missing = "character",
-                       comment                  = "character"),
-         contains  = "data.frame",
-         prototype = methods::prototype(
-             
-         data.frame(station     = numeric(),
-                    station_int = integer(),
-                    w           = numeric()),
-         
-         river                    = as.character(NA),
-         time                     = as.POSIXct(NA),
-         gauging_stations         = data.frame(id                 = integer(),
-                                               gauging_station    = character(),
-                                               uuid               = character(),
-                                               km                 = numeric(),
-                                               km_qps             = numeric(),
-                                               river              = character(),
-                                               longitude          = numeric(),
-                                               latitude           = numeric(),
-                                               mw                 = numeric(),
-                                               mw_timespan        = character(),
-                                               pnp                = numeric(),
-                                               w                  = numeric(),
-                                               wl                 = numeric(),
-                                               n_wls_below_w_do   = integer(),
-                                               n_wls_above_w_do   = integer(),
-                                               n_wls_below_w_up   = integer(),
-                                               n_wls_above_w_up   = integer(),
-                                               name_wl_below_w_do = character(),
-                                               name_wl_above_w_do = character(),
-                                               name_wl_below_w_up = character(),
-                                               name_wl_above_w_up = character(),
-                                               w_wl_below_w_do    = numeric(),
-                                               w_wl_above_w_do    = numeric(),
-                                               w_wl_below_w_up    = numeric(),
-                                               w_wl_above_w_up    = numeric(),
-                                               weight_up          = numeric(),
-                                               weight_do          = numeric()),
-         
-         gauging_stations_missing = as.character(NA),
-         comment                  = as.character(NA)),
-         
-         validity  = function(object) {
-            
-             ## vector and function to catch error messages
-            errors <- character()
-            l <- function(errors) {as.character(length(errors) + 1)}
-            
-            ## slot: river
-            error_river <- FALSE
-            # character
-            if (!inherits(object@river, "character")) {
-                errors <- c(errors, paste0("Error ", l(errors), ": 'river' ",
-                                           "must be type 'character'."))
-                error_river <- TRUE
-            }
-            # length
-            if (length(object@river) != 1L) {
-                errors <- c(errors, paste0("Error ", l(errors), ": 'river' ",
-                                           "must have length 1."))
-                error_river <- TRUE
-            }
-            # %in% c('Elbe', 'Rhine')
-            if (!(object@river %in% c("Elbe", "Rhine"))) {
-                errors <- c(errors, paste0("Error ", l(errors), ": 'river' ",
-                                           "must be an element of ",
-                                           "c('Elbe', 'Rhine')."))
-                error_river <- TRUE
-            }
-            # set 'river'-specific limits of station_int and w
-            if (!(error_river)) {
-                if (object@river == "Elbe") {
-                    station_int_min <- 0
-                    station_int_max <- 585700
-                    w_min <- 0
-                    w_max <- 130
-                }
-                if (object@river == "Rhine") {
-                    station_int_min <- 336200
-                    station_int_max <- 865700
-                    w_min <- 5
-                    w_max <- 120
-                }
-            } else {
+    Class     = "WaterLevelDataFrame",
+    slots     = c(river                    = "character",
+                  time                     = "POSIXct",
+                  gauging_stations         = "data.frame",
+                  gauging_stations_missing = "character",
+                  comment                  = "character"),
+    contains  = "data.frame",
+    prototype = methods::prototype(
+        
+        data.frame(station     = numeric(),
+                   station_int = integer(),
+                   w           = numeric()),
+        
+        river                    = as.character(NA),
+        time                     = as.POSIXct(NA),
+        gauging_stations         = data.frame(id                 = integer(),
+                                              gauging_station    = character(),
+                                              uuid               = character(),
+                                              km                 = numeric(),
+                                              km_qps             = numeric(),
+                                              river              = character(),
+                                              longitude          = numeric(),
+                                              latitude           = numeric(),
+                                              mw                 = numeric(),
+                                              mw_timespan        = character(),
+                                              pnp                = numeric(),
+                                              w                  = numeric(),
+                                              wl                 = numeric(),
+                                              n_wls_below_w_do   = integer(),
+                                              n_wls_above_w_do   = integer(),
+                                              n_wls_below_w_up   = integer(),
+                                              n_wls_above_w_up   = integer(),
+                                              name_wl_below_w_do = character(),
+                                              name_wl_above_w_do = character(),
+                                              name_wl_below_w_up = character(),
+                                              name_wl_above_w_up = character(),
+                                              w_wl_below_w_do    = numeric(),
+                                              w_wl_above_w_do    = numeric(),
+                                              w_wl_below_w_up    = numeric(),
+                                              w_wl_above_w_up    = numeric(),
+                                              weight_up          = numeric(),
+                                              weight_do          = numeric()),
+        
+        gauging_stations_missing = as.character(NA),
+        comment                  = as.character(NA)),
+    
+    validity  = function(object) {
+        
+        ## vector and function to catch error messages
+        errors <- character()
+        l <- function(errors) {as.character(length(errors) + 1)}
+        
+        ## slot: river
+        error_river <- FALSE
+        # character
+        if (!inherits(object@river, "character")) {
+            errors <- c(errors, paste0("Error ", l(errors), ": 'river' ",
+                                       "must be type 'character'."))
+            error_river <- TRUE
+        }
+        # length
+        if (length(object@river) != 1L) {
+            errors <- c(errors, paste0("Error ", l(errors), ": 'river' ",
+                                       "must have length 1."))
+            error_river <- TRUE
+        }
+        # %in% c('Elbe', 'Rhine')
+        if (!(object@river %in% c("Elbe", "Rhine"))) {
+            errors <- c(errors, paste0("Error ", l(errors), ": 'river' ",
+                                       "must be an element of ",
+                                       "c('Elbe', 'Rhine')."))
+            error_river <- TRUE
+        }
+        # set 'river'-specific limits of station_int and w
+        if (!(error_river)) {
+            if (object@river == "Elbe") {
                 station_int_min <- 0
-                station_int_max <- 865700
+                station_int_max <- 585700
                 w_min <- 0
                 w_max <- 130
             }
-            
-            ## slot: time
-            # POSIXct
-            if (!all(c(inherits(object@time, "POSIXct"),
-                       inherits(object@time, "POSIXt")))) {
+            if (object@river == "Rhine") {
+                station_int_min <- 336200
+                station_int_max <- 865700
+                w_min <- 5
+                w_max <- 120
+            }
+        } else {
+            station_int_min <- 0
+            station_int_max <- 865700
+            w_min <- 0
+            w_max <- 130
+        }
+        
+        ## slot: time
+        # POSIXct
+        if (!all(c(inherits(object@time, "POSIXct"),
+                   inherits(object@time, "POSIXt")))) {
+            errors <- c(errors, paste0("Error ", l(errors), ": 'time' ",
+                                       "must be type c('POSIXct', ",
+                                       "'POSIXt')."))
+        }
+        # length
+        if (length(object@time) != 1L) {
+            errors <- c(errors, paste0("Error ", l(errors), ": 'time' ",
+                                       "must have length 1."))
+        }
+        # 1960-01-01 and now
+        if (!(is.na(object@time))) {
+            if (object@time < as.POSIXct("1960-01-01 00:00:00 CET") |
+                object@time > Sys.time()) {
                 errors <- c(errors, paste0("Error ", l(errors), ": 'time' ",
-                                           "must be type c('POSIXct', ",
-                                           "'POSIXt')."))
+                                           "must be 1960-01-01 00:00:00 ",
+                                           "and now or NA."))
             }
-            # length
-            if (length(object@time) != 1L) {
-                errors <- c(errors, paste0("Error ", l(errors), ": 'time' ",
-                                           "must have length 1."))
+        }
+        
+        ## slot: gauging_stations
+        # data.frame
+        if (!inherits(object@gauging_stations, "data.frame") & 
+            !inherits(object@gauging_stations, "list")) {
+            errors <- c(errors, paste0("Error ", l(errors), ": 'gauging_",
+                                       "stations' must be type ",
+                                       "'data.frame'."))
+        }
+        # names
+        gs_colnames <- c("id", "gauging_station", "uuid", "km", "km_qps",
+                         "river", "longitude", "latitude", "mw",
+                         "mw_timespan", "pnp", "w", "wl", 
+                         "n_wls_below_w_do", "n_wls_above_w_do", 
+                         "n_wls_below_w_up","n_wls_above_w_up", 
+                         "name_wl_below_w_do", "name_wl_above_w_do", 
+                         "name_wl_below_w_up", "name_wl_above_w_up", 
+                         "w_wl_below_w_do", "w_wl_above_w_do", 
+                         "w_wl_below_w_up", "w_wl_above_w_up", "weight_up",
+                         "weight_do")
+        if (!(all(names(object@gauging_stations) == gs_colnames))) {
+            errors <- c(errors, paste0("Error ", l(errors), ": names(",
+                                       "gauging_stations) must be c('",
+                                       paste0(gs_colnames,
+                                              collapse = "', '")
+                                       , "')."))
+        }
+        # column classes
+        gs_column_types <- c("integer", "character", "character", "numeric",
+                             "numeric", "character", "numeric", "numeric",
+                             "numeric", "character", "numeric", "numeric", 
+                             "numeric", "integer", "integer", "integer", 
+                             "integer","character", "character", 
+                             "character", "character", "numeric", "numeric",
+                             "numeric", "numeric", "numeric", "numeric")
+        i <- 1L
+        for (a_column in gs_colnames) {
+            if (!inherits(object@gauging_stations[, a_column],
+                          gs_column_types[i])) {
+                errors <- c(errors, paste0("Error ", l(errors),
+                                           ": 'gauging_stations' column '",
+                                           a_column, "' must be type '",
+                                           gs_column_types[i], "'."))
             }
-            # 1960-01-01 and now
-            if (!(is.na(object@time))) {
-                if (object@time < as.POSIXct("1960-01-01 00:00:00 CET") |
-                    object@time > Sys.time()) {
-                    errors <- c(errors, paste0("Error ", l(errors), ": 'time' ",
-                                               "must be 1960-01-01 00:00:00 ",
-                                               "and now or NA."))
-                }
-            }
-            
-            ## slot: gauging_stations
-            # data.frame
-            if (!inherits(object@gauging_stations, "data.frame") & 
-                !inherits(object@gauging_stations, "list")) {
-                errors <- c(errors, paste0("Error ", l(errors), ": 'gauging_",
-                                           "stations' must be type ",
-                                           "'data.frame'."))
-            }
-            # names
-            gs_colnames <- c("id", "gauging_station", "uuid", "km", "km_qps",
-                             "river", "longitude", "latitude", "mw",
-                             "mw_timespan", "pnp", "w", "wl", 
-                             "n_wls_below_w_do", "n_wls_above_w_do", 
-                             "n_wls_below_w_up","n_wls_above_w_up", 
-                             "name_wl_below_w_do", "name_wl_above_w_do", 
-                             "name_wl_below_w_up", "name_wl_above_w_up", 
-                             "w_wl_below_w_do", "w_wl_above_w_do", 
-                             "w_wl_below_w_up", "w_wl_above_w_up", "weight_up",
-                             "weight_do")
-            if (!(all(names(object@gauging_stations) == gs_colnames))) {
-                errors <- c(errors, paste0("Error ", l(errors), ": names(",
-                                           "gauging_stations) must be c('",
-                                           paste0(gs_colnames,
-                                                  collapse = "', '")
-                                           , "')."))
-            }
-            # column classes
-            gs_column_types <- c("integer", "character", "character", "numeric",
-                                 "numeric", "character", "numeric", "numeric",
-                                 "numeric", "character", "numeric", "numeric", 
-                                 "numeric", "integer", "integer", "integer", 
-                                 "integer","character", "character", 
-                                 "character", "character", "numeric", "numeric",
-                                 "numeric", "numeric", "numeric", "numeric")
-            i <- 1L
-            for (a_column in gs_colnames) {
-                if (!inherits(object@gauging_stations[, a_column],
-                              gs_column_types[i])) {
-                    errors <- c(errors, paste0("Error ", l(errors),
-                                               ": 'gauging_stations' column '",
-                                               a_column, "' must be type '",
-                                               gs_column_types[i], "'."))
-                }
-                i <- i + 1L
-            }
-            
-            ## slot: gauging_stations_missing 
-            # character
-            if (!inherits(object@gauging_stations_missing, "character")) {
+            i <- i + 1L
+        }
+        
+        ## slot: gauging_stations_missing 
+        # character
+        if (!inherits(object@gauging_stations_missing, "character")) {
+            errors <- c(errors, paste0("Error ", l(errors), ": ",
+                                       "'gauging_stations_missing' must ",
+                                       "be type 'character'."))
+        }
+        
+        ## slot: comment
+        # character
+        if (!inherits(object@comment, "character")) {
+            errors <- c(errors, paste0("Error ", l(errors), ": 'comment' ",
+                                       "must be type 'character'."))
+        }
+        # length 
+        # if (length(object@comment) != 1L) {
+        #     errors <- c(errors, paste0("Error ", l(errors), ": 'comment'",
+        #                                " must have length 1."))
+        # }
+        
+        ## slot: .Data
+        # data.frame
+        if (!inherits(object@.Data, "data.frame") & 
+            !inherits(object@.Data, "list")) {
+            errors <- c(errors, paste0("Error ", l(errors), ": '.Data' ",
+                                       "must be type 'data.frame'."))
+        }
+        # names
+        if (!(all(names(object)[1:3] ==
+                  c("station", "station_int", "w")))) {
+            errors <- c(errors, paste0("Error ", l(errors), ": names(wldf)",
+                                       "[1:3] must be c('station', ",
+                                       "'station_int', 'w')."))
+        }
+        
+        ## .Data$station
+        # numeric
+        if (!inherits(object$station, "numeric")) {
+            errors <- c(errors, paste0("Error ", l(errors), ": ",
+                                       "'station' must be type ",
+                                       "'numeric'."))
+        }
+        # is.na
+        if (any(is.na(object$station))) {
+            errors <- c(errors, paste0("Error ", l(errors), ": ",
+                                       "'station' must not contain ",
+                                       "NA's."))
+        }
+        # range (Elbe: 0 - 585700; Rhine: 336200 - 865700)
+        if (!(error_river)) {
+            if (min(object$station) < station_int_min / 1000) {
                 errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                           "'gauging_stations_missing' must ",
-                                           "be type 'character'."))
+                                           "min(station) must be ",
+                                           "above km ",
+                                           as.character(
+                                               as.numeric(
+                                                   station_int_min / 1000)),
+                                           " for river '",
+                                           object@river, "'."))
             }
-            
-            ## slot: comment
-            # character
-            if (!inherits(object@comment, "character")) {
-                errors <- c(errors, paste0("Error ", l(errors), ": 'comment' ",
-                                           "must be type 'character'."))
-            }
-            # length 
-            # if (length(object@comment) != 1L) {
-            #     errors <- c(errors, paste0("Error ", l(errors), ": 'comment'",
-            #                                " must have length 1."))
-            # }
-            
-            ## slot: .Data
-            # data.frame
-            if (!inherits(object@.Data, "data.frame") & 
-                !inherits(object@.Data, "list")) {
-                errors <- c(errors, paste0("Error ", l(errors), ": '.Data' ",
-                                           "must be type 'data.frame'."))
-            }
-            # names
-            if (!(all(names(object)[1:3] ==
-                      c("station", "station_int", "w")))) {
-                errors <- c(errors, paste0("Error ", l(errors), ": names(wldf)",
-                                           "[1:3] must be c('station', ",
-                                           "'station_int', 'w')."))
-            }
-            
-            ## .Data$station
-            # numeric
-            if (!inherits(object$station, "numeric")) {
+            if (max(object$station) > station_int_max / 1000) {
                 errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                           "'station' must be type ",
-                                           "'numeric'."))
+                                           "max(station) must be ",
+                                           "below km ",
+                                           as.character(
+                                               as.numeric(
+                                                   station_int_max / 1000)),
+                                           " for river '",
+                                           object@river, "'."))
             }
-            # is.na
-            if (any(is.na(object$station))) {
+        } else {
+            if (min(object$station) < station_int_min / 1000) {
                 errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                           "'station' must not contain ",
-                                           "NA's."))
+                                           "min(station) must be ",
+                                           "above km ",
+                                           as.character(
+                                               as.numeric(
+                                                   station_int_min / 1000)),
+                                           "."))
             }
-            # range (Elbe: 0 - 585700; Rhine: 336200 - 865700)
-            if (!(error_river)) {
-                if (min(object$station) < station_int_min / 1000) {
-                    errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                               "min(station) must be ",
-                                               "above km ",
-                                               as.character(
-                                                   as.numeric(
-                                                       station_int_min / 1000)),
-                                               " for river '",
-                                               object@river, "'."))
-                }
-                if (max(object$station) > station_int_max / 1000) {
-                    errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                               "max(station) must be ",
-                                               "below km ",
-                                               as.character(
-                                                   as.numeric(
-                                                       station_int_max / 1000)),
-                                               " for river '",
-                                               object@river, "'."))
-                }
-            } else {
-                if (min(object$station) < station_int_min / 1000) {
-                    errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                               "min(station) must be ",
-                                               "above km ",
-                                               as.character(
-                                                   as.numeric(
-                                                       station_int_min / 1000)),
-                                               "."))
-                }
-                if (max(object$station) > station_int_max / 1000) {
-                    errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                               "max(station) must be ",
-                                               "below km ",
-                                               as.character(
-                                                   as.numeric(
-                                                       station_int_max / 1000)),
-                                               "."))
-                }
-            }
-            
-            ## .Data$station_int
-            # integer
-            if (!inherits(object$station_int, "integer")) {
+            if (max(object$station) > station_int_max / 1000) {
                 errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                           "'station_int' must be type ",
-                                           "'integer'."))
+                                           "max(station) must be ",
+                                           "below km ",
+                                           as.character(
+                                               as.numeric(
+                                                   station_int_max / 1000)),
+                                           "."))
             }
-            # is.na
-            if (any(is.na(object$station_int))) {
+        }
+        
+        ## .Data$station_int
+        # integer
+        if (!inherits(object$station_int, "integer")) {
+            errors <- c(errors, paste0("Error ", l(errors), ": ",
+                                       "'station_int' must be type ",
+                                       "'integer'."))
+        }
+        # is.na
+        if (any(is.na(object$station_int))) {
+            errors <- c(errors, paste0("Error ", l(errors), ": ",
+                                       "'station_int' must not contain ",
+                                       "NA's."))
+        }
+        # range (Elbe: 0 - 585700; Rhine: 336200 - 865700)
+        if (!(error_river)) {
+            if (min(object$station_int) < station_int_min) {
                 errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                           "'station_int' must not contain ",
-                                           "NA's."))
+                                           "min(station_int) must be ",
+                                           "above ",
+                                           as.character(station_int_min),
+                                           " (km ",
+                                           as.character(
+                                               as.numeric(
+                                                   station_int_min / 1000)),
+                                           ") for river '",
+                                           object@river, "'."))
             }
-            # range (Elbe: 0 - 585700; Rhine: 336200 - 865700)
-            if (!(error_river)) {
-                if (min(object$station_int) < station_int_min) {
-                    errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                               "min(station_int) must be ",
-                                               "above ",
-                                               as.character(station_int_min),
-                                               " (km ",
-                                               as.character(
-                                                   as.numeric(
-                                                       station_int_min / 1000)),
-                                               ") for river '",
-                                               object@river, "'."))
-                }
-                if (max(object$station_int) > station_int_max) {
-                    errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                               "max(station_int) must be ",
-                                               "below ",
-                                               as.character(station_int_max),
-                                               " (km ",
-                                               as.character(
-                                                   as.numeric(
-                                                       station_int_max / 1000)),
-                                               ") for river '",
-                                               object@river, "'."))
-                }
-            } else {
-                if (min(object$station_int) < station_int_min) {
-                    errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                               "min(station_int) must be ",
-                                               "above ",
-                                               as.character(station_int_min),
-                                               " (km ",
-                                               as.character(
-                                                   as.numeric(
-                                                       station_int_min / 1000)),
-                                               ")."))
-                }
-                if (max(object$station_int) > station_int_max) {
-                    errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                               "max(station_int) must be ",
-                                               "below ",
-                                               as.character(station_int_max),
-                                               " (km ",
-                                               as.character(
-                                                   as.numeric(
-                                                       station_int_max / 1000)),
-                                               ")."))
-                }
-            }
-            
-            ## .Data$station == .Data$station_int / 1000
-            if (!(all(object$station == object$station_int / 1000))) {
+            if (max(object$station_int) > station_int_max) {
                 errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                           "'station_int' must be equal ",
-                                           "to as.integer(station * 1000)."))
+                                           "max(station_int) must be ",
+                                           "below ",
+                                           as.character(station_int_max),
+                                           " (km ",
+                                           as.character(
+                                               as.numeric(
+                                                   station_int_max / 1000)),
+                                           ") for river '",
+                                           object@river, "'."))
             }
-            
-            ## .Data$w
-            # numeric
-            if (!inherits(object$w, "numeric")) {
-                errors <- c(errors, paste0("Error ", l(errors), ": 'w' must ",
-                                           "be type 'numeric'."))
+        } else {
+            if (min(object$station_int) < station_int_min) {
+                errors <- c(errors, paste0("Error ", l(errors), ": ",
+                                           "min(station_int) must be ",
+                                           "above ",
+                                           as.character(station_int_min),
+                                           " (km ",
+                                           as.character(
+                                               as.numeric(
+                                                   station_int_min / 1000)),
+                                           ")."))
             }
-            # range (Elbe: 130 - 0; Rhine: 120 - 5)
-            if (!(error_river)) {
-                if (!(all(is.na(object$w)))) {
-                    if (min(object$w, na.rm = TRUE) < w_min) {
-                        errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                                   "min(w) must be above ",
-                                                    as.character(w_min), " m ",
-                                                    "a.s.l. (DHHN92) for river",
-                                                    " '", object@river, "'."))
-                    }
-                    if (max(object$w, na.rm = TRUE) > w_max) {
-                        errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                                   "max(w) must be below ",
-                                                   as.character(w_max), " m ",
-                                                   "a.s.l. (DHHN92) for river",
-                                                   " '", object@river, "'."))
-                    }
-                }
-            } else {
-                if (!(all(is.na(object$w)))) {
-                    if (min(object$w, na.rm = TRUE) < w_min) {
-                        errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                                   "min(w) must be above ",
-                                                   as.character(w_min),
-                                                   " m a.s.l. (DHHN92)."))
-                    }
-                    if (max(object$w, na.rm = TRUE) > w_max) {
-                        errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                                   "max(w) must be below ",
-                                                   as.character(w_max),
-                                                   " m a.s.l. (DHHN92)."))
-                    }
-                }
+            if (max(object$station_int) > station_int_max) {
+                errors <- c(errors, paste0("Error ", l(errors), ": ",
+                                           "max(station_int) must be ",
+                                           "below ",
+                                           as.character(station_int_max),
+                                           " (km ",
+                                           as.character(
+                                               as.numeric(
+                                                   station_int_max / 1000)),
+                                           ")."))
             }
-            # length(station_int) == length(w)
-            if (length(object$station_int) != length(object$w)) {
+        }
+        
+        ## .Data$station == .Data$station_int / 1000
+        if (!(all(object$station == object$station_int / 1000))) {
+            errors <- c(errors, paste0("Error ", l(errors), ": ",
+                                       "'station_int' must be equal ",
+                                       "to as.integer(station * 1000)."))
+        }
+        
+        ## .Data$w
+        # numeric
+        if (!inherits(object$w, "numeric")) {
+            errors <- c(errors, paste0("Error ", l(errors), ": 'w' must ",
+                                       "be type 'numeric'."))
+        }
+        # range (Elbe: 130 - 0; Rhine: 120 - 5)
+        if (!(error_river)) {
+            if (!(all(is.na(object$w)))) {
+                if (min(object$w, na.rm = TRUE) < w_min) {
                     errors <- c(errors, paste0("Error ", l(errors), ": ",
-                                               "'station_int' and 'w' must ",
-                                               "have equal length."))
-            } 
-# order
-# else {
-#     if (!(all(order(object$station_int) == order(-object$w)))) { 
-#         len_in_order <- sum((order(object$station_int) == order(-object$w)))
-#         len_total <- length(object$station_int) 
-#         if (len_in_order/len_total < 0.8) {
-#             errors <- c(errors, paste0("Error ", l(errors), ": ",
-#                                        "'station_int', and 'w' ",
-#                                        "should be in inversed ",
-#                                        "order since 'w' decreases ",
-#                                        "in flow direction with ",
-#                                        "increasing 'station_int'."))
-#         }
-#     }
-# }
-            
-            ## return
-            if (l(errors) != "1") {
-                stop(paste0(errors, collapse = "\n  "))
-            } else {
-                TRUE
+                                               "min(w) must be above ",
+                                               as.character(w_min), " m ",
+                                               "a.s.l. (DHHN92) for river",
+                                               " '", object@river, "'."))
+                }
+                if (max(object$w, na.rm = TRUE) > w_max) {
+                    errors <- c(errors, paste0("Error ", l(errors), ": ",
+                                               "max(w) must be below ",
+                                               as.character(w_max), " m ",
+                                               "a.s.l. (DHHN92) for river",
+                                               " '", object@river, "'."))
+                }
             }
-        })
+        } else {
+            if (!(all(is.na(object$w)))) {
+                if (min(object$w, na.rm = TRUE) < w_min) {
+                    errors <- c(errors, paste0("Error ", l(errors), ": ",
+                                               "min(w) must be above ",
+                                               as.character(w_min),
+                                               " m a.s.l. (DHHN92)."))
+                }
+                if (max(object$w, na.rm = TRUE) > w_max) {
+                    errors <- c(errors, paste0("Error ", l(errors), ": ",
+                                               "max(w) must be below ",
+                                               as.character(w_max),
+                                               " m a.s.l. (DHHN92)."))
+                }
+            }
+        }
+        # length(station_int) == length(w)
+        if (length(object$station_int) != length(object$w)) {
+            errors <- c(errors, paste0("Error ", l(errors), ": ",
+                                       "'station_int' and 'w' must ",
+                                       "have equal length."))
+        } 
+        # order
+        # else {
+        #     if (!(all(order(object$station_int) == order(-object$w)))) { 
+        #         len_in_order <- sum((order(object$station_int) == order(-object$w)))
+        #         len_total <- length(object$station_int) 
+        #         if (len_in_order/len_total < 0.8) {
+        #             errors <- c(errors, paste0("Error ", l(errors), ": ",
+        #                                        "'station_int', and 'w' ",
+        #                                        "should be in inversed ",
+        #                                        "order since 'w' decreases ",
+        #                                        "in flow direction with ",
+        #                                        "increasing 'station_int'."))
+        #         }
+        #     }
+        # }
+        
+        ## return
+        if (l(errors) != "1") {
+            stop(paste0(errors, collapse = "\n  "))
+        } else {
+            TRUE
+        }
+    })
 
 #' @name WaterLevelDataFrame
 #' @rdname WaterLevelDataFrame
@@ -664,16 +664,16 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhine"),
         }
         # names(gauging_stations)
         gauging_stations_colnames <- c("id", "gauging_station", "uuid", "km",
-                                     "km_qps", "river", "longitude",
-                                     "latitude", "mw", "mw_timespan", "pnp", 
-                                     "w", "wl", "n_wls_below_w_do", 
-                                     "n_wls_above_w_do", "n_wls_below_w_up", 
-                                     "n_wls_above_w_up", "name_wl_below_w_do", 
-                                     "name_wl_above_w_do", "name_wl_below_w_up",
-                                     "name_wl_above_w_up", "w_wl_below_w_do", 
-                                     "w_wl_above_w_do", "w_wl_below_w_up", 
-                                     "w_wl_above_w_up", "weight_up", 
-                                     "weight_do")
+                                       "km_qps", "river", "longitude",
+                                       "latitude", "mw", "mw_timespan", "pnp", 
+                                       "w", "wl", "n_wls_below_w_do", 
+                                       "n_wls_above_w_do", "n_wls_below_w_up", 
+                                       "n_wls_above_w_up", "name_wl_below_w_do", 
+                                       "name_wl_above_w_do", "name_wl_below_w_up",
+                                       "name_wl_above_w_up", "w_wl_below_w_do", 
+                                       "w_wl_above_w_do", "w_wl_below_w_up", 
+                                       "w_wl_above_w_up", "weight_up", 
+                                       "weight_do")
         if (!(all(names(gauging_stations) == gauging_stations_colnames))) {
             errors <- c(errors, paste0("Error ", l(errors), ": The columns of ",
                                        "'gauging_stations' must be '",
@@ -838,33 +838,33 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhine"),
             if (!(error_river)) {
                 if (!(all(is.na(w)))) {
                     if (min(w, na.rm = TRUE) < w_min) {
-                      errors <- c(errors, paste0("Error ", l(errors), ": min(w",
-                                                 ") must be above ",
-                                                 as.character(w_min),
-                                                 " m a.s.l. (DHHN92) for river",
-                                                 " '", river, "'."))
+                        errors <- c(errors, paste0("Error ", l(errors), ": min(w",
+                                                   ") must be above ",
+                                                   as.character(w_min),
+                                                   " m a.s.l. (DHHN92) for river",
+                                                   " '", river, "'."))
                     }
                     if (max(w, na.rm = TRUE) > w_max) {
-                      errors <- c(errors, paste0("Error ", l(errors), ": max(w",
-                                                 ") must be below ",
-                                                 as.character(w_max),
-                                                 " m a.s.l. (DHHN92) for river",
-                                                 " '", river, "'."))
+                        errors <- c(errors, paste0("Error ", l(errors), ": max(w",
+                                                   ") must be below ",
+                                                   as.character(w_max),
+                                                   " m a.s.l. (DHHN92) for river",
+                                                   " '", river, "'."))
                     }
                 }
             } else {
                 if (!(all(is.na(w)))) {
                     if (min(w, na.rm = TRUE) < w_min) {
-                      errors <- c(errors, paste0("Error ", l(errors), ": min(w",
-                                                 ") must be above ", 
-                                                 as.character(w_min),
-                                                 " m a.s.l.", " (DHHN92)."))
+                        errors <- c(errors, paste0("Error ", l(errors), ": min(w",
+                                                   ") must be above ", 
+                                                   as.character(w_min),
+                                                   " m a.s.l.", " (DHHN92)."))
                     }
                     if (max(w, na.rm = TRUE) > w_max) {
-                      errors <- c(errors, paste0("Error ", l(errors), ": max(w",
-                                                 ") must be below ", 
-                                                 as.character(w_max),
-                                                 " m a.s.l.", " (DHHN92)."))
+                        errors <- c(errors, paste0("Error ", l(errors), ": max(w",
+                                                   ") must be below ", 
+                                                   as.character(w_max),
+                                                   " m a.s.l.", " (DHHN92)."))
                     }
                 }
             }
@@ -949,33 +949,33 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhine"),
             if (!(error_river)) {
                 if (!(all(is.na(w)))) {
                     if (min(w, na.rm = TRUE) < w_min) {
-                      errors <- c(errors, paste0("Error ", l(errors), ": min(w",
-                                                 ") must be above ",
-                                                 as.character(w_min),
-                                                 " m a.s.l. (DHHN92) for river",
-                                                 " '", river, "'."))
+                        errors <- c(errors, paste0("Error ", l(errors), ": min(w",
+                                                   ") must be above ",
+                                                   as.character(w_min),
+                                                   " m a.s.l. (DHHN92) for river",
+                                                   " '", river, "'."))
                     }
                     if (max(w, na.rm = TRUE) > w_max) {
-                      errors <- c(errors, paste0("Error ", l(errors), ": max(w",
-                                                 ") must be below ",
-                                                 as.character(w_max),
-                                                 " m a.s.l. (DHHN92) for river",
-                                                 " '", river, "'."))
+                        errors <- c(errors, paste0("Error ", l(errors), ": max(w",
+                                                   ") must be below ",
+                                                   as.character(w_max),
+                                                   " m a.s.l. (DHHN92) for river",
+                                                   " '", river, "'."))
                     }
                 }
             } else {
                 if (!(all(is.na(w)))) {
                     if (min(w, na.rm = TRUE) < w_min) {
-                      errors <- c(errors, paste0("Error ", l(errors), ": min(w",
-                                                 ") must be above ",
-                                                 as.character(w_min),
-                                                 " m a.s.l. (DHHN92)."))
+                        errors <- c(errors, paste0("Error ", l(errors), ": min(w",
+                                                   ") must be above ",
+                                                   as.character(w_min),
+                                                   " m a.s.l. (DHHN92)."))
                     }
                     if (max(w, na.rm = TRUE) > w_max) {
-                      errors <- c(errors, paste0("Error ", l(errors), ": max(w",
-                                                 ") must be below ",
-                                                 as.character(w_max),
-                                                 " m a.s.l. (DHHN92)."))
+                        errors <- c(errors, paste0("Error ", l(errors), ": max(w",
+                                                   ") must be below ",
+                                                   as.character(w_max),
+                                                   " m a.s.l. (DHHN92)."))
                     }
                 }
             }
@@ -993,16 +993,15 @@ WaterLevelDataFrame <- function(river = c("Elbe", "Rhine"),
                                 w           = round(as.numeric(wldf_w), 2))
         row.names(wldf_data) <- wldf_id
         wldf <- methods::new("WaterLevelDataFrame",
-                        wldf_data,
-                        river                    = as.character(wldf_river),
-                        time                     = as.POSIXct(wldf_time),
-                        gauging_stations         = as.data.frame(wldf_gs),
-                        gauging_stations_missing = as.character(wldf_gsm),
-                        comment                  = as.character(wldf_comment))
+                             wldf_data,
+                             river                    = as.character(wldf_river),
+                             time                     = as.POSIXct(wldf_time),
+                             gauging_stations         = as.data.frame(wldf_gs),
+                             gauging_stations_missing = as.character(wldf_gsm),
+                             comment                  = as.character(wldf_comment))
         return(wldf)
     } else {
         stop(paste0(errors, collapse = "\n  "))
     }
 }
-
 

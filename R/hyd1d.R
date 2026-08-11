@@ -41,6 +41,7 @@
 #' @import utils
 #' @importFrom curl has_internet
 #' @importFrom Rdpack reprompt
+#' @importFrom stats aggregate
 #'
 "_PACKAGE"
 

@@ -380,4 +380,3 @@ waterLevelFlood2 <- function(wldf) {
                          comment = paste0("Computed by waterLevelFlood2()"))
     return(wldf)
 }
-

@@ -10,8 +10,12 @@ test_that("waterLevelFlood2: checks", {
                                 time    = as.POSIXct(NA),
                                 station = seq(257, 262, 0.1))
     expect_error(wldf <- waterLevelFlood2(wldf), 
-                 "The time slot of 'wldf' must not be NA.", fixed = TRUE)
-})    
+                 "The time slot of 'wldf' must not be NA.",
+                 fixed = TRUE)
+    
+    # value
+    
+})
 
 test_that("waterLevelFlood2: Dessau", {
     wldf1 <- WaterLevelDataFrame(river   = "Elbe",

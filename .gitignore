@@ -48,6 +48,7 @@ presentation/presentation_DE_files/*
 presentation/presentation_aow.html
 presentation/presentation_aow_files/*
 presentation/*.mp4
+rsconnect
 shinyapps/waterLevel/rsconnect/
 shinyapps/waterLevel/www
 shinyapps/waterLevelPegelonline/rsconnect/

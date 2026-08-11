@@ -34,12 +34,12 @@ information along the German Federal Waterways Elbe and Rhine.
 install.packages("hyd1d")
 ```
 
-To install the latest development version from Github run:
+To install the latest development version from opencode.de run:
 
 ```{r install_git, eval = FALSE}
-install.packages("devtools")
-library(devtools)
-devtools::install_github("bafg-bund/hyd1d")
+install.packages("pak")
+library(pak)
+pak::pak("git::https://gitlab.opencode.de/bafg-bund/hyd1d.git")
 ```
 
 ## Usage
