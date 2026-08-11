@@ -1,4 +1,4 @@
-# hyd1d
+# hyd1d 0.5.5
 
 * import validated gauging data for 2025
 * fully reproduce contents of `docs/`
