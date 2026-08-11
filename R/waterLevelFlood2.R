@@ -181,7 +181,7 @@ waterLevelFlood2 <- function(wldf) {
     for (a_gs in df.gs_inarea$gauging_station) {
         if (a_gs %in% 
             df.gauging_station_data$gauging_station[!
-                                                    df.gauging_station_data$data_present]) {
+                df.gauging_station_data$data_present]) {
             no_limit <- FALSE
             w <- NA_real_
         } else {
@@ -244,8 +244,8 @@ waterLevelFlood2 <- function(wldf) {
     if (nrow(df.gs) == 2) {
         if (is.na(df.gs$w[1])) {
             id_do <- which(df.gauging_station_data$river == RIVER &
-                               df.gauging_station_data$km_qps > df.gs$km_qps[2] &
-                               df.gauging_station_data$data_present)
+                           df.gauging_station_data$km_qps > df.gs$km_qps[2] &
+                           df.gauging_station_data$data_present)
             for (id_d in id_do) {
                 gs <- df.gauging_station_data$gauging_station[id_d]
                 w <- getGaugingDataW(gs, time)
@@ -261,8 +261,8 @@ waterLevelFlood2 <- function(wldf) {
             df.gs <- rbind(df.gs, df.gs_do, stringsAsFactors = FALSE)
         } else if (is.na(df.gs$w[nrow(df.gs)])) {
             id_up <- which(df.gauging_station_data$river == RIVER &
-                               df.gauging_station_data$km_qps < df.gs$km_qps[1] &
-                               df.gauging_station_data$data_present)
+                           df.gauging_station_data$km_qps < df.gs$km_qps[1] &
+                           df.gauging_station_data$data_present)
             for (id_u in rev(id_up)) {
                 gs <- df.gauging_station_data$gauging_station[id_u]
                 w <- getGaugingDataW(gs, time)
@@ -310,7 +310,7 @@ waterLevelFlood2 <- function(wldf) {
         ###
         # identify the stations within this section
         id <- which(wldf$station >= df.gs$km_qps[s] & 
-                        wldf$station <= df.gs$km_qps[s + 1])
+                    wldf$station <= df.gs$km_qps[s + 1])
         
         #####
         # catch the exceptions for areas
@@ -326,14 +326,14 @@ waterLevelFlood2 <- function(wldf) {
                 x <- c(df.gs$km_qps[2], df.gs$km_qps[3])
                 y <- c(df.gs$wl[2], df.gs$wl[3])
                 df.gs$wl[1] <- stats::predict.lm(stats::lm(y ~ x),
-                                                 data.frame(x = df.gs$km_qps[1]))
+                                            data.frame(x = df.gs$km_qps[1]))
                 
             } else if (s == (nrow(df.gs) - 1)) {
                 # compute df.gs$wl[s + 1]
                 x <- c(df.gs$km_qps[s - 1], df.gs$km_qps[s])
                 y <- c(df.gs$wl[s - 1], df.gs$wl[s])
                 df.gs$wl[s + 1] <- stats::predict.lm(stats::lm(y ~ x),
-                                                     data.frame(x = df.gs$km_qps[s + 1]))
+                                            data.frame(x = df.gs$km_qps[s + 1]))
             } else {
                 stop(paste0("Error: There are obviously no gauging data availa",
                             "ble\n       where they should exist!"))
